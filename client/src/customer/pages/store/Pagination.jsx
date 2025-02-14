@@ -1,7 +1,7 @@
 // Importing necessary libraries and components
 import { useEffect, useState } from "react";
 import { Pagination } from "@nextui-org/react";
-import productStore from "../../../store/products/ProductStore";
+import productStore from "../../../store/products/productStore";
 
 // Functional component for pagination
 function PaginationCursor() {

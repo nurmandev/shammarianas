@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import productStore from "../../../store/products/ProductStore";
+import productStore from "../../../store/products/productStore";
 import Image from "./products/Image";
 import Audio from "./products/Audio";
 import Font from "./products/Font";
@@ -104,9 +104,9 @@ function ProductsList() {
         top: "50px",
       }}
     >
-      <PopoverTrigger>
+      {/* <PopoverTrigger>
         <></>
-      </PopoverTrigger>
+      </PopoverTrigger> */}
       <PopoverContent className="bg-primary text-white flex flex-row gap-2 justify-center items-center p-4">
         <CheckCircleRoundedIcon />
         <p className="text-small font-bold">Item added in your cart</p>
@@ -213,9 +213,12 @@ function ProductsList() {
                 ""
               )
             )}
+        {searchedProduct.length <= 0 && productList.length <= 0 && (
+          <div className="w-full text-center">No product available</div>
+        )}
       </div>
       {/* Render the added message*/}
-      {addedMessage}
+      {/* {addedMessage} */}
     </>
   );
 }

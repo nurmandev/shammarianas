@@ -4,9 +4,9 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import PropTypes from "prop-types";
 import { Modal, ModalContent, useDisclosure } from "@nextui-org/react";
 import FontModal from "./modals/FontModal"; // Importing the FontModal component
-import productStore from "../../../../store/products/ProductStore";
+import productStore from "../../../../store/products/productStore";
 import cartStore from "../../../../store/cartStore";
-import customerAuthStore from "../../../../store/authentication/customerAuthStore";
+import customerAuthStore from "../../../../store/authentication/CustomerAuthStore";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";

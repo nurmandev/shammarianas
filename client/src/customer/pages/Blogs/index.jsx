@@ -144,7 +144,7 @@ function Blogs() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 flex-1">
+            <div className="col-lg-4 flex-1 hidden md:block">
               <div className="sidebar">
                 <div className="widget">
                   <h6 className="title-widget">Search Here</h6>

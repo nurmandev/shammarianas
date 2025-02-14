@@ -2,7 +2,7 @@ import { Tabs, Tab, ScrollShadow } from "@nextui-org/react";
 import categoriesStore from "../../../store/categoriesStore";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import productStore from "../../../store/products/ProductStore";
+import productStore from "../../../store/products/productStore";
 import Searchbar from "./Searchbar";
 import Filter from "./Filter";
 
@@ -58,7 +58,7 @@ function SubCategory() {
       ) : (
         // Displaying Filter and Searchbar when category is not selected or is "all"
         <ul className="flex gap-4 self-end">
-          <Filter />
+          {/* <Filter /> */}
           <Searchbar />
         </ul>
       )}

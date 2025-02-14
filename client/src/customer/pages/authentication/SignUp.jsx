@@ -10,7 +10,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import customerAuthStore from "../../../store/authentication/customerAuthStore";
+import customerAuthStore from "../../../store/authentication/CustomerAuthStore";
 import { useTranslation } from "react-i18next";
 
 // SignUp component
@@ -41,20 +41,21 @@ function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    // Execute ReCAPTCHA and get the token
-    const captchaToken = await recaptchaRef.current.executeAsync();
-    recaptchaRef.current.reset();
-    setRecaptchaValue(captchaToken);
-
-    setLoading(true);
-
     try {
+      // Execute ReCAPTCHA and get the token
+      // const captchaToken = await recaptchaRef.current.executeAsync();
+      // recaptchaRef.current.reset();
+      // setRecaptchaValue(captchaToken);
+
+      setLoading(true);
+
       await signUp();
       setVerificationLink(true);
       setLoading(false);
     } catch (error) {
       setVerificationLink(false);
       setLoading(false);
+      console.log(error);
     }
   };
 

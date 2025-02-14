@@ -9,13 +9,16 @@ const cartStore = create((set) => ({
 
   getCartItems: async (id) => {
     try {
-      const response = await axios.get(`http://localhost:8081/cart/${id}`, {
-        headers: {
-          "content-type": "application/json",
-          Authorization: Cookies.get("token"),
-        },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/cart/${id}`,
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: Cookies.get("token"),
+          },
+          withCredentials: true,
+        }
+      );
       set({
         cartList: response.data.cart.items,
         bill: response.data.cart.bill,
@@ -33,7 +36,7 @@ const cartStore = create((set) => ({
   addToCart: async (itemId, customerId) => {
     try {
       const response = await axios.post(
-        `http://localhost:8081/cart/${customerId}`,
+        `${import.meta.env.VITE_SERVER_URL}/cart/${customerId}`,
         { itemId },
         {
           headers: {
@@ -58,7 +61,7 @@ const cartStore = create((set) => ({
   removeFromCart: async (itemId, customerId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8081/cart/${customerId}`,
+        `${import.meta.env.VITE_SERVER_URL}/cart/${customerId}`,
         {
           data: { itemId },
           headers: {
@@ -87,7 +90,7 @@ const cartStore = create((set) => ({
         files.push(item.files.length === 1 ? item.files[0] : item.files[1])
       );
       const response = await axios.post(
-        "http://localhost:8081/download-product",
+        `${import.meta.env.VITE_SERVER_URL}/download-product`,
         {
           filenames: files,
         },
@@ -131,7 +134,7 @@ const cartStore = create((set) => ({
     const { transformCartData, cartList } = cartStore.getState();
     try {
       const response = await axios.post(
-        "http://localhost:8081/create-checkout-session",
+        `${import.meta.env.VITE_SERVER_URL}/create-checkout-session`,
         transformCartData(customerId, cartList),
         {
           headers: {

@@ -11,7 +11,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import ReCAPTCHA from "react-google-recaptcha";
 import { GoogleLogin } from "@react-oauth/google";
 import { useTranslation } from "react-i18next";
-import customerAuthStore from "../../../store/authentication/customerAuthStore";
+import customerAuthStore from "../../../store/authentication/CustomerAuthStore";
 
 // Login component
 function Login() {
@@ -44,9 +44,9 @@ function Login() {
     e.preventDefault();
 
     // Execute ReCAPTCHA and reset it
-    const captchaToken = await recaptchaRef.current.executeAsync();
-    recaptchaRef.current.reset();
-    setRecaptchaValue(captchaToken);
+    // const captchaToken = await recaptchaRef.current.executeAsync();
+    // recaptchaRef.current.reset();
+    // setRecaptchaValue(captchaToken);
 
     // Set loading to true during login attempt
     setLoading(true);

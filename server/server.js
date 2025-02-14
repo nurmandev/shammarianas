@@ -1,5 +1,6 @@
 // Create express app
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 
 // ********************************* App config ********************************
@@ -16,6 +17,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(morgan("combined"));
 
 // Load the environment variables
 require("dotenv").config();
@@ -44,13 +47,13 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const subcategoryRoutes = require("./routes/subcategoryRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-
 const orderRoutes = require("./routes/orderRoutes");
+
 app.use(productRoutes);
 app.use(blogRoutes);
 app.use(userRoutes);
 app.use(customerRoutes);
-app.use(categoryRoutes);
+app.use("/", categoryRoutes);
 app.use(subcategoryRoutes);
 app.use(orderRoutes);
 app.use(cartRoutes);

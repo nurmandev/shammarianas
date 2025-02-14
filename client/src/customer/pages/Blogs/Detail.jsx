@@ -20,7 +20,7 @@ function Details() {
 
       <header className="header blog-header section-padding pb-0">
         <div className="container mt-80 mx-auto">
-          <div className="row justify-content-center">
+          <div className="row flex justifycenter">
             <div className="col-lg-11">
               <div className="caption">
                 <div className="sub-title fz-12">
@@ -128,7 +128,7 @@ function Details() {
                   </div>
 
                   <div className="mb-50 mt-50">
-                    <div className="row flex">
+                    <div className="row flex flex-col md:flex-row">
                       <div className="col-sm-6">
                         <div className="iner-img sm-mb30">
                           <img src="/assets/imgs/blog/blog1.jpg" alt="" />
@@ -302,7 +302,7 @@ function Details() {
                 </form>
               </div>
             </div>
-            <div className="col-lg-4 flex-1">
+            <div className="col-lg-4 flex-1 hidden md:block">
               <div className="sidebar">
                 <div className="widget">
                   <h6 className="title-widget">Search Here</h6>

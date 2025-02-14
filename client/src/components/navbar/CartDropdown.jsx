@@ -11,7 +11,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import { Divider } from "@nextui-org/react";
 import { useEffect } from "react";
-import customerAuthStore from "../../store/authentication/customerAuthStore";
+import customerAuthStore from "../../store/authentication/CustomerAuthStore";
 import cartStore from "../../store/cartStore";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -116,7 +116,7 @@ function CartDropdown() {
         showOutline={false}
       >
         {/* Cart icon button */}
-        <PopoverTrigger>
+        {/* <PopoverTrigger>
           <Button
             isIconOnly
             aria-label="Cart"
@@ -124,7 +124,8 @@ function CartDropdown() {
           >
             <ShoppingCartRoundedIcon className="text-primary dark:text-white" />
           </Button>
-        </PopoverTrigger>
+        </PopoverTrigger> */}
+        <ShoppingCartRoundedIcon className="text-primary dark:text-white" />
       </Badge>
       {/* Cart content in the popover */}
       <PopoverContent
