@@ -4,7 +4,7 @@ import Error from "../../components/Error";
 import PaymentSuccess from "../../customer/pages/payment/PaymentSuccess";
 import PaymentFailed from "../../customer/pages/payment/PaymentFailed";
 import Blogs from "../../customer/pages/Blogs";
-import Details from "../../customer/pages/Blogs/detail";
+import Details from "../../customer/pages/Blogs/Detail";
 
 // Lazy-loaded components
 const ClientNavbar = lazy(() =>
