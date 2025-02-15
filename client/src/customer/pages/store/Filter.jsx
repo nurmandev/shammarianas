@@ -1,11 +1,11 @@
-// Importing necessary libraries and components
-import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
+// // Importing necessary libraries and components
+// import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 import {
   Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownTrigger,
+  // DropdownTrigger,
 } from "@nextui-org/react";
 import productStore from "../../../store/products/productStore";
 import { useTranslation } from "react-i18next";

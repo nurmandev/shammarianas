@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import productStore from "../../../store/products/productStore";
 import Searchbar from "./Searchbar";
-import Filter from "./Filter";
+// import Filter from "./Filter";
 
 // Functional component for displaying subcategories
 function SubCategory() {

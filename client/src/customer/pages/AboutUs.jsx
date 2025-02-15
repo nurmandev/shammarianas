@@ -1,5 +1,5 @@
 import Footer from "../components/Footer";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useTranslation } from "react-i18next";
 import Intro from "./landing-page/about-us/Introl";
 import Header from "./landing-page/about-us/firstPage";
