@@ -6,11 +6,11 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 // Array containing data for quick links, each with a title and an associated icon
 const quickLinksData = [
   {
-    title: "reviews",
+    title: "firstPage",
     icon: <SpeakerNotesRoundedIcon />,
   },
   {
-    title: "features",
+    title: "portfolio",
     icon: <AutoFixHighRoundedIcon />,
   },
   {

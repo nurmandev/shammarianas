@@ -1,6 +1,15 @@
 import Footer from "../components/Footer";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useTranslation } from "react-i18next";
+import Intro from "./landing-page/about-us/Introl";
+import Header from "./landing-page/about-us/firstPage";
+import Numbers from "./landing-page/about-us/Numbers";
+import Services from "./landing-page/about-us/Services";
+import Team from "./landing-page/about-us/Team";
+import Clients from "./landing-page/about-us/Clients";
+import Blog from "./landing-page/about-us/Blog";
+import Marq2 from "./landing-page/marq/marq2";
+// import Testimonials from "./landing-page/about-us/Testimonials";
 
 // Functional component for the About Us page
 function AboutUs() {
@@ -15,54 +24,19 @@ function AboutUs() {
 
   return (
     <>
-      {/* Cover section with gradient overlay */}
-      <div className="relative after:absolute after:w-full after:h-full after:bg-gradient-to-t after:from-white dark:after:from-black after:to-transparent after:left-0 after:top-0">
-        {/* Cover image */}
-        <div className="h-64 md:h-80 lg:h-96 w-full relative after:absolute after:w-full after:h-full after:bg-gradient-to-t after:from-white dark:after:from-black after:to-transparent after:left-0 after:top-0">
-          <img
-            src={coverImage}
-            alt="cover image"
-            loading="lazy"
-            className="absolute h-full w-full object-cover lg:object-center"
-          />
-        </div>
-        {/* Heading for the cover section */}
-        <h1 className="w-full absolute top-3/4 left-2/4 -translate-x-2/4 -translate-y-2/4 z-10 font-title capitalize text-center text-3xl md:text-4xl lg:text-5xl text-primary ">
-          {t("about us")}
-        </h1>
-      </div>
+      <Header />
+      <Intro />
+      <Numbers />
+      <Services />
+      <Team />
 
-      {/* Main content section */}
-      <div className="main-container px-4 lg:px-4 my-12 md:my-16 lg:my-20">
-        {/* Flex container for the main content */}
-        <div className="flex flex-col lg:flex-row lg:justify-evenly items-center gap-8 md:gap-14 lg:gap-28">
-          {/* Left column with text content */}
-          <span className="flex flex-col gap-4 lg:max-w-xl">
-            {/* Heading for the text content */}
-            <h1 className="text-2xl md:text-3xl lg:text-4xl capitalize">
-              {t("crafting dreams, inspiring realities")}
-            </h1>
-            {/* Paragraph for the text content */}
-            <p className="dark:text-light">
-              {t(
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti voluptatem, veritatis quibusdam dignissimos sit impedit vitae explicabo, cupiditate repellendus quaerat aperiam labore consectetur commodi minus pariatur obcaecati voluptate optio? Ut!"
-              )}
-            </p>
-          </span>
+      {/* <Testimonials/> */}
 
-          {/* Right column with the team image */}
-          <div className="h-fit relative -rotate-3 after:absolute after:w-full after:h-full after:bg-gradient-to-tr after:from-white dark:after:from-black after:to-transparent after:left-0 after:top-0">
-            {/* Lazy-loaded team image */}
-            <LazyLoadImage
-              src={teamImage}
-              alt="team image"
-              loading="lazy"
-              className="w-80 md:w-96 lg:w-80 h-60 md:h-72 lg:h-60 rounded-3xl object-cover"
-            />
-          </div>
-        </div>
-      </div>
+      <Clients />
 
+      <Blog />
+
+      <Marq2 />
       {/* Footer component */}
       <Footer />
     </>
