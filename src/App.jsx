@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Components/Navbar";
+import Navbar2 from "./Components/Navbar2";
 import "./assets/Styles/Style.css";
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
@@ -31,6 +32,8 @@ import Trade from "./Pages/Trade";
 import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
+import Contact from "./Pages/Contact";
+// import Blogs from "./Pages/Blogs";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -69,6 +72,8 @@ export const AppRoutes = () => (
     <Route path="/analytics" element={<Analytics />} />
     <Route path="/Terms" element={<Terms />} />
     <Route path="/Privacy" element={<Privacy />} />
+    <Route path="/contact" element={<Contact />} />
+    {/* <Route path="/blog" element={<Blogs />} /> */}
   </Routes>
 );
 
@@ -77,7 +82,8 @@ function App() {
     <>
       <HashRouter>
         <ScrollToTop />
-        <Navbar />
+        {/* <Navbar /> */}
+        <Navbar2 />
         <FilterProvider>
           <AppRoutes />
         </FilterProvider>

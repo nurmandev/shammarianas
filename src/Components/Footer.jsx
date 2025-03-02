@@ -1,172 +1,105 @@
 import React from "react";
-import logo from "../assets/Icons/logo.png";
-import { Link } from "react-router-dom";
 
-const Footer = () => {
+function Footer() {
   return (
-    <div className="footer">
-      <div className="top">
-        <div className="header">
-          <div className="logo">
-            <img src={logo} alt="logo" />
-            <span>Meshables</span>
-          </div>
-        </div>
-        <div className="links_section">
-          <div className="link_group">
-            <div className="title">
-              <span>Language</span>
+    <footer className="clean-footer crev">
+      <div className="container pb-40 pt-40 ontop">
+        <div className="row justify-content-between">
+          <div className="col-lg-2">
+            <div className="logo icon-img-100 md-mb80">
+              <img src="/assets/imgs/logo.png" alt="" />
             </div>
-            <div className="links">
-              <ul>
-                <li>
-                  <Link to="/en">English</Link>
+          </div>
+          <div className="col-lg-4">
+            <div className="column md-mb50">
+              <h6 className="sub-title mb-30">Contact</h6>
+              {/* <h6 className="p-color fw-400">
+                5919 Trussville Crossings <br /> Pkwy, Birmingham
+              </h6> */}
+              <h6 className="mt-30 mb-15">
+                <a
+                  href="mail:info@shammarianas.com
+"
+                >
+                  info@shammarianas.com
+                </a>
+              </h6>
+              {/* <a href="#0" className="underline">
+                <span className="fz-22 main-color">+2 456 (343) 24 45</span>
+              </a> */}
+            </div>
+          </div>
+          <div className="col-lg-2">
+            <div className="column md-mb50">
+              <h6 className="sub-title mb-30">Useful Links</h6>
+              <ul className="rest fz-14 opacity-7">
+                <li className="mb-15">
+                  <a href="/page-about">About</a>
+                </li>
+                <li className="mb-15">
+                  <a href="/page-services">Services</a>
+                </li>
+                <li className="mb-15">
+                  <a href="/blog-grid-sidebar">Blog</a>
                 </li>
                 <li>
-                  <Link to="/es">Spanish</Link>
-                </li>
-                <li>
-                  <Link to="/fr">French</Link>
-                </li>
-                <li>
-                  <Link to="/de">German</Link>
+                  <a href="/page-contact">Contact</a>
                 </li>
               </ul>
             </div>
           </div>
-
-          <div className="link_group">
-            <div className="title">
-              <span>Discover</span>
-            </div>
-            <div className="links">
-              <ul>
-                <li>
-                  <Link to="/hot">Hot</Link>
-                </li>
-                <li>
-                  <Link to="/printable">Printable</Link>
-                </li>
-                <li>
-                  <Link to="/models">Models</Link>
-                </li>
-                <li>
-                  <Link to="/textures">Textures</Link>
-                </li>
-                <li>
-                  <Link to="/scripts">Scripts</Link>
-                </li>
-                <li>
-                  <Link to="/shaders">Shaders</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="link_group">
-            <div className="title">
-              <span>Sell</span>
-            </div>
-            <div className="links">
-              <ul>
-                <li>
-                  <Link to="/upload">Upload</Link>
-                </li>
-                <li>
-                  <Link to="/pricing">Pricing</Link>
-                </li>
-                <li>
-                  <Link to="/support">Support</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="link_group">
-            <div className="title">
-              <span>Company</span>
-            </div>
-
-            <div className="links">
-              <ul>
-                <li>
-                  <Link to="/about">About</Link>
-                </li>
-                <li>
-                  <Link to="/blog">Blog</Link>
-                </li>
-                <li>
-                  <Link to="/careers">Careers</Link>
-                </li>
-                <li>
-                  <Link to="/contact">Contact</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="link_group">
-            <div className="title">
-              <span>Site map</span>
-            </div>
-
-            <div className="links">
-              <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/trade">Trade</Link>
-                </li>
-                <li>
-                  <Link to="/documentation">Documentation</Link>
-                </li>
-                <li>
-                  <Link to="/pricing">Pricing</Link>
-                </li>
-                <li>
-                  <Link to="/support">Support</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="newsletter">
-            <div className="top">
-              <div className="title">
-                <span>Subscribe to our newsletter</span>
+          <div className="col-lg-3">
+            <div className="column subscribe-minimal">
+              <h6 className="sub-title mb-30">Newsletter</h6>
+              <div className="form-group mb-40">
+                <input type="text" name="subscrib" placeholder="Your Email" />
+                <button>
+                  <span className="ti-location-arrow"></span>
+                </button>
               </div>
-              <input type="text" placeholder="mail@example.com" />
-              <button className="subscribe_btn">Subscribe</button>
+              <ul className="rest social-icon d-flex align-items-center">
+                <li className="hover-this cursor-pointer">
+                  <a href="#0" className="hover-anim">
+                    <i className="fab fa-facebook-f"></i>
+                  </a>
+                </li>
+                <li className="hover-this cursor-pointer ml-10">
+                  <a href="#0" className="hover-anim">
+                    <i className="fab fa-dribbble"></i>
+                  </a>
+                </li>
+                <li className="hover-this cursor-pointer ml-10">
+                  <a href="#0" className="hover-anim">
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                </li>
+                <li className="hover-this cursor-pointer ml-10">
+                  <a href="#0" className="hover-anim">
+                    <i className="fab fa-instagram"></i>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-      </div>
-      <div className="bottom">
-        <div className="text">
-          <span className="copyright">
-            © 2024 Meshables. All rights reserved
-          </span>
-          <span className="author">
-            Designed by <a href="https://www.yaxraj.tech">Yaxraj</a>
-          </span>
-        </div>
-        <div className="links">
-          <ul>
-            <li>
-              <Link to="/terms">Terms of use</Link>
-            </li>
-            <li>
-              <Link to="/privacy">Privacy policy</Link>
-            </li>
-            <li>
-              <Link to="/cookies">Cookies</Link>
-            </li>
-          </ul>
+        <div className="pt-30 pb-30 mt-80 bord-thin-top">
+          <div className="text-center">
+            <p className="fz-14">
+              © 2025 All Rights Reserved By{" "}
+              <span className="underline main-color">
+                <a href="/" target="_blank">
+                  Sham Marians
+                </a>
+              </span>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="circle-blur">
+        <img src="/assets/imgs/patterns/blur1.png" alt="" />
+      </div>
+    </footer>
   );
-};
+}
 
 export default Footer;
