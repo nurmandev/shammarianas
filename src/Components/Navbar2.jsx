@@ -67,8 +67,8 @@ const Navbar = () => {
     return (
       <nav className="navbar navbar-expand-lg bord blur">
         <div className="container o-hidden">
-          <a className="logo icon-img-100" href="#">
-            <img src="/assets/imgs/logo.png" alt="logo" />
+          <a className="logo " href="#">
+            <img src="/logo.png" alt="logo" />
           </a>
           <button
             className="navbar-toggler"
@@ -83,11 +83,24 @@ const Navbar = () => {
               <i className="fas fa-bars"></i>
             </span>
           </button>
-          <div className="collapse navbar-collapse justify-content-center">
+          <div
+            className="collapse navbar-collapse justify-content-center"
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav">
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Home
+              <li
+                onMouseLeave={handleDropdownMouseLeave}
+                onMouseMove={handleDropdownMouseMove}
+                className="nav-item dropdown"
+              >
+                <a
+                  className="nav-link"
+                  href="#"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span className="rolling-text">Home</span>
                 </a>
               </li>
               <li
@@ -148,26 +161,46 @@ const Navbar = () => {
                   </li>
                 </ul>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#portfolio">
-                  Portfolio
+              <li
+                onMouseLeave={handleDropdownMouseLeave}
+                onMouseMove={handleDropdownMouseMove}
+                className="nav-item dropdown"
+              >
+                <a
+                  className="nav-link"
+                  href="#portfolio"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span className="rolling-text">Portfolio</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#blog">
-                  Blogs
+              <li
+                onMouseLeave={handleDropdownMouseLeave}
+                onMouseMove={handleDropdownMouseMove}
+                className="nav-item dropdown"
+              >
+                <a
+                  className="nav-link"
+                  href="#blog"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span className="rolling-text">Blogs</span>
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#contact">
-                  Contact Us
+                  <span className="rolling-text">Contact Us</span>
                 </a>
               </li>
             </ul>
           </div>
           <div className="contact-button">
             <Link
-              to="#login"
+              to="/login"
               className="butn butn-sm butn-bg main-colorbg radius-5"
             >
               <span className="text">Sign In</span>
@@ -184,7 +217,7 @@ const Navbar = () => {
       <div className="navbar">
         {/* <nav className="navbar navbar-expand-lg bord blur"> */}
 
-        <a className="logo icon-img-100" href="#">
+        <a className="logo " href="#">
           <img src="/assets/imgs/logo.png" alt="logo" />
         </a>
         <Search />
