@@ -1,26 +1,16 @@
-import CommentIcon from "@mui/icons-material/Comment";
-import { Spinner } from "@nextui-org/react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import blogStore from "../../";
+"use client";
+import React, { useEffect, useLayoutEffect } from "react";
 
-function Details() {
-  const { id } = useParams();
-  const { blogData, getBlog, loading } = blogStore();
-
+import loadBackgroudImages from "../common/loadBackgroudImages";
+function Blogs() {
   useEffect(() => {
-    if (id) {
-      getBlog(id);
-    }
+    loadBackgroudImages();
   }, []);
-
   return (
-    <div className="">
-      {loading && <Spinner size="md" />}
-
+    <>
       <header className="header blog-header section-padding pb-0">
-        <div className="container mt-80 mx-auto">
-          <div className="row flex justifycenter">
+        <div className="container mt-80">
+          <div className="row justify-content-center">
             <div className="col-lg-11">
               <div className="caption">
                 <div className="sub-title fz-12">
@@ -35,11 +25,11 @@ function Details() {
                   Network of wormholes colonies extraordinary claims require.
                 </h1>
               </div>
-              <div className="info flex mt-40 items-center">
+              <div className="info d-flex mt-40 align-items-center">
                 <div className="left-info">
-                  <div className="flex items-center">
+                  <div className="d-flex align-items-center">
                     <div className="author-info">
-                      <div className="flex items-center">
+                      <div className="d-flex align-items-center">
                         <a href="#0" className="circle-60">
                           <img
                             src="/assets/imgs/blog/author.png"
@@ -64,7 +54,6 @@ function Details() {
                 <div className="right-info ml-auto">
                   <div>
                     <span className="pe-7s-comment fz-18 mr-10"></span>
-                    <CommentIcon className="fz-18 mr-10" />
                     <span className="opacity-7">02 Comments</span>
                   </div>
                 </div>
@@ -72,16 +61,16 @@ function Details() {
             </div>
           </div>
         </div>
-        <img
-          className="background bg-img mt-80 object-cover "
-          src="/assets/imgs/blog/b1.jpg"
-          alt="background"
-        />
+        <div
+          className="background bg-img mt-80"
+          data-background="/assets/imgs/blog/b1.jpg"
+        ></div>
       </header>
+
       <section className="blog section-padding">
-        <div className="container mx-auto">
-          <div className="row flex xlg-marg">
-            <div className="col-lg-8 flex-[2]">
+        <div className="container">
+          <div className="row xlg-marg">
+            <div className="col-lg-8">
               <div className="main-post">
                 <div className="item pb-60">
                   <article>
@@ -128,7 +117,7 @@ function Details() {
                   </div>
 
                   <div className="mb-50 mt-50">
-                    <div className="row flex flex-col md:flex-row">
+                    <div className="row">
                       <div className="col-sm-6">
                         <div className="iner-img sm-mb30">
                           <img src="/assets/imgs/blog/blog1.jpg" alt="" />
@@ -255,7 +244,7 @@ function Details() {
                 <form id="contact-form" method="post" action="contact.php">
                   <div className="messages"></div>
 
-                  <div className="controls row grid grid-cols-2">
+                  <div className="controls row">
                     <div className="col-lg-6">
                       <div className="form-group mb-30">
                         <input
@@ -280,7 +269,7 @@ function Details() {
                       </div>
                     </div>
 
-                    <div className="col-12 col-span-2">
+                    <div className="col-12">
                       <div className="form-group">
                         <textarea
                           id="form_message"
@@ -302,7 +291,7 @@ function Details() {
                 </form>
               </div>
             </div>
-            <div className="col-lg-4 flex-1 hidden md:block">
+            <div className="col-lg-4">
               <div className="sidebar">
                 <div className="widget">
                   <h6 className="title-widget">Search Here</h6>
@@ -440,8 +429,8 @@ function Details() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 
-export default Details;
+export default Blogs;

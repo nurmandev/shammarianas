@@ -33,7 +33,9 @@ import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
 import Contact from "./Pages/Contact";
-// import Blogs from "./Pages/Blogs";
+import Blog from "./Pages/Blog";
+import Blogs from "./Pages/Blog-details";
+import Portfolio from "./Pages/portfolio";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -73,7 +75,9 @@ export const AppRoutes = () => (
     <Route path="/Terms" element={<Terms />} />
     <Route path="/Privacy" element={<Privacy />} />
     <Route path="/contact" element={<Contact />} />
-    {/* <Route path="/blog" element={<Blogs />} /> */}
+    <Route path="/blog" element={<Blog />} />
+    <Route path="/blog-details" element={<Blogs />} />
+    <Route path="/portfolio" element={<Portfolio />} />
   </Routes>
 );
 

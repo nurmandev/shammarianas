@@ -1,34 +1,22 @@
-import "../../../public/assets/css/style.css";
-import CommentIcon from "@mui/icons-material/Comment";
-import CallMadeIcon from "@mui/icons-material/CallMade";
-import blogStore from "../../store/blogStore";
+import "../../public/assets/css/style.css";
+// import CommentIcon from "@mui/icons-material/Comment";
+// import CallMadeIcon from "@mui/icons-material/CallMade";
+// import blogStore from "../store/blogStore";
 import { Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../../Components/Footer";
-import Marq2 from "../../Components/marq2";
+import Footer from "../Components/Footer";
+import Marq2 from "../Components/marq2";
 
 function Blogs() {
-  const { blogList, getBlogs, loading } = blogStore();
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    getBlogs(search);
-  }, [search]);
-
   return (
     <div className="main-bg">
       <header
-        className="page-header bg-img section-padding valign"
-        style={{
-          backgroundImage: "url('/assets/imgs/background/bg4.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+        className=" page-header bg-img section-padding valign"
+        data-background="/assets/imgs/background/bg4.jpg"
         data-overlay-dark="8"
       >
-        <div className="container pt-80 mx-auto">
+        <div className="container pt-80">
           <div className="row">
             <div className="col-12">
               <div className="text-center">
@@ -42,25 +30,23 @@ function Blogs() {
       </header>
 
       <section className="blog-main section-padding">
-        <div className="container mx-auto">
-          <div className="flex row lg-marg justify-content-around">
-            <div className="col-lg-8 flex-[2] ">
-              <div className="md:mb-80">
-                {loading && <Spinner size="md" />}
+        <div className="container">
+          <div className="row lg-marg justify-content-around">
+            <div className="col-lg-8">
+              <div className="md-mb80">
                 <div className="item mb-80">
                   <div className="img">
                     <img src="/assets/imgs/blog/blog1.jpg" alt="" />
                   </div>
                   <div className="content">
-                    <div className="flex items-center mb-15">
+                    <div className="d-flex align-items-center mb-15">
                       <div className="post-date">20 July 2020</div>
                       <div className="commt opacity-7 fz-13">
-                        <span className="ti-comment-alt mr-10"></span>{" "}
-                        {/* <CommentIcon className="mr-10" /> 4 Comments */}
+                        <span className="ti-comment-alt mr-10"></span>4 Comments
                       </div>
                     </div>
                     <h3 className="mb-15">
-                      <a href="/blog-details">
+                      <a href="#blog-details">
                         12 Tips to Leading an{" "}
                         <span className="fw-200">Extraordinary</span>
                         Company
@@ -71,14 +57,13 @@ function Blogs() {
                       surpassing $325 billion, it’s no surprise that different
                       approaches to online marketing.
                     </p>
-                    <Link
-                      to={`/blog/1234`}
+                    <a
+                      href="#blog-details"
                       className="d-flex align-items-center main-color mt-40"
                     >
                       <span className="text mr-15">Read More</span>
                       <span className="ti-arrow-top-right"></span>
-                      <CallMadeIcon />
-                    </Link>
+                    </a>
                   </div>
                 </div>
                 <div className="item mb-80">
@@ -93,7 +78,7 @@ function Blogs() {
                       </div>
                     </div>
                     <h3 className="mb-15">
-                      <a href="/blog-details">
+                      <a href="#blog-details">
                         Digital Marketing for{" "}
                         <span className="fw-200">Online Business.</span>
                       </a>
@@ -104,7 +89,7 @@ function Blogs() {
                       approaches to online marketing.
                     </p>
                     <a
-                      href="/blog-details"
+                      href="#blog-details"
                       className="d-flex align-items-center main-color mt-40"
                     >
                       <span className="text mr-15">Read More</span>
@@ -124,7 +109,7 @@ function Blogs() {
                       </div>
                     </div>
                     <h3 className="mb-15">
-                      <a href="/blog-details">
+                      <a href="#blog-details">
                         12 Tips to Leading an{" "}
                         <span className="fw-200">Extraordinary</span>
                         Company
@@ -136,7 +121,7 @@ function Blogs() {
                       approaches to online marketing.
                     </p>
                     <a
-                      href="/blog-details"
+                      href="#blog-details"
                       className="d-flex align-items-center main-color mt-40"
                     >
                       <span className="text mr-15">Read More</span>
@@ -146,7 +131,7 @@ function Blogs() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 flex-1 hidden md:block">
+            <div className="col-lg-4">
               <div className="sidebar">
                 <div className="widget">
                   <h6 className="title-widget">Search Here</h6>
@@ -155,8 +140,6 @@ function Blogs() {
                       type="text"
                       name="search-post"
                       placeholder="Search"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
                     />
                     <span className="icon pe-7s-search"></span>
                   </div>

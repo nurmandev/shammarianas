@@ -22,7 +22,7 @@ function FirstPage() {
               <div className="d-flex align-items-end">
                 <div>
                   <h1 className="nowrap">
-                    <span className="main-color">brand</span> stand out.
+                    <span className="main-color">brand</span> to stand out.
                   </h1>
                 </div>
                 <div>
