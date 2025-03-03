@@ -36,6 +36,7 @@ import Contact from "./Pages/Contact";
 import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
+import LoadingScreen from "./common/loader";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -88,6 +89,7 @@ function App() {
         <ScrollToTop />
         {/* <Navbar /> */}
         <Navbar2 />
+        <LoadingScreen />
         <FilterProvider>
           <AppRoutes />
         </FilterProvider>
