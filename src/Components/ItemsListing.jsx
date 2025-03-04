@@ -79,7 +79,8 @@ const ItemsListing = (props) => {
       )}
 
       {filteredItems.map((item) => (
-        <ListedItemCard key={item.id} id={item.id} data={item} rating="5" />
+        <ListedItemCard key={item.id} id={item.id} data={item} />
+        // <ListedItemCard key={item.id} id={item.id} data={item} rating="5" />
       ))}
     </div>
   );

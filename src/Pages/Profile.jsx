@@ -103,24 +103,24 @@ const Profile = () => {
   return (
     <>
       <Helmet>
-        <title>{user ? user.username : "User"} | Meshables</title>
+        <title>{user ? user.username : "User"} | shammarianas</title>
 
         <meta
           name="description"
           content={`View ${
             user ? user.username : "User"
-          }'s profile on Meshables`}
+          }'s profile on shammarianas`}
         />
 
         <meta
           property="og:title"
-          content={`${user ? user.username : "User"} | Meshables`}
+          content={`${user ? user.username : "User"} | shammarianas`}
         />
         <meta
           property="og:description"
           content={`View ${
             user ? user.username : "User"
-          }'s profile on Meshables`}
+          }'s profile on shammarianas`}
         />
         <meta
           property="og:image"
@@ -132,18 +132,18 @@ const Profile = () => {
         />
         <meta
           property="og:url"
-          content={`https://meshables.me/#/profile/${id}`}
+          content={`https://shammarianas.vercel.app/#/profile/${id}`}
         />
 
         <meta
           name="twitter:title"
-          content={`${user ? user.username : "User"} | Meshables`}
+          content={`${user ? user.username : "User"} | shammarianas`}
         />
         <meta
           name="twitter:description"
           content={`View ${
             user ? user.username : "User"
-          }'s profile on Meshables`}
+          }'s profile on shammarianas`}
         />
         <meta
           name="twitter:image"
@@ -155,7 +155,7 @@ const Profile = () => {
         />
         <meta name="twitter:card" content="summary_large_image" />
 
-        <link rel="canonical" href={`https://meshables.me/#/profile/${id}`} />
+        <link rel="canonical" href={`https://shammarianas.me/#/profile/${id}`} />
       </Helmet>
       <div className="page_content">
         <div className="profile_background">

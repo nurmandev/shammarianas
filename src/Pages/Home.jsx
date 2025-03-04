@@ -38,13 +38,15 @@ const Home = () => {
       <Cursor />
       <ProgressScroll />
       <div id="smooth-wrapper" ref={main}>
-        <FirstPage />
-        <Intro />
-        <Marq />
-        <Services />
-        <Team />
-        <Clients />
-        <Marq2 />
+        <main className="main-bg o-hidden">
+          <FirstPage />
+          <Intro />
+          <Marq />
+          <Services />
+          <Team />
+          <Clients />
+          <Marq2 />
+        </main>
       </div>
     </>
     // <div className="home_main">

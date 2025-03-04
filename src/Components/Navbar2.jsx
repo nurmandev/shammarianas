@@ -67,8 +67,8 @@ const Navbar = () => {
     return (
       <nav className="navbar navbar-expand-lg bord blur">
         <div className="container o-hidden">
-          <a className="logo " href="#">
-            <img src="/logo.png" alt="logo" />
+          <a className="logo icon-img-100" href="#">
+            <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
           </a>
           <button
             className="navbar-toggler"
@@ -214,11 +214,11 @@ const Navbar = () => {
   // If user IS logged in
   return (
     <>
-      <div className="navbar">
+      <div className="navbar navbar-expand-lg bord blur">
         {/* <nav className="navbar navbar-expand-lg bord blur"> */}
 
-        <a className="logo " href="#">
-          <img src="/assets/imgs/logo.png" alt="logo" />
+        <a className="logo icon-img-100" href="#">
+          <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
         </a>
         <Search />
         <div className="right">

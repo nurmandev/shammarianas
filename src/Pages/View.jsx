@@ -137,15 +137,15 @@ const View = () => {
   return (
     <>
       <Helmet>
-        <title>{`${item.title} | Meshables`} </title>
+        <title>{`${item.title} | shammarianas`} </title>
 
         <meta name="description" content={item.description} />
 
-        <meta property="og:title" content={`${item.title} | Meshables`} />
+        <meta property="og:title" content={`${item.title} | shammarianas`} />
         <meta property="og:description" content={item.description} />
         <meta property="og:image" content={item.thumbnail} />
 
-        <meta property="twitter:title" content={`${item.title} | Meshables`} />
+        <meta property="twitter:title" content={`${item.title} | shammarianas`} />
         <meta property="twitter:description" content={item.description} />
         <meta property="twitter:image" content={item.thumbnail} />
 
@@ -155,10 +155,10 @@ const View = () => {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={window.location.href} />
 
-        <meta property="twitter:site" content="@meshables" />
-        <meta property="twitter:creator" content="@meshables" />
+        <meta property="twitter:site" content="@shammarianas" />
+        <meta property="twitter:creator" content="@shammarianas" />
 
-        <meta property="og:site_name" content="Meshables" />
+        <meta property="og:site_name" content="shammarianas" />
         <meta property="og:locale" content="en_US" />
       </Helmet>
       <div className="page_content">
@@ -322,7 +322,7 @@ const View = () => {
                         profilePic={item.profilePic}
                         username={item.username}
                       />
-                      <div className="rating">
+                      {/* <div className="rating">
                         <span className="icons">
                           {Array(5)
                             .fill()
@@ -335,7 +335,7 @@ const View = () => {
                         </span>
 
                         <span className="rating_count">(15)</span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 

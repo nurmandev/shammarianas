@@ -5,16 +5,16 @@ const Privacy = () => {
     <div className="page_content">
       <div className="privacy_main">
         <div className="eula-container">
-          <h1 className="eula-heading">Meshables Privacy Policy</h1>
+          <h1 className="eula-heading">shammarianas Privacy Policy</h1>
           <p className="eula-paragraph" style={{ marginLeft: "0" }}>
             Last Updated: October 10, 2024
           </p>
           <p className="eula-paragraph" style={{ marginLeft: "0" }}>
-            Meshables is committed to protecting your privacy. This Privacy
+            shammarianas is committed to protecting your privacy. This Privacy
             Policy explains how we collect, use, disclose, and safeguard your
             information when you visit our website{" "}
-            <a href="https://www.meshables.me" className="eula-link">
-              www.meshables.me
+            <a href="https://www.shammarianas.in" className="eula-link">
+              www.shammarianas.in
             </a>
             , and use our services. By accessing or using our services, you
             agree to the terms of this Privacy Policy.

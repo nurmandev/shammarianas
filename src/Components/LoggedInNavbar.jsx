@@ -3,6 +3,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
+import logo from "../assets/Icons/logo.png";
 
 const LoggedInNavbar = () => {
   const { currentUser } = useUser();
@@ -12,8 +13,9 @@ const LoggedInNavbar = () => {
   return (
     <div className="navbar">
       <div className="logo">
-        <Link className="logo icon-img-100" to="/">
-          <img src="/assets/imgs/logo.png" alt="logo" />
+        <Link to="/">
+          <img src={logo} alt="logo" />
+          <span>Meshables</span>
         </Link>
       </div>
       <Search />
@@ -29,30 +31,16 @@ const LoggedInNavbar = () => {
             <Link to={`/Profile/${currentUser.uid}`}>
               <button className="signed_in">
                 <i className="icon fa-solid fa-user"></i>
-                <span className="username">
-                  {currentUser.displayName || "User"}
-                </span>
+                <span className="username">{currentUser.displayName || "User"}</span>
               </button>
             </Link>
             <div className="dropdown">
               <ul className="links">
-                <li>
-                  <Link to="/Library">Library</Link>
-                </li>
-                <li>
-                  <Link to={`/Profile/${currentUser.uid}`}>Profile</Link>
-                </li>
-                <li>
-                  <Link to="/Trade">Trade</Link>
-                </li>
-                <li>
-                  <Link to="/Upload">Upload</Link>
-                </li>
-                <li>
-                  <Link className="logout" to="/Logout">
-                    Logout
-                  </Link>
-                </li>
+                <li><Link to="/Library">Library</Link></li>
+                <li><Link to={`/Profile/${currentUser.uid}`}>Profile</Link></li>
+                <li><Link to="/Trade">Trade</Link></li>
+                <li><Link to="/Upload">Upload</Link></li>
+                <li><Link className="logout" to="/Logout">Logout</Link></li>
               </ul>
             </div>
           </div>

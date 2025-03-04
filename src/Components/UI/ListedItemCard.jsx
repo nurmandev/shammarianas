@@ -37,7 +37,7 @@ const ListedItemCard = ({ id, data, rating }) => {
                     ).toFixed(2)}`}
               </strong>
             </span>
-            <span className="rating">
+            {/* <span className="rating">
               <div className="icons">
                 {Array.from({ length: rating }, (_, i) => (
                   <i key={`filled_${i}`} className="icon fas fa-star"></i> // Added unique key here
@@ -47,7 +47,7 @@ const ListedItemCard = ({ id, data, rating }) => {
                 ))}
               </div>
               <span className="rating_count">125</span>
-            </span>
+            </span> */}
           </div>
           {/* <button className="add_to_cart_btn">
           <i className="icon fas fa-shopping-cart"></i> Add to cart

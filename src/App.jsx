@@ -89,7 +89,6 @@ function App() {
         <ScrollToTop />
         {/* <Navbar /> */}
         <Navbar2 />
-        <LoadingScreen />
         <FilterProvider>
           <AppRoutes />
         </FilterProvider>
