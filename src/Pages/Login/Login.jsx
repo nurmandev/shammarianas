@@ -153,11 +153,11 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Login | Meshables</title>
+        <title>Login | Shammarianas</title>
         <meta name="description" content="Login with Google or GitHub" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Login | Meshables" />
+        <meta property="og:title" content="Login | Shammarianas" />
         <meta property="og:description" content="Login with Google or GitHub" />
         <meta property="og:url" content="https://meshables.me/#/login" />
       </Helmet>
