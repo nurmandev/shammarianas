@@ -52,12 +52,12 @@ const Cart = () => {
   return (
     <>
       <Helmet>
-        <title>Cart | Meshables</title>
+        <title>Cart | Shammarianas</title>
         <meta
           name="description"
           content="View your cart items and proceed to checkout."
         />
-        <meta property="og:title" content="Cart | Meshables" />
+        <meta property="og:title" content="Cart | Shammarianas" />
         <meta
           property="og:description"
           content="View your cart items and proceed to checkout."

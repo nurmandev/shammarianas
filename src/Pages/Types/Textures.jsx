@@ -8,24 +8,24 @@ const Textures = () => {
   return (
     <>
       <Helmet>
-        <title>Textures | Meshables</title>
+        <title>Textures | Shammarianas</title>
         <meta
           name="description"
-          content="Browse through a wide range of textures on Meshables."
+          content="Browse through a wide range of textures on Shammarianas."
         />
 
-        <meta property="og:title" content="Textures | Meshables" />
+        <meta property="og:title" content="Textures | Shammarianas" />
         <meta
           property="og:description"
-          content="Browse through a wide range of textures on Meshables."
+          content="Browse through a wide range of textures on Shammarianas."
         />
 
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Textures | Meshables" />
+        <meta name="twitter:title" content="Textures | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse through a wide range of textures on Meshables."
+          content="Browse through a wide range of textures on Shammarianas."
         />
 
         <meta name="twitter:card" content="summary_large_image" />

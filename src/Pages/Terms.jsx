@@ -6,7 +6,7 @@ const Terms = () => {
       <div className="terms_main">
         <div className="eula-container">
           <h1 className="eula-heading">
-            Meshables End-User License Agreement (EULA)
+            Shammarianas End-User License Agreement (EULA)
           </h1>
           <p
             className="eula-paragraph"
@@ -22,16 +22,16 @@ const Terms = () => {
               marginLeft: "0",
             }}
           >
-            Meshables is a marketplace for 3D models, game assets, and AR/VR
+            Shammarianas is a marketplace for 3D models, game assets, and AR/VR
             content aimed at game developers, artists, and creators. The
             website,{" "}
             <a href="https://www.meshables.me" className="eula-link">
-              www.meshables.me
+              www.Shammarianas.me
             </a>
-            , is owned and operated by Meshables (hereafter referred to as
-            "Meshables"). This End-User License Agreement (the “Agreement,”
+            , is owned and operated by Shammarianas (hereafter referred to as
+            "Shammarianas"). This End-User License Agreement (the “Agreement,”
             “EULA,” “License”) governs your use of the services provided by
-            Meshables. By registering for an account or using the Meshables
+            Shammarianas. By registering for an account or using the Shammarianas
             service, you acknowledge that you have read, understood, and agree
             to all the terms outlined below. If you do not agree, you must not
             use the services.
@@ -51,11 +51,11 @@ const Terms = () => {
           <h2 className="eula-subheading">1. Acceptance of Terms</h2>
           <h3 className="eula-subsubheading">1.1 Legal Agreement</h3>
           <p className="eula-paragraph">
-            This Agreement forms a legal contract between you and Meshables
+            This Agreement forms a legal contract between you and Shammarianas
             governing your use of its platform and related services to develop
             personal or commercial projects (hereafter referred to as “Customer
             Assets”). This Agreement takes effect from the date you first accept
-            it or use Meshables services (the “Start Date”).
+            it or use Shammarianas services (the “Start Date”).
           </p>
 
           <h2 className="eula-subheading">2. Accounts</h2>
@@ -63,7 +63,7 @@ const Terms = () => {
           <p className="eula-paragraph">
             You must either:
             <ul>
-              <li>Register an account via Meshables’ website.</li>
+              <li>Register an account via Shammarianas’ website.</li>
               <li>
                 Or access the service and provide required user information.
               </li>
@@ -87,7 +87,7 @@ const Terms = () => {
           <p className="eula-paragraph">
             When creating an account, you must provide true, accurate, and
             current details. Failure to do so may result in the termination of
-            your account. Meshables may share registration details with partners
+            your account. Shammarianas may share registration details with partners
             and third parties as outlined in its Privacy Policy.
           </p>
           <h3 className="eula-subsubheading">3.2 Account Responsibility</h3>
@@ -100,29 +100,29 @@ const Terms = () => {
           <h3 className="eula-subsubheading">4.1 Connectivity</h3>
           <p className="eula-paragraph">
             A high-speed internet connection is required to access the platform.
-            Meshables is not responsible for the reliability of any network
+            Shammarianas is not responsible for the reliability of any network
             connections outside of its control.
           </p>
 
           <h2 className="eula-subheading">5. The Service</h2>
-          <h3 className="eula-subsubheading">5.1 Meshables Assets</h3>
+          <h3 className="eula-subsubheading">5.1 Shammarianas Assets</h3>
           <p className="eula-paragraph">
-            Meshables provides a marketplace of 3D assets including models,
+            Shammarianas provides a marketplace of 3D assets including models,
             textures, game-ready assets, and AR/VR content (collectively called
-            "Meshables Assets"). Payment entitles you to use these assets under
+            "Shammarianas Assets"). Payment entitles you to use these assets under
             your chosen License, but you or third parties are prohibited from
             using the assets to develop services that directly compete with
-            Meshables.
+            Shammarianas.
           </p>
           <h3 className="eula-subsubheading">5.2 Removal of Assets</h3>
           <p className="eula-paragraph">
-            Meshables reserves the right to remove any asset from its library
+            Shammarianas reserves the right to remove any asset from its library
             without prior notice.
           </p>
           <h3 className="eula-subsubheading">5.3 User Access</h3>
           <p className="eula-paragraph">
             Only Permitted Users are allowed to handle or use the assets
-            available within Meshables.
+            available within Shammarianas.
           </p>
 
           <h2 className="eula-subheading" style={{ marginBottom: "2rem" }}>
@@ -132,7 +132,7 @@ const Terms = () => {
             <h3 className="eula-subsubheading">6.1 Free License</h3>
             <p className="eula-paragraph">
               The Free License allows access to a limited set of assets, usable
-              for both commercial and non-commercial projects. Meshables
+              for both commercial and non-commercial projects. Shammarianas
               reserves the right to modify or revoke your access to the Free
               License at any time.
             </p>
@@ -143,7 +143,7 @@ const Terms = () => {
             </h3>
             <p className="eula-paragraph">
               The Commercial License for individuals allows a single user access
-              to Meshables Assets for commercial and non-commercial use. Users
+              to Shammarianas Assets for commercial and non-commercial use. Users
               with this license may download and incorporate assets into their
               own projects.
             </p>
@@ -164,15 +164,15 @@ const Terms = () => {
             <p className="eula-paragraph">
               The Enterprise License provides customizable options for
               organizations requiring additional features such as bulk downloads
-              or modifications to the terms. Contact Meshables for a tailored
+              or modifications to the terms. Contact Shammarianas for a tailored
               solution.
             </p>
           </div>
           <h3 className="eula-subsubheading">6.5 Suspension of License</h3>
           <p className="eula-paragraph">
-            Meshables reserves the right to suspend any account found in
+            Shammarianas reserves the right to suspend any account found in
             violation of this Agreement. Users engaging in prohibited use will
-            be liable for damages incurred by Meshables.
+            be liable for damages incurred by Shammarianas.
           </p>
 
           <h2 className="eula-subheading">7. Fees and Payments</h2>
@@ -208,15 +208,15 @@ const Terms = () => {
           <h2 className="eula-subheading">8. License Grant</h2>
           <h3 className="eula-subsubheading">8.1 Limited License</h3>
           <p className="eula-paragraph">
-            Meshables grants you a non-exclusive, non-transferable, and
-            non-sublicensable license to use Meshables Assets in your projects.
+            Shammarianas grants you a non-exclusive, non-transferable, and
+            non-sublicensable license to use Shammarianas Assets in your projects.
             This license is revocable if you violate any part of this Agreement.
           </p>
           <h3 className="eula-subsubheading">
             8.2 No Right to Resell or Redistribute Assets
           </h3>
           <p className="eula-paragraph">
-            You may not resell, license, or distribute Meshables Assets in their
+            You may not resell, license, or distribute Shammarianas Assets in their
             original form. Assets must be integrated into your own unique
             creations (e.g., games, animations) before being distributed.
           </p>
@@ -224,7 +224,7 @@ const Terms = () => {
           <h2 className="eula-subheading">9. Intellectual Property</h2>
           <h3 className="eula-subsubheading">9.1 Ownership</h3>
           <p className="eula-paragraph">
-            Meshables retains ownership of all its assets, including any
+            Shammarianas retains ownership of all its assets, including any
             modifications or derivative works created by users. You may only use
             the assets in line with this Agreement.
           </p>
@@ -239,14 +239,14 @@ const Terms = () => {
           <h2 className="eula-subheading">10. Termination of Service</h2>
           <h3 className="eula-subsubheading">10.1 Termination</h3>
           <p className="eula-paragraph">
-            Meshables reserves the right to terminate your account for any
+            Shammarianas reserves the right to terminate your account for any
             breach of this Agreement. Upon termination, you will lose access to
             any assets or services purchased under your account.
           </p>
           <h3 className="eula-subsubheading">10.2 Refund Policy</h3>
           <p className="eula-paragraph">
             Once purchased, assets are non-returnable. However, refunds may be
-            issued for unused downloads at the discretion of Meshables. In such
+            issued for unused downloads at the discretion of Shammarianas. In such
             cases, refunds will be processed within 5-7 working days, and the
             amount will be credited to the customer's original source of
             payment.
@@ -255,13 +255,13 @@ const Terms = () => {
           <h2 className="eula-subheading">11. Liability Limitations</h2>
           <h3 className="eula-subsubheading">11.1 Disclaimer</h3>
           <p className="eula-paragraph">
-            Meshables provides the service "as is" and does not guarantee
+            Shammarianas provides the service "as is" and does not guarantee
             uninterrupted access to the platform. You assume all responsibility
             for the use of the service.
           </p>
           <h3 className="eula-subsubheading">11.2 Limitation of Liability</h3>
           <p className="eula-paragraph">
-            To the maximum extent permitted by law, Meshables is not liable for
+            To the maximum extent permitted by law, Shammarianas is not liable for
             any damages resulting from the use or inability to use the platform,
             including but not limited to data loss, business interruption, or
             damage to equipment.
@@ -271,7 +271,7 @@ const Terms = () => {
           <h3 className="eula-subsubheading">12.1 Jurisdiction</h3>
           <p className="eula-paragraph">
             This Agreement is governed by the laws of the jurisdiction in which
-            Meshables is based.
+            Shammarianas is based.
           </p>
           <h3 className="eula-subsubheading">12.2 Dispute Resolution</h3>
           <p className="eula-paragraph">
@@ -281,7 +281,7 @@ const Terms = () => {
 
           <h2 className="eula-subheading">13. Contact Information</h2>
           <p className="eula-paragraph">
-            For questions about this EULA or the Meshables service, please
+            For questions about this EULA or the Shammarianas service, please
             contact:
           </p>
           <p className="eula-paragraph">

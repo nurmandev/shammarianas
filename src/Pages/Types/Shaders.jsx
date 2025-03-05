@@ -8,24 +8,24 @@ const Shaders = () => {
   return (
     <>
       <Helmet>
-        <title>Shaders | Meshables</title>
+        <title>Shaders | Shammarianas</title>
         <meta
           name="description"
-          content="Browse through a wide range of shaders on Meshables."
+          content="Browse through a wide range of shaders on Shammarianas."
         />
 
-        <meta property="og:title" content="Shaders | Meshables" />
+        <meta property="og:title" content="Shaders | Shammarianas" />
         <meta
           property="og:description"
-          content="Browse through a wide range of shaders on Meshables."
+          content="Browse through a wide range of shaders on Shammarianas."
         />
 
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Shaders | Meshables" />
+        <meta name="twitter:title" content="Shaders | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse through a wide range of shaders on Meshables."
+          content="Browse through a wide range of shaders on Shammarianas."
         />
 
         <meta name="twitter:card" content="summary_large_image" />

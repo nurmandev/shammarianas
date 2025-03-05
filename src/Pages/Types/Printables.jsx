@@ -8,24 +8,24 @@ const Printables = () => {
   return (
     <>
       <Helmet>
-        <title>Printables | Meshables</title>
+        <title>Printables | Shammarianas</title>
         <meta
           name="description"
-          content="Browse through a wide range of printables on Meshables."
+          content="Browse through a wide range of printables on Shammarianas."
         />
 
-        <meta property="og:title" content="Printables | Meshables" />
+        <meta property="og:title" content="Printables | Shammarianas" />
         <meta
           property="og:description"
-          content="Browse through a wide range of printables on Meshables."
+          content="Browse through a wide range of printables on Shammarianas."
         />
 
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Printables | Meshables" />
+        <meta name="twitter:title" content="Printables | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse through a wide range of printables on Meshables."
+          content="Browse through a wide range of printables on Shammarianas."
         />
 
         <meta name="twitter:card" content="summary_large_image" />

@@ -22,7 +22,6 @@ import Shader from "./Pages/Types/Shaders";
 import HDRIs from "./Pages/Types/HDRIs";
 import Plugins from "./Pages/Types/Plugins";
 import Logout from "./Pages/Logout";
-import Discord from "./Pages/Discord";
 import Library from "./Pages/Library";
 import TextureViewer from "./Components/TextureViewer";
 import PasswordReset from "./Pages/Login/PasswordReset";
@@ -72,7 +71,6 @@ export const AppRoutes = () => (
     <Route path="/Checkout" element={<Checkout />} />
     <Route path="/Library" element={<Library />} />
     <Route path="/Texture" element={<TextureViewer />} />
-    <Route path="/Discord" element={<Discord />} />
     <Route path="/analytics" element={<Analytics />} />
     <Route path="/Terms" element={<Terms />} />
     <Route path="/Privacy" element={<Privacy />} />

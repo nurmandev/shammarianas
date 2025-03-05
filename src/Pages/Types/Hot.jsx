@@ -8,24 +8,24 @@ const Hot = () => {
   return (
     <>
       <Helmet>
-        <title>Hot | Meshables</title>
+        <title>Hot | Shammarianas</title>
         <meta
           name="description"
-          content="Browse through a wide range of hot items on Meshables."
+          content="Browse through a wide range of hot items on Shammarianas."
         />
 
-        <meta property="og:title" content="Hot | Meshables" />
+        <meta property="og:title" content="Hot | Shammarianas" />
         <meta
           property="og:description"
-          content="Browse through a wide range of hot items on Meshables."
+          content="Browse through a wide range of hot items on Shammarianas."
         />
 
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Hot | Meshables" />
+        <meta name="twitter:title" content="Hot | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse through a wide range of hot items on Meshables."
+          content="Browse through a wide range of hot items on Shammarianas."
         />
 
         <meta name="twitter:card" content="summary_large_image" />

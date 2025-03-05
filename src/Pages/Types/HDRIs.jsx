@@ -8,24 +8,24 @@ const HDRIs = () => {
   return (
     <>
       <Helmet>
-        <title>HDRIs | Meshables</title>
+        <title>HDRIs | Shammarianas</title>
         <meta
           name="description"
-          content="Browse through a wide range of HDRIs on Meshables."
+          content="Browse through a wide range of HDRIs on Shammarianas."
         />
 
-        <meta property="og:title" content="HDRIs | Meshables" />
+        <meta property="og:title" content="HDRIs | Shammarianas" />
         <meta
           property="og:description"
-          content="Browse through a wide range of HDRIs on Meshables."
+          content="Browse through a wide range of HDRIs on Shammarianas."
         />
 
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="HDRIs | Meshables" />
+        <meta name="twitter:title" content="HDRIs | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse through a wide range of HDRIs on Meshables."
+          content="Browse through a wide range of HDRIs on Shammarianas."
         />
 
         <meta name="twitter:card" content="summary_large_image" />

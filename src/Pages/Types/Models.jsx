@@ -8,24 +8,24 @@ const Models = () => {
   return (
     <>
       <Helmet>
-        <title>Models | Meshables</title>
+        <title>Models | Shammarianas</title>
         <meta
           name="description"
-          content="Browse through a wide range of 3D models on Meshables."
+          content="Browse through a wide range of 3D models on Shammarianas."
         />
 
-        <meta property="og:title" content="Models | Meshables" />
+        <meta property="og:title" content="Models | Shammarianas" />
         <meta
           property="og:description"
-          content="Browse through a wide range of 3D models on Meshables."
+          content="Browse through a wide range of 3D models on Shammarianas."
         />
 
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Models | Meshables" />
+        <meta name="twitter:title" content="Models | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse through a wide range of 3D models on Meshables."
+          content="Browse through a wide range of 3D models on Shammarianas."
         />
 
         <meta name="twitter:card" content="summary_large_image" />

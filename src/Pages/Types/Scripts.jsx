@@ -8,24 +8,24 @@ const Scripts = () => {
   return (
     <>
       <Helmet>
-        <title>Scripts | Meshables</title>
+        <title>Scripts | Shammarianas</title>
         <meta
           name="description"
-          content="Browse through a wide range of scripts on Meshables."
+          content="Browse through a wide range of scripts on Shammarianas."
         />
 
-        <meta property="og:title" content="Scripts | Meshables" />
+        <meta property="og:title" content="Scripts | Shammarianas" />
         <meta
           property="og:description"
-          content="Browse through a wide range of scripts on Meshables."
+          content="Browse through a wide range of scripts on Shammarianas."
         />
 
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Scripts | Meshables" />
+        <meta name="twitter:title" content="Scripts | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse through a wide range of scripts on Meshables."
+          content="Browse through a wide range of scripts on Shammarianas."
         />
 
         <meta name="twitter:card" content="summary_large_image" />
