@@ -33,7 +33,7 @@ function Marq2() {
             ))}
           </div>
 
-          <a href="/page-contact" className="overlay-link"></a>
+          <a href="#contact" className="overlay-link"></a>
         </div>
       </div>
       <div className="main-marq bord-item">
@@ -57,7 +57,7 @@ function Marq2() {
             ))}
           </div>
 
-          <a href="/page-contact" className="overlay-link"></a>
+          <a href="#contact" className="overlay-link"></a>
         </div>
       </div>
     </section>

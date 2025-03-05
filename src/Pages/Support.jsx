@@ -15,7 +15,7 @@ import { Helmet } from "react-helmet";
 import plus_icon from "../assets/Icons/plus.png";
 import DescriptionBox from "../Components/DescriptionBox";
 
-const Upload = () => {
+const Support = () => {
   const { currentUser } = useUser();
   const [formData, setFormData] = useState({
     title: "",
@@ -265,15 +265,12 @@ const Upload = () => {
   return (
     <>
       <Helmet>
-        <title>Upload | Shammarianas</title>
-        <meta
-          name="description"
-          content="Upload your 3D assets to Shammarianas"
-        />
+        <title>Support | Shammarianas</title>
+        <meta name="description" content="Report your Issue to Shammarianas" />
 
         <meta property="og:type" content="website" />
 
-        <meta property="og:title" content="Upload | Shammarianas" />
+        <meta property="og:title" content="Support | Shammarianas" />
         <meta
           property="og:description"
           content="Upload your 3D assets to Shammarianas"
@@ -298,10 +295,20 @@ const Upload = () => {
               </div>
             )}
             <form onSubmit={handleSubmit}>
-              <PageTitle title="Upload Asset">Upload</PageTitle>
+              <PageTitle title="Report an Issue">Upload</PageTitle>
 
               <div className="content">
                 <div className="left">
+                  <input
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    placeholder="Subject"
+                    type="number"
+                    maxLength={3}
+                    max={999}
+                    required
+                  />
                   <input
                     type="file"
                     required
@@ -338,14 +345,6 @@ const Upload = () => {
                       </>
                     )}
                   </label>
-
-                  <input
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    placeholder="Title"
-                    required
-                  />
                 </div>
 
                 <div className="right">
@@ -355,74 +354,12 @@ const Upload = () => {
                   />
                   <select name="type" onChange={handleChange} required>
                     <option value="" disabled selected>
-                      Select Asset type
+                      Choose a Category
                     </option>
-                    <option value="models">Model</option>
-                    <option value="printables">Printable</option>
-                    <option value="textures">Texture</option>
-                    <option value="sounds">Sound</option>
-                    <option value="scripts">Script</option>
-                    <option value="shaders">Shader</option>
-                    <option value="images">Image</option>
-                    <option value="videos">Video</option>
-                    <option value="hdris">HDRIs</option>
+                    <option value="models">Upload the Assest</option>
+                    <option value="printables">Trade Issue</option>
                     <option value="other">Other</option>
                   </select>
-                  <select name="category" onChange={handleChange} required>
-                    <option
-                      value=""
-                      disabled
-                      selected={formData.category === ""}
-                    >
-                      Select Category
-                    </option>
-                    <option value="Living Room">Living Room</option>
-                    <option value="Kitchen">Kitchen</option>
-                    <option value="Outdoor">Outdoor</option>
-                    <option value="Office">Office</option>
-                    <option value="Sports">Sports</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Vehicles">Vehicles</option>
-                    <option value="Tools">Tools</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="other">other</option>
-                  </select>
-                  <input
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    placeholder="Price"
-                    type="number"
-                    maxLength={3}
-                    max={999}
-                    required
-                  />
-                  {formData.price && formData.price > 0 && (
-                    <input
-                      name="discount"
-                      value={formData.discount}
-                      onChange={handleChange}
-                      placeholder="Discount"
-                      type="number"
-                      required
-                    />
-                  )}
-                  <div className="tags_input">
-                    {tags.map((tag) => (
-                      <span key={tag} className="tag">
-                        {tag}
-                      </span>
-                    ))}
-                    <input
-                      name="tags"
-                      value={formData.tags}
-                      onChange={(event) => {
-                        handleTagInputChange(event);
-                      }}
-                      placeholder="Tags (comma-separated)"
-                      required
-                    />
-                  </div>
                   {formData.type === "models" ||
                   formData.type === "printables" ? (
                     <label>
@@ -897,14 +834,14 @@ const Upload = () => {
                   )}
                 </div>
               </div>
-              <button type="submit">Upload</button>
+              <button type="submit">Submit Report</button>
             </form>
           </div>
         </div>
       ) : (
         <div className="page_content">
           <div className="not_logged_in">
-            <h2>Log in to upload assets</h2>
+            <h2>Log in to Report an Issue</h2>
           </div>
         </div>
       )}
@@ -912,4 +849,4 @@ const Upload = () => {
   );
 };
 
-export default Upload;
+export default Support;

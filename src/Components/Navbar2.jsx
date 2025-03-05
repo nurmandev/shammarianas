@@ -255,6 +255,9 @@ const Navbar = () => {
                     <Link to="/Upload">Upload</Link>
                   </li>
                   <li>
+                    <Link to="/Support">Support</Link>
+                  </li>
+                  <li>
                     <Link className="logout" to="/Logout">
                       Logout
                     </Link>

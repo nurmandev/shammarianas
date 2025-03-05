@@ -37,6 +37,7 @@ import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
 import LoadingScreen from "./common/loader";
+import Support from "./Pages/Support";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -79,6 +80,7 @@ export const AppRoutes = () => (
     <Route path="/blog" element={<Blog />} />
     <Route path="/blog-details" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
+    <Route path="/Support" element={<Support />} />
   </Routes>
 );
 
