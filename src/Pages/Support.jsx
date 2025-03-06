@@ -5,6 +5,16 @@ import PageTitle from "../Components/UI/PageTitle";
 import plus_icon from "../assets/Icons/plus.png";
 import DescriptionBox from "../Components/DescriptionBox";
 
+// Determine API Base URL (Local vs. Production)
+const API_BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? `http://localhost:5173/${
+        import.meta.env.VITE_FIREBASE_PROJECT_ID
+      }/us-central1`
+    : `https://us-central1-${
+        import.meta.env.VITE_FIREBASE_PROJECT_ID
+      }.cloudfunctions.net`;
+
 const Support = () => {
   const { currentUser } = useUser();
   const [formData, setFormData] = useState({
@@ -17,11 +27,17 @@ const Support = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
+    setFormData((prevData) => ({
+      ...prevData,
+      file: e.target.files[0],
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -37,11 +53,10 @@ const Support = () => {
     }
 
     try {
-      const response = await fetch("/api/send-email", {
+      const response = await fetch(`${API_BASE_URL}/sendSupportEmail`, {
         method: "POST",
         body: formDataToSend,
       });
-      console.log(response.url);
 
       const result = await response.json();
       if (response.ok) {
@@ -53,9 +68,12 @@ const Support = () => {
           issueType: "",
         });
       } else {
-        alert("Failed to submit the report. Please try again.");
+        alert(
+          result.message || "Failed to submit the report. Please try again."
+        );
       }
     } catch (error) {
+      console.error("Error submitting report:", error);
       alert("An error occurred. Please try again.");
     }
 
@@ -109,9 +127,9 @@ const Support = () => {
                 </div>
                 <div className="right">
                   <DescriptionBox
-                    name="description"
                     value={formData.description}
                     onChange={handleChange}
+                    name="description" // Added missing name attribute
                   />
                   <select
                     name="issueType"
