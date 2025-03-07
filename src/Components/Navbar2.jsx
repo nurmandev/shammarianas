@@ -243,7 +243,7 @@ const Navbar = () => {
               <div className="dropdown">
                 <ul className="links">
                   <li>
-                    <Link to="/Library">Library</Link>
+                    <Link to="/Library">My Downloads</Link>
                   </li>
                   <li>
                     <Link to={`/Profile/${currentUser.uid}`}>Profile</Link>
