@@ -307,7 +307,6 @@ const StripeCheckoutForm = (props) => {
 };
 
 const CheckoutForm = (props) => {
-  // console.log({props})
   return (
     <Elements stripe={stripePromise}>
       <StripeCheckoutForm {...props} />
