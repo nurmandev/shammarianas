@@ -123,6 +123,7 @@ const Login = () => {
           email: user.email,
           profilePic: user.photoURL,
           uid: user.uid,
+          role: "user", // Assign default role
         },
         { merge: true }
       );

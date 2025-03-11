@@ -21,6 +21,7 @@ export const loginWithGithub = () => {
           email: result.user.email,
           profilePic: result.user.photoURL,
           uid: result.user.uid,
+          role: "user", // Assign default role
         },
         { merge: true }
       ); // Use merge option to avoid overwriting existing fields
