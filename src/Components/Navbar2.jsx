@@ -246,6 +246,10 @@ const Navbar = () => {
                     <Link to="/MyDownloads">My Downloads</Link>
                   </li>
                   <li>
+                    <Link to="/Library">My Library</Link>
+                  </li>
+
+                  <li>
                     <Link to={`/Profile/${currentUser.uid}`}>Profile</Link>
                   </li>
                   <li>
