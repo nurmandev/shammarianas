@@ -38,6 +38,8 @@ import Portfolio from "./Pages/portfolio";
 import LoadingScreen from "./common/loader";
 // import Support from "./Pages/Support";
 
+import MyDownloads from "./Pages/MyDownloads";
+
 const ScrollToTop = () => {
   const location = useLocation();
 
@@ -70,6 +72,7 @@ export const AppRoutes = () => (
     <Route path="/Upload" element={<Upload />} />
     <Route path="/Checkout" element={<Checkout />} />
     <Route path="/Library" element={<Library />} />
+    <Route path="/MyDownloads" element={<MyDownloads />} />
     <Route path="/Texture" element={<TextureViewer />} />
     <Route path="/analytics" element={<Analytics />} />
     <Route path="/Terms" element={<Terms />} />
