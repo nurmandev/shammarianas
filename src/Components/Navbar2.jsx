@@ -125,6 +125,11 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li>
+                    <a className="dropdown-item" href="#image">
+                    Images
+                    </a>
+                  </li>
+                  <li>
                     <a className="dropdown-item" href="#Printable">
                       Printable
                     </a>
@@ -279,6 +284,7 @@ const Navbar = () => {
             <ul>
               {[
                 { path: "/hot", icon: "fa-fire", label: "Hot" },
+                { path: "/Image", icon: "fa-fire", label: "Images" },
                 { path: "/Printable", icon: "fa-print", label: "Printable" },
                 { path: "/Models", icon: "fa-cube", label: "Models" },
                 { path: "/Textures", icon: "fa-image", label: "Textures" },

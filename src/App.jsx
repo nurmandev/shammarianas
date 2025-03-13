@@ -8,6 +8,7 @@ import Models from "./Pages/Types/Models";
 import View from "./Pages/View";
 import Footer from "./Components/Footer";
 import Hot from "./Pages/Types/Hot";
+import Images from "./Pages/Types/Image";
 import Upload from "./Pages/Upload";
 import Cart from "./Pages/Cart";
 import Login from "./Pages/Login/Login";
@@ -60,6 +61,7 @@ export const AppRoutes = () => (
     <Route path="/Trade" element={<TradePage />} />
     <Route path="/Cart" element={<Cart />} />
     <Route path="/Hot" element={<Hot />} />
+    <Route path="/Image" element={<Images />} />
     <Route path="/Models" element={<Models />} />
     <Route path="/Printable" element={<Printables />} />
     <Route path="/Textures" element={<Textures />} />
