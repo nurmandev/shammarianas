@@ -38,6 +38,8 @@ import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
 import LoadingScreen from "./common/loader";
 import Support from "./Pages/Support";
+import AboutUs from "./Pages/AboutUs";
+import Services from "./Pages/services";
 
 import MyDownloads from "./Pages/MyDownloads";
 
@@ -84,6 +86,8 @@ export const AppRoutes = () => (
     <Route path="/blog-details" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
     <Route path="/Support" element={<Support />} />
+    <Route path="/about" element={<AboutUs />} />
+    <Route path="/services" element={<Services/>} />
   </Routes>
 );
 

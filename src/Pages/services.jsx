@@ -1,17 +1,20 @@
 import React, { useEffect, useRef } from "react";
 import AOS from "aos"; // Import AOS (Animate On Scroll) library
 import "aos/dist/aos.css"; // Import AOS styles
-import FirstPage from "../Components/landing/firstPage";
-import Intro from "../Components/landing/Intro";
-import Marq from "../Components/marq";
-import Services from "../Components/landing/Services";
-import Team from "../Components/landing/Team";
-import Cursor from "../common/cusor";
-import ProgressScroll from "../common/ProgressScroll";
-import Clients from "../Components/landing/Clients";
-import Marq2 from "../Components/marq2";
 
-const Home = () => {
+import Lines from "../Components/Lines";
+import ProgressScroll from "../common/ProgressScroll";
+import Cursor from "../common/cusor";
+import Marq2 from "../Components/marq2";
+import Header from "../Components/services/Header";
+import Numbers from "../Components/services/Numbers";
+import Intro2 from "../Components/services/Intro2";
+import Clients from "../Components/landing/Clients";
+import Blog from "../Components/about-us/Blog";
+import Services from "../Components/landing/Services";
+import Testimonials from "../Components/services/Testimonials";
+
+export default function PageServices() {
   const main = useRef();
   // useEffect hook to initialize AOS and refresh it
   useEffect(() => {
@@ -26,19 +29,19 @@ const Home = () => {
     <>
       <Cursor />
       <ProgressScroll />
+      <Lines />
       <div id="smooth-wrapper" ref={main}>
         <main className="main-bg o-hidden">
-          <FirstPage />
-          <Intro />
-          <Marq />
+          <Header />
           <Services />
-          <Team />
+          <Intro2 />
+          <Numbers />
+          <Testimonials />
           <Clients />
+          <Blog />
           <Marq2 />
         </main>
       </div>
     </>
   );
-};
-
-export default Home;
+}
