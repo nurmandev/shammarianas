@@ -1,65 +1,62 @@
+import { useEffect, useState } from "react";
 import { db } from "../../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import PageTitle from "../Components/UI/PageTitle";
-import React, { useEffect, useState } from "react";
 import { useUser } from "../Context/UserProvider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 const Library = () => {
-  const { currentUser, userProfile } = useUser();
+  const { currentUser } = useUser();
   const [assets, setAssets] = useState([]);
-  const [ownedAssets, setOwnedAssets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (currentUser && userProfile) {
-      console.log("Current user:", currentUser);
-      console.log("User profile:", userProfile);
-      if (userProfile.purchasedItems && userProfile.purchasedItems.length > 0) {
-        console.log("Setting owned assets:", userProfile.purchasedItems);
-        setOwnedAssets(userProfile.purchasedItems);
-      } else {
-        console.log("No purchased assets found in user profile.");
+    const fetchPurchasedAssets = async () => {
+      if (!currentUser) {
+        setLoading(false);
+        return;
       }
-    }
-  }, [currentUser, userProfile]);
-  useEffect(() => {
-    setLoading(true);
-    const fetchAssets = async () => {
-      try {
-        console.log("Fetching assets for owned assets:", ownedAssets);
-        if (ownedAssets.length > 0) {
-          const assetPromises = ownedAssets.map(async (assetId) => {
-            const assetRef = doc(db, "Assets", assetId);
-            const assetSnapshot = await getDoc(assetRef);
-            if (assetSnapshot.exists()) {
-              const assetData = assetSnapshot.data();
-              return { id: assetId, ...assetData };
-            } else {
-              console.log(`No document found for asset ID: ${assetId}`);
-              return null;
-            }
-          });
 
-          const assetsData = await Promise.all(assetPromises);
-          const filteredAssetsData = assetsData.filter(
-            (asset) => asset !== null
-          );
-          console.log("Fetched assets data:", filteredAssetsData);
-          setAssets(filteredAssetsData);
-          setLoading(false);
-        } else {
-          console.log("No owned assets to fetch.");
+      try {
+        setLoading(true);
+        
+        // Get purchases from subcollection
+        const purchasesRef = collection(db, `Profiles/${currentUser.uid}/purchases`);
+        const purchasesSnapshot = await getDocs(purchasesRef);
+        
+        if (purchasesSnapshot.empty) {
+          console.log("No purchased items found");
           setLoading("no_items");
+          return;
         }
+        
+        // Map through purchases documents and extract asset data
+        const purchasedAssets = [];
+        
+        for (const doc of purchasesSnapshot.docs) {
+          // The document ID is the asset ID
+          const assetId = doc.id;
+          // The document data contains the asset information
+          const assetData = doc.data();
+          
+          purchasedAssets.push({
+            id: assetId,
+            ...assetData
+          });
+        }
+        
+        console.log("Fetched purchased assets data:", purchasedAssets);
+        setAssets(purchasedAssets);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching assets:", error);
+        console.error("Error fetching purchased assets:", error);
+        setLoading(false);
       }
     };
 
-    fetchAssets();
-  }, [ownedAssets]);
+    fetchPurchasedAssets();
+  }, [currentUser]);
 
   return (
     <>

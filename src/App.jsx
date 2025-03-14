@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navbar from "./Components/Navbar";
 import Navbar2 from "./Components/Navbar2";
+import "./assets/Styles/Tab.css";
 import "./assets/Styles/Style.css";
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
@@ -44,8 +45,8 @@ import ServicesDetails from "./Pages/services-details";
 import StockPage from "./Pages/Stock";
 
 import MyDownloads from "./Pages/MyDownloads";
-
 import Favorites from "./Pages/Favorites";
+import Admin from "./Pages/Admin";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -60,6 +61,7 @@ const ScrollToTop = () => {
 export const AppRoutes = () => (
   <Routes>
     <Route path="/Login" element={<Login />} />
+    <Route path="/Admin" element={<Admin />} />
     <Route path="/Reset" element={<PasswordReset />} />
     <Route path="/Logout" element={<Logout />} />
     <Route path="/Profile/:id" element={<Profile />} />
