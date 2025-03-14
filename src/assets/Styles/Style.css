@@ -1250,6 +1250,7 @@ a {
   padding: 0.7rem 8rem;
   position: sticky;
   top: 4rem;
+  margin: 2rem 0;
   z-index: 9;
   /* From https://css.glass */
   background: rgba(26, 26, 26, 0.52);

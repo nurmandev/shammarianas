@@ -15,7 +15,7 @@ const LoggedInNavbar = () => {
       <div className="logo">
         <Link to="/">
           <img src={logo} alt="logo" />
-          <span>Meshables</span>
+          <span>Shammarianas</span>
         </Link>
       </div>
       <Search />

@@ -8,6 +8,7 @@ import Models from "./Pages/Types/Models";
 import View from "./Pages/View";
 import Footer from "./Components/Footer";
 import Hot from "./Pages/Types/Hot";
+import Images from "./Pages/Types/Image";
 import Upload from "./Pages/Upload";
 import Cart from "./Pages/Cart";
 import Login from "./Pages/Login/Login";
@@ -37,8 +38,13 @@ import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
 import LoadingScreen from "./common/loader";
 import Support from "./Pages/Support";
+import AboutUs from "./Pages/AboutUs";
+import Services from "./Pages/services";
+import ServicesDetails from "./Pages/services-details";
+import StockPage from "./Pages/Stock";
 
 import MyDownloads from "./Pages/MyDownloads";
+
 import Favorites from "./Pages/Favorites";
 
 const ScrollToTop = () => {
@@ -61,6 +67,7 @@ export const AppRoutes = () => (
     <Route path="/Trade" element={<TradePage />} />
     <Route path="/Cart" element={<Cart />} />
     <Route path="/Hot" element={<Hot />} />
+    <Route path="/Image" element={<Images />} />
     <Route path="/Models" element={<Models />} />
     <Route path="/Printable" element={<Printables />} />
     <Route path="/Textures" element={<Textures />} />
@@ -84,6 +91,10 @@ export const AppRoutes = () => (
     <Route path="/blog-details" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
     <Route path="/Support" element={<Support />} />
+    <Route path="/about" element={<AboutUs />} />
+    <Route path="/stock" element={<StockPage />} />
+    <Route path="/services" element={<Services />} />
+    <Route path="/page-services-details" element={<ServicesDetails />} />
   </Routes>
 );
 

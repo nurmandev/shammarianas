@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
+// import { doc, getDoc } from "firebase/firestore";
 import PageTitle from "../Components/UI/PageTitle";
 import { useUser } from "../Context/UserProvider";
 import { Link } from "react-router-dom";
