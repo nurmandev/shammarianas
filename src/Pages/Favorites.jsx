@@ -6,13 +6,13 @@ import { useUser } from "../Context/UserProvider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-const Library = () => {
+const Favorites = () => {
   const { currentUser } = useUser();
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPurchasedAssets = async () => {
+    const fetchFavorites = async () => {
       if (!currentUser) {
         setLoading(false);
         return;
@@ -21,58 +21,58 @@ const Library = () => {
       try {
         setLoading(true);
         
-        // Get purchases from subcollection
-        const purchasesRef = collection(db, `Profiles/${currentUser.uid}/purchases`);
-        const purchasesSnapshot = await getDocs(purchasesRef);
+        // Get favorites from subcollection
+        const favoritesRef = collection(db, `Profiles/${currentUser.uid}/favorites`);
+        const favoritesSnapshot = await getDocs(favoritesRef);
         
-        if (purchasesSnapshot.empty) {
-          console.log("No purchased items found");
+        if (favoritesSnapshot.empty) {
+          // console.log("No favorites found");
           setLoading("no_items");
           return;
         }
         
-        // Map through purchases documents and extract asset data
-        const purchasedAssets = [];
+        // Map through favorites documents and extract asset data
+        const favoritesData = [];
         
-        for (const doc of purchasesSnapshot.docs) {
+        for (const doc of favoritesSnapshot.docs) {
           // The document ID is the asset ID
           const assetId = doc.id;
           // The document data contains the asset information
           const assetData = doc.data();
           
-          purchasedAssets.push({
+          favoritesData.push({
             id: assetId,
             ...assetData
           });
         }
         
-        console.log("Fetched purchased assets data:", purchasedAssets);
-        setAssets(purchasedAssets);
+        // console.log("Fetched favorites data:", favoritesData);
+        setAssets(favoritesData);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching purchased assets:", error);
+        console.error("Error fetching favorites:", error);
         setLoading(false);
       }
     };
 
-    fetchPurchasedAssets();
+    fetchFavorites();
   }, [currentUser]);
 
   return (
     <>
       <Helmet>
         <title>
-          Your library - {currentUser ? currentUser.displayName : "User"}
+          My Favorites - {currentUser ? currentUser.displayName : "User"}
         </title>
       </Helmet>
       <div className="page_content">
-        <PageTitle title="Your library" />
+        <PageTitle title="My Favorites" />
         <div className="item_listing">
           {loading === true ? (
             <div className="loading">Loading...</div>
           ) : loading === "no_items" ? (
             <div className="no_items">
-              <span>No items found in your library.</span>
+              <span>No Favorites Found.</span>
             </div>
           ) : (
             assets.map((asset, index) => (
@@ -121,4 +121,4 @@ const Library = () => {
   );
 };
 
-export default Library;
+export default Favorites;

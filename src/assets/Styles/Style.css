@@ -2673,6 +2673,14 @@ a {
   background-color: #fff;
   color: #000;
 }
+
+/* Favorited state */
+div > button.add_to_wishlist_btn.favorited {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+
 @media screen and (max-width: 768px) {
   .page_content .view_item_main .right .top_info {
     padding: 0rem;

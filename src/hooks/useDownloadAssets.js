@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { db } from "../../firebase";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+// import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
 
 const useSaveDownloadAsset = () => {
   const { currentUser } = useUser();
-  const [isSaving, setIsSaving] = useState(false); // Tracks if the save operation is in progress
+  const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  const saveDownloadDetails = async (assetId) => {
+  const saveDownloadDetails = async (assetId, assetData = null) => {
     if (!currentUser) {
       setError("User not logged in.");
       return;
@@ -18,10 +19,56 @@ const useSaveDownloadAsset = () => {
     setError(null);
 
     try {
-      // Update the user's profile to add the downloaded asset ID
-      const userProfileRef = doc(db, "Users", currentUser.uid);
-      await updateDoc(userProfileRef, {
-        downloadedItems: arrayUnion(assetId),
+      const downloadDocRef = doc(db, `Profiles/${currentUser.uid}/downloads/${assetId}`);
+      
+      // Check if assetData looks like an event object
+      let dataToStore = null;
+      
+      // If assetData is provided but looks like an event object, ignore it
+      if (assetData && (assetData.nativeEvent || assetData.target || assetData.currentTarget)) {
+        console.log("Event object detected, not using it as asset data");
+        dataToStore = null;
+      } else {
+        dataToStore = assetData;
+      }
+      
+      if (!dataToStore) {
+        // If no valid data was provided, fetch it from the Assets collection
+        const assetDocRef = doc(db, "Assets", assetId);
+        const assetDoc = await getDoc(assetDocRef);
+        
+        if (!assetDoc.exists()) {
+          throw new Error("Asset not found");
+        }
+        
+        dataToStore = assetDoc.data();
+      }
+      
+      // Clean any non-serializable fields before storing
+      const cleanData = {};
+      
+      // Only keep serializable data types that Firestore supports
+      Object.keys(dataToStore).forEach(key => {
+        const value = dataToStore[key];
+        const type = typeof value;
+        
+        // Skip functions, complex objects, and null values
+        if (
+          value === null || 
+          value === undefined || 
+          type === 'function' || 
+          (type === 'object' && value.constructor !== Array && value.constructor !== Object && !(value instanceof Date))
+        ) {
+          return;
+        }
+        
+        cleanData[key] = value;
+      });
+      
+      // Store the asset data in the downloads subcollection
+      await setDoc(downloadDocRef, {
+        ...cleanData,
+        downloaded_at: new Date()
       });
 
       console.log("Download details saved successfully:", assetId);
@@ -38,29 +85,3 @@ const useSaveDownloadAsset = () => {
 
 export default useSaveDownloadAsset;
 
-// example usage
-// import React from "react";
-// import useSaveDownloadAsset from "../hooks/useSaveDownloadAsset";
-
-// const DownloadButton = ({ assetId }) => {
-//   const { saveDownloadDetails, isSaving, error } = useSaveDownloadAsset();
-
-//   const handleDownload = async () => {
-//     // Trigger the actual download logic here (assumed to be already implemented)
-//     console.log("Downloading asset:", assetId);
-
-//     // Save the download details to Firestore
-//     await saveDownloadDetails(assetId);
-//   };
-
-//   return (
-//     <div>
-//       <button onClick={handleDownload} disabled={isSaving}>
-//         {isSaving ? "Saving..." : "Download"}
-//       </button>
-//       {error && <p style={{ color: "red" }}>{error}</p>}
-//     </div>
-//   );
-// };
-
-// export default DownloadButton;

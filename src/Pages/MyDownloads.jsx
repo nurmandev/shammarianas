@@ -1,66 +1,63 @@
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+// import { doc, getDoc } from "firebase/firestore";
 import PageTitle from "../Components/UI/PageTitle";
 import { useUser } from "../Context/UserProvider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 const MyDownloads = () => {
-  const { currentUser, userProfile } = useUser();
+  const { currentUser } = useUser();
   const [assets, setAssets] = useState([]);
-  const [downloadedAssets, setDownloadedAssets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (currentUser && userProfile) {
-      console.log("Current user:", currentUser);
-      console.log("User profile:", userProfile);
-      if (userProfile.downloadedItems && userProfile.downloadedItems.length > 0) {
-        console.log("Setting downloaded assets:", userProfile.downloadedItems);
-        setDownloadedAssets(userProfile.downloadedItems);
-      } else {
-        console.log("No downloaded assets found in user profile.");
+    const fetchDownloads = async () => {
+      if (!currentUser) {
+        setLoading(false);
+        return;
       }
-    }
-  }, [currentUser, userProfile]);
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchAssets = async () => {
       try {
-        console.log("Fetching assets for downloaded assets:", downloadedAssets);
-        if (downloadedAssets.length > 0) {
-          const assetPromises = downloadedAssets.map(async (assetId) => {
-            const assetRef = doc(db, "Assets", assetId);
-            const assetSnapshot = await getDoc(assetRef);
-            if (assetSnapshot.exists()) {
-              const assetData = assetSnapshot.data();
-              return { id: assetId, ...assetData };
-            } else {
-              console.log(`No document found for asset ID: ${assetId}`);
-              return null;
-            }
-          });
-
-          const assetsData = await Promise.all(assetPromises);
-          const filteredAssetsData = assetsData.filter(
-            (asset) => asset !== null
-          );
-          console.log("Fetched assets data:", filteredAssetsData);
-          setAssets(filteredAssetsData);
-          setLoading(false);
-        } else {
-          console.log("No downloaded assets to fetch.");
+        setLoading(true);
+        
+        // Get downloads from subcollection
+        const downloadsRef = collection(db, `Profiles/${currentUser.uid}/downloads`);
+        const downloadsSnapshot = await getDocs(downloadsRef);
+        
+        if (downloadsSnapshot.empty) {
+          console.log("No downloads found");
           setLoading("no_items");
+          return;
         }
+        
+        // Map through downloads documents and extract asset data
+        const downloadsData = [];
+        
+        for (const doc of downloadsSnapshot.docs) {
+          // The document ID is the asset ID
+          const assetId = doc.id;
+          // The document data contains the asset information
+          const assetData = doc.data();
+          
+          downloadsData.push({
+            id: assetId,
+            ...assetData
+          });
+        }
+        
+        console.log("Fetched downloads data:", downloadsData);
+        setAssets(downloadsData);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching assets:", error);
+        console.error("Error fetching downloads:", error);
+        setLoading(false);
       }
     };
 
-    fetchAssets();
-  }, [downloadedAssets]);
+    fetchDownloads();
+  }, [currentUser]);
 
   return (
     <>
