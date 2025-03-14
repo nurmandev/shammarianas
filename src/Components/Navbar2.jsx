@@ -134,7 +134,7 @@ const Navbar = () => {
                 <a
                   className="nav-link dropdown-toggle"
                   data-toggle="dropdown"
-                  href="#"
+                  href="#stock"
                   role="button"
                   aria-haspopup="true"
                   aria-expanded="false"
@@ -248,7 +248,15 @@ const Navbar = () => {
         <a className="logo icon-img-100" href="#">
           <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
         </a>
-        {/* <Search /> */}
+        <Link to="stock">
+          <div className="ml-auto vi-more">
+            <a href="#stock" className="butn butn-sm butn-bord radius-30">
+              <span>Explore</span>
+            </a>
+            <span className="icon ti-arrow-top-right"></span>
+          </div>
+        </Link>
+        <Search />
         <div className="right">
           <div className="nav_buttons">
             <Link to="/Cart">

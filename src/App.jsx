@@ -41,6 +41,7 @@ import Support from "./Pages/Support";
 import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
 import ServicesDetails from "./Pages/services-details";
+import StockPage from "./Pages/Stock";
 
 import MyDownloads from "./Pages/MyDownloads";
 
@@ -88,6 +89,7 @@ export const AppRoutes = () => (
     <Route path="/portfolio" element={<Portfolio />} />
     <Route path="/Support" element={<Support />} />
     <Route path="/about" element={<AboutUs />} />
+    <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/page-services-details" element={<ServicesDetails />} />
   </Routes>
