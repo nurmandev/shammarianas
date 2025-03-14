@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Navbar from "./Components/Navbar";
 import Navbar2 from "./Components/Navbar2";
 import "./assets/Styles/Style.css";
@@ -39,6 +39,7 @@ import LoadingScreen from "./common/loader";
 import Support from "./Pages/Support";
 
 import MyDownloads from "./Pages/MyDownloads";
+import Favorites from "./Pages/Favorites";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -72,7 +73,8 @@ export const AppRoutes = () => (
     <Route path="/Upload" element={<Upload />} />
     <Route path="/Checkout" element={<Checkout />} />
     <Route path="/Library" element={<Library />} />
-    <Route path="/MyDownloads" element={<MyDownloads />} />
+    <Route path="/MyDownloads" element={<MyDownloads />} /> 
+    <Route path="/Favorites" element={<Favorites />} /> 
     <Route path="/Texture" element={<TextureViewer />} />
     <Route path="/analytics" element={<Analytics />} />
     <Route path="/Terms" element={<Terms />} />
