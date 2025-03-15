@@ -206,7 +206,24 @@ const View = () => {
                     <HdriViewer hdri={item.hdri} />
                   </>
                 ) : (
-                  <img src={item.thumbnail} alt={item.title} />
+                  // <img src={item.thumbnail} alt={item.title} />
+                  <div 
+                    style={{
+                      width: '100%', 
+                      height: '500px', 
+                      overflow: 'hidden' 
+                    }}
+                  >
+                    <img 
+                      src={item.thumbnail} 
+                      alt={item.title} 
+                      style={{
+                        objectFit: 'contain', 
+                        width: '100%', 
+                        height: '100%' 
+                      }} 
+                    />
+                  </div>
                 )}
                 <div className="asset_details">
                   <h2 className="title">Details</h2>
