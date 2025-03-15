@@ -1,15 +1,27 @@
-import Search from "../Search";
+import Search from '../Search';
 
-export default function Header() {
+const HeroSection = () => {
   return (
-    <>
-      <div className="navbar navbar-expand-lg bord blur">
-        {/* <nav className="navbar navbar-expand-lg bord blur"> */}
-
-        <a className="logo icon-img-100" href="#">
-          <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
-        </a>
+    <div className="hero-container">
+      {/* Background image with overlay */}
+      <div className="hero-background"></div>
+      
+      {/* Content */}
+      <div className="hero-content">
+        <h1 className="hero-title">
+          Smarter creativity, faster designs
+        </h1>
+        <p className="hero-subtitle">
+          Everything you need, from stock images and videos to AI-powered design tools.
+        </p>
+        
+        {/* Search component */}
+        <div className="search-container">
+          <Search />
+        </div>
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default HeroSection;
