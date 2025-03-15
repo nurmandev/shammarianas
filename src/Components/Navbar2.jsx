@@ -94,13 +94,36 @@ const Navbar = () => {
                 className="nav-item dropdown"
               >
                 <a
-                  className="nav-link"
+                  className="nav-link  dropdown-toggle"
+                  data-toggle="dropdown"
                   href="#"
                   role="button"
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
                   <span className="rolling-text">Home</span>
+                </a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="#about">
+                      About us
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li
+                onMouseLeave={handleDropdownMouseLeave}
+                onMouseMove={handleDropdownMouseMove}
+                className="nav-item dropdown"
+              >
+                <a
+                  className="nav-link"
+                  href="#services"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span className="rolling-text">Services</span>
                 </a>
               </li>
               <li
@@ -111,17 +134,22 @@ const Navbar = () => {
                 <a
                   className="nav-link dropdown-toggle"
                   data-toggle="dropdown"
-                  href="#"
+                  href="#stock"
                   role="button"
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span className="rolling-text">Services</span>
+                  <span className="rolling-text">Stock</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li>
                     <a className="dropdown-item" href="#hot">
                       Hot
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#image">
+                      Images
                     </a>
                   </li>
                   <li>
@@ -220,6 +248,14 @@ const Navbar = () => {
         <a className="logo icon-img-100" href="#">
           <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
         </a>
+        <Link to="stock">
+          <div className="ml-auto vi-more">
+            <a href="#stock" className="butn butn-sm butn-bord radius-30">
+              <span>Explore</span>
+            </a>
+            <span className="icon ti-arrow-top-right"></span>
+          </div>
+        </Link>
         <Search />
         <div className="right">
           <div className="nav_buttons">
@@ -245,6 +281,10 @@ const Navbar = () => {
                   <li>
                     <Link to="/MyDownloads">My Downloads</Link>
                   </li>
+                  <li>
+                    <Link to="/Library">My Library</Link>
+                  </li>
+
                   <li>
                     <Link to={`/Profile/${currentUser.uid}`}>Profile</Link>
                   </li>
@@ -275,6 +315,7 @@ const Navbar = () => {
             <ul>
               {[
                 { path: "/hot", icon: "fa-fire", label: "Hot" },
+                { path: "/Image", icon: "fa-image", label: "Images" },
                 { path: "/Printable", icon: "fa-print", label: "Printable" },
                 { path: "/Models", icon: "fa-cube", label: "Models" },
                 { path: "/Textures", icon: "fa-image", label: "Textures" },

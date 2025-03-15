@@ -1,3 +1,8 @@
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const nodemailer = require("nodemailer");
+
+admin.initializeApp();
 const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 // const Stripe = require("stripe");
@@ -38,6 +43,44 @@ exports.createOrder = onCall({
     throw new HttpsError("internal", "Unable to create order");
   }
 });
+
+
+// Email configuration (replace with your actual email and credentials)
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "your-email@gmail.com", // Replace with your email
+    pass: "your-email-password", // Use environment variables for security
+  },
+});
+
+// Project owner's email (Change this to your recipient email)
+const projectOwnerEmail = "owner@example.com";
+
+// Firestore trigger function
+exports.notifyProjectOwner = functions.firestore
+    .document("Support/{messageId}")
+    .onCreate(async (snap, context) => {
+      const messageData = snap.data();
+
+      // Construct email content
+      const mailOptions = {
+        from: "your-email@gmail.com",
+        to: projectOwnerEmail,
+        subject: `New Support Message: ${messageData.subject}`,
+        text: `You have received a new support message.\n\nFrom:
+         ${messageData.email}\nSubject: 
+         ${messageData.subject}\nMessage:
+        ${messageData.body}\n\nCheck your admin panel for details.`,
+      };
+
+      try {
+        await transporter.sendMail(mailOptions);
+        console.log("Email sent to project owner.");
+      } catch (error) {
+        console.error("Error sending email:", error);
+      }
+    });
 
 
 // exports.checkUserRole = functions.https.onCall(async (data, context) => {

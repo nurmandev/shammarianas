@@ -27,6 +27,7 @@ import HdriViewer from "../Components/HdriViewer";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
+import FavoriteButton from "../Components/UI/FavoriteButton";
 
 const View = () => {
   const { currentUser, userProfile } = useUser();
@@ -205,7 +206,24 @@ const View = () => {
                     <HdriViewer hdri={item.hdri} />
                   </>
                 ) : (
-                  <img src={item.thumbnail} alt={item.title} />
+                  // <img src={item.thumbnail} alt={item.title} />
+                  <div 
+                    style={{
+                      width: '100%', 
+                      height: '500px', 
+                      overflow: 'hidden' 
+                    }}
+                  >
+                    <img 
+                      src={item.thumbnail} 
+                      alt={item.title} 
+                      style={{
+                        objectFit: 'contain', 
+                        width: '100%', 
+                        height: '100%' 
+                      }} 
+                    />
+                  </div>
                 )}
                 <div className="asset_details">
                   <h2 className="title">Details</h2>
@@ -473,9 +491,10 @@ const View = () => {
                       </button>
                     )}
 
-                    <button className="add_to_wishlist_btn">
+                    {/* <button className="add_to_wishlist_btn">
                       <i className="icon fas fa-heart"></i>
-                    </button>
+                    </button> */}
+                    <FavoriteButton assetId={item.id} />
                   </div>
                 </div>
                 <ItemInfoTable
