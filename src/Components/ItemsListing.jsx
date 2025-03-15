@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ListedItemCard from "./UI/ListedItemCard";
 import { db } from "../../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
