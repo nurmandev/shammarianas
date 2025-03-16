@@ -202,9 +202,9 @@ const Navbar = () => {
         <a className="logo icon-img-100" href="#">
           <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
         </a>
-        <Link to="stock">
+        <Link to="stock" className="nav-explore">
           <div className="ml-auto vi-more">
-            <a href="#stock" className="butn butn-sm butn-bord radius-30">
+            <a href="#stock" className="butn butn-sm butn-bord radius-30 explore-text">
               <span>Explore</span>
             </a>
             <span className="icon ti-arrow-top-right"></span>
@@ -224,7 +224,7 @@ const Navbar = () => {
             <div className="navbar_dropdown">
               <Link to={`/Profile/${currentUser.uid}`}>
                 <button className="signed_in">
-                  <i className="icon fa-solid fa-user"></i>
+                  {/* <i className="icon fa-solid fa-user"></i> */}
                   <span className="username">
                     {currentUser.displayName || "User"}
                   </span>

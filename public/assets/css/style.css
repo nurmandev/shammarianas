@@ -8000,6 +8000,10 @@ footer.clean-footer.crev .circle-blur {
   .navbar .navbar-nav .mega-menu .item-img:hover:after {
     width: 10px;
   }
+
+  .explore-text {
+    display: none;
+  }
   .main-header {
     min-height: auto;
   }
