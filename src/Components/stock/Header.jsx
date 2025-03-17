@@ -34,27 +34,37 @@ const HeroSection = () => {
     setLoading(true);
     const q = query(collection(db, "Assets"));
     const querySnapshot = await getDocs(q);
-    const allResults = [];
-    querySnapshot.forEach((doc) => {
-      allResults.push({ id: doc.id, ...doc.data() });
-    });
+    const allResults = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
     const newResults = allResults
-      .filter((result) => result.title.toLowerCase().includes(searchTerm.toLowerCase()))
+      .filter((result) =>
+        result.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
       .slice(0, 7);
     setSearchResults(newResults);
     setLoading(false);
     setDisplayResults(searchTerm !== "");
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (searchTerm !== "") {
-      fetchResults();
-    } else {
-      setResults([]);
-      setDisplayResults(false);
+  // Fetch All Assets
+  const fetchAssets = useCallback(async () => {
+    try {
+      const q = query(collection(db, "Assets"));
+      const querySnapshot = await getDocs(q);
+      const assetsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAssets(assetsData);
+      setFilteredAssets(assetsData); // Initialize filtered assets
+    } catch (error) {
+      setError(error.message);
     }
-  }, [searchTerm, fetchResults]);
+  }, []);
 
+  // Handle Search Input Change
   const handleSearchChange = debounce((e) => {
     setSearchTerm(e.target.value);
   }, 1000);
@@ -97,37 +107,47 @@ const HeroSection = () => {
           }}
         ></div>
       )}
-      <div className="search-wrapper">
-        <form onSubmit={handleSubmit} className="search-form">
-          <div className="search-input-container">
-            {/* <i className="icon fa-solid fa-magnifying-glass"></i> */}
-            <input
-              type="text"
-              placeholder="Search all assets"
-              className="search-input search-hero-input"
-              onChange={handleSearchChange}
-              onClick={() => {
-                setDisplayResults(false);
-                overlay ? "" : setOverlay(true);
-              }}
-            />
-            {searchTerm ? (
-              <i
-                className="icon fa-solid fa-times"
-                onClick={() => {
-                  document.querySelector(".search-input").value = "";
-                  setSearchTerm("");
-                  setResults([]);
-                }}
-              ></i>
-            ) : (
-              ""
-            )}
-          </div>
-          <button type="submit" className="search-button">
-            Search
-          </button>
-        </form>
+
+      {/* Hero Section */}
+      <div className="hero-container">
+        <div className="hero-background"></div>
+        <div className="hero-content">
+          <h1 className="hero-title">Smarter creativity, faster designs</h1>
+          <p className="hero-subtitle">
+            Everything you need, from stock images and videos to AI-powered
+            design tools.
+          </p>
+
+          {/* Search Component */}
+          <div className="search-container">
+            <div className="search-wrapper">
+              <form onSubmit={handleSubmit} className="search-form">
+                <div className="search-input-container">
+                  <input
+                    type="text"
+                    placeholder="Search all assets"
+                    className="search-input search-hero-input"
+                    onChange={handleSearchChange}
+                    onClick={() => {
+                      setDisplayResults(false);
+                      overlay ? "" : setOverlay(true);
+                    }}
+                  />
+                  {/* {searchTerm && (
+                    <i
+                      className="icon fa-solid fa-times"
+                      onClick={() => {
+                        document.querySelector(".search-input").value = "";
+                        setSearchTerm("");
+                        setSearchResults([]);
+                      }}
+                    ></i>
+                  )} */}
+                </div>
+                <button type="submit" className="search-button">
+                  Search
+                </button>
+              </form>
 
               {/* Search Results */}
               {displayResults && (
@@ -160,40 +180,89 @@ const HeroSection = () => {
                     </div>
                   )}
 
-            {results.length === 0 && !loading && (
-              <div className="no-results">
-                <span>No results found</span>
-              </div>
-            )}
+                  {searchResults.length === 0 && !loading && (
+                    <div className="no-results">
+                      <span>No results found</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
-    </>
-  );
-};
-
-
-const HeroSection = () => {
-  return (
-    <div className="hero-container">
-      {/* Background image with overlay */}
-      <div className="hero-background"></div>
-      
-      {/* Content */}
-      <div className="hero-content">
-        <h1 className="hero-title">
-          Smarter creativity, faster designs
-        </h1>
-        <p className="hero-subtitle">
-          Everything you need, from stock images and videos to AI-powered design tools.
-        </p>
-        
-        {/* Search component */}
-        <div className="search-container">
-          <Search />
         </div>
       </div>
-    </div>
+
+      {/* Product List Section */}
+      {!displayResults && (
+        <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
+          <div className="container ontop">
+            <div className="sec-head mb-80">
+              <div className="d-flex align-items-center">
+                <div>
+                  <span className="sub-title main-color mb-5">Our Stocks</span>
+                  <h3 className="fw-600 fz-50 text-u d-rotate wow">
+                    <span className="rotate-text">
+                      Trending <span className="fw-200">Stock.</span>
+                    </span>
+                  </h3>
+                </div>
+                <div className="ml-auto vi-more">
+                  <a href="#Hot" className="butn butn-sm butn-bord radius-30">
+                    <span>View All</span>
+                  </a>
+                  <span className="icon ti-arrow-top-right"></span>
+                </div>
+              </div>
+            </div>
+
+            {/* Models */}
+            <div className="page_content">
+              <PageTitle title="Models" />
+              <div className="listing_section">
+                <div className="item_listing">
+                  {filterAssetsByCategory("models").length === 0 ? (
+                    <div className="loading">Loading...</div>
+                  ) : null}
+                  {/* {filterAssetsByCategory("models").length === 0 && (
+                    <div className="no_items">
+                      <span>{`It's so empty here. How about you fill it up💦`}</span>
+                      <Link to="/upload">
+                        <button>Upload</button>
+                      </Link>
+                    </div>
+                  )} */}
+                  {filterAssetsByCategory("models").map((item) => (
+                    <ListedItemCard key={item.id} id={item.id} data={item} />
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Images */}
+            <div className="page_content">
+              <PageTitle title="Images" />
+              <div className="listing_section">
+                <div className="item_listing">
+                  {filterAssetsByCategory("Images").length === 0 ? (
+                    <div className="loading">Loading...</div>
+                  ) : null}
+                  {/* {filterAssetsByCategory("Images").length === "no_item" && (
+                <div className="no_items">
+                  <span>{`It's so empty here. How about you fill it up💦`}</span>
+                  <Link to="/upload">
+                    <button>Upload</button>
+                  </Link>
+                </div>
+              )} */}
+                  {filterAssetsByCategory("images").map((item) => (
+                    <ListedItemCard key={item.id} id={item.id} data={item} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   );
 };
 
