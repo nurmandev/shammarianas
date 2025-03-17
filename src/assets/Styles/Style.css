@@ -1363,7 +1363,7 @@ a {
 }
 
 .page_content {
-  padding: 0rem 8rem;
+  /* padding: 0rem 8rem; */
   display: flex;
   flex-direction: column;
   align-items: center;

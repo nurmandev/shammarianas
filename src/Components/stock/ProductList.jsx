@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import PageTitle from "../UI/PageTitle";
 import ItemsListing from "../ItemsListing";

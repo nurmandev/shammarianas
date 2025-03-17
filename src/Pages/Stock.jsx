@@ -26,7 +26,7 @@ export default function StockPage() {
       <ProgressScroll />
       <Lines />
       <Header />
-      <ProductList />
+      {/* <ProductList /> */}
 
       <Marq2 />
     </>
