@@ -1,10 +1,52 @@
 import { useState, useEffect, useCallback } from "react";
 import { getDocs, collection, query } from "firebase/firestore";
 import { db } from "../../../firebase";
-import { Link } from "react-router-dom";
-// import ListedItemCard from "./UI/ListedItemCard";
 import ListedItemCard from "../UI/ListedItemCard";
 import PageTitle from "../UI/PageTitle";
+import ItemsListing from "../ItemsListing";
+
+
+const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  return (
+    <div style={{position: 'absolute'}} className="stock-container container ">
+      <nav className="stock-navbar stock-page_content">
+        <ul className={`stock-navbar-nav ${isMobileMenuOpen ? "active" : ""}`}>
+          <li>
+            <a href="/#images">Images</a>
+          </li>
+          <li>
+            <a href="/#icons">Icons</a>
+          </li>
+          <li>
+            <a href="/#videos">Videos</a>
+          </li>
+          <li>
+            <a href="/#template">Template</a>
+          </li>
+          <li>
+            <a href="/#psd">PSD</a>
+          </li>
+          <li>
+            <a href="/#mockup">Mockup</a>
+          </li>
+          <li>
+            <a href="/#more">More</a>
+          </li>
+        </ul>
+        <div className="stock-navbar-toggle" onClick={toggleMobileMenu}>
+          MENU<span className="stock-arrow_head">🢓</span> 
+        </div>
+      </nav>
+    </div>
+  );
+};
+
 
 const HeroSection = () => {
   // Search State
@@ -68,9 +110,9 @@ const HeroSection = () => {
   };
 
   // Filter Assets by Category
-  const filterAssetsByCategory = (category) => {
-    return assets.filter((asset) => asset.type === category);
-  };
+  // const filterAssetsByCategory = (category) => {
+  //   return assets.filter((asset) => asset.type === category);
+  // };
 
   // Effects
   useEffect(() => {
@@ -101,8 +143,12 @@ const HeroSection = () => {
       )}
 
       {/* Hero Section */}
+      <>
+      </>
       <div className="hero-container">
-        <div className="hero-background"></div>
+        <Navbar />
+        <div className="hero-background">
+        </div>
         <div className="hero-content">
           <h1 className="hero-title">Smarter creativity, faster designs</h1>
           <p className="hero-subtitle">
@@ -124,64 +170,54 @@ const HeroSection = () => {
                       overlay ? "" : setOverlay(true);
                     }}
                   />
-                  {/* {searchTerm && (
-                    <i
-                      className="icon fa-solid fa-times"
-                      onClick={() => {
-                        document.querySelector(".search-input").value = "";
-                        setSearchTerm("");
-                        setSearchResults([]);
-                      }}
-                    ></i>
-                  )} */}
                 </div>
                 <button type="submit" className="search-button">
                   Search
                 </button>
               </form>
-
-              {/* Search Results */}
-              {displayResults && (
-                <div className="search-results">
-                  {searchResults.map((result) => (
-                    <Link
-                      to={`/View/${result.id}`}
-                      key={result.id}
-                      onClick={() => {
-                        setDisplayResults(false);
-                        setSearchTerm("");
-                        setOverlay(false);
-                      }}
-                    >
-                      <div className="result">
-                        <div className="image">
-                          <img src={result.thumbnail} alt={result.title} />
-                        </div>
-                        <div className="details">
-                          <h3 className="title">{result.title}</h3>
-                          <p className="type">{result.type}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {loading && (
-                    <div className="loading">
-                      <span>Loading...</span>
-                    </div>
-                  )}
-
-                  {searchResults.length === 0 && !loading && (
-                    <div className="no-results">
-                      <span>No results found</span>
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Search Results */}
+      {displayResults && (
+          <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
+          <div className="container ontop">
+            <div className="sec-head mb-80">
+              <div className="d-flex align-items-center">
+                <div>
+                  <span className="sub-title main-color mb-5">Our Stocks</span>
+                  <h3 className="fw-600 fz-50 text-u d-rotate wow">
+                    <span className="rotate-text">
+                    Search <span className="fw-200"> Results.</span>
+                    </span>
+                  </h3>
+                </div>
+                <div className="ml-auto vi-more">
+                  <a href="#Hot" className="butn butn-sm butn-bord radius-30">
+                    <span>View All</span>
+                  </a>
+                  <span className="icon ti-arrow-top-right"></span>
+                </div>
+              </div>
+            </div>
+
+            {/* Hot Assets */}
+            <div className="page_content">
+              <PageTitle title="Search" />
+                <div className="listing_section">
+                  <div className="item_listing">
+                  {searchResults.length === 0 ? <div className="loading">Loading...</div> : null}
+                    {searchResults.map((item) => (
+                      <ListedItemCard key={item.id} id={item.id} data={item} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
       {/* Product List Section */}
       {
@@ -210,64 +246,19 @@ const HeroSection = () => {
           {/* Hot Assets */}
           <div className="page_content">
             <PageTitle title="Hot" />
-            <div className="listing_section">
-              <div className="item_listing">
-              {filterAssetsByCategory("Hot").length === 0 ? <div className="loading">Loading...</div> : null}
-              {/* {filterAssetsByCategory("Hot").length === "no_item" && (
-                <div className="no_items">
-                  <span>{`It's so empty here. How about you fill it up💦`}</span>
-                  <Link to="/upload">
-                    <button>Upload</button>
-                  </Link>
-                </div>
-              )} */}
-                {filterAssetsByCategory("hot").map((item) => (
-                  <ListedItemCard key={item.id} id={item.id} data={item} />
-                ))}
-              </div>
-            </div>
+            <ItemsListing />
           </div>
 
           {/* Models */}
           <div className="page_content">
             <PageTitle title="Models" />
-            <div className="listing_section">
-              <div className="item_listing">
-                  {filterAssetsByCategory("models").length === 0 ? <div className="loading">Loading...</div> : null}
-                  {/* {filterAssetsByCategory("models").length === 0 && (
-                    <div className="no_items">
-                      <span>{`It's so empty here. How about you fill it up💦`}</span>
-                      <Link to="/upload">
-                        <button>Upload</button>
-                      </Link>
-                    </div>
-                  )} */}
-                {filterAssetsByCategory("models").map((item) => (
-                  <ListedItemCard key={item.id} id={item.id} data={item} />
-                ))}
-              </div>
-            </div>
+            <ItemsListing category={'models'} />
           </div>
 
           {/* Images */}
           <div className="page_content">
             <PageTitle title="Images" />
-            <div className="listing_section">
-              <div className="item_listing">
-              {filterAssetsByCategory("Images").length === 0 ? <div className="loading">Loading...</div> : null}
-              {/* {filterAssetsByCategory("Images").length === "no_item" && (
-                <div className="no_items">
-                  <span>{`It's so empty here. How about you fill it up💦`}</span>
-                  <Link to="/upload">
-                    <button>Upload</button>
-                  </Link>
-                </div>
-              )} */}
-                {filterAssetsByCategory("images").map((item) => (
-                  <ListedItemCard key={item.id} id={item.id} data={item} />
-                ))}
-              </div>
-            </div>
+            <ItemsListing category={'images'} />
           </div>
         </div>
       </section>
@@ -278,3 +269,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
