@@ -124,7 +124,7 @@ const HeroSection = () => {
                       overlay ? "" : setOverlay(true);
                     }}
                   />
-                  {searchTerm && (
+                  {/* {searchTerm && (
                     <i
                       className="icon fa-solid fa-times"
                       onClick={() => {
@@ -133,7 +133,7 @@ const HeroSection = () => {
                         setSearchResults([]);
                       }}
                     ></i>
-                  )}
+                  )} */}
                 </div>
                 <button type="submit" className="search-button">
                   Search
