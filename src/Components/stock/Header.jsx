@@ -20,25 +20,25 @@ const Navbar = () => {
       <nav className="stock-navbar stock-page_content">
         <ul className={`stock-navbar-nav ${isMobileMenuOpen ? "active" : ""}`}>
           <li>
-            <a href="/#images">Images</a>
+            <a href="/#Image">Images</a>
           </li>
           <li>
-            <a href="/#icons">Icons</a>
+            <a href="/#Textures">Icons</a>
           </li>
           <li>
             <a href="/#videos">Videos</a>
           </li>
           <li>
-            <a href="/#template">Template</a>
+            <a href="/#Scripts">Template</a>
           </li>
           <li>
-            <a href="/#psd">PSD</a>
+            <a href="/#Plugins">PSD</a>
           </li>
           <li>
             <a href="/#mockup">Mockup</a>
           </li>
           <li>
-            <a href="/#more">More</a>
+            <a href="/#Hot">More</a>
           </li>
         </ul>
         <div className="stock-navbar-toggle" onClick={toggleMobileMenu}>

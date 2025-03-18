@@ -225,6 +225,15 @@ const Upload = () => {
         };
       }
 
+      if (formData.type === "videos") {
+        docData = {
+          ...docData,
+          video: await uploadFile(formData.video),
+          videoName: formData.video && formData.video.name,
+          videoSize: formData.videoSize,
+        };
+      }
+
       if (formData.type === "printables") {
         docData = {
           ...docData,
@@ -487,6 +496,48 @@ const Upload = () => {
                       </>
                     ) : null
                   }
+                  {formData.type === "videos" ? (
+                    <>
+                      <label>Videos</label>
+
+                      <div className="videos_upload">
+                        <input
+                          name="videos"
+                          type="file"
+                          id="videos_input"
+                          accept="video/*"
+                          multiple
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              videos: e.target.files,
+                            });
+                          }}
+                          required
+                        />
+                        <label htmlFor="videos_input" className="videos_input">
+                          <img
+                            className="icon"
+                            src={plus_icon}
+                            alt="Add Videos"
+                          />
+                        </label>
+
+                        {formData.videos &&
+                          Array.from(formData.videos).map((video) => (
+                            <div className="video" key={video.name}>
+                              <video controls width="300">
+                                <source
+                                  src={URL.createObjectURL(video)}
+                                  type={video.type}
+                                />
+                                Your browser does not support the video tag.
+                              </video>
+                            </div>
+                          ))}
+                      </div>
+                    </>
+                  ) : null}
                   {formData.type === "textures" ? (
                     <>
                       <label>

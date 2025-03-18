@@ -47,6 +47,7 @@ import StockPage from "./Pages/Stock";
 import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
+import Video from "./Pages/Types/Video";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -70,6 +71,7 @@ export const AppRoutes = () => (
     <Route path="/Cart" element={<Cart />} />
     <Route path="/Hot" element={<Hot />} />
     <Route path="/Image" element={<Images />} />
+    <Route path="/videos" element={<Video />} />
     <Route path="/Models" element={<Models />} />
     <Route path="/Printable" element={<Printables />} />
     <Route path="/Textures" element={<Textures />} />
@@ -82,8 +84,8 @@ export const AppRoutes = () => (
     <Route path="/Upload" element={<Upload />} />
     <Route path="/Checkout" element={<Checkout />} />
     <Route path="/Library" element={<Library />} />
-    <Route path="/MyDownloads" element={<MyDownloads />} /> 
-    <Route path="/Favorites" element={<Favorites />} /> 
+    <Route path="/MyDownloads" element={<MyDownloads />} />
+    <Route path="/Favorites" element={<Favorites />} />
     <Route path="/Texture" element={<TextureViewer />} />
     <Route path="/analytics" element={<Analytics />} />
     <Route path="/Terms" element={<Terms />} />
