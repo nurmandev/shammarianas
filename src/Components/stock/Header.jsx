@@ -17,7 +17,7 @@ const Navbar = () => {
       style={{ position: "absolute" }}
       className="stock-container container "
     >
-      <nav className="stock-navbar stock-page_content">
+      {/* <nav className="stock-navbar stock-page_content">
         <ul className={`stock-navbar-nav ${isMobileMenuOpen ? "active" : ""}`}>
           <li>
             <a href="/#Image">Images</a>
@@ -44,7 +44,7 @@ const Navbar = () => {
         <div className="stock-navbar-toggle" onClick={toggleMobileMenu}>
           MENU<span className="stock-arrow_head">🢓</span>
         </div>
-      </nav>
+      </nav> */}
     </div>
   );
 };
