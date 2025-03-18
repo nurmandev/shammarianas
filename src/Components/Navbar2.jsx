@@ -307,7 +307,7 @@ const Navbar = () => {
                       onMouseMove={handleDropdownMouseMove}
                       className="nav-item dropdown"
                     >
-                      <a
+                      <p
                         className="nav-link dropdown-toggle"
                         data-toggle="dropdown"
                         href="#"
@@ -316,7 +316,7 @@ const Navbar = () => {
                         aria-expanded="false"
                       >
                         <span className="rolling-text">More</span>
-                      </a>
+                      </p>
                       <ul className="dropdown-menu">
                         {[
                           { label: "Images", href: "#Image" },
