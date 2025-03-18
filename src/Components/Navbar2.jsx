@@ -126,69 +126,7 @@ const Navbar = () => {
                   <span className="rolling-text">Services</span>
                 </a>
               </li>
-              <li
-                onMouseLeave={handleDropdownMouseLeave}
-                onMouseMove={handleDropdownMouseMove}
-                className="nav-item dropdown"
-              >
-                <a
-                  className="nav-link dropdown-toggle"
-                  data-toggle="dropdown"
-                  href="#stock"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <span className="rolling-text">Stock</span>
-                </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#hot">
-                      Hot
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#image">
-                      Images
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#Printable">
-                      Printable
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#Models">
-                      Models
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#Textures">
-                      Textures
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#Scripts">
-                      Scripts
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#Shaders">
-                      Shaders
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#Plugins">
-                      Plugins
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#HDRIs">
-                      HDRIs
-                    </a>
-                  </li>
-                </ul>
-              </li>
+
               <li
                 onMouseLeave={handleDropdownMouseLeave}
                 onMouseMove={handleDropdownMouseMove}
@@ -202,6 +140,22 @@ const Navbar = () => {
                   aria-expanded="false"
                 >
                   <span className="rolling-text">Portfolio</span>
+                </a>
+              </li>
+
+              <li
+                onMouseLeave={handleDropdownMouseLeave}
+                onMouseMove={handleDropdownMouseMove}
+                className="nav-item dropdown"
+              >
+                <a
+                  className="nav-link"
+                  href="#stock"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span className="rolling-text">Stock</span>
                 </a>
               </li>
               <li
@@ -248,9 +202,9 @@ const Navbar = () => {
         <a className="logo icon-img-100" href="#">
           <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
         </a>
-        <Link to="stock">
+        <Link to="stock" className="nav-explore">
           <div className="ml-auto vi-more">
-            <a href="#stock" className="butn butn-sm butn-bord radius-30">
+            <a href="#stock" className="butn butn-sm butn-bord radius-30 explore-text">
               <span>Explore</span>
             </a>
             <span className="icon ti-arrow-top-right"></span>
@@ -270,7 +224,7 @@ const Navbar = () => {
             <div className="navbar_dropdown">
               <Link to={`/Profile/${currentUser.uid}`}>
                 <button className="signed_in">
-                  <i className="icon fa-solid fa-user"></i>
+                  {/* <i className="icon fa-solid fa-user"></i> */}
                   <span className="username">
                     {currentUser.displayName || "User"}
                   </span>
