@@ -274,7 +274,7 @@ const Navbar = () => {
                 { path: "/hot", label: "Hot" },
                 { path: "/Videos", label: "Videos" },
                 { path: "/Models", label: "3D Models" },
-                { path: "/template", label: "Video Template" },
+                { path: "/templates", label: "Video Template" },
                 { path: "/Image", label: "Pictures" },
                 { path: "/Graphis", label: "Graphic Templates" },
                 { path: "/Mockups", label: "Mockups" },
@@ -294,7 +294,7 @@ const Navbar = () => {
             </ul>
           </div>
           {/* Separate Navigation Bar */}
-          <li>
+          {/* <li>
             <nav className="navbar navbar-expand-lg">
               <div className="">
                 <div
@@ -340,7 +340,7 @@ const Navbar = () => {
                 </div>
               </div>
             </nav>
-          </li>
+          </li> */}
 
           <div className="buttons">
             <Link to="/Upload">

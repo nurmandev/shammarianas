@@ -48,6 +48,7 @@ import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
 import Video from "./Pages/Types/Video";
+import VideoTemplate from "./Pages/Types/VideoTemplate";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -78,6 +79,7 @@ export const AppRoutes = () => (
     <Route path="/Scripts" element={<Scripts />} />
     <Route path="/Shaders" element={<Shader />} />
     <Route path="/HDRIs" element={<HDRIs />} />
+    <Route path="/templates" element={<VideoTemplate />} />
     <Route path="/Plugins" element={<Plugins />} />
     <Route path="/View/:id" element={<View />} />
     <Route path="/Groups" element={<Group />} />

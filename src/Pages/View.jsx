@@ -29,6 +29,7 @@ import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import FavoriteButton from "../Components/UI/FavoriteButton";
 import VideoViewer from "./VideoViewer";
+import ContentViewer from "../Components/ContentViewer";
 
 const View = () => {
   const { currentUser, userProfile } = useUser();
@@ -203,6 +204,18 @@ const View = () => {
                     id={item.id}
                     price={item.price - (item.price * item.discount) / 100}
                   />
+                ) : item.type === "graphics-templates" ? (
+                  <ContentViewer
+                    templateUrl={item.template}
+                    previewUrl={item.thumbnail}
+                    title={item.title}
+                  />
+                ) : item.type === "templates" ? (
+                  <ContentViewer
+                    videoUrl={item.videoTemplate}
+                    previewUrl={item.thumbnail}
+                    title={item.title}
+                  />
                 ) : item.type === "hdris" ? (
                   <HdriViewer hdri={item.hdri} />
                 ) : item.type === "videos" ? (
@@ -333,7 +346,7 @@ const View = () => {
                   </div>
                 </div>
               </div>
-              ;
+
               <div className="right">
                 <div className="top_info">
                   <div className="title">

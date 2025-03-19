@@ -44,6 +44,7 @@
     "gh-pages": "^6.1.1",
     "github-pages": "^3.0.2",
     "gsap": "^3.12.7",
+    "lucide-react": "^0.483.0",
     "meshables": "file:",
     "nodemailer": "^6.10.0",
     "razorpay": "^2.9.4",
