@@ -134,7 +134,6 @@ const HeroSection = () => {
 
   const sortedResults = searchResults.sort((a, b) => a.type.localeCompare(b.type));
 
-  // Step 2: Group items by title
   const groupedResults = sortedResults.reduce((acc, item) => {
     if (!acc[item.type]) {
       acc[item.type] = [];
