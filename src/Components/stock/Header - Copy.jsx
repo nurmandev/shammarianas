@@ -128,21 +128,6 @@ const HeroSection = () => {
     fetchAssets();
   }, [fetchAssets]);
 
-  useEffect(() => {
-    console.log({searchResults});
-  }, [searchResults]);
-
-  const sortedResults = searchResults.sort((a, b) => a.type.localeCompare(b.type));
-
-  // Step 2: Group items by title
-  const groupedResults = sortedResults.reduce((acc, item) => {
-    if (!acc[item.type]) {
-      acc[item.type] = [];
-    }
-    acc[item.type].push(item);
-    return acc;
-  }, {});
-
   return (
     <>
       {/* Overlay */}
@@ -219,7 +204,7 @@ const HeroSection = () => {
             </div>
 
             {/* Hot Assets */}
-            {/* <div className="page_content">
+            <div className="page_content">
               <PageTitle title="Search" />
                 <div className="listing_section">
                   <div className="item_listing">
@@ -229,23 +214,7 @@ const HeroSection = () => {
                     ))}
                   </div>
                 </div>
-              </div> */}
-                  <div className="page_content">
-      {Object.keys(groupedResults).map((type) => (
-        
-          <>
-          <PageTitle title={type} />
-          <div className="listing_section">
-            <div className="item_listing">
-              {groupedResults[type].map((item) => (
-                <ListedItemCard key={item.id} id={item.id} data={item} />
-              ))}
-            </div>
-          </div>
-          </>
-       
-      ))}
-    </div>
+              </div>
             </div>
           </section>
         )}
