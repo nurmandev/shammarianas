@@ -204,7 +204,10 @@ const Navbar = () => {
         </a>
         <Link to="stock" className="nav-explore">
           <div className="ml-auto vi-more">
-            <a href="#stock" className="butn butn-sm butn-bord radius-30 explore-text">
+            <a
+              href="#stock"
+              className="butn butn-sm butn-bord radius-30 explore-text"
+            >
               <span>Explore</span>
             </a>
             <span className="icon ti-arrow-top-right"></span>
@@ -268,15 +271,14 @@ const Navbar = () => {
           <div className="links">
             <ul>
               {[
-                { path: "/hot", icon: "fa-fire", label: "Hot" },
-                { path: "/Image", icon: "fa-image", label: "Images" },
-                { path: "/Printable", icon: "fa-print", label: "Printable" },
-                { path: "/Models", icon: "fa-cube", label: "Models" },
-                { path: "/Textures", icon: "fa-image", label: "Textures" },
-                { path: "/Scripts", icon: "fa-code", label: "Scripts" },
-                { path: "/Shaders", icon: "fa-magic", label: "Shaders" },
-                { path: "/Plugins", icon: "fa-plug", label: "Plugins" },
-                { path: "/HDRIs", icon: "fa-globe", label: "HDRIs" },
+                { path: "/hot", label: "Hot" },
+                { path: "/Videos", label: "Videos" },
+                { path: "/Models", label: "3D Models" },
+                { path: "/templates", label: "Video Template" },
+                { path: "/Image", label: "Pictures" },
+                { path: "/Graphis", label: "Graphic Templates" },
+                { path: "/Mockups", label: "Mockups" },
+                { path: "/Fonts", label: "Fonts" },
               ].map(({ path, icon, label }) => (
                 <li key={path}>
                   <NavLink
@@ -291,6 +293,55 @@ const Navbar = () => {
               ))}
             </ul>
           </div>
+          {/* Separate Navigation Bar */}
+          {/* <li>
+            <nav className="navbar navbar-expand-lg">
+              <div className="">
+                <div
+                  className="collapse navbar-collapse justify-content-center"
+                  id="navbarSupportedContent"
+                >
+                  <ul className="navbar-nav">
+                    <li
+                      onMouseLeave={handleDropdownMouseLeave}
+                      onMouseMove={handleDropdownMouseMove}
+                      className="nav-item dropdown"
+                    >
+                      <p
+                        className="nav-link dropdown-toggle"
+                        data-toggle="dropdown"
+                        href="#"
+                        role="button"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <span className="rolling-text">More</span>
+                      </p>
+                      <ul className="dropdown-menu">
+                        {[
+                          { label: "Images", href: "#Image" },
+                          { label: "Printable", href: "#Printable" },
+                          { label: "Models", href: "#" },
+                          { label: "Textures", href: "#Textures" },
+                          { label: "Scripts", href: "#Scripts" },
+                          { label: "Shaders", href: "#Shaders" },
+                          { label: "Plugins", href: "#Plugins" },
+                          { label: "HDRIs", href: "#HDRIs" },
+                        ].map(({ label, href }) => (
+                          <li key={href}>
+                            <a className="dropdown-item" href={href}>
+                              {label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </li> */}
+
           <div className="buttons">
             <Link to="/Upload">
               <button>

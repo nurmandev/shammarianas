@@ -28,6 +28,8 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import FavoriteButton from "../Components/UI/FavoriteButton";
+import VideoViewer from "./VideoViewer";
+import ContentViewer from "../Components/ContentViewer";
 
 const View = () => {
   const { currentUser, userProfile } = useUser();
@@ -146,7 +148,10 @@ const View = () => {
         <meta property="og:description" content={item.description} />
         <meta property="og:image" content={item.thumbnail} />
 
-        <meta property="twitter:title" content={`${item.title} | shammarianas`} />
+        <meta
+          property="twitter:title"
+          content={`${item.title} | shammarianas`}
+        />
         <meta property="twitter:description" content={item.description} />
         <meta property="twitter:image" content={item.thumbnail} />
 
@@ -179,12 +184,10 @@ const View = () => {
             <div className="content">
               <div className="left">
                 {item.type === "textures" || item.type === "shaders" ? (
-                  <>
-                    <ViewItemImages
-                      mainImage={item.thumbnail}
-                      images={item.maps}
-                    />
-                  </>
+                  <ViewItemImages
+                    mainImage={item.thumbnail}
+                    images={item.maps}
+                  />
                 ) : item.type === "models" || item.type === "printables" ? (
                   <ModelViewer
                     model={item.model}
@@ -201,30 +204,46 @@ const View = () => {
                     id={item.id}
                     price={item.price - (item.price * item.discount) / 100}
                   />
+                ) : item.type === "graphics-templates" ? (
+                  <ContentViewer
+                    templateUrl={item.template}
+                    previewUrl={item.thumbnail}
+                    title={item.title}
+                  />
+                ) : item.type === "templates" ? (
+                  <ContentViewer
+                    videoUrl={item.videoTemplate}
+                    previewUrl={item.thumbnail}
+                    title={item.title}
+                  />
                 ) : item.type === "hdris" ? (
-                  <>
-                    <HdriViewer hdri={item.hdri} />
-                  </>
+                  <HdriViewer hdri={item.hdri} />
+                ) : item.type === "videos" ? (
+                  <VideoViewer
+                    videoUrl={item.video}
+                    videoName={item.title}
+                    previewUrl={item.thumbnail}
+                  />
                 ) : (
-                  // <img src={item.thumbnail} alt={item.title} />
-                  <div 
+                  <div
                     style={{
-                      width: '100%', 
-                      height: '500px', 
-                      overflow: 'hidden' 
+                      width: "100%",
+                      height: "500px",
+                      overflow: "hidden",
                     }}
                   >
-                    <img 
-                      src={item.thumbnail} 
-                      alt={item.title} 
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
                       style={{
-                        objectFit: 'contain', 
-                        width: '100%', 
-                        height: '100%' 
-                      }} 
+                        objectFit: "contain",
+                        width: "100%",
+                        height: "100%",
+                      }}
                     />
                   </div>
                 )}
+
                 <div className="asset_details">
                   <h2 className="title">Details</h2>
 
@@ -249,6 +268,7 @@ const View = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="details">
                         <div className="detail">
                           <div className="title">
@@ -267,23 +287,21 @@ const View = () => {
                             <span className="label">LOD 1</span>
                             <span className="value">57,580 Polygons</span>
                           </div>
-
                           <div className="item">
                             <span className="label">LOD 2</span>
                             <span className="value">30,778 Polygons</span>
                           </div>
-
                           <div className="item">
                             <span className="label">LOD 3</span>
                             <span className="value">15,389 Polygons</span>
                           </div>
-
                           <div className="item">
                             <span className="label">LOD 4</span>
                             <span className="value">7,695 Polygons</span>
                           </div>
                         </div>
                       </div>
+
                       <div className="details">
                         <div className="detail">
                           <div className="title">
@@ -311,12 +329,11 @@ const View = () => {
                             <span className="value">PNG</span>
                           </div>
                         </div>
-                      </div>{" "}
+                      </div>
                     </>
                   )}
 
                   <div className="description">
-                    {/* <h2 className="title">Description</h2> */}
                     <div className="content" />
                     <div className="markdown-preview">
                       <ReactMarkdown
@@ -329,6 +346,7 @@ const View = () => {
                   </div>
                 </div>
               </div>
+
               <div className="right">
                 <div className="top_info">
                   <div className="title">
