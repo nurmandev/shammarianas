@@ -190,7 +190,7 @@ const Upload = () => {
           maps: textureResultsObject,
         };
       }
-
+      // 3d Models
       if (formData.type === "models") {
         docData = {
           ...docData,
@@ -207,7 +207,7 @@ const Upload = () => {
           vrArLowPoly: formData.vrArLowPoly,
         };
       }
-
+      // Scripts
       if (formData.type === "scripts") {
         docData = {
           ...docData,
@@ -216,7 +216,7 @@ const Upload = () => {
           scriptSize: formData.scriptSize,
         };
       }
-
+      // HDRIS Template
       if (formData.type === "hdris") {
         docData = {
           ...docData,
@@ -224,7 +224,56 @@ const Upload = () => {
           hdriSize: formData.hdriSize,
         };
       }
-
+      // Graphics Template
+      if (formData.type === "graphics") {
+        docData = {
+          ...docData,
+          graphicsTemplate: await uploadFile(formData.graphicsTemplate),
+          graphicsTemplateSize: formData.graphicsTemplateSize,
+        };
+      }
+      // Mockups
+      if (formData.type === "mockups") {
+        docData = {
+          ...docData,
+          mockupFile: await uploadFile(formData.mockupFile),
+          mockupFileSize: formData.mockupFileSize,
+        };
+      }
+      // Fonts
+      if (formData.type === "fonts") {
+        docData = {
+          ...docData,
+          fontFile: await uploadFile(formData.fontFile),
+          fontFileSize: formData.fontFileSize,
+        };
+      }
+      // Videos Template
+      if (formData.type === "templates") {
+        docData = {
+          ...docData,
+          videoTemplateFile: await uploadFile(formData.videoTemplateFile),
+          videoTemplateFileSize: formData.videoTemplateFileSize,
+        };
+      }
+        
+      // Videos
+      if (formData.type === "videos") {
+        docData = {
+          ...docData,
+          video: await uploadFile(formData.video),
+          videoName: formData.video && formData.video.name,
+          videoSize: formData.videoSize,
+        };
+      }
+      // if (formData.type === "videos") {
+      //   docData = {
+      //     ...docData,
+      //     videoFile: await uploadFile(formData.videoFile),
+      //     videoFileSize: formData.videoFileSize,
+      //   };
+      // } 
+      // Printable
       if (formData.type === "printables") {
         docData = {
           ...docData,
@@ -266,17 +315,14 @@ const Upload = () => {
     <>
       <Helmet>
         <title>Upload | Shammarianas</title>
-        <meta
-          name="description"
-          content="Upload your 3D assets to Shammarianas"
-        />
+        <meta name="description" content="Upload your assets to Shammarianas" />
 
         <meta property="og:type" content="website" />
 
         <meta property="og:title" content="Upload | Shammarianas" />
         <meta
           property="og:description"
-          content="Upload your 3D assets to Shammarianas"
+          content="Upload your assets to Shammarianas"
         />
       </Helmet>
 
@@ -357,14 +403,18 @@ const Upload = () => {
                     <option value="" disabled selected>
                       Select Asset type
                     </option>
-                    <option value="models">Model</option>
+                    <option value="models">3D Model</option>
                     <option value="printables">Printable</option>
                     <option value="textures">Texture</option>
                     <option value="sounds">Sound</option>
                     <option value="scripts">Script</option>
                     <option value="shaders">Shader</option>
                     <option value="images">Image</option>
+                    <option value="graphics">Graphics Templates</option>
+                    <option value="mockups">Mockups</option>
+                    <option value="fonts">Fonts</option>
                     <option value="videos">Video</option>
+                    <option value="templates">Video Templates</option>
                     <option value="hdris">HDRIs</option>
                     <option value="other">Other</option>
                   </select>
@@ -487,6 +537,48 @@ const Upload = () => {
                       </>
                     ) : null
                   }
+                  {formData.type === "videos" ? (
+                    <>
+                      <label>Videos</label>
+
+                      <div className="videos_upload">
+                        <input
+                          name="videos"
+                          type="file"
+                          id="videos_input"
+                          accept="video/*"
+                          multiple
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              videos: e.target.files,
+                            });
+                          }}
+                          required
+                        />
+                        <label htmlFor="videos_input" className="videos_input">
+                          <img
+                            className="icon"
+                            src={plus_icon}
+                            alt="Add Videos"
+                          />
+                        </label>
+
+                        {formData.videos &&
+                          Array.from(formData.videos).map((video) => (
+                            <div className="video" key={video.name}>
+                              <video controls width="300">
+                                <source
+                                  src={URL.createObjectURL(video)}
+                                  type={video.type}
+                                />
+                                Your browser does not support the video tag.
+                              </video>
+                            </div>
+                          ))}
+                      </div>
+                    </>
+                  ) : null}
                   {formData.type === "textures" ? (
                     <>
                       <label>
@@ -867,6 +959,120 @@ const Upload = () => {
 
                       <label for="fileInput" className="custom-file-input">
                         Choose HDRI File
+                      </label>
+                    </>
+                  )}
+                  {formData.type === "graphics" && (
+                    <>
+                      <input
+                        name="graphicsTemplate"
+                        id="graphicsInput"
+                        type="file"
+                        accept=".psd,.ai,.svg,.png,.jpg"
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            graphicsTemplate: e.target.files[0],
+                            graphicsTemplateSize: e.target.files[0].size,
+                          });
+                        }}
+                        required
+                      />
+                      <label
+                        htmlFor="graphicsInput"
+                        className="custom-file-input"
+                      >
+                        Choose Graphics Template
+                      </label>
+                    </>
+                  )}
+                  {formData.type === "mockups" && (
+                    <>
+                      <input
+                        name="mockupFile"
+                        id="mockupInput"
+                        type="file"
+                        accept=".psd,.png,.jpg,.jpeg"
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            mockupFile: e.target.files[0],
+                            mockupFileSize: e.target.files[0].size,
+                          });
+                        }}
+                        required
+                      />
+                      <label
+                        htmlFor="mockupInput"
+                        className="custom-file-input"
+                      >
+                        Choose Mockup File
+                      </label>
+                    </>
+                  )}
+                  {formData.type === "fonts" && (
+                    <>
+                      <input
+                        name="fontFile"
+                        id="fontInput"
+                        type="file"
+                        accept=".ttf,.otf,.woff,.woff2"
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            fontFile: e.target.files[0],
+                            fontFileSize: e.target.files[0].size,
+                          });
+                        }}
+                        required
+                      />
+                      <label htmlFor="fontInput" className="custom-file-input">
+                        Choose Font File
+                      </label>
+                    </>
+                  )}
+                  {/* {formData.type === "videos" && (
+                    <>
+                      <input
+                        name="videoFile"
+                        id="videoInput"
+                        type="file"
+                        accept=".mp4,.mov,.avi,.mkv"
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            videoFile: e.target.files[0],
+                            videoFileSize: e.target.files[0].size,
+                          });
+                        }}
+                        required
+                      />
+                      <label htmlFor="videoInput" className="custom-file-input">
+                        Choose Video File
+                      </label>
+                    </>
+                  )} */}
+                  {formData.type === "templates" && (
+                    <>
+                      <input
+                        name="videoTemplateFile"
+                        id="videoTemplateInput"
+                        type="file"
+                        accept=".prproj,.aep,.mp4,.mov"
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            videoTemplateFile: e.target.files[0],
+                            videoTemplateFileSize: e.target.files[0].size,
+                          });
+                        }}
+                        required
+                      />
+                      <label
+                        htmlFor="videoTemplateInput"
+                        className="custom-file-input"
+                      >
+                        Choose Video Template File
                       </label>
                     </>
                   )}

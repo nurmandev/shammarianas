@@ -248,13 +248,13 @@ const Login = () => {
                 >
                   <i className="fab fa-google"></i>
                 </button>
-                <button
+                {/* <button
                   className="github"
                   type="button"
                   onClick={loginWithGithub}
                 >
                   <i className="fab fa-github"></i>
-                </button>
+                </button> */}
                 <button className="apple" type="button">
                   <i className="fab fa-apple"></i>
                 </button>
