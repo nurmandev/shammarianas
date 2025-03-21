@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ListedItemCard from "./UI/ListedItemCard";
 import { db } from "../../firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, limit } from "firebase/firestore";
 import { useFilters } from "../Context/FilterContext";
 import { Link } from "react-router-dom";
 
@@ -20,16 +20,33 @@ const ItemsListing = (props) => {
       if (props.userId) {
         console.log("props.userId", props.userId);
         // Create a query to fetch items for a specific user
-        itemsQuery = query(
-          collection(db, "Assets"),
-          where("userId", "==", props.userId)
-        );
+        if (props?.limit) {
+          itemsQuery = query(
+            collection(db, "Assets"),
+            where("type", "==", asset_type),
+            limit(props.limit)
+          );
+        } else {
+          itemsQuery = query(
+            collection(db, "Assets"),
+            where("type", "==", asset_type)
+          );
+        }
       } else {
         // Create a query to fetch all items
-        itemsQuery = query(
-          collection(db, "Assets"),
-          where("type", "==", asset_type)
-        );
+        if (props?.limit) {
+          itemsQuery = query(
+            collection(db, "Assets"),
+            where("type", "==", asset_type),
+            limit(props.limit)
+          );
+        } else {
+          itemsQuery = query(
+            collection(db, "Assets"),
+            where("type", "==", asset_type)
+          );
+        }
+        
       }
 
       const snapshot = await getDocs(itemsQuery);

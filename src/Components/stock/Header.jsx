@@ -3,51 +3,8 @@ import { getDocs, collection, query } from "firebase/firestore";
 import { db } from "../../../firebase";
 import ListedItemCard from "../UI/ListedItemCard";
 import PageTitle from "../UI/PageTitle";
-import ItemsListing from "../ItemsListing";
+import ItemsListing from "../ItemsListing";  
 
-const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  return (
-    <div
-      style={{ position: "absolute" }}
-      className="stock-container container "
-    >
-      {/* <nav className="stock-navbar stock-page_content">
-        <ul className={`stock-navbar-nav ${isMobileMenuOpen ? "active" : ""}`}>
-          <li>
-            <a href="/#Image">Images</a>
-          </li>
-          <li>
-            <a href="/#Textures">Icons</a>
-          </li>
-          <li>
-            <a href="/#videos">Videos</a>
-          </li>
-          <li>
-            <a href="/#Scripts">Template</a>
-          </li>
-          <li>
-            <a href="/#Plugins">PSD</a>
-          </li>
-          <li>
-            <a href="/#mockup">Mockup</a>
-          </li>
-          <li>
-            <a href="/#Hot">More</a>
-          </li>
-        </ul>
-        <div className="stock-navbar-toggle" onClick={toggleMobileMenu}>
-          MENU<span className="stock-arrow_head">🢓</span>
-        </div>
-      </nav> */}
-    </div>
-  );
-};
 
 
 const HeroSection = () => {
@@ -168,8 +125,11 @@ const HeroSection = () => {
       </>
 
       <div className="hero-container">
-        <Navbar />
+        {/* <Navbar /> */}
+     
+      
         <div className="hero-background"></div>
+
         <div className="hero-content">
           <h1 className="hero-title">Smarter creativity, faster designs</h1>
           <p className="hero-subtitle">
@@ -284,20 +244,65 @@ const HeroSection = () => {
 
           {/* Hot Assets */}
           <div className="page_content">
-            <PageTitle title="Hot" />
-            <ItemsListing />
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="Videos" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} />
           </div>
 
           {/* Models */}
           <div className="page_content">
-            <PageTitle title="Models" />
-            <ItemsListing category={'models'} />
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="Video Templates" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} category={'models'} />
           </div>
 
           {/* Images */}
           <div className="page_content">
-            <PageTitle title="Images" />
-            <ItemsListing category={'images'} />
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="Pictures" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} category={'images'} />
+          </div>
+          {/*  */}
+          <div className="page_content">
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="Graphics Templates" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} category={'images'} />
+          </div>
+          <div className="page_content">
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="Mockup" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} category={'images'} />
+          </div>
+          <div className="page_content">
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="3D Models" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} category={'images'} />
+          </div>
+          <div className="page_content">
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="Fonts" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} category={'images'} />
+          </div>
+          <div className="page_content">
+            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
+            <PageTitle title="Icons" />
+            <span style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</span>
+            </div>
+            <ItemsListing limit={4} category={'images'} />
           </div>
         </div>
       </section>
