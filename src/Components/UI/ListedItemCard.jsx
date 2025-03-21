@@ -24,18 +24,30 @@ const ListedItemCard = ({ id, data, rating }) => {
         <div className="card_content">
           <span className="title">
             {data.title}{" "}
+            <br />
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             <span className="publisher">by Servant {data.publisher}</span>
+            <span>
+            <Link to={`/View/${id}`}>
+              <i className="fa-solid fa-download"></i> 
+            </Link>
+              <i className="fa-solid fa-bookmark"></i>
+              {/* <FavoriteButton assetId={item.id} /> */}
+            </span>
+
+            </div>
           </span>
+          
           <div className="details">
             <span className="price">
-              <strong>
+              {/* <strong>
                 {data.price - (data.price * data.discount) / 100 === 0
                   ? "Free"
                   : `$${(
                       data.price -
                       (data.price * data.discount) / 100
                     ).toFixed(2)}`}
-              </strong>
+              </strong> */}
             </span>
             {/* <span className="rating">
               <div className="icons">
