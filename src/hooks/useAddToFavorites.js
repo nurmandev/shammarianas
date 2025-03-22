@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { db } from "../../firebase";
 import { doc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
+import { useNavigate  } from "react-router-dom";
 
 const useAddToFavorites = (assetId, assetData = null) => {
+  let navigate = useNavigate();
   const { currentUser } = useUser();
   const [isFavorited, setIsFavorited] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -12,6 +14,8 @@ const useAddToFavorites = (assetId, assetData = null) => {
   // Check if the asset is already favorited
   useEffect(() => {
     const checkIfFavorited = async () => {
+      // if (!currentUser) navigate("/login");
+
       if (!currentUser || !assetId) return;
       
       try {
@@ -28,6 +32,7 @@ const useAddToFavorites = (assetId, assetData = null) => {
 
   const toggleFavorite = async (itemData = null) => {
     if (!currentUser) {
+      navigate("/login")
       setError("User not logged in.");
       return;
     }

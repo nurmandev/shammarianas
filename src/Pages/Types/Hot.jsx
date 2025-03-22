@@ -5,6 +5,7 @@ import ItemsListing from "../../Components/ItemsListing";
 import { Helmet } from "react-helmet";
 
 const Hot = () => {
+  
   return (
     <>
       <Helmet>
