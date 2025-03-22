@@ -285,7 +285,7 @@ const Navbar = () => {
                 )
               }
               
-              <div className={currentUser?.uid ? "dropdown" : 'hidden'}>
+              <div className={currentUser?.uid ? "dropdown" : 'hidden none'}>
                 <ul className="links">
                   <li>
                     <Link to="/MyDownloads">My Downloads</Link>
