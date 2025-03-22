@@ -35,13 +35,9 @@ const HeroSection = () => {
     setLoading(true);
     const q = query(collection(db, "Assets"));
     const querySnapshot = await getDocs(q);
-
     const allResults = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
     const newResults = allResults
-      .filter((result) =>
-        result.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      .filter((result) => result.title.toLowerCase().includes(searchTerm.toLowerCase()))
       .slice(0, 7);
     setSearchResults(newResults);
     setLoading(false);
@@ -120,21 +116,16 @@ const HeroSection = () => {
       )}
 
       {/* Hero Section */}
-
       <>
       </>
-
       <div className="hero-container">
         {/* <Navbar /> */}
-     
-      
-        <div className="hero-background"></div>
-
+        <div className="hero-background">
+        </div>
         <div className="hero-content">
           <h1 className="hero-title">Smarter creativity, faster designs</h1>
           <p className="hero-subtitle">
-            Everything you need, from stock images and videos to AI-powered
-            design tools.
+            Everything you need, from stock images and videos to AI-powered design tools.
           </p>
 
           {/* Search Component */}
@@ -164,7 +155,7 @@ const HeroSection = () => {
 
       {/* Search Results */}
       {displayResults && (
-        <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
+          <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
           <div className="container ontop">
             <div className="sec-head mb-80">
               <div className="d-flex align-items-center">
@@ -172,7 +163,7 @@ const HeroSection = () => {
                   <span className="sub-title main-color mb-5">Our Stocks</span>
                   <h3 className="fw-600 fz-50 text-u d-rotate wow">
                     <span className="rotate-text">
-                      Search <span className="fw-200"> Results.</span>
+                    Search <span className="fw-200"> Results.</span>
                     </span>
                   </h3>
                 </div>
@@ -188,7 +179,6 @@ const HeroSection = () => {
             {/* Hot Assets */}
             {/* <div className="page_content">
               <PageTitle title="Search" />
-
                 <div className="listing_section">
                   <div className="item_listing">
                   {searchResults.length === 0 ? <div className="loading">Loading...</div> : null}
@@ -518,3 +508,4 @@ export default HeroSection;
 // };
 
 // export default HeroSection;
+
