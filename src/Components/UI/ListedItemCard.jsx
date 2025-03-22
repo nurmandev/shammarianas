@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AddToBookmark from "./AddToBookmark";
 
 const ListedItemCard = ({ id, data, rating }) => {
   return (
-    <Link to={`/View/${id}`}>
+    <div className="" >
       <div className="item_card" key={id}>
         <div
           className="card_image"
@@ -18,7 +19,9 @@ const ListedItemCard = ({ id, data, rating }) => {
               </span>
             </div>
           ) : null}
+          <Link className="card_image" to={`/View/${id}`}>
           <img src={data.thumbnail} alt="placeholder" />
+          </Link>
         </div>
 
         <div className="card_content">
@@ -27,12 +30,12 @@ const ListedItemCard = ({ id, data, rating }) => {
             <br />
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             <span className="publisher">by Servant {data.publisher}</span>
-            <span>
+            <span style={{display: 'flex', flexDirection: 'row', width: '40px', justifyContent: 'space-between'}}>
             <Link to={`/View/${id}`}>
               <i className="fa-solid fa-download"></i> 
             </Link>
-              <i className="fa-solid fa-bookmark"></i>
-              {/* <FavoriteButton assetId={item.id} /> */}
+              {/* <i className="fa-solid fa-bookmark"></i> */}
+              <AddToBookmark assetId={id} />
             </span>
 
             </div>
@@ -66,7 +69,7 @@ const ListedItemCard = ({ id, data, rating }) => {
         </button> */}
         </div>
       </div>
-    </Link>
+    </div >
   );
 };
 

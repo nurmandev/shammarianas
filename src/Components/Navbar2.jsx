@@ -285,7 +285,7 @@ const Navbar = () => {
                 )
               }
               
-              <div className="dropdown">
+              <div className={currentUser?.uid ? "dropdown" : 'hidden none'}>
                 <ul className="links">
                   <li>
                     <Link to="/MyDownloads">My Downloads</Link>
@@ -347,12 +347,12 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="buttons">
-            <Link to="/Upload">
+            {/* <Link to="/Upload">
               <button>
                 <i className="icon fa-solid fa-plus"></i> Upload
               </button>
-            </Link>
-            <Link to="/Trade">
+            </Link> */}
+            <Link to={ currentUser?.uid ? "/Trade" : "/Login"}>
               <button>
                 <i className="icon fa-solid fa-right-left"></i> Trade
               </button>

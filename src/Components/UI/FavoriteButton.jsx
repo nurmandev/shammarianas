@@ -9,7 +9,11 @@ const FavoriteButton = ({ assetId }) => {
     <div>
       <button
         className={`add_to_wishlist_btn ${isFavorited ? "favorited" : ""}`}
-        onClick={toggleFavorite}
+        onClick={ (e) => {
+          e.stopPropagation();
+          toggleFavorite()
+      }
+      }
         disabled={isSaving}
       >
         <i

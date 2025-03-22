@@ -58,7 +58,8 @@
     "swiper": "^11.2.4",
     "swiper-react": "^1.0.0",
     "three": "^0.163.0",
-    "tinymce": "^7.3.0"
+    "tinymce": "^7.3.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

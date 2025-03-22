@@ -4106,6 +4106,17 @@ div > button.add_to_wishlist_btn.favorited {
   }
 }
 
+div.hidden.none {
+  display: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.color-white {
+  color: #fff;
+  background-color: black;
+}
+
 .upload_section {
   display: flex;
   flex-direction: column;
