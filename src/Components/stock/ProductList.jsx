@@ -17,10 +17,7 @@ function ProductList() {
               </h3>
             </div>
             <div className="ml-auto vi-more">
-              <a
-                href="#Hot"
-                className="butn butn-sm butn-bord radius-30"
-              >
+              <a href="#Hot" className="butn butn-sm butn-bord radius-30">
                 <span>View All</span>
               </a>
               <span className="icon ti-arrow-top-right"></span>
@@ -28,12 +25,12 @@ function ProductList() {
           </div>
         </div>
 
-        <div className="page_content">
-          <PageTitle title="Hot" />
+        {/* <div className="page_content">
+          <PageTitle title="/Hot" />
           <div className="listing_section">
             <ItemsListing />
           </div>
-        </div>
+      </div> */}
         <div className="page_content">
           <PageTitle title="Models" />
           <div className="listing_section">
