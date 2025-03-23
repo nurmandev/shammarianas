@@ -65,9 +65,9 @@ const Favorites = () => {
           My Favorites - {currentUser ? currentUser.displayName : "User"}
         </title>
       </Helmet>
-      <div className="page_content">
+      <div className="container page_content">
         <PageTitle title="My Favorites" />
-        <div className="item_listing">
+        <div className=" item_listing">
           {loading === true ? (
             <div className="loading">Loading...</div>
           ) : loading === "no_items" ? (
