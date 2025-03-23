@@ -291,7 +291,8 @@ const Navbar = () => {
                     <Link to="/MyDownloads">My Downloads</Link>
                   </li>
                   <li>
-                    <Link to="/Library">My Library</Link>
+                    {/* <Link to="/Library">My Library</Link> */}
+                    <Link to="/Favorites">My Favorites</Link> 
                   </li>
 
                   <li>
