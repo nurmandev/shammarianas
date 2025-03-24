@@ -68,12 +68,25 @@ function Footer() {
               </div>
               <ul className="rest social-icon d-flex align-items-center">
                 <li className="hover-this cursor-pointer">
-                  <a href="#0" className="hover-anim">
+                  <a
+                    href="https://www.youtube.com/c/ShamMarianasSM"
+                    target="_blank"
+                    className="hover-anim"
+                  >
+                    <i class="fa-brands fa-youtube"></i>
+                  </a>
+                </li>
+                <li className="hover-this cursor-pointer">
+                  <a href="#0" className="hover-anim" target="_blank">
                     <i className="fab fa-facebook-f"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim">
+                  <a
+                    href="https://shammarianas.com"
+                    target="_blank"
+                    className="hover-anim"
+                  >
                     <i className="fab fa-dribbble"></i>
                   </a>
                 </li>
@@ -83,7 +96,10 @@ function Footer() {
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim">
+                  <a
+                    href="https://www.instagram.com/sham_marianas"
+                    className="hover-anim"
+                  >
                     <i className="fab fa-instagram"></i>
                   </a>
                 </li>
