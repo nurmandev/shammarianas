@@ -332,6 +332,7 @@ const Navbar = () => {
                 { path: "/Graphis", label: "Graphic Templates" },
                 { path: "/Mockups", label: "Mockups" },
                 { path: "/Fonts", label: "Fonts" },
+                { path: "/hot", label: "More" },
               ].map(({ path, icon, label }) => (
                 <li key={path}>
                   <NavLink
