@@ -322,17 +322,16 @@ const Navbar = () => {
       {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">
           <div className="links">
-            <ul>
+           <ul>
               {[
-                { path: "/hot", icon: "fa-fire", label: "Hot" },
-                { path: "/Image", icon: "fa-image", label: "Images" },
-                { path: "/Printable", icon: "fa-print", label: "Printable" },
-                { path: "/Models", icon: "fa-cube", label: "Models" },
-                { path: "/Textures", icon: "fa-image", label: "Textures" },
-                { path: "/Scripts", icon: "fa-code", label: "Scripts" },
-                { path: "/Shaders", icon: "fa-magic", label: "Shaders" },
-                { path: "/Plugins", icon: "fa-plug", label: "Plugins" },
-                { path: "/HDRIs", icon: "fa-globe", label: "HDRIs" },
+                { path: "/hot", label: "Hot" },
+                { path: "/Videos", label: "Videos" },
+                { path: "/Models", label: "3D Models" },
+                { path: "/templates", label: "Video Template" },
+                { path: "/Image", label: "Pictures" },
+                { path: "/Graphis", label: "Graphic Templates" },
+                { path: "/Mockups", label: "Mockups" },
+                { path: "/Fonts", label: "Fonts" },
               ].map(({ path, icon, label }) => (
                 <li key={path}>
                   <NavLink
