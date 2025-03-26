@@ -233,22 +233,8 @@ const HeroSection = () => {
           </div>
 
           {/* Hot Assets */}
-          <div className="page_content">
-            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
-            <PageTitle title="Videos" />
-            <Link to="" style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</Link>
-            </div>
-            <ItemsListing limit={4} />
-          </div>
-
-          {/* Models */}
-          <div className="page_content">
-            <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
-            <PageTitle title="Video Templates" />
-            <Link to="" style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</Link>
-            </div>
-            <ItemsListing limit={4} category={'models'} />
-          </div>
+          
+          
         
           {/* Images */}
           {[
