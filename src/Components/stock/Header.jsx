@@ -232,7 +232,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Hot Assets 
+          {/* Hot Assets */}
           <div className="page_content">
             <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
             <PageTitle title="Videos" />
@@ -249,7 +249,7 @@ const HeroSection = () => {
             </div>
             <ItemsListing limit={4} category={'models'} />
           </div>
-        */}
+        
           {/* Images */}
           {[
           { title: "Videos", category: "videos" },
