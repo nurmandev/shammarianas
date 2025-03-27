@@ -25,6 +25,8 @@ const MyDownloads = () => {
         // Get downloads from subcollection
         const downloadsRef = collection(db, `Profiles/${currentUser.uid}/downloads`);
         const downloadsSnapshot = await getDocs(downloadsRef);
+
+        console.log("downloadsSnapshot:", downloadsSnapshot);
         
         if (downloadsSnapshot.empty) {
           console.log("No downloads found");
@@ -47,7 +49,6 @@ const MyDownloads = () => {
           });
         }
         
-        console.log("Fetched downloads data:", downloadsData);
         setAssets(downloadsData);
         setLoading(false);
       } catch (error) {

@@ -28,6 +28,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import FavoriteButton from "../Components/UI/FavoriteButton";
+import DownloadButton from "../Components/UI/DownloadButton";
 import VideoViewer from "./VideoViewer";
 import ContentViewer from "../Components/ContentViewer";
 
@@ -96,37 +97,38 @@ const View = () => {
       setIsItemOwned(userProfile.purchasedItems.includes(item.id));
     }
   }, [userProfile, item]);
-  useEffect(() => {
-    const fetchGroup = async () => {
-      // Fetch group data from Firestore where the current user is a member
-      const groupQuery = query(collection(db, "Groups"));
-      const groupSnapshot = await getDocs(groupQuery);
+  
+  // useEffect(() => {
+  //   const fetchGroup = async () => {
+  //     // Fetch group data from Firestore where the current user is a member
+  //     const groupQuery = query(collection(db, "Groups"));
+  //     const groupSnapshot = await getDocs(groupQuery);
 
-      // Filter groups where the current user is a member
-      const groupData = groupSnapshot.docs
-        .map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-        .filter((group) =>
-          group.users.some((user) => user.email === currentUser.email)
-        );
+  //     // Filter groups where the current user is a member
+  //     const groupData = groupSnapshot.docs
+  //       .map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }))
+  //       .filter((group) =>
+  //         group.users.some((user) => user.email === currentUser.email)
+  //       );
 
-      if (groupData.length > 0) {
-        setGroup(groupData[0]);
-      } else {
-        console.log("No group found for the current user.");
-      }
-    };
+  //     if (groupData.length > 0) {
+  //       setGroup(groupData[0]);
+  //     } else {
+  //       console.log("No group found for the current user.");
+  //     }
+  //   };
 
-    if (currentUser) {
-      fetchGroup();
-    }
+  //   if (currentUser) {
+  //     fetchGroup();
+  //   }
 
-    return () => {
-      setGroup(null);
-    };
-  }, [currentUser]);
+  //   return () => {
+  //     setGroup(null);
+  //   };
+  // }, [currentUser]);
 
   // console log the group data
 
@@ -399,7 +401,7 @@ const View = () => {
                   </div>
 
                   <div className="action_buttons">
-                    <button
+                    {/* <button
                       className="add_to_cart_btn"
                       onClick={() => {
                         if (
@@ -497,7 +499,14 @@ const View = () => {
                           Add to cart
                         </>
                       )}
-                    </button>
+                    </button> */}
+                     <DownloadButton
+                        item={item}
+                        userProfile={userProfile}
+                        setToastMessage={setToastMessage}
+                        setToastState={setToastState}
+                        setShowToast={setShowToast}
+                      />
 
                     {item.price - (item.price * item.discount) / 100 ==
                     0 ? null : (

@@ -1,15 +1,11 @@
 import { useEffect } from "react";
-import Navbar from "./Components/Navbar";
 import Navbar2 from "./Components/Navbar2";
 import "./assets/Styles/Tab.css";
 import "./assets/Styles/Style.css";
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
-import Models from "./Pages/Types/Models";
 import View from "./Pages/View";
 import Footer from "./Components/Footer";
-import Hot from "./Pages/Types/Hot";
-import Images from "./Pages/Types/Image";
 import Upload from "./Pages/Upload";
 import Cart from "./Pages/Cart";
 import Login from "./Pages/Login/Login";
@@ -17,19 +13,13 @@ import Checkout from "./Pages/Checkout";
 import { FilterProvider } from "./Context/FilterContext";
 import Profile from "./Pages/Profile";
 
-import Printables from "./Pages/Types/Printables";
-import Textures from "./Pages/Types/Textures";
-import Scripts from "./Pages/Types/Scripts";
-import Shader from "./Pages/Types/Shaders";
-import HDRIs from "./Pages/Types/HDRIs";
-import Plugins from "./Pages/Types/Plugins";
 import Logout from "./Pages/Logout";
 import Library from "./Pages/Library";
 import TextureViewer from "./Components/TextureViewer";
 import PasswordReset from "./Pages/Login/PasswordReset";
 import Group from "./Pages/Group";
 import Analytics from "./Pages/Analytics";
-import Trade from "./Pages/Trade";
+// import Trade from "./Pages/Trade";
 import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
@@ -37,7 +27,7 @@ import Contact from "./Pages/Contact";
 import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
-import LoadingScreen from "./common/loader";
+// import LoadingScreen from "./common/loader";
 import Support from "./Pages/Support";
 import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
@@ -47,8 +37,21 @@ import StockPage from "./Pages/Stock";
 import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
+
 import Video from "./Pages/Types/Video";
 import VideoTemplate from "./Pages/Types/VideoTemplate";
+import Models from "./Pages/Types/Models";
+import Hot from "./Pages/Types/Hot";
+import Images from "./Pages/Types/Image";
+import Printables from "./Pages/Types/Printables";
+import Textures from "./Pages/Types/Textures";
+import Scripts from "./Pages/Types/Scripts";
+import Shader from "./Pages/Types/Shaders";
+import HDRIs from "./Pages/Types/HDRIs";
+import Plugins from "./Pages/Types/Plugins";
+
+import CategoryTemplate from "./Pages/Types/CategoryTemplate";
+// CategoryTemplate.js
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -70,7 +73,7 @@ export const AppRoutes = () => (
     <Route path="/" element={<Home />} />
     <Route path="/Trade" element={<TradePage />} />
     <Route path="/Cart" element={<Cart />} />
-    <Route path="/Hot" element={<Hot />} />
+    {/* <Route path="/Hot" element={<Hot />} />
     <Route path="/Image" element={<Images />} />
     <Route path="/videos" element={<Video />} />
     <Route path="/Models" element={<Models />} />
@@ -80,7 +83,8 @@ export const AppRoutes = () => (
     <Route path="/Shaders" element={<Shader />} />
     <Route path="/HDRIs" element={<HDRIs />} />
     <Route path="/templates" element={<VideoTemplate />} />
-    <Route path="/Plugins" element={<Plugins />} />
+    <Route path="/Plugins" element={<Plugins />} /> */}
+    <Route path="/:Category" element={<CategoryTemplate />} /> 
     <Route path="/View/:id" element={<View />} />
     <Route path="/Groups" element={<Group />} />
     <Route path="/Upload" element={<Upload />} />
