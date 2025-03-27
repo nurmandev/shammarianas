@@ -150,7 +150,7 @@ const Navbar = () => {
                 { path: "/Videos", label: "Videos" },
                 { path: "/Models", label: "3D Models" },
                 { path: "/templates", label: "Video Template" },
-                { path: "/Image", label: "Pictures" },
+                { path: "/images", label: "Pictures" },
                 { path: "/Graphis", label: "Graphic Templates" },
                 { path: "/Mockups", label: "Mockups" },
                 { path: "/Fonts", label: "Fonts" },
