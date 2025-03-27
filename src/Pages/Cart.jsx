@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import  { useState, useEffect, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
+// import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
 
 const Cart = () => {
-  const { currentUser, updateUserProfile } = useUser();
-  const Firestore = getFirestore();
+  const { currentUser } = useUser();
+  // const Firestore = getFirestore();
 
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cart");
@@ -48,6 +48,26 @@ const Cart = () => {
       )
       .toFixed(2);
   }, [cartItems]);
+
+  const handleCheckout = async () => {
+    console.log({ cartItems, userId: currentUser?.uid })
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cartItems, userId: currentUser?.uid }),
+      });
+  
+      const { id } = await response.json();
+      if (id) {
+        window.location.href = `https://checkout.stripe.com/pay/${id}`;
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+    }
+  };
 
   return (
     <>
@@ -109,7 +129,7 @@ const Cart = () => {
                   Connect Wallet
                 </button> */}
 
-                <Link to={"/Checkout"}>
+                {/* <Link to={"/Checkout"}>
                   {" "}
                   <button
                   // onClick={() => {
@@ -120,7 +140,12 @@ const Cart = () => {
                   >
                     Checkout
                   </button>
-                </Link>
+                </Link> */}
+                  <button
+                  onClick={handleCheckout}
+                  >
+                    Checkout
+                  </button>
               </div>
             </>
           ) : (
