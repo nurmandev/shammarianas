@@ -9,7 +9,7 @@ const ListedItemCard = ({ id, data, rating }) => {
         <div
           className="card_image"
           style={{
-            aspectRatio: data.type === "textures" ? "1 / 1" : undefined,
+            aspectRatio: data.type === "icons" ? "1 / 1" : undefined,
           }}
         >
           {data.discount > 0 ? (
