@@ -256,7 +256,7 @@ const Upload = () => {
           videoTemplateFileSize: formData.videoTemplateFileSize,
         };
       }
-        
+
       // Videos
       if (formData.type === "videos") {
         docData = {
@@ -272,7 +272,7 @@ const Upload = () => {
       //     videoFile: await uploadFile(formData.videoFile),
       //     videoFileSize: formData.videoFileSize,
       //   };
-      // } 
+      // }
       // Printable
       if (formData.type === "printables") {
         docData = {
@@ -396,8 +396,9 @@ const Upload = () => {
 
                 <div className="right">
                   <DescriptionBox
-                    description={formData.description}
-                    handleChange={handleChange}
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
                   />
                   <select name="type" onChange={handleChange} required>
                     <option value="" disabled selected>

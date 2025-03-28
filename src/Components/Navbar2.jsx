@@ -173,6 +173,9 @@ const Navbar = () => {
                 <i className="icon fa-solid fa-plus"></i> Upload
               </button>
             </Link> */}
+
+        
+
             <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
               <button>
                 <i className="icon fa-solid fa-right-left"></i> Trade
