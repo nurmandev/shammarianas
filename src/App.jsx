@@ -38,17 +38,19 @@ import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
 
-import Video from "./Pages/Types/Video";
-import VideoTemplate from "./Pages/Types/VideoTemplate";
-import Models from "./Pages/Types/Models";
-import Hot from "./Pages/Types/Hot";
-import Images from "./Pages/Types/Image";
-import Printables from "./Pages/Types/Printables";
-import Textures from "./Pages/Types/Textures";
-import Scripts from "./Pages/Types/Scripts";
-import Shader from "./Pages/Types/Shaders";
-import HDRIs from "./Pages/Types/HDRIs";
-import Plugins from "./Pages/Types/Plugins";
+// import Video from "./Pages/Types/Video";
+// import VideoTemplate from "./Pages/Types/VideoTemplate";
+// import Models from "./Pages/Types/Models";
+// import Hot from "./Pages/Types/Hot";
+// import Images from "./Pages/Types/Image";
+// import Printables from "./Pages/Types/Printables";
+// import Textures from "./Pages/Types/Textures";
+// import Scripts from "./Pages/Types/Scripts";
+// import Shader from "./Pages/Types/Shaders";
+// import HDRIs from "./Pages/Types/HDRIs";
+// import Plugins from "./Pages/Types/Plugins";
+
+import Success from "./Pages/Success";
 
 import CategoryTemplate from "./Pages/Types/CategoryTemplate";
 // CategoryTemplate.js
@@ -104,6 +106,7 @@ export const AppRoutes = () => (
     <Route path="/about" element={<AboutUs />} />
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
+    <Route path="/success" element={<Success />} />
     <Route path="/page-services-details" element={<ServicesDetails />} />
   </Routes>
 );

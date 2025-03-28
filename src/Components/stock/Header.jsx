@@ -253,11 +253,11 @@ const HeroSection = () => {
           {/* Images */}
           {[
           { title: "Videos", category: "videos" },
-          // { title: "Video Templates", category: "video-templates" },
+          { title: "Video Templates", category: "video-templates" },
           { title: "Pictures", category: "images" },
-          { title: "Graphics Templates", category: "graphics-templates" },
-          { title: "Mockup", category: "mockup" },
-          { title: "3D Models", category: "3d-models" },
+          { title: "Graphic Templates", category: "graphics-templates" },
+          { title: "Mockups", category: "Mockups" },
+          { title: "3D Models", category: "models" },
           { title: "Fonts", category: "fonts" },
           { title: "Icons", category: "icons" },
         ].map(({ title, category }) => (
