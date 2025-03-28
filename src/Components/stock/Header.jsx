@@ -6,7 +6,6 @@ import PageTitle from "../UI/PageTitle";
 import ItemsListing from "../ItemsListing";
 import { Link } from "react-router-dom";
 
-
 const HeroSection = () => {
   // Search State
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,9 +34,14 @@ const HeroSection = () => {
     setLoading(true);
     const q = query(collection(db, "Assets"));
     const querySnapshot = await getDocs(q);
-    const allResults = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const allResults = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
     const newResults = allResults
-      .filter((result) => result.title.toLowerCase().includes(searchTerm.toLowerCase()))
+      .filter((result) =>
+        result.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
       .slice(0, 7);
     setSearchResults(newResults);
     setLoading(false);
@@ -49,7 +53,10 @@ const HeroSection = () => {
     try {
       const q = query(collection(db, "Assets"));
       const querySnapshot = await getDocs(q);
-      const assetsData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const assetsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setAssets(assetsData);
       setFilteredAssets(assetsData); // Initialize filtered assets
     } catch (error) {
@@ -88,10 +95,12 @@ const HeroSection = () => {
   }, [fetchAssets]);
 
   useEffect(() => {
-    console.log({searchResults});
+    console.log({ searchResults });
   }, [searchResults]);
 
-  const sortedResults = searchResults.sort((a, b) => a.type.localeCompare(b.type));
+  const sortedResults = searchResults.sort((a, b) =>
+    a.type.localeCompare(b.type)
+  );
 
   const groupedResults = sortedResults.reduce((acc, item) => {
     if (!acc[item.type]) {
@@ -116,16 +125,15 @@ const HeroSection = () => {
       )}
 
       {/* Hero Section */}
-      <>
-      </>
+      <></>
       <div className="hero-container">
         {/* <Navbar /> */}
-        <div className="hero-background">
-        </div>
+        <div className="hero-background"></div>
         <div className="hero-content">
           <h1 className="hero-title">Smarter creativity, faster designs</h1>
           <p className="hero-subtitle">
-            Everything you need, from stock images and videos to AI-powered design tools.
+            Everything you need, from stock images and videos to AI-powered
+            design tools.
           </p>
 
           {/* Search Component */}
@@ -155,7 +163,7 @@ const HeroSection = () => {
 
       {/* Search Results */}
       {displayResults && (
-          <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
+        <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
           <div className="container ontop">
             <div className="sec-head mb-80">
               <div className="d-flex align-items-center">
@@ -163,7 +171,7 @@ const HeroSection = () => {
                   <span className="sub-title main-color mb-5">Our Stocks</span>
                   <h3 className="fw-600 fz-50 text-u d-rotate wow">
                     <span className="rotate-text">
-                    Search <span className="fw-200"> Results.</span>
+                      Search <span className="fw-200"> Results.</span>
                     </span>
                   </h3>
                 </div>
@@ -188,52 +196,52 @@ const HeroSection = () => {
                   </div>
                 </div>
               </div> */}
-                  <div className="page_content">
-      {Object.keys(groupedResults).map((type) => (
-        
-          <>
-          <PageTitle title={type} />
-          <div className="listing_section">
-            <div className="item_listing">
-              {groupedResults[type].map((item) => (
-                <ListedItemCard key={item.id} id={item.id} data={item} />
+            <div className="page_content">
+              {Object.keys(groupedResults).map((type) => (
+                <>
+                  <PageTitle title={type} />
+                  <div className="listing_section">
+                    <div className="item_listing">
+                      {groupedResults[type].map((item) => (
+                        <ListedItemCard
+                          key={item.id}
+                          id={item.id}
+                          data={item}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </>
               ))}
             </div>
           </div>
-          </>
-       
-      ))}
-    </div>
-            </div>
-          </section>
-        )}
+        </section>
+      )}
 
       {/* Product List Section */}
-      {
-      !displayResults && (
-      <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
-        <div className="container ontop">
-          <div className="sec-head mb-80">
-            <div className="d-flex align-items-center">
-              <div>
-                <span className="sub-title main-color mb-5">Our Stocks</span>
-                <h3 className="fw-600 fz-50 text-u d-rotate wow">
-                  <span className="rotate-text">
-                    Trending <span className="fw-200">Stock.</span>
-                  </span>
-                </h3>
-              </div>
-              <div className="ml-auto vi-more">
-                <a href="#Hot" className="butn butn-sm butn-bord radius-30">
-                  <span>View All</span>
-                </a>
-                <span className="icon ti-arrow-top-right"></span>
+      {!displayResults && (
+        <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
+          <div className="container ontop">
+            <div className="sec-head mb-80">
+              <div className="d-flex align-items-center">
+                <div>
+                  <span className="sub-title main-color mb-5">Our Stocks</span>
+                  <h3 className="fw-600 fz-50 text-u d-rotate wow">
+                    <span className="rotate-text">
+                      Trending <span className="fw-200">Stock.</span>
+                    </span>
+                  </h3>
+                </div>
+                <div className="ml-auto vi-more">
+                  <a href="#Hot" className="butn butn-sm butn-bord radius-30">
+                    <span>View All</span>
+                  </a>
+                  <span className="icon ti-arrow-top-right"></span>
+                </div>
               </div>
             </div>
-          </div>
 
-          
-          {/* <div className="page_content">
+            {/* <div className="page_content">
             <div style={{display: 'flex', width: "100%", justifyContent: 'space-between'}}>
             <PageTitle title="Hot" />
             <Link to="" style={{width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center'}}>{'See All'}</Link>
@@ -250,31 +258,44 @@ const HeroSection = () => {
             <ItemsListing limit={4} category={'models'} />
           </div> */}
 
-          {/* Images */}
-          {[
-          { title: "Videos", category: "videos" },
-          { title: "Video Templates", category: "video-templates" },
-          { title: "Pictures", category: "images" },
-          { title: "Graphic Templates", category: "graphics-templates" },
-          { title: "Mockups", category: "Mockups" },
-          { title: "3D Models", category: "models" },
-          { title: "Fonts", category: "fonts" },
-          { title: "Icons", category: "icons" },
-        ].map(({ title, category }) => (
-          <div className="page_content" key={category}>
-            <div style={{ display: 'flex', width: "100%", justifyContent: 'space-between' }}>
-              <PageTitle title={title} />
-              <Link to={`/${category}`} style={{ width: '100px', display: 'flex', flexWrap: 'nowrap', alignSelf: 'center' }}>
-                See All
-              </Link>
-            </div>
-            <ItemsListing limit={4} category={category} />
+            {/* Images */}
+            {[
+              { title: "Videos", category: "videos" },
+              { title: "Video Templates", category: "templates" },
+              { title: "Pictures", category: "images" },
+              { title: "Graphic Templates", category: "graphics" },
+              { title: "Mockups", category: "mockups" },
+              { title: "3D Models", category: "models" },
+              { title: "Fonts", category: "fonts" },
+              { title: "Icons", category: "icons" },
+            ].map(({ title, category }) => (
+              <div className="page_content" key={category}>
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <PageTitle title={title} />
+                  <Link
+                    to={`/${category}`}
+                    style={{
+                      width: "100px",
+                      display: "flex",
+                      flexWrap: "nowrap",
+                      alignSelf: "center",
+                    }}
+                  >
+                    See All
+                  </Link>
+                </div>
+                <ItemsListing limit={4} category={category} />
+              </div>
+            ))}
           </div>
-        ))}
-        </div>
-      </section>
-        )
-      }
+        </section>
+      )}
     </>
   );
 };

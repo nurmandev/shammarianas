@@ -6,7 +6,7 @@ import Search from "./Search";
 import logo from "../assets/Icons/logo.png";
 
 const Navbar = () => {
-  const { currentUser } = useUser() || '';
+  const { currentUser } = useUser() || "";
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartCount = cart.length;
   const currentPage = useLocation().pathname;
@@ -90,9 +90,8 @@ const Navbar = () => {
               </button>
             </Link>
             <div className="navbar_dropdown">
-              {
-                currentUser?.uid? (
-                  <Link to={`/Profile/${currentUser?.uid}`}>
+              {currentUser?.uid ? (
+                <Link to={`/Profile/${currentUser?.uid}`}>
                   <button className="signed_in">
                     <i className="icon fa-solid fa-user"></i>
                     <span className="username">
@@ -100,21 +99,20 @@ const Navbar = () => {
                     </span>
                   </button>
                 </Link>
-                ) : (
-                  <Link to="/Login">
-                    <button className="">Sign In</button>
-                  </Link>
-                )
-              }
-              
-              <div className={currentUser?.uid ? "dropdown" : 'hidden none'}>
+              ) : (
+                <Link to="/Login">
+                  <button className="">Sign In</button>
+                </Link>
+              )}
+
+              <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
                 <ul className="links">
                   <li>
                     <Link to="/MyDownloads">My Downloads</Link>
                   </li>
                   <li>
                     {/* <Link to="/Library">My Library</Link> */}
-                    <Link to="/Favorites">My Favorites</Link> 
+                    <Link to="/Favorites">My Favorites</Link>
                   </li>
 
                   <li>
@@ -144,14 +142,14 @@ const Navbar = () => {
       {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">
           <div className="links">
-           <ul>
+            <ul>
               {[
                 { path: "/hot", label: "Hot" },
                 { path: "/Videos", label: "Videos" },
                 { path: "/Models", label: "3D Models" },
-                { path: "/Video-templates", label: "Video Template" },
+                { path: "/templates", label: "Video Template" },
                 { path: "/images", label: "Pictures" },
-                { path: "/Graphic-templates", label: "Graphic Templates" },
+                { path: "/graphics", label: "Graphic Templates" },
                 { path: "/Mockups", label: "Mockups" },
                 { path: "/Fonts", label: "Fonts" },
                 { path: "/hot", label: "More" },
@@ -175,7 +173,7 @@ const Navbar = () => {
                 <i className="icon fa-solid fa-plus"></i> Upload
               </button>
             </Link> */}
-            <Link to={ currentUser?.uid ? "/Trade" : "/Login"}>
+            <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
               <button>
                 <i className="icon fa-solid fa-right-left"></i> Trade
               </button>
