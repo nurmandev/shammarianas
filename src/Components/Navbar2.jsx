@@ -6,7 +6,7 @@ import Search from "./Search";
 import logo from "../assets/Icons/logo.png";
 
 const Navbar = () => {
-  const { currentUser } = useUser() || '';
+  const { currentUser } = useUser() || "";
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartCount = cart.length;
   const currentPage = useLocation().pathname;
@@ -61,6 +61,230 @@ const Navbar = () => {
       document.querySelector(".navbar .navbar-collapse").classList.add("show");
     }
   }
+  // If user is NOT logged in
+  if (!currentUser) {
+    return (
+      <>
+        <nav className="navbar navbar-expand-lg bord blur">
+          <div className="container o-hidden">
+            <a className="logo icon-img-100" href="#">
+              <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              onClick={() =>
+                document
+                  .querySelector(".navbar .navbar-collapse")
+                  ?.classList.toggle("show")
+              }
+            >
+              <span className="icon-bar">
+                <i className="fas fa-bars"></i>
+              </span>
+            </button>
+            <div
+              className="collapse navbar-collapse justify-content-center"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav">
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Home</span>
+                  </a>
+                </li>
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#stock"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Stock</span>
+                  </a>
+                </li>
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#services"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Services</span>
+                  </a>
+                </li>
+                {/* <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link dropdown-toggle"
+                    data-toggle="dropdown"
+                    href="#"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Services</span>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#hot">
+                        Hot
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Printable">
+                        Printable
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Models">
+                        Models
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Textures">
+                        Textures
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Scripts">
+                        Scripts
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Shaders">
+                        Shaders
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Plugins">
+                        Plugins
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#HDRIs">
+                        HDRIs
+                      </a>
+                    </li>
+                  </ul>
+                </li> */}
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#portfolio"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Portfolio</span>
+                  </a>
+                </li>
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#blog"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Blogs</span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#contact">
+                    <span className="rolling-text">Contact Us</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="contact-button">
+              <Link
+                to="/login"
+                className="butn butn-sm butn-bg main-colorbg radius-5"
+              >
+                <span className="text">Sign In</span>
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        {["/stock"].includes(currentPage) && (
+          <div className="bottom-bar">
+            <div className="links">
+              <ul>
+                {[
+                  { path: "/hot", label: "Hot" },
+                  { path: "/Videos", label: "Videos" },
+                  { path: "/Models", label: "3D Models" },
+                  { path: "/templates", label: "Video Template" },
+                  { path: "/images", label: "Pictures" },
+                  { path: "/graphics", label: "Graphic Templates" },
+                  { path: "/Mockups", label: "Mockups" },
+                  { path: "/Fonts", label: "Fonts" },
+                  { path: "/hot", label: "More" },
+                ].map(({ path, icon, label }) => (
+                  <li key={path}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "active" : undefined
+                      }
+                      to={path}
+                    >
+                      <i className={`icon fa-solid ${icon}`}></i> {label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="buttons">
+              {/* <Link to="/Upload">
+              <button>
+                <i className="icon fa-solid fa-plus"></i> Upload
+              </button>
+            </Link> */}
+
+              <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
+                <button>
+                  <i className="icon fa-solid fa-right-left"></i> Trade
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
 
   return (
     <>
@@ -90,9 +314,8 @@ const Navbar = () => {
               </button>
             </Link>
             <div className="navbar_dropdown">
-              {
-                currentUser?.uid? (
-                  <Link to={`/Profile/${currentUser?.uid}`}>
+              {currentUser?.uid ? (
+                <Link to={`/Profile/${currentUser?.uid}`}>
                   <button className="signed_in">
                     <i className="icon fa-solid fa-user"></i>
                     <span className="username">
@@ -100,21 +323,20 @@ const Navbar = () => {
                     </span>
                   </button>
                 </Link>
-                ) : (
-                  <Link to="/Login">
-                    <button className="">Sign In</button>
-                  </Link>
-                )
-              }
-              
-              <div className={currentUser?.uid ? "dropdown" : 'hidden none'}>
+              ) : (
+                <Link to="/Login">
+                  <button className="">Sign In</button>
+                </Link>
+              )}
+
+              <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
                 <ul className="links">
                   <li>
                     <Link to="/MyDownloads">My Downloads</Link>
                   </li>
                   <li>
                     {/* <Link to="/Library">My Library</Link> */}
-                    <Link to="/Favorites">My Favorites</Link> 
+                    <Link to="/Favorites">My Favorites</Link>
                   </li>
 
                   <li>
@@ -144,77 +366,18 @@ const Navbar = () => {
       {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">
           <div className="links">
-           <ul style={{whiteSpace: 'nowrap', alignItems: 'center'}} >
+            <ul style={{ whiteSpace: "nowrap", alignItems: "center" }}>
               {[
-                // { path: "/hot", label: "Hot" },
-                // { path: "/Videos", label: "Videos" },
-                // { path: "/Models", label: "3D Models" },
-                // { path: "/Video-templates", label: "Video Template" },
-                // { path: "/images", label: "Pictures" },
-                // { path: "/Graphic-templates", label: "Graphic Templates" },
-                // { path: "/Mockups", label: "Mockups" },
-                // { path: "/Fonts", label: "Fonts" },
-                // { path: "/hot", label: "More" },
                 { path: "/hot", label: "Hot" },
                 { path: "/Videos", label: "Videos" },
                 { path: "/Models", label: "3D Models" },
                 { path: "/templates", label: "Video Template" },
                 { path: "/images", label: "Pictures" },
-                { path: "/graphics-template", label: "Graphic Templates" },
+                { path: "/graphics", label: "Graphic Templates" },
                 { path: "/Mockups", label: "Mockups" },
                 { path: "/Fonts", label: "Fonts" },
-                { path: "/More", label: "More"},
-              ].map(({ path, icon, label }) => {
-                if (label == "More") {
-                  return (
-                    <nav key={path} style={{position: "relative"}} className="navbar navbar-expand-lg">
-                    <div className="">
-                      <div
-                        className="collapse navbar-collapse justify-content-center"
-                        id="navbarSupportedContent"
-                      >
-                        <span className="navbar-nav">
-                          <li
-                            onMouseLeave={handleDropdownMouseLeave}
-                            onMouseMove={handleDropdownMouseMove}
-                            className="nav-item dropdown"
-                          >
-                            <p
-                              className="nav-link dropdown-toggle"
-                              data-toggle="dropdown"
-                              href="#"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              <span style={{marginTop: '3px'}} className="rolling-text">More</span>
-                            </p>
-                            <ul style={{display: "flex", flexDirection: 'column'}} className="dropdown-menu">
-                              {[
-                                { label: "Images", href: "#Image" },
-                                { label: "Printable", href: "#Printable" },
-                                { label: "Models", href: "#" },
-                                { label: "Textures", href: "#Textures" },
-                                { label: "Scripts", href: "#Scripts" },
-                                { label: "Shaders", href: "#Shaders" },
-                                { label: "Plugins", href: "#Plugins" },
-                                { label: "HDRIs", href: "#HDRIs" },
-                              ].map(({ label, href }) => (
-                                <li key={href}>
-                                  <a className="dropdown-item" href={href}>
-                                    {label}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </li>
-                        </span>
-                      </div>
-                    </div>
-                  </nav>
-                  )
-                }
-                return (
+                { path: "/hot", label: "More" },
+              ].map(({ path, icon, label }) => (
                 <li key={path}>
                   <NavLink
                     className={({ isActive }) =>
@@ -225,64 +388,18 @@ const Navbar = () => {
                     <i className={`icon fa-solid ${icon}`}></i> {label}
                   </NavLink>
                 </li>
-              )})}
-              {/* Separate Navigation Bar */}
+              ))}
             </ul>
           </div>
-              <div>
-                  {/* <nav className="navbar navbar-expand-lg">
-                    <div className="">
-                      <div
-                        className="collapse navbar-collapse justify-content-center"
-                        id="navbarSupportedContent"
-                      >
-                        <ul className="navbar-nav">
-                          <li
-                            onMouseLeave={handleDropdownMouseLeave}
-                            onMouseMove={handleDropdownMouseMove}
-                            className="nav-item dropdown"
-                          >
-                            <p
-                              className="nav-link dropdown-toggle"
-                              data-toggle="dropdown"
-                              href="#"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              <span className="rolling-text">More</span>
-                            </p>
-                            <ul className="dropdown-menu">
-                              {[
-                                { label: "Images", href: "#Image" },
-                                { label: "Printable", href: "#Printable" },
-                                { label: "Models", href: "#" },
-                                { label: "Textures", href: "#Textures" },
-                                { label: "Scripts", href: "#Scripts" },
-                                { label: "Shaders", href: "#Shaders" },
-                                { label: "Plugins", href: "#Plugins" },
-                                { label: "HDRIs", href: "#HDRIs" },
-                              ].map(({ label, href }) => (
-                                <li key={href}>
-                                  <a className="dropdown-item" href={href}>
-                                    {label}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </nav> */}
-              </div>
+
           <div className="buttons">
             {/* <Link to="/Upload">
               <button>
                 <i className="icon fa-solid fa-plus"></i> Upload
               </button>
             </Link> */}
-            <Link to={ currentUser?.uid ? "/Trade" : "/Login"}>
+
+            <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
               <button>
                 <i className="icon fa-solid fa-right-left"></i> Trade
               </button>
