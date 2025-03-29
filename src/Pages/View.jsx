@@ -97,7 +97,7 @@ const View = () => {
       setIsItemOwned(userProfile.purchasedItems.includes(item.id));
     }
   }, [userProfile, item]);
-  
+
   // useEffect(() => {
   //   const fetchGroup = async () => {
   //     // Fetch group data from Firestore where the current user is a member
@@ -206,7 +206,7 @@ const View = () => {
                     id={item.id}
                     price={item.price - (item.price * item.discount) / 100}
                   />
-                ) : item.type === "graphics-templates" ? (
+                ) : item.type === "graphics" ? (
                   <ContentViewer
                     templateUrl={item.template}
                     previewUrl={item.thumbnail}
@@ -500,13 +500,13 @@ const View = () => {
                         </>
                       )}
                     </button> */}
-                     <DownloadButton
-                        item={item}
-                        userProfile={userProfile}
-                        setToastMessage={setToastMessage}
-                        setToastState={setToastState}
-                        setShowToast={setShowToast}
-                      />
+                    <DownloadButton
+                      item={item}
+                      userProfile={userProfile}
+                      setToastMessage={setToastMessage}
+                      setToastState={setToastState}
+                      setShowToast={setShowToast}
+                    />
 
                     {item.price - (item.price * item.discount) / 100 ==
                     0 ? null : (

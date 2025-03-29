@@ -35,6 +35,8 @@ const Upload = () => {
     category: "",
     model: "",
     images: "",
+    videos: "",
+    icons: "",
     resolution: "",
     physicalSize: "",
     lods: "",
@@ -249,14 +251,13 @@ const Upload = () => {
         };
       }
       // Videos Template
-      if (formData.type === "templates") {
+      if (formData.type === "video-templates") {
         docData = {
           ...docData,
           videoTemplateFile: await uploadFile(formData.videoTemplateFile),
           videoTemplateFileSize: formData.videoTemplateFileSize,
         };
       }
-        
       // Videos
       if (formData.type === "videos") {
         docData = {
@@ -266,13 +267,27 @@ const Upload = () => {
           videoSize: formData.videoSize,
         };
       }
+      // Icons
+      if (formData.type === "icons" && formData.icons) {
+        const uploadedIcons = await Promise.all(
+          Array.from(formData.icons).map((icon) => uploadFile(icon))
+        );
+
+        docData = {
+          ...docData,
+          icons: uploadedIcons, // Store multiple uploaded icon URLs
+          iconNames: Array.from(formData.icons).map((icon) => icon.name),
+          iconSizes: Array.from(formData.icons).map((icon) => icon.size),
+        };
+      }
+
       // if (formData.type === "videos") {
       //   docData = {
       //     ...docData,
       //     videoFile: await uploadFile(formData.videoFile),
       //     videoFileSize: formData.videoFileSize,
       //   };
-      // } 
+      // }
       // Printable
       if (formData.type === "printables") {
         docData = {
@@ -396,8 +411,9 @@ const Upload = () => {
 
                 <div className="right">
                   <DescriptionBox
-                    description={formData.description}
-                    handleChange={handleChange}
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
                   />
                   <select name="type" onChange={handleChange} required>
                     <option value="" disabled selected>
@@ -414,7 +430,8 @@ const Upload = () => {
                     <option value="mockups">Mockups</option>
                     <option value="fonts">Fonts</option>
                     <option value="videos">Video</option>
-                    <option value="templates">Video Templates</option>
+                    <option value="video-templates">Video Templates</option>
+                    <option value="icons">Icons</option>
                     <option value="hdris">HDRIs</option>
                     <option value="other">Other</option>
                   </select>
@@ -490,53 +507,46 @@ const Upload = () => {
                       Is 3D
                     </label>
                   ) : null}
-                  {
-                    // if is 3d is false ask for images
+                  {formData.type === "shaders" ? (
+                    <>
+                      <label>Images</label>
 
-                    formData.type === "shaders" ? (
-                      <>
-                        <label>Images</label>
-
-                        <div className="images_upload">
-                          <input
-                            name="images"
-                            type="file"
-                            id="images_input"
-                            multiple
-                            onChange={(e) => {
-                              setFormData({
-                                ...formData,
-                                images: e.target.files,
-                              });
-                            }}
-                            required
+                      <div className="images_upload">
+                        <input
+                          name="images"
+                          type="file"
+                          id="images_input"
+                          multiple
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              images: e.target.files,
+                            });
+                          }}
+                          required
+                        />
+                        <label htmlFor="images_input" className="images_input">
+                          <img
+                            className="icon"
+                            src={plus_icon}
+                            alt="Add Images"
                           />
-                          <label
-                            htmlFor="images_input"
-                            className="images_input"
-                          >
-                            <img
-                              className="icon"
-                              src={plus_icon}
-                              alt="Add Images"
-                            />
-                          </label>
-                          {/* <div className="preview_images"> */}
-                          {formData.images &&
-                            Array.from(formData.images).map((image) => (
-                              <div className="image">
-                                <img
-                                  key={image.name}
-                                  src={URL.createObjectURL(image)}
-                                  alt={image.name}
-                                />
-                              </div>
-                            ))}
-                          {/* </div> */}
-                        </div>
-                      </>
-                    ) : null
-                  }
+                        </label>
+                        {/* <div className="preview_images"> */}
+                        {formData.images &&
+                          Array.from(formData.images).map((image) => (
+                            <div className="image">
+                              <img
+                                key={image.name}
+                                src={URL.createObjectURL(image)}
+                                alt={image.name}
+                              />
+                            </div>
+                          ))}
+                        {/* </div> */}
+                      </div>
+                    </>
+                  ) : null}
                   {formData.type === "videos" ? (
                     <>
                       <label>Videos</label>
@@ -574,6 +584,47 @@ const Upload = () => {
                                 />
                                 Your browser does not support the video tag.
                               </video>
+                            </div>
+                          ))}
+                      </div>
+                    </>
+                  ) : null}
+                  {formData.type === "icons" ? (
+                    <>
+                      <label>Icons</label>
+
+                      <div className="icons_upload">
+                        <input
+                          name="icons"
+                          type="file"
+                          id="icons_input"
+                          accept="image/*" // Accepts only image files
+                          multiple
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              icons: e.target.files, // Update the state for icons
+                            });
+                          }}
+                          required
+                        />
+                        <label htmlFor="icons_input" className="icons_input">
+                          <img
+                            className="icon"
+                            src={plus_icon}
+                            alt="Add Icons"
+                          />
+                        </label>
+
+                        {formData.icons &&
+                          Array.from(formData.icons).map((icon) => (
+                            <div className="icon-preview" key={icon.name}>
+                              <img
+                                src={URL.createObjectURL(icon)}
+                                alt={icon.name}
+                                width="50"
+                                height="50"
+                              />
                             </div>
                           ))}
                       </div>
@@ -1031,28 +1082,7 @@ const Upload = () => {
                       </label>
                     </>
                   )}
-                  {/* {formData.type === "videos" && (
-                    <>
-                      <input
-                        name="videoFile"
-                        id="videoInput"
-                        type="file"
-                        accept=".mp4,.mov,.avi,.mkv"
-                        onChange={(e) => {
-                          setFormData({
-                            ...formData,
-                            videoFile: e.target.files[0],
-                            videoFileSize: e.target.files[0].size,
-                          });
-                        }}
-                        required
-                      />
-                      <label htmlFor="videoInput" className="custom-file-input">
-                        Choose Video File
-                      </label>
-                    </>
-                  )} */}
-                  {formData.type === "templates" && (
+                  {formData.type === "video-templates" && (
                     <>
                       <input
                         name="videoTemplateFile"
