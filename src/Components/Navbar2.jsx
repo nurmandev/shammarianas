@@ -366,11 +366,10 @@ const Navbar = () => {
       {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">
           <div className="links">
-<<<<<
+
            <ul style={{whiteSpace: 'nowrap', alignItems: 'center'}} >
-====
+
             <ul>
->>
               {[
                 // { path: "/hot", label: "Hot" },
                 // { path: "/Videos", label: "Videos" },
