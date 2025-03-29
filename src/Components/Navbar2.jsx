@@ -373,22 +373,90 @@ const Navbar = () => {
                 { path: "/Models", label: "3D Models" },
                 { path: "/templates", label: "Video Template" },
                 { path: "/images", label: "Pictures" },
-                { path: "/graphics", label: "Graphic Templates" },
+                { path: "/graphics-template", label: "Graphic Templates" },
                 { path: "/Mockups", label: "Mockups" },
                 { path: "/Fonts", label: "Fonts" },
-                { path: "/hot", label: "More" },
-              ].map(({ path, icon, label }) => (
-                <li key={path}>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to={path}
-                  >
-                    <i className={`icon fa-solid ${icon}`}></i> {label}
-                  </NavLink>
-                </li>
-              ))}
+                { path: "/More", label: "More" },
+              ].map(({ path, icon, label }) => {
+                if (label == "More") {
+                  return (
+                    <nav
+                      key={path}
+                      style={{ position: "relative" }}
+                      className="navbar navbar-expand-lg"
+                    >
+                      <div className="">
+                        <div
+                          className="collapse navbar-collapse justify-content-center"
+                          id="navbarSupportedContent"
+                        >
+                          <span className="navbar-nav">
+                            <li
+                              onMouseLeave={handleDropdownMouseLeave}
+                              onMouseMove={handleDropdownMouseMove}
+                              className="nav-item dropdown"
+                            >
+                              <p
+                                className="nav-link dropdown-toggle"
+                                data-toggle="dropdown"
+                                href="#"
+                                role="button"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                              >
+                                <span
+                                  style={{ marginTop: "3px" }}
+                                  className="rolling-text"
+                                >
+                                  More
+                                </span>
+                              </p>
+                              <ul
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                                className="dropdown-menu"
+                              >
+                                {[
+                                  { label: "Images", href: "#Image" },
+                                  { label: "Printable", href: "#Printable" },
+                                  { label: "Models", href: "#" },
+                                  { label: "Textures", href: "#Textures" },
+                                  { label: "Scripts", href: "#Scripts" },
+                                  { label: "Shaders", href: "#Shaders" },
+                                  { label: "Plugins", href: "#Plugins" },
+                                  { label: "HDRIs", href: "#HDRIs" },
+                                ].map(({ label, href }) => (
+                                  <li key={href}>
+                                    <a className="dropdown-item" href={href}>
+                                      {label}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </li>
+                          </span>
+                        </div>
+                      </div>
+                    </nav>
+                  );
+                }
+                return (
+                  <li key={path}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "active" : undefined
+                      }
+                      to={path}
+                    >
+                      <i className={`fa-solid ${icon}`}></i>
+                      {label}
+                    </NavLink>
+                  </li>
+                );
+              })}
+              {/* Separate Navigation Bar */}
             </ul>
           </div>
 
