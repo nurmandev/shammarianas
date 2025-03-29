@@ -1,3 +1,6 @@
+
+
+
 "use client";
 import React, { useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
@@ -459,6 +462,7 @@ const Navbar = () => {
               {/* Separate Navigation Bar */}
             </ul>
           </div>
+
 
           <div className="buttons">
             {/* <Link to="/Upload">
