@@ -53,6 +53,7 @@ import Admin from "./Pages/Admin";
 import Success from "./Pages/Success";
 
 import CategoryTemplate from "./Pages/Types/CategoryTemplate";
+import PageTeam from "./Pages/Page-team";
 // CategoryTemplate.js
 
 const ScrollToTop = () => {
@@ -86,7 +87,7 @@ export const AppRoutes = () => (
     <Route path="/HDRIs" element={<HDRIs />} />
     <Route path="/templates" element={<VideoTemplate />} />
     <Route path="/Plugins" element={<Plugins />} /> */}
-    <Route path="/:Category" element={<CategoryTemplate />} /> 
+    <Route path="/:Category" element={<CategoryTemplate />} />
     <Route path="/View/:id" element={<View />} />
     <Route path="/Groups" element={<Group />} />
     <Route path="/Upload" element={<Upload />} />
@@ -104,6 +105,7 @@ export const AppRoutes = () => (
     <Route path="/portfolio" element={<Portfolio />} />
     <Route path="/Support" element={<Support />} />
     <Route path="/about" element={<AboutUs />} />
+    <Route path="/page-team" element={<PageTeam />} />
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
