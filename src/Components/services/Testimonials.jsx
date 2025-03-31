@@ -39,10 +39,10 @@ function Testimonials() {
                     <div className="content">
                       <div className="text">
                         <p className="fz-30">
-                          I have been hiring people in this space for a number
-                          of years and I have never seen this level of
-                          professionalism. It really feels like you are working
-                          with a team that can get the job done.
+                          With Sham-Marianas expert strategies and innovative
+                          solutions, we optimized our operations and unlocked
+                          new growth opportunities, setting us on the path to
+                          success.
                         </p>
                       </div>
                       <div className="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
@@ -68,10 +68,139 @@ function Testimonials() {
                     <div className="content">
                       <div className="text">
                         <p className="fz-30">
-                          I have been hiring people in this space for a number
-                          of years and I have never seen this level of
-                          professionalism. It really feels like you are working
-                          with a team that can get the job done.
+                          We gave Sham-Marianas a challenging task—to simplify a
+                          complex issue and engage key stakeholders. They
+                          delivered an innovative, compelling solution that
+                          captured attention and drove results.
+                        </p>
+                      </div>
+                      <div className="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
+                        <div className="fit-img circle">
+                          <img
+                            src="/assets/imgs/testim/t2.jpg"
+                            alt="Testimonial"
+                          />
+                        </div>
+                        <div className="ms-20">
+                          <h5>John Doe</h5>
+                          <span className="sub-title main-color">CTO</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="item">
+                    <div className="content">
+                      <div className="text">
+                        <p className="fz-30">
+                          Sham-Marianas exceeded our expectations with their
+                          exceptional services. From branding to website design,
+                          they delivered creative, original, and impactful
+                          solutions that perfectly conveyed our vision.
+                        </p>
+                      </div>
+                      <div className="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
+                        <div className="fit-img circle">
+                          <img
+                            src="/assets/imgs/testim/t2.jpg"
+                            alt="Testimonial"
+                          />
+                        </div>
+                        <div className="ms-20">
+                          <h5>John Doe</h5>
+                          <span className="sub-title main-color">CTO</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="item">
+                    <div className="content">
+                      <div className="text">
+                        <p className="fz-30">
+                          We partnered with Sham-Marianas to elevate our brand
+                          and market positioning. They delivered exceptional
+                          results—an impressive brand identity, strategic
+                          campaigns, and outstanding support at every step.
+                        </p>
+                      </div>
+                      <div className="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
+                        <div className="fit-img circle">
+                          <img
+                            src="/assets/imgs/testim/t2.jpg"
+                            alt="Testimonial"
+                          />
+                        </div>
+                        <div className="ms-20">
+                          <h5>John Doe</h5>
+                          <span className="sub-title main-color">CTO</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="item">
+                    <div className="content">
+                      <div className="text">
+                        <p className="fz-30">
+                          I highly recommend Sham-Marianas for their strategic
+                          and results-driven approach. They provided actionable
+                          solutions that optimized our operations, enhanced
+                          efficiency, and delivered outstanding results with
+                          professionalism and precision.
+                        </p>
+                      </div>
+                      <div className="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
+                        <div className="fit-img circle">
+                          <img
+                            src="/assets/imgs/testim/t2.jpg"
+                            alt="Testimonial"
+                          />
+                        </div>
+                        <div className="ms-20">
+                          <h5>John Doe</h5>
+                          <span className="sub-title main-color">CTO</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="item">
+                    <div className="content">
+                      <div className="text">
+                        <p className="fz-30">
+                          Sham-Marianas impressed us with their unique and
+                          innovative approach. Their solution received
+                          overwhelming praise from our leadership team.
+                        </p>
+                      </div>
+                      <div className="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
+                        <div className="fit-img circle">
+                          <img
+                            src="/assets/imgs/testim/t2.jpg"
+                            alt="Testimonial"
+                          />
+                        </div>
+                        <div className="ms-20">
+                          <h5>John Doe</h5>
+                          <span className="sub-title main-color">CTO</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="item">
+                    <div className="content">
+                      <div className="text">
+                        <p className="fz-30">
+                          Sham-MarianSall delivered impactful and creative
+                          solutions that strengthened our community outreach
+                          efforts.
                         </p>
                       </div>
                       <div className="info d-flex align-items-center pt-40 mt-40 bord-thin-top">

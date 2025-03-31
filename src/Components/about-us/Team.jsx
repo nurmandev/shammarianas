@@ -1,5 +1,5 @@
-import React from 'react';
-import data from '../../data/team-t.json';
+import React from "react";
+import data from "../../data/team-t.json";
 function Team() {
   return (
     <section className="team-crev2 section-padding pb-90">
@@ -34,10 +34,10 @@ function Team() {
                         <a href="#0">
                           <i className="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#0">
+                        <a href="https://www.behance.net/shammarianas">
                           <i className="fab fa-behance"></i>
                         </a>
-                        <a href="#0">
+                        <a href="https://www.instagram.com/sham_marianas/">
                           <i className="fab fa-instagram"></i>
                         </a>
                       </div>

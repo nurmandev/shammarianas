@@ -6,6 +6,7 @@ import Team from "./../Components/about-us/Team";
 import Clients from "./../Components/about-us/Clients";
 import Blog from "./../Components/about-us/Blog";
 import Marq2 from "./../Components/marq2";
+import Testimonials from "../Components/services/Testimonials";
 function AboutUs() {
   return (
     <>
@@ -15,7 +16,7 @@ function AboutUs() {
       <Services />
       <Team />
 
-      {/* <Testimonials/> */}
+      <Testimonials/>
 
       <Clients />
 

@@ -206,6 +206,7 @@ const Navbar = () => {
                     <span className="rolling-text">Portfolio</span>
                   </a>
                 </li>
+
                 <li
                   onMouseLeave={handleDropdownMouseLeave}
                   onMouseMove={handleDropdownMouseMove}
@@ -219,6 +220,21 @@ const Navbar = () => {
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Blogs</span>
+                  </a>
+                </li>
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#about"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">About us</span>
                   </a>
                 </li>
                 <li className="nav-item">

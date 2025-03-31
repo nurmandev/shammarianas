@@ -34,16 +34,25 @@ function Footer() {
               <h6 className="sub-title mb-30">Useful Links</h6>
               <ul className="rest fz-14 opacity-7">
                 <li className="mb-15">
-                  <a href="/page-about">About</a>
+                  <a href="/">Home</a>
                 </li>
                 <li className="mb-15">
-                  <a href="/page-services">Services</a>
+                  <a href="#services">Services</a>
                 </li>
                 <li className="mb-15">
-                  <a href="/blog-grid-sidebar">Blog</a>
+                  <a href="#portfolio">Portfolio</a>
+                </li>
+                <li className="mb-15">
+                  <a href="#Stock">Stock</a>
+                </li>
+                <li className="mb-15">
+                  <a href="#about">About</a>
+                </li>
+                <li className="mb-15">
+                  <a href="#blog">Blog</a>
                 </li>
                 <li>
-                  <a href="/page-contact">Contact</a>
+                  <a href="#contact">Contact us</a>
                 </li>
               </ul>
             </div>
