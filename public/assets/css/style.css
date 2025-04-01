@@ -194,7 +194,7 @@ figure {
 }
 
 .main-color {
-  color: #52b0b4;
+  color: #52b0b4 !important;
 }
 
 .main-colorbg {
