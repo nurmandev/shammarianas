@@ -18,14 +18,14 @@ function FirstPage() {
         <div className="row">
           <div className="col-lg-11">
             <div className="caption">
-              <h1>Empowering your</h1>
+              <h1>Elevate Your</h1>
               <div className="d-flex align-items-end">
                 <div>
                   <h1 className="nowrap">
-                    <span className="main-color">brand</span> to stand out.
+                    <span className="main-color">Brand</span> Today
                   </h1>
                 </div>
-                <div>
+                {/* <div>
                   <div className="text ml-30">
                     <p>
                       We back the founders of new forms of network, digital
@@ -36,7 +36,7 @@ function FirstPage() {
                       for the benefit of the collective.
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

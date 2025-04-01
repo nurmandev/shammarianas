@@ -5,27 +5,63 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const data = [
   {
-    title: "Digital Product Design",
-    img: "/assets/imgs/serv-icons/3.png",
-    desc: "Live workshop where we define the main problems and challenges before building a strategic plan moving forward.",
-    link: "#page-services-details",
-  },
-  {
-    title: "Web Developments",
-    img: "/assets/imgs/serv-icons/4.png",
-    desc: "Live workshop where we define the main problems and challenges before building a strategic plan moving forward.",
-    link: "#page-services-details",
-  },
-  {
     title: "Branding Design",
-    img: "/assets/imgs/serv-icons/5.png",
-    desc: "Live workshop where we define the main problems and challenges before building a strategic plan moving forward.",
+    img: "/assets/imgs/serv-icons/3.png",
+    desc: "Our branding design creates strong brand identities that attract audiences, build recognition, and grow businesses for long-term success.",
     link: "#page-services-details",
   },
   {
     title: "UI-UX Design",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "Live workshop where we define the main problems and challenges before building a strategic plan moving forward.",
+    desc: "We offer UI/UX design that creates smooth, user-friendly experiences that boost engagement, conversions, and brand success, making every interaction seamless and enjoyable.",
+    link: "#page-services-details",
+  },
+  {
+    title: "Web Developments",
+    img: "/assets/imgs/serv-icons/4.png",
+    desc: "At Sham Marianas, we build cutting-edge web development solutions that blend innovation, performance, and seamless user experiences to help businesses thrive online.",
+    link: "#page-services-details",
+  },
+  {
+    title: "E-Commerce Solutions",
+    img: "/assets/imgs/serv-icons/5.png",
+    desc: "We build e-commerce solutions that make online selling seamless and profitable. Our expert services enhance customer reach, conversions, and sales growth",
+    link: "#page-services-details",
+  },
+  {
+    title: "Content Writing",
+    img: "/assets/imgs/serv-icons/3.png",
+    desc: "We create SEO-friendly content writing that captures attention, builds authority, and boosts online presence.",
+    link: "#page-services-details",
+  },
+  {
+    title: "Product Design",
+    img: "/assets/imgs/serv-icons/5.png",
+    desc: "We provide the best product design, creating seamless, user-focused experiences that drive engagement, innovation, and business success.",
+    link: "#page-services-details",
+  },
+  {
+    title: "Social Media & Digital Marketing",
+    img: "/assets/imgs/serv-icons/4.png",
+    desc: "We help businesses grow with social media & digital marketing, increasing brand awareness, interaction, and online reach.",
+    link: "#page-services-details",
+  },
+  {
+    title: "Photography & Video Production",
+    img: "/assets/imgs/serv-icons/5.png",
+    desc: "We deliver photography & video production that captures your brand’s story, enhancing engagement, visibility, and trust with high-impact visuals.",
+    link: "#page-services-details",
+  },
+  {
+    title: "VFX and CGI ADs",
+    img: "/assets/imgs/serv-icons/4.png",
+    desc: "We design eye-catching VFX and CGI ads that boost brand visibility, engagement, and audience impact with stunning, high-quality visuals.",
+    link: "#page-services-details",
+  },
+  {
+    title: "Print Media Solution",
+    img: "/assets/imgs/serv-icons/5.png",
+    desc: "We craft print media solutions that boost brand visibility, marketing impact, and audience engagement with high-quality designs and materials.",
     link: "#page-services-details",
   },
 ];
