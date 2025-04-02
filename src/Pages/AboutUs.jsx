@@ -14,9 +14,9 @@ function AboutUs() {
       <Intro />
       <Numbers />
       {/* <Services /> */}
-      <Team />
-
       <Testimonials />
+
+      <Team />
 
       {/* <Clients /> */}
 
