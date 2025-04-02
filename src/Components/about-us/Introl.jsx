@@ -9,7 +9,7 @@ function Intro() {
             <p className="mb-50 fw-300 " style={{ fontSize: "24px" }}>
               Ehtasham ul Haq, A seasoned expert with 12 years of experience in
               advertising, started Sham Marianas in 2022. In order to convey
-              depth and purpose, the term Sham Marianas
+              depth and purpose, the term Sham Marianas{"   "}
               <span className="fw-300" style={{ fontSize: "24px" }}>
                 was thoughtfully created by fusing significant words.{" "}
               </span>{" "}
