@@ -38,8 +38,8 @@ export default function PageServices() {
           <Intro2 />
           <Numbers />
           <Testimonials />
-          <Clients />
-          <Blog />
+          {/* <Clients /> */}
+          {/* <Blog /> */}
           <Marq2 />
         </main>
       </div>
