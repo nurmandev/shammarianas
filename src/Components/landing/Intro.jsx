@@ -14,9 +14,9 @@ function Intro() {
               </div>
               <div className="col-md-6">
                 <div className="text">
-                  <h3 className="mb-10">
+                  <h3 className="mb-30">
                     Sham Marians{" "}
-                    <span className="fw-200">
+                    <span className="fw-300">
                       Powering Creativity & Boosting Digital Growth with Top
                       Advertising Strategies
                     </span>
@@ -77,7 +77,7 @@ function Intro() {
           </div>
           <div className="col-lg-4">
             <div className="img-full fit-img">
-              <img src="/assets/imgs/team/02-new.png" alt="" />
+              <img src="/assets/imgs/intro/04.jpg" alt="" />
             </div>
           </div>
         </div>

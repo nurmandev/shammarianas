@@ -4859,11 +4859,11 @@ footer.clean-footer.crev .circle-blur {
 
 
 .main-header .caption h1 {
-  font-size: 80px !important;
+  font-size: 75px !important;
 }
 .main-header .caption h1.new{
   margin-bottom: 2rem;
-  font-size: 70px !important;
+  font-size: 65px !important;
 
 }
 .text-bold{
@@ -8017,7 +8017,7 @@ footer.clean-footer.crev .circle-blur {
     min-height: auto;
   }
   .main-header .caption h1 {
-    font-size: 80px;
+    font-size: 75px;
   }
   .main-header .caption h1.new {
     font-size: 40px !important;
