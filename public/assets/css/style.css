@@ -1914,6 +1914,7 @@ img.left {
 
 .nowrap {
   white-space: nowrap;
+
 }
 
 .unlist {
@@ -4856,10 +4857,16 @@ footer.clean-footer.crev .circle-blur {
   overflow: hidden;
 }
 
-.main-header .caption h1 {
-  font-size: 90px !important;
-}
 
+.main-header .caption h1 {
+  font-size: 80px !important;
+}
+.main-header .caption h1.new{
+  margin-bottom: 2rem;
+}
+.text-bold{
+  font-weight: 300;
+}
 .main-header .icon-img {
   width: 160px;
 }

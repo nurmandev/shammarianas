@@ -94,7 +94,8 @@ const Navbar = () => {
                   className="nav-item dropdown"
                 >
                   <a
-                    className="nav-link"
+                    className="nav-link dropdown-toggle"
+                    data-toggle="dropdown"
                     href="#"
                     role="button"
                     aria-haspopup="true"
@@ -102,6 +103,13 @@ const Navbar = () => {
                   >
                     <span className="rolling-text">Home</span>
                   </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#about">
+                        About us
+                      </a>
+                    </li>
+                  </ul>
                 </li>
                 <li
                   onMouseLeave={handleDropdownMouseLeave}
@@ -220,21 +228,6 @@ const Navbar = () => {
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Blogs</span>
-                  </a>
-                </li>
-                <li
-                  onMouseLeave={handleDropdownMouseLeave}
-                  onMouseMove={handleDropdownMouseMove}
-                  className="nav-item dropdown"
-                >
-                  <a
-                    className="nav-link"
-                    href="#about"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <span className="rolling-text">About us</span>
                   </a>
                 </li>
                 <li className="nav-item">

@@ -18,6 +18,7 @@ function FirstPage() {
         <div className="row">
           <div className="col-lg-11">
             <div className="caption">
+              <h1 className="new">Top Advertising Agency Services:</h1>
               <h1>Elevate Your</h1>
               <div className="d-flex align-items-end">
                 <div>

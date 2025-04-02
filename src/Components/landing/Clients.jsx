@@ -62,42 +62,42 @@ function Clients() {
           >
             <SwiperSlide>
               <div className="item">
-                <div className="img icon-img-100">
+                <div className="img icon-img-200">
                   <img src="/assets/imgs/brands/02.png" alt="" />
                 </div>
               </div>
             </SwiperSlide>
             <SwiperSlide>
               <div className="item">
-                <div className="img icon-img-100">
+                <div className="img icon-img-200">
                   <img src="/assets/imgs/brands/03.png" alt="" />
                 </div>
               </div>
             </SwiperSlide>
             <SwiperSlide>
               <div className="item">
-                <div className="img icon-img-100">
+                <div className="img icon-img-200">
                   <img src="/assets/imgs/brands/04.png" alt="" />
                 </div>
               </div>
             </SwiperSlide>
             <SwiperSlide>
               <div className="item">
-                <div className="img icon-img-100">
+                <div className="img icon-img-200">
                   <img src="/assets/imgs/brands/05.png" alt="" />
                 </div>
               </div>
             </SwiperSlide>
             <SwiperSlide>
               <div className="item">
-                <div className="img icon-img-100">
+                <div className="img icon-img-200">
                   <img src="/assets/imgs/brands/06.png" alt="" />
                 </div>
               </div>
             </SwiperSlide>
             <SwiperSlide>
               <div className="item">
-                <div className="img icon-img-100">
+                <div className="img icon-img-200">
                   <img src="/assets/imgs/brands/07.png" alt="" />
                 </div>
               </div>

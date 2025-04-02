@@ -14,20 +14,24 @@ function Intro() {
               </div>
               <div className="col-md-6">
                 <div className="text">
-                  <h3 className="mb-30">
-                    Sham Marians <span className="fw-300">Empowering </span>{" "}
-                    <span className="fw-300">
+                  <h3 className="mb-10">
+                    Sham Marians{" "}
+                    <span className="fw-200">
                       Powering Creativity & Boosting Digital Growth with Top
                       Advertising Strategies
                     </span>
                   </h3>
                   <p>
-                    Sham Marianas is a top advertising agency that helps
-                    businesses grow with digital marketing, brand building, and
-                    ROI-focused advertising. We employ tried-and-true marketing
-                    techniques to increase our internet presence, draw in new
-                    clients, and provide tangible outcomes. Let&apos;s grow your
-                    company to new heights!
+                    <span className="text-bold underline main-color ">
+                      {" "}
+                      Sham Marianas
+                    </span>{" "}
+                    is a top advertising agency that helps businesses grow with
+                    digital marketing, brand building, and ROI-focused
+                    advertising. We employ tried-and-true marketing techniques
+                    to increase our internet presence, draw in new clients, and
+                    provide tangible outcomes. Let&apos;s grow your company to
+                    new heights!
                   </p>
 
                   <a href="/page-about" className="underline main-color mt-40">
@@ -73,7 +77,7 @@ function Intro() {
           </div>
           <div className="col-lg-4">
             <div className="img-full fit-img">
-              <img src="/assets/imgs/intro/04.jpg" alt="" />
+              <img src="/assets/imgs/team/02-new.png" alt="" />
             </div>
           </div>
         </div>
