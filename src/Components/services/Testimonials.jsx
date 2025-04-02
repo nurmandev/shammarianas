@@ -76,9 +76,9 @@ function Testimonials() {
                   <h6 className="sub-title mb-15">Design Quality</h6>
                   <div className="text">
                     <p>
-                      “ I have been hiring people in this space for a number of
-                      years and I have never seen this level of
-                      professionalism.”
+                      “ With Sham-Marianas expert strategies and innovative
+                      solutions, we optimized our operations and unlocked new
+                      growth opportunities, setting us on the path to success. ”
                     </p>
                   </div>
                 </div>
@@ -105,9 +105,9 @@ function Testimonials() {
                   <h6 className="sub-title mb-15">Design Quality</h6>
                   <div className="text">
                     <p>
-                      “ I have been hiring people in this space for a number of
-                      years and I have never seen this level of professionalism.
-                      ”
+                      “ Working with Sham Marianas has been an absolute
+                      game-changer! Their team&apos;s creativity and strategic
+                      brilliance completely transformed our brand identity ”
                     </p>
                   </div>
                 </div>
@@ -134,9 +134,159 @@ function Testimonials() {
                   <h6 className="sub-title mb-15">Design Quality</h6>
                   <div className="text">
                     <p>
-                      “ I have been hiring people in this space for a number of
-                      years and I have never seen this level of professionalism.
-                      ”
+                      “ We gave Sham-Marianas a challenging task—to simplify a
+                      complex issue and engage key stakeholders. They delivered
+                      an innovative, compelling solution that captured attention
+                      and drove results. ”
+                    </p>
+                  </div>
+                </div>
+                <div className="info">
+                  <div className="d-flex align-items-center">
+                    <div>
+                      <div className="img fit-img">
+                        <img src="/assets/imgs/testim/t3.jpg" alt="" />
+                      </div>
+                    </div>
+                    <div className="ml-20">
+                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <span className="p-color opacity-8 fz-15 mt-5">
+                        Envato Customer
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="item">
+                <div className="cont">
+                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <div className="text">
+                    <p>
+                      “ Sham-Marianas exceeded our expectations with their
+                      exceptional services. From branding to website design,
+                      they delivered creative, original, and impactful solutions
+                      that perfectly conveyed our vision. ”
+                    </p>
+                  </div>
+                </div>
+                <div className="info">
+                  <div className="d-flex align-items-center">
+                    <div>
+                      <div className="img fit-img">
+                        <img src="/assets/imgs/testim/t3.jpg" alt="" />
+                      </div>
+                    </div>
+                    <div className="ml-20">
+                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <span className="p-color opacity-8 fz-15 mt-5">
+                        Envato Customer
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="item">
+                <div className="cont">
+                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <div className="text">
+                    <p>
+                      “ We partnered with Sham-Marianas to elevate our brand and
+                      market positioning. They delivered exceptional results—an
+                      impressive brand identity, strategic campaigns, and
+                      outstanding support at every step. ”
+                    </p>
+                  </div>
+                </div>
+                <div className="info">
+                  <div className="d-flex align-items-center">
+                    <div>
+                      <div className="img fit-img">
+                        <img src="/assets/imgs/testim/t3.jpg" alt="" />
+                      </div>
+                    </div>
+                    <div className="ml-20">
+                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <span className="p-color opacity-8 fz-15 mt-5">
+                        Envato Customer
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="item">
+                <div className="cont">
+                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <div className="text">
+                    <p>
+                      “ I highly recommend Sham-Marianas for their strategic and
+                      results-driven approach. They provided actionable
+                      solutions that optimized our operations, enhanced
+                      efficiency, and delivered outstanding results with
+                      professionalism and precision. ”
+                    </p>
+                  </div>
+                </div>
+                <div className="info">
+                  <div className="d-flex align-items-center">
+                    <div>
+                      <div className="img fit-img">
+                        <img src="/assets/imgs/testim/t3.jpg" alt="" />
+                      </div>
+                    </div>
+                    <div className="ml-20">
+                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <span className="p-color opacity-8 fz-15 mt-5">
+                        Envato Customer
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="item">
+                <div className="cont">
+                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <div className="text">
+                    <p>
+                      “ Sham-Marianas impressed us with their unique and
+                      innovative approach. Their solution received overwhelming
+                      praise from our leadership team. ”
+                    </p>
+                  </div>
+                </div>
+                <div className="info">
+                  <div className="d-flex align-items-center">
+                    <div>
+                      <div className="img fit-img">
+                        <img src="/assets/imgs/testim/t3.jpg" alt="" />
+                      </div>
+                    </div>
+                    <div className="ml-20">
+                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <span className="p-color opacity-8 fz-15 mt-5">
+                        Envato Customer
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="item">
+                <div className="cont">
+                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <div className="text">
+                    <p>
+                      “ Sham-MarianSall delivered impactful and creative
+                      solutions that strengthened our community outreach
+                      efforts. ”
                     </p>
                   </div>
                 </div>
