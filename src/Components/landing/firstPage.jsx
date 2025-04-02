@@ -19,26 +19,9 @@ function FirstPage() {
           <div className="col-lg-11">
             <div className="caption">
               <h1 className="new">Top Advertising Agency Services:</h1>
-              <h1>Elevate Your</h1>
-              <div className="d-flex align-items-end">
-                <div>
-                  <h1 className="nowrap">
-                    <span className="main-color">Brand</span> Today
-                  </h1>
-                </div>
-                {/* <div>
-                  <div className="text ml-30">
-                    <p>
-                      We back the founders of new forms of network, digital
-                      organisations that harness the{" "}
-                      <span className="text-light fw-600">
-                        talents of individuals
-                      </span>{" "}
-                      for the benefit of the collective.
-                    </p>
-                  </div>
-                </div> */}
-              </div>
+              <h1>
+                Elevate Your <span className="main-color">Brand</span> Today
+              </h1>
             </div>
           </div>
         </div>

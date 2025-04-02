@@ -13,14 +13,14 @@ function AboutUs() {
       <Header />
       <Intro />
       <Numbers />
-      <Services />
+      {/* <Services /> */}
       <Team />
 
-      <Testimonials/>
+      <Testimonials />
 
-      <Clients />
+      {/* <Clients /> */}
 
-      <Blog />
+      {/* <Blog /> */}
 
       <Marq2 />
     </>

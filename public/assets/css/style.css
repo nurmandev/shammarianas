@@ -4863,6 +4863,8 @@ footer.clean-footer.crev .circle-blur {
 }
 .main-header .caption h1.new{
   margin-bottom: 2rem;
+  font-size: 70px !important;
+
 }
 .text-bold{
   font-weight: 300;
@@ -8016,6 +8018,9 @@ footer.clean-footer.crev .circle-blur {
   }
   .main-header .caption h1 {
     font-size: 80px;
+  }
+  .main-header .caption h1.new {
+    font-size: 40px !important;
   }
   .main-header .caption .text {
     display: none;
