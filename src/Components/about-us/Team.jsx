@@ -31,7 +31,10 @@ function Team() {
                     <img src={item.img} alt="" />
                     <div className="social">
                       <div className="links">
-                        <a href="#0">
+                        <a
+                          href="https://www.facebook.com/shammarianas
+"
+                        >
                           <i className="fab fa-facebook-f"></i>
                         </a>
                         <a href="https://www.behance.net/shammarianas">
