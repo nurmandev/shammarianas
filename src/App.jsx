@@ -24,6 +24,7 @@ import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
 import Contact from "./Pages/Contact";
+import Blogi from "./Pages/Blogs/Blogs";
 import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
@@ -100,6 +101,7 @@ export const AppRoutes = () => (
     <Route path="/Terms" element={<Terms />} />
     <Route path="/Privacy" element={<Privacy />} />
     <Route path="/contact" element={<Contact />} />
+    <Route path="/blogi" element={<Blogi />} />
     <Route path="/blog" element={<Blog />} />
     <Route path="/blog-details" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
