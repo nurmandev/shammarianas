@@ -1,11 +1,14 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { db, storage } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
+import ProgressScroll from "../common/ProgressScroll";
+import Cursor from "../common/cusor";
+
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Marq2 from "../Components/marq2";
-import Footer from "../Components/Footer";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,6 +92,8 @@ function Header() {
 
   return (
     <>
+      <Cursor />
+      <ProgressScroll />
       <header
         className="page-header bg-img section-padding valign"
         data-background="/assets/imgs/background/bg4.jpg"
@@ -295,7 +300,8 @@ function Header() {
                       <h6>{project.title}</h6>
                     </div>
                     <div className="ml-auto">
-                      <a href={`/project-details?id=${project.id}`}>
+                      <a href={`#project-details`}>
+                      {/* <a href={`/project-details?id=${project.id}`}> */}
                         <span className="ti-arrow-top-right"></span>
                       </a>
                     </div>

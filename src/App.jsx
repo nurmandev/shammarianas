@@ -28,6 +28,7 @@ import Blogi from "./Pages/Blogs/Blogs";
 import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
+import PortfolioDetails from "./Pages/project-details";
 // import LoadingScreen from "./common/loader";
 import Support from "./Pages/Support";
 import AboutUs from "./Pages/AboutUs";
@@ -105,6 +106,7 @@ export const AppRoutes = () => (
     <Route path="/blog" element={<Blog />} />
     <Route path="/blog-details" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
+    <Route path="/project-details" element={<PortfolioDetails />} />
     <Route path="/Support" element={<Support />} />
     <Route path="/about" element={<AboutUs />} />
     <Route path="/page-team" element={<PageTeam />} />
