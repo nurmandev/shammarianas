@@ -2,31 +2,53 @@ import React, { useState, useRef } from "react";
 import { db, storage } from "../../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+const modules = {
+  toolbar: [
+    ["bold", "italic", "underline", "strike"],
+    ["blockquote", "code-block"],
+    [{ header: 1 }, { header: 2 }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ direction: "rtl" }],
+    [{ size: ["small", false, "large", "huge"] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ color: [] }, { background: [] }],
+    [{ font: [] }],
+    [{ align: [] }],
+    ["clean"],
+    ["link", "image", "video"],
+  ],
+};
+
+const formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "script",
+  "link",
+  "image",
+  "video",
+  "color",
+  "background",
+  "align",
+  "code-block",
+  "direction",
+];
 
 function BlogEditor() {
-  const { quill, quillRef } = useQuill({
-    modules: {
-      toolbar: [
-        ["bold", "italic", "underline", "strike"],
-        ["blockquote", "code-block"],
-        [{ header: 1 }, { header: 2 }],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [{ script: "sub" }, { script: "super" }],
-        [{ indent: "-1" }, { indent: "+1" }],
-        [{ direction: "rtl" }],
-        [{ size: ["small", false, "large", "huge"] }],
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        [{ color: [] }, { background: [] }],
-        [{ font: [] }],
-        [{ align: [] }],
-        ["clean"],
-        ["link", "image", "video"],
-      ],
-    },
-  });
-
   const [blogData, setBlogData] = useState({
     title: "",
     slug: "",
@@ -49,7 +71,6 @@ function BlogEditor() {
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       if (e.target.files[0].size > 1250000) {
-        // 1.25MB limit
         alert("Image must be smaller than 1.25MB");
         return;
       }
@@ -70,13 +91,8 @@ function BlogEditor() {
     setIsSubmitting(true);
 
     try {
-      // Get HTML content from Quill editor
-      const content = quill.root.innerHTML;
-
-      // Generate slug from title
       const slug = generateSlug(blogData.title);
 
-      // Upload image to Firebase Storage
       let imageUrl = "";
       if (blogData.image) {
         const storageRef = ref(
@@ -87,16 +103,15 @@ function BlogEditor() {
         imageUrl = await getDownloadURL(storageRef);
       }
 
-      // Save blog to Firestore
       const docRef = await addDoc(collection(db, "blogs"), {
         title: blogData.title,
         slug: slug,
         category: blogData.category,
-        excerpt: blogData.excerpt || content.substring(0, 160) + "...",
-        content: content,
+        excerpt: blogData.excerpt || blogData.content.substring(0, 160) + "...",
+        content: blogData.content,
         imageUrl: imageUrl,
         status: blogData.status,
-        author: "Admin", // Replace with actual author
+        author: "Admin",
         publishedAt: serverTimestamp(),
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -115,8 +130,8 @@ function BlogEditor() {
         imageUrl: "",
         content: "",
       });
-      quill.root.innerHTML = "";
       if (fileInputRef.current) fileInputRef.current.value = "";
+      window.location.reload();
     } catch (error) {
       console.error("Error publishing blog:", error);
       alert("Error publishing blog: " + error.message);
@@ -227,9 +242,16 @@ function BlogEditor() {
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Content <span className="text-red-500">*</span>
           </label>
-          <div className="h-96 bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
-            <div ref={quillRef} className="h-full" />
-          </div>
+          <ReactQuill
+            value={blogData.content}
+            onChange={(value) =>
+              setBlogData((prev) => ({ ...prev, content: value }))
+            }
+            modules={modules}
+            formats={formats}
+            className="h-96 bg-white"
+            theme="snow"
+          />
         </div>
 
         {/* Buttons */}
