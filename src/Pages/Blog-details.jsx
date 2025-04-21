@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -35,35 +35,48 @@ function Blogs() {
     fetchBlog();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (!blog) return <div>Blog not found</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-lg text-gray-600">
+        Loading blog...
+      </div>
+    );
+
+  if (!blog)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-lg text-red-500">
+        Blog not found
+      </div>
+    );
 
   return (
-    <>
-      <div className="blog-details-container">
-        <article className="blog-article">
-          <h1>{blog.title}</h1>
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
+      <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">{blog.title}</h1>
 
-          <div className="blog-meta">
-            <span className="blog-date">
-              {new Date(blog.createdAt?.toDate()).toLocaleDateString()}
-            </span>
-            <span className="blog-category">{blog.category}</span>
+        <div className="flex flex-wrap items-center justify-between mb-6 text-sm text-gray-500">
+          <span>{new Date(blog.createdAt?.toDate()).toLocaleDateString()}</span>
+          <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium uppercase">
+            {blog.category}
+          </span>
+        </div>
+
+        {blog.imageUrl && (
+          <div className="mb-6">
+            <img
+              src={blog.imageUrl}
+              alt={blog.title}
+              className="w-full rounded-xl object-cover max-h-[500px]"
+            />
           </div>
+        )}
 
-          {blog.imageUrl && (
-            <div className="blog-featured-image">
-              <img src={blog.imageUrl} alt={blog.title} />
-            </div>
-          )}
-
-          <div
-            className="blog-content"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
-          />
-        </article>
-      </div>
-    </>
+        <div
+          className="prose prose-blue max-w-none"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
+      </article>
+    </div>
   );
 }
 
