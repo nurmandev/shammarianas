@@ -104,7 +104,7 @@ export const AppRoutes = () => (
     <Route path="/contact" element={<Contact />} />
     <Route path="/blogi" element={<Blogi />} />
     <Route path="/blog" element={<Blog />} />
-    <Route path="/blog-details" element={<Blogs />} />
+    <Route path="/blog-details/:id" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
     <Route path="/project-details" element={<PortfolioDetails />} />
     <Route path="/Support" element={<Support />} />
