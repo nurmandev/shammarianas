@@ -35,8 +35,6 @@ import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
 import ServicesDetails from "./Pages/services-details";
 import StockPage from "./Pages/Stock";
-import { Buffer } from 'buffer';
-window.Buffer = Buffer;
 import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
