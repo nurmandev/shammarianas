@@ -33,9 +33,9 @@ export default defineConfig({
       ],
     },
   },
-  resolve: {
-    alias: {
-      buffer: "buffer",
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     buffer: "buffer",
+  //   },
+  // },
 });
