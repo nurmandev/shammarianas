@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Marq2 from "../Components/marq2";
 import { db } from "../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import BlogEditor from "./BlogEditor";
 
 function Blogs() {
@@ -29,6 +29,20 @@ function Blogs() {
 
     fetchBlogs();
   }, []);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this blog?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await deleteDoc(doc(db, "blogs", id));
+      setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== id));
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
+  };
 
   if (loading) {
     return <div className="main-bg">Loading...</div>;
@@ -80,6 +94,20 @@ function Blogs() {
                           {blog.commentsCount || 0} Comments
                         </div>
                       </div>
+                      <button
+                        onClick={() => handleDelete(blog.id)}
+                        className="btn btn-sm btn-danger ml-auto"
+                        style={{
+                          background: "#ff4d4f",
+                          color: "white",
+                          border: "none",
+                          padding: "5px 10px",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Delete
+                      </button>
                       <h3 className="mb-15">
                         <Link to={`/blog-details/${blog.id}`}>
                           {blog.title}

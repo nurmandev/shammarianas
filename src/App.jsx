@@ -35,8 +35,6 @@ import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
 import ServicesDetails from "./Pages/services-details";
 import StockPage from "./Pages/Stock";
-import { Buffer } from 'buffer';
-window.Buffer = Buffer;
 import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
@@ -107,7 +105,7 @@ export const AppRoutes = () => (
     <Route path="/blog" element={<Blog />} />
     <Route path="/blog-details/:id" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
-    <Route path="/project-details" element={<PortfolioDetails />} />
+    <Route path="/project-details/:id" element={<PortfolioDetails />} />
     <Route path="/Support" element={<Support />} />
     <Route path="/about" element={<AboutUs />} />
     <Route path="/page-team" element={<PageTeam />} />
