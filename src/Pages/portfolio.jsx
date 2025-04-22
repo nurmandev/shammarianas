@@ -5,7 +5,7 @@ import { db, storage } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
-
+import { Link } from "react-router-dom";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Marq2 from "../Components/marq2";
@@ -300,10 +300,10 @@ function Header() {
                       <h6>{project.title}</h6>
                     </div>
                     <div className="ml-auto">
-                      <a href={`#project-details`}>
-                      {/* <a href={`/project-details?id=${project.id}`}> */}
+                      {/* <a href={`#project-details`}> */}
+                      <Link to={`/project-details/${project.id}`}>
                         <span className="ti-arrow-top-right"></span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
