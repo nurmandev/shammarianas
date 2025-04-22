@@ -28,7 +28,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["buffer"],
+    include: ["buffer", 'react-quill', 'quill'],
     // esbuildOptions: {
     //   plugins: [
     //     NodeGlobalsPolyfillPlugin({
