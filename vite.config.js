@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
-import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
-import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
+// import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
+// import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -24,18 +24,18 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["buffer"],
-    esbuildOptions: {
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-        }),
-        NodeModulesPolyfillPlugin(),
-      ],
-    },
+    // esbuildOptions: {
+    //   plugins: [
+    //     NodeGlobalsPolyfillPlugin({
+    //       buffer: true,
+    //     }),
+    //     NodeModulesPolyfillPlugin(),
+    //   ],
+    // },
   },
-  resolve: {
-    alias: {
-      buffer: "buffer",
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     buffer: "buffer",
+  //   },
+  // },
 });
