@@ -2,8 +2,7 @@ import React, { useState, useRef } from "react";
 import { db, storage } from "../../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
-import ReactQuill from "react-quill";
+import { useQuill } from "react-quilljs";
 import "react-quill/dist/quill.snow.css";
 
 const modules = {
@@ -49,6 +48,8 @@ const formats = [
 ];
 
 function BlogEditor() {
+  const { quillRef } = useQuill({});
+
   const [blogData, setBlogData] = useState({
     title: "",
     slug: "",
@@ -89,7 +90,7 @@ function BlogEditor() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    const content = quillRef?.current?.innerHTML || "";
     try {
       const slug = generateSlug(blogData.title);
 
@@ -108,7 +109,7 @@ function BlogEditor() {
         slug: slug,
         category: blogData.category,
         excerpt: blogData.excerpt || blogData.content.substring(0, 160) + "...",
-        content: blogData.content,
+        content: content,
         imageUrl: imageUrl,
         status: blogData.status,
         author: "Admin",
@@ -242,12 +243,13 @@ function BlogEditor() {
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Content <span className="text-red-500">*</span>
           </label>
-          <ReactQuill
+          <div
             value={blogData.content}
             onChange={(value) =>
               setBlogData((prev) => ({ ...prev, content: value }))
             }
             modules={modules}
+            ref={quillRef}
             formats={formats}
             className="h-96 bg-white"
             theme="snow"
