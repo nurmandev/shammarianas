@@ -13,7 +13,7 @@ import { db } from "../../firebase";
 import { getDoc, doc } from "firebase/firestore";
 export default function ProjectDetails() {
   const { id } = useParams();
-  const [projects, setProjects] = useState([]);
+  const [project, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,14 +36,29 @@ export default function ProjectDetails() {
 
     fetchPortfolio();
   }, [id]);
-
+  if (loading) return <p>Loading...</p>;
+  if (!project) return <p>Portfolio not found</p>;
+  
   return (
     <>
       <body>
         <Cursor />
         <ProgressScroll />
-
         <Header />
+        <div className="p-4 shadow rounded bg-white">
+          <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
+          <div className="w-[200px]">
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              className="w-full h-auto rounded mb-4"
+            />
+          </div>
+          <p className="text-gray-600 mb-2">
+            <strong>Category:</strong> {project.category}
+          </p>
+          <p className="text-gray-800">{project.description}</p>
+        </div>
         <Challenge />
         <Works />
         <Solution />
