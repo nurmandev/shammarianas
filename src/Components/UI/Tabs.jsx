@@ -315,15 +315,15 @@ function Tab() {
     const fetchCurrentUserRole = async () => {
       try {
         const currentUser = auth.currentUser;
-        if (!currentUser) {
-          navigate("/unauthorized");
-          return;
-        }
-        const userDoc = await getDoc(doc(db, "Profiles", currentUser.uid));
-        if (!userDoc.exists() || userDoc.data().role !== "admin") {
-          navigate("/unauthorized");
-          return;
-        }
+        // if (!currentUser) {
+        //   navigate("/unauthorized0");
+        //   return;
+        // }
+        // const userDoc = await getDoc(doc(db, "Profiles", currentUser.uid));
+        // if (!userDoc.exists() || userDoc.data().role !== "admin") {
+        //   navigate("/unauthorized1");
+        //   return;
+        // }
         fetchUsers();
         fetchSupportMessages();
       } catch (error) {
