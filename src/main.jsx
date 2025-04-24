@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { UserProvider } from "./Context/UserProvider.jsx";
 import { Buffer } from "buffer"; // Import Buffer from the buffer package
-import './polyfills'
 window.Buffer = Buffer; // Make Buffer available globally
 
 ReactDOM.createRoot(document.getElementById("root")).render(
