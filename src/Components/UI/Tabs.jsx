@@ -315,13 +315,10 @@ function Tab() {
     const fetchCurrentUserRole = async () => {
       try {
         const currentUser = auth.currentUser;
-        // if (!currentUser) {
-        //   navigate("/unauthorized0");
-        //   return;
-        // }
+      
         const userDoc = await getDoc(doc(db, "Profiles", currentUser.uid));
         if (!currentUser || !userDoc.exists() || userDoc.data().role !== "admin") {
-          navigate("/unauthorized1");
+          navigate("/unauthorized");
           return;
         }
         fetchUsers();
