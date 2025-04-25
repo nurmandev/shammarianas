@@ -11,7 +11,8 @@ import Numbers from "../Components/services/Numbers";
 import Intro2 from "../Components/services/Intro2";
 import Clients from "../Components/landing/Clients";
 import Blog from "../Components/about-us/Blog";
-import Services from "../Components/landing/Services";
+// import Services from "../Components/landing/Services";
+import Services from "./../Components/services/Services";
 import Testimonials from "../Components/services/Testimonials";
 
 export default function PageServices() {
@@ -37,8 +38,8 @@ export default function PageServices() {
           <Intro2 />
           <Numbers />
           <Testimonials />
-          <Clients />
-          <Blog />
+          {/* <Clients /> */}
+          {/* <Blog /> */}
           <Marq2 />
         </main>
       </div>

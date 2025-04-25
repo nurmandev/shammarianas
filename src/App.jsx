@@ -24,16 +24,17 @@ import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
 import Contact from "./Pages/Contact";
+import Blogi from "./Pages/Blogs/Blogs";
 import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
+import PortfolioDetails from "./Pages/project-details";
 // import LoadingScreen from "./common/loader";
 import Support from "./Pages/Support";
 import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
 import ServicesDetails from "./Pages/services-details";
 import StockPage from "./Pages/Stock";
-
 import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
@@ -53,6 +54,7 @@ import Admin from "./Pages/Admin";
 import Success from "./Pages/Success";
 
 import CategoryTemplate from "./Pages/Types/CategoryTemplate";
+import PageTeam from "./Pages/Page-team";
 // CategoryTemplate.js
 
 const ScrollToTop = () => {
@@ -86,7 +88,7 @@ export const AppRoutes = () => (
     <Route path="/HDRIs" element={<HDRIs />} />
     <Route path="/templates" element={<VideoTemplate />} />
     <Route path="/Plugins" element={<Plugins />} /> */}
-    <Route path="/:Category" element={<CategoryTemplate />} /> 
+    <Route path="/:Category" element={<CategoryTemplate />} />
     <Route path="/View/:id" element={<View />} />
     <Route path="/Groups" element={<Group />} />
     <Route path="/Upload" element={<Upload />} />
@@ -99,11 +101,14 @@ export const AppRoutes = () => (
     <Route path="/Terms" element={<Terms />} />
     <Route path="/Privacy" element={<Privacy />} />
     <Route path="/contact" element={<Contact />} />
+    <Route path="/blogi" element={<Blogi />} />
     <Route path="/blog" element={<Blog />} />
-    <Route path="/blog-details" element={<Blogs />} />
+    <Route path="/blog-details/:id" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
+    <Route path="/project-details/:id" element={<PortfolioDetails />} />
     <Route path="/Support" element={<Support />} />
     <Route path="/about" element={<AboutUs />} />
+    <Route path="/page-team" element={<PageTeam />} />
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />

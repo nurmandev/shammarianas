@@ -22,7 +22,7 @@ export default function PageServicesDetails() {
         <Lines />
         <Header />
         <Intro />
-        <Feat />
+        {/* <Feat /> */}
         <Intro2 />
         <Marq2 />
       </body>

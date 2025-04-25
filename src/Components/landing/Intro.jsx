@@ -15,16 +15,23 @@ function Intro() {
               <div className="col-md-6">
                 <div className="text">
                   <h3 className="mb-30">
-                    Sham Marians <span className="fw-300">Empowering </span>{" "}
+                    Sham Marians{" "}
                     <span className="fw-300">
-                      Creativity & Driving Digital Success.
+                      Powering Creativity & Boosting Digital Growth with Top
+                      Advertising Strategies
                     </span>
                   </h3>
                   <p>
-                    We specialize in innovative Branding, cutting-edge web
-                    development, and strategic digital solutions to help
-                    businesses establish a powerful online presence and achieve
-                    growth.
+                    <span className="text-bold underline main-color ">
+                      {" "}
+                      Sham Marianas
+                    </span>{" "}
+                    is a top advertising agency that helps businesses grow with
+                    digital marketing, brand building, and ROI-focused
+                    advertising. We employ tried-and-true marketing techniques
+                    to increase our internet presence, draw in new clients, and
+                    provide tangible outcomes. Let&apos;s grow your company to
+                    new heights!
                   </p>
 
                   <a href="/page-about" className="underline main-color mt-40">
@@ -55,7 +62,7 @@ function Intro() {
                 <div className="col-md-6">
                   <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
                     <div>
-                      <h3 className="fw-300 mb-10">6700</h3>
+                      <h3 className="fw-300 mb-10">6745</h3>
                       <h6 className="p-color sub-title">Projects Completed</h6>
                     </div>
                     <div className="ml-auto">

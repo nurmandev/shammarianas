@@ -34,16 +34,25 @@ function Footer() {
               <h6 className="sub-title mb-30">Useful Links</h6>
               <ul className="rest fz-14 opacity-7">
                 <li className="mb-15">
-                  <a href="/page-about">About</a>
+                  <a href="/">Home</a>
                 </li>
                 <li className="mb-15">
-                  <a href="/page-services">Services</a>
+                  <a href="#services">Services</a>
                 </li>
                 <li className="mb-15">
-                  <a href="/blog-grid-sidebar">Blog</a>
+                  <a href="#portfolio">Portfolio</a>
+                </li>
+                <li className="mb-15">
+                  <a href="#Stock">Stock</a>
+                </li>
+                <li className="mb-15">
+                  <a href="#about">About</a>
+                </li>
+                <li className="mb-15">
+                  <a href="#blog">Blog</a>
                 </li>
                 <li>
-                  <a href="/page-contact">Contact</a>
+                  <a href="#contact">Contact us</a>
                 </li>
               </ul>
             </div>
@@ -59,22 +68,45 @@ function Footer() {
               </div>
               <ul className="rest social-icon d-flex align-items-center">
                 <li className="hover-this cursor-pointer">
-                  <a href="#0" className="hover-anim">
+                  <a
+                    href="https://www.youtube.com/c/ShamMarianasSM"
+                    target="_blank"
+                    // className="hover-anim"
+                  >
+                    <i class="fa-brands fa-youtube"></i>
+                  </a>
+                </li>
+                <li className="hover-this cursor-pointer">
+                  <a
+                    href="https://www.facebook.com/shammarianas"
+                    // className="hover-anim"
+                    target="_blank"
+                  >
                     <i className="fab fa-facebook-f"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim">
+                  <a
+                    href="https://shammarianas.com"
+                    target="_blank"
+                    // className="hover-anim"
+                  >
                     <i className="fab fa-dribbble"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim">
+                  <a
+                    href="https://www.pinterest.com/shammarianas"
+                    // className="hover-anim"
+                  >
                     <i className="fab fa-linkedin-in"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim">
+                  <a
+                    href="https://www.instagram.com/sham_marianas"
+                    className="hover-anim"
+                  >
                     <i className="fab fa-instagram"></i>
                   </a>
                 </li>

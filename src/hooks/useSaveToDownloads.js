@@ -17,7 +17,10 @@ const useSaveToDownloads = (assetId, assetData = null) => {
 
     const checkIfDownloaded = async () => {
       try {
-        const downloadDocRef = doc(db, `Profiles/${currentUser.uid}/downloads/${assetId}`);
+        const downloadDocRef = doc(
+          db,
+          `Profiles/${currentUser.uid}/downloads/${assetId}`
+        );
         const downloadDoc = await getDoc(downloadDocRef);
         setIsDownloaded(downloadDoc.exists());
       } catch (err) {
@@ -28,45 +31,58 @@ const useSaveToDownloads = (assetId, assetData = null) => {
     checkIfDownloaded();
   }, [currentUser, assetId]);
 
-  const addToDownloads = useCallback(async (itemData = null) => {
-    if (!currentUser) {
-      navigate("/login");
-      setError("User not logged in.");
-      return;
-    }
-
-    setIsSaving(true);
-    setError(null);
-
-    try {
-      const downloadDocRef = doc(db, `Profiles/${currentUser.uid}/downloads/${assetId}`);
-      let dataToStore = itemData || assetData;
-
-      if (!dataToStore) {
-        const assetDocRef = doc(db, "Assets", assetId);
-        const assetDoc = await getDoc(assetDocRef);
-        if (!assetDoc.exists()) throw new Error("Asset not found");
-        dataToStore = assetDoc.data();
+  const addToDownloads = useCallback(
+    async (itemData = null) => {
+      if (!currentUser) {
+        navigate("/login");
+        setError("User not logged in.");
+        return;
       }
 
-      const cleanData = Object.fromEntries(
-        Object.entries(dataToStore).filter(([_, value]) =>
-          value !== null &&
-          value !== undefined &&
-          typeof value !== "function" &&
-          !(typeof value === "object" && !(value instanceof Date || Array.isArray(value)))
-        )
-      );
+      setIsSaving(true);
+      setError(null);
 
-      await setDoc(downloadDocRef, { ...cleanData, downloaded_at: new Date() });
-      setIsDownloaded(true);
-    } catch (error) {
-      console.error("Error saving to downloads:", error);
-      setError(error.message || "Failed to save download.");
-    } finally {
-      setIsSaving(false);
-    }
-  }, [currentUser, assetId, assetData, navigate]);
+      try {
+        const downloadDocRef = doc(
+          db,
+          `Profiles/${currentUser.uid}/downloads/${assetId}`
+        );
+        let dataToStore = itemData || assetData;
+
+        if (!dataToStore) {
+          const assetDocRef = doc(db, "Assets", assetId);
+          const assetDoc = await getDoc(assetDocRef);
+          if (!assetDoc.exists()) throw new Error("Asset not found");
+          dataToStore = assetDoc.data();
+        }
+
+        const cleanData = Object.fromEntries(
+          Object.entries(dataToStore).filter(
+            ([_, value]) =>
+              value !== null &&
+              value !== undefined &&
+              typeof value !== "function" &&
+              !(
+                typeof value === "object" &&
+                !(value instanceof Date || Array.isArray(value))
+              )
+          )
+        );
+
+        await setDoc(downloadDocRef, {
+          ...cleanData,
+          downloaded_at: new Date(),
+        });
+        setIsDownloaded(true);
+      } catch (error) {
+        console.error("Error saving to downloads:", error);
+        setError(error.message || "Failed to save download.");
+      } finally {
+        setIsSaving(false);
+      }
+    },
+    [currentUser, assetId, assetData, navigate]
+  );
 
   const removeFromDownloads = useCallback(async () => {
     if (!currentUser) return;
@@ -75,7 +91,10 @@ const useSaveToDownloads = (assetId, assetData = null) => {
     setError(null);
 
     try {
-      const downloadDocRef = doc(db, `Profiles/${currentUser.uid}/downloads/${assetId}`);
+      const downloadDocRef = doc(
+        db,
+        `Profiles/${currentUser.uid}/downloads/${assetId}`
+      );
       await deleteDoc(downloadDocRef);
       setIsDownloaded(false);
     } catch (error) {

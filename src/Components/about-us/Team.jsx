@@ -1,5 +1,5 @@
-import React from 'react';
-import data from '../../data/team-t.json';
+import React from "react";
+import data from "../../data/team-t.json";
 function Team() {
   return (
     <section className="team-crev2 section-padding pb-90">
@@ -15,7 +15,7 @@ function Team() {
               </h3>
             </div>
             <div className="ml-auto vi-more">
-              <a href="/page-team" className="butn butn-sm butn-bord radius-30">
+              <a href="#page-team" className="butn butn-sm butn-bord radius-30">
                 <span>Join to us</span>
               </a>
               <span className="icon ti-arrow-top-right"></span>
@@ -31,13 +31,16 @@ function Team() {
                     <img src={item.img} alt="" />
                     <div className="social">
                       <div className="links">
-                        <a href="#0">
+                        <a
+                          href="https://www.facebook.com/shammarianas
+"
+                        >
                           <i className="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#0">
+                        <a href="https://www.behance.net/shammarianas">
                           <i className="fab fa-behance"></i>
                         </a>
-                        <a href="#0">
+                        <a href="https://www.instagram.com/sham_marianas/">
                           <i className="fab fa-instagram"></i>
                         </a>
                       </div>

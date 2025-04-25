@@ -258,8 +258,6 @@ const HeroSection = () => {
             <ItemsListing limit={4} category={'models'} />
           </div> */}
 
-
-          
             {/* Images */}
             {[
               { title: "Videos", category: "videos" },
@@ -295,7 +293,6 @@ const HeroSection = () => {
                 <ItemsListing limit={4} category={category} />
               </div>
             ))}
-
           </div>
         </section>
       )}

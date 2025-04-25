@@ -194,7 +194,7 @@ figure {
 }
 
 .main-color {
-  color: #52b0b4;
+  color: #52b0b4 !important;
 }
 
 .main-colorbg {
@@ -4857,9 +4857,15 @@ footer.clean-footer.crev .circle-blur {
 }
 
 .main-header .caption h1 {
-  font-size: 90px !important;
+  font-size: 70px !important;
 }
-
+.main-header .caption h1.new {
+  margin-bottom: 2rem;
+  font-size: 60px !important;
+}
+.text-bold {
+  font-weight: 300;
+}
 .main-header .icon-img {
   width: 160px;
 }
@@ -8008,7 +8014,10 @@ footer.clean-footer.crev .circle-blur {
     min-height: auto;
   }
   .main-header .caption h1 {
-    font-size: 80px;
+    font-size: 75px;
+  }
+  .main-header .caption h1.new {
+    font-size: 40px !important;
   }
   .main-header .caption .text {
     display: none;
