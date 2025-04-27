@@ -64,8 +64,8 @@ function Blogs() {
               <div className="info d-flex mt-40 align-items-center">
                 <div className="left-info">
                   <div className="d-flex align-items-center">
-                    <div className="author-info">
-                      {/* <div className="d-flex align-items-center">
+                    {/* <div className="author-info">
+                      <div className="d-flex align-items-center">
                         <a href="#0" className="circle-60">
                           <img
                             src="/assets/imgs/blog/author.png"
@@ -77,8 +77,8 @@ function Blogs() {
                           <span className="opacity-7">Author</span>
                           <h6 className="fz-16">UiCamp</h6>
                         </a>
-                      </div> */}
-                    </div>
+                      </div>
+                    </div> */}
                     <div className="date ml-50">
                       <a href="#0">
                         <span className="opacity-7">Published</span>
