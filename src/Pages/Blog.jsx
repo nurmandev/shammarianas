@@ -71,7 +71,7 @@ function Blogs() {
         </div>
       </header>
 
-      <BlogEditor />
+      {/* <BlogEditor /> */}
 
       <section className="blog-main section-padding">
         <div className="container">
