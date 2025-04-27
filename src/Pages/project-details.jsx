@@ -99,7 +99,7 @@ export default function ProjectDetails() {
                 </div>
               </div>
             </div>
-            <div className="row justify-content-center">
+            {/* <div className="row justify-content-center">
               <div className="col-lg-11">
                 <div className="row">
                   <div className="col-lg-5">
@@ -127,14 +127,14 @@ export default function ProjectDetails() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
         {/* <Challenge /> */}
-        <Works />
-        <Solution />
-        <Wroks2 />
-        {/* <Next /> */}
+        {/* <Works /> */}
+        {/* <Solution /> */}
+        {/* <Wroks2 /> */}
+        <Next />
         <Marq2 />
       </body>
     </>
