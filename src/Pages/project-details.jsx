@@ -60,20 +60,6 @@ export default function ProjectDetails() {
             </div>
           </div>
         </header>
-        <div className="p-4 shadow rounded bg-white">
-          <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
-          {/* <div className="w-[200px]">
-            <img
-              src={project.imageUrl}
-              alt={project.title}
-              className="w-full h-auto rounded mb-4"
-            />
-          </div> */}
-          <p className="text-gray-600 mb-2">
-            <strong>Category:</strong> {project.category}
-          </p>
-          <p className="text-gray-800">{project.description}</p>
-        </div>
 
         <h1>{project.description}</h1>
 
