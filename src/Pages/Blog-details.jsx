@@ -57,12 +57,7 @@ function Blogs() {
             <div className="col-lg-11">
               <div className="caption">
                 <div className="sub-title fz-12">
-                  <a href="#0">
-                    <span>Design , </span>
-                  </a>
-                  <a href="#0">
-                    <span>Development</span>
-                  </a>
+                  <h1>{blog.category}</h1>
                 </div>
                 <h1 className="fz-55 mt-30">
                   Network of wormholes colonies extraordinary claims require.
@@ -89,7 +84,11 @@ function Blogs() {
                     <div className="date ml-50">
                       <a href="#0">
                         <span className="opacity-7">Published</span>
-                        <h6 className="fz-16">August 6, 2021</h6>
+                        <h6 className="fz-16">
+                          {new Date(
+                            blog.createdAt?.toDate()
+                          ).toLocaleDateString()}
+                        </h6>
                       </a>
                     </div>
                   </div>
@@ -109,6 +108,8 @@ function Blogs() {
           data-background="/assets/imgs/blog/b1.jpg"
         ></div>
       </header>
+      {/* Body Blog Details */}
+
       <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
         <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
