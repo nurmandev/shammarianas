@@ -47,7 +47,7 @@ export default function ProjectDetails() {
         {/* <Header /> */}
         <header
           className=" header-project bg-img d-flex align-items-end"
-          data-background="/assets/imgs/works/3/1.jpg"
+          style={{ backgroundImage: `url(${project.imageUrl})` }}
           data-overlay-dark="9"
         >
           <div className="container">
