@@ -44,7 +44,22 @@ export default function ProjectDetails() {
       <body>
         <Cursor />
         <ProgressScroll />
-        <Header />
+        {/* <Header /> */}
+        <header
+          className=" header-project bg-img d-flex align-items-end"
+          data-background="/assets/imgs/works/3/1.jpg"
+          data-overlay-dark="9"
+        >
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="caption">
+                  <h1>{project.description}</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
         <div className="p-4 shadow rounded bg-white">
           <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
           {/* <div className="w-[200px]">
@@ -67,25 +82,17 @@ export default function ProjectDetails() {
                 <div className="col-md-6 col-lg-3">
                   <div className="item mb-30">
                     <span className="opacity-8 mb-5">Category :</span>
-                    <h6>Development</h6>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-3">
-                  <div className="item mb-30">
-                    <span className="opacity-8 mb-5">Client :</span>
-                    <h6>Envato</h6>
+                    <h6> {project.category}</h6>
                   </div>
                 </div>
                 <div className="col-md-6 col-lg-3">
                   <div className="item mb-30">
                     <span className="opacity-8 mb-5">Start Date :</span>
-                    <h6>7 August 2021</h6>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-3">
-                  <div className="item">
-                    <span className="opacity-8 mb-5">Designer :</span>
-                    <h6>UiCamp</h6>
+                    <h6>
+                      {new Date(
+                        project.createdAt?.toDate()
+                      ).toLocaleDateString()}
+                    </h6>
                   </div>
                 </div>
               </div>
