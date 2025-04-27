@@ -161,9 +161,9 @@ function Blogs() {
                   <ul className="rest">
                     <li>
                       <span>
-                        <a href="/blog-grid-sidebar">Business</a>
+                        <a href="/blog-grid-sidebar">All</a>
                       </span>
-                      <span className="ml-auto">33</span>
+                      <span className="ml-auto">{blogs.length}</span>
                     </li>
                     <li>
                       <span>
