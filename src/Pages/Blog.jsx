@@ -71,7 +71,7 @@ function Blogs() {
         </div>
       </header>
 
-      {/* <BlogEditor /> */}
+      <BlogEditor />
 
       <section className="blog-main section-padding">
         <div className="container">
@@ -154,17 +154,6 @@ function Blogs() {
                     <span className="icon pe-7s-search"></span>
                   </div>
                 </div>
-                {/* <div className="widget">
-                  <h6 className="title-widget">Search Here</h6>
-                  <div className="search-box">
-                    <input
-                      type="text"
-                      name="search-post"
-                      placeholder="Search"
-                    />
-                    <span className="icon pe-7s-search"></span>
-                  </div>
-                </div> */}
                 <div className="widget catogry">
                   <h6 className="title-widget">Categories</h6>
                   <ul className="rest">
