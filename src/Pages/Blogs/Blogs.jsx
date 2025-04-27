@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import BookList from "./BookList";
 
-
 export default function AllBooks() {
   return (
     <div className="main-bg">

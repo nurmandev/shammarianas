@@ -60,10 +60,12 @@ function Blogs() {
       >
         <div className="container pt-80">
           <div className="row">
-            <div className="col-12 text-center">
-              <h1 className="text-u ls1 fz-80">
-                Blog <span className="fw-200">Standard</span>
-              </h1>
+            <div className="col-12">
+              <div className="text-center">
+                <h1 className="text-u ls1 fz-80">
+                  Blog <span className="fw-200"> Standard</span>
+                </h1>
+              </div>
             </div>
           </div>
         </div>
