@@ -9,9 +9,7 @@ import BlogEditor from "./BlogEditor";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadingCategories, setLoadingCategories] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -30,23 +28,7 @@ function Blogs() {
       }
     };
 
-    const fetchCategories = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "categories"));
-        const categoriesData = [];
-        querySnapshot.forEach((doc) => {
-          categoriesData.push({ id: doc.id, ...doc.data() });
-        });
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      } finally {
-        setLoadingCategories(false);
-      }
-    };
-
     fetchBlogs();
-    fetchCategories();
   }, []);
 
   const handleDelete = async (id) => {
@@ -89,7 +71,7 @@ function Blogs() {
         </div>
       </header>
 
-      <BlogEditor />
+      {/* <BlogEditor /> */}
 
       <section className="blog-main section-padding">
         <div className="container">
@@ -172,23 +154,8 @@ function Blogs() {
                     <span className="icon pe-7s-search"></span>
                   </div>
                 </div>
-                {/* --- Categories Widget --- */}
+
                 <div className="widget catogry">
-                  <h6 className="title-widget">Categories</h6>
-                  <ul className="rest">
-                    {categories.map((category) => (
-                      <li key={category.id}>
-                        <span>
-                          <Link to="/blog-grid-sidebar">{category.name}</Link>
-                        </span>
-                        <span className="ml-auto">
-                          {category.count.toString().padStart(2, "0")}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {/* <div className="widget catogry">
                   <h6 className="title-widget">Categories</h6>
                   <ul className="rest">
                     <li>
@@ -222,7 +189,7 @@ function Blogs() {
                       <span className="ml-auto">45</span>
                     </li>
                   </ul>
-                </div> */}
+                </div>
                 <div className="widget last-post-thum">
                   <h6 className="title-widget">latest Posts</h6>
                   <div className="item d-flex align-items-center">
