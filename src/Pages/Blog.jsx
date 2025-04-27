@@ -72,18 +72,7 @@ function Blogs() {
       </header>
 
       {/* <BlogEditor /> */}
-      {/* <div className="widget mb-4">
-        <h6 className="title-widget">Search Here</h6>
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search by title..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <span className="icon pe-7s-search"></span>
-        </div>
-      </div> */}
+
       <section className="blog-main section-padding">
         <div className="container">
           <div className="row lg-marg justify-content-around">
@@ -153,7 +142,19 @@ function Blogs() {
             </div>
             <div className="col-lg-4">
               <div className="sidebar">
-                <div className="widget">
+                <div className="widget mb-4">
+                  <h6 className="title-widget">Search Here</h6>
+                  <div className="search-box">
+                    <input
+                      type="text"
+                      placeholder="Search by title..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <span className="icon pe-7s-search"></span>
+                  </div>
+                </div>
+                {/* <div className="widget">
                   <h6 className="title-widget">Search Here</h6>
                   <div className="search-box">
                     <input
@@ -163,7 +164,7 @@ function Blogs() {
                     />
                     <span className="icon pe-7s-search"></span>
                   </div>
-                </div>
+                </div> */}
                 <div className="widget catogry">
                   <h6 className="title-widget">Categories</h6>
                   <ul className="rest">
