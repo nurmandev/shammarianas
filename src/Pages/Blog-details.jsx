@@ -65,7 +65,7 @@ function Blogs() {
                 <div className="left-info">
                   <div className="d-flex align-items-center">
                     <div className="author-info">
-                      <div className="d-flex align-items-center">
+                      {/* <div className="d-flex align-items-center">
                         <a href="#0" className="circle-60">
                           <img
                             src="/assets/imgs/blog/author.png"
@@ -77,7 +77,7 @@ function Blogs() {
                           <span className="opacity-7">Author</span>
                           <h6 className="fz-16">UiCamp</h6>
                         </a>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="date ml-50">
                       <a href="#0">
@@ -94,7 +94,9 @@ function Blogs() {
                 <div className="right-info ml-auto">
                   <div>
                     <span className="pe-7s-comment fz-18 mr-10"></span>
-                    <span className="opacity-7">02 Comments</span>
+                    <span className="opacity-7">
+                      {blog.commentsCount || 0} Comments
+                    </span>
                   </div>
                 </div>
               </div>
