@@ -172,27 +172,13 @@ function Blogs() {
                       <span>
                         <a href="/blog-grid-sidebar">Business</a>
                       </span>
-                      <span
-                        className="ml-auto"
-                        data-filter=".lifestyle"
-                        data-count={
-                          projects.filter((p) => p.category === "lifestyle")
-                            .length
-                        }
-                      ></span>
+                      <span className="ml-auto">{blogs.length}</span>
                     </li>
                     <li>
                       <span>
                         <a href="/blog-grid-sidebar">Lifestyle</a>
                       </span>
-                      <span
-                        className="ml-auto"
-                        data-filter=".lifestyle"
-                        data-count={
-                          projects.filter((p) => p.category === "lifestyle")
-                            .length
-                        }
-                      ></span>
+                      <span className="ml-auto">05</span>
                     </li>
                     <li>
                       <span>
