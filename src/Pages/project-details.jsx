@@ -134,7 +134,7 @@ export default function ProjectDetails() {
         <Works />
         <Solution />
         <Wroks2 />
-        <Next />
+        {/* <Next /> */}
         <Marq2 />
       </body>
     </>
