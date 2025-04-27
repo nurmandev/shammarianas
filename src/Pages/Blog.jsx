@@ -5,6 +5,8 @@ import Footer from "../Components/Footer";
 import Marq2 from "../Components/marq2";
 import { db } from "../../firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import loadBackgroudImages from "../common/loadBackgroudImages";
+
 import BlogEditor from "./BlogEditor";
 
 function Blogs() {
@@ -29,6 +31,7 @@ function Blogs() {
     };
 
     fetchBlogs();
+    loadBackgroudImages();
   }, []);
 
   const handleDelete = async (id) => {
