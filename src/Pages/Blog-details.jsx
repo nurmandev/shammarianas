@@ -59,9 +59,7 @@ function Blogs() {
                 <div className="sub-title fz-12">
                   <h1>{blog.category}</h1>
                 </div>
-                <h1 className="fz-55 mt-30">
-                  Network of wormholes colonies extraordinary claims require.
-                </h1>
+                <h1 className="fz-55 mt-30">{blog.title}</h1>
               </div>
               <div className="info d-flex mt-40 align-items-center">
                 <div className="left-info">
