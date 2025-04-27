@@ -155,6 +155,7 @@ function Blogs() {
                   </div>
                 </div>
 
+                {/* Categories */}
                 <div className="widget catogry">
                   <h6 className="title-widget">Categories</h6>
                   <ul className="rest">
