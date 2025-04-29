@@ -11,7 +11,7 @@ function Error() {
           <h1>404</h1>
           <p>The page you are looking for doesn&apos;t exist</p>
           <a
-            href="/home-main"
+            href="/"
             className="butn butn-md butn-bg main-colorbg radius-30 mt-30"
           >
             <span className="text">Back to Home</span>

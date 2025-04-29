@@ -6,9 +6,10 @@ import Cursor from "../../common/cusor";
 import ProgressScroll from "../../common/ProgressScroll";
 import Lines from "../../Components/Lines";
 import Marq2 from "../../Components/marq2";
-import Intro from "../../Components/UiUx-Design/Intro";
-import Header from "../../Components/UiUx-Design/Header";
-import UiUx from "../../Components/services/UiUx";
+import Header from "../../Components/Web_Development/Header";
+import Intro from "../../Components/Web_Development/Intro";
+import WebDev from "../../Components/Web_Development/web";
+
 
 export default function PageServicesDetails() {
   const main = useRef();
@@ -21,7 +22,7 @@ export default function PageServicesDetails() {
         <Lines />
         <Header />
         <Intro />
-        <UiUx />
+        <WebDev/>
         {/* <Feat /> */}
         <Marq2 />
       </body>
