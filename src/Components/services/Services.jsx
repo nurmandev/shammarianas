@@ -40,7 +40,7 @@ function Services() {
       title: "SEO-Optimized Content",
       description:
         "We create SEO-friendly content writing that captures attention, builds authority, and boosts online presence.",
-      img: "/assets/imgs/serv-img/1.jpg",
+      img: "/assets/imgs/serv-img/5.jpg",
     },
     {
       num: "06",
@@ -48,7 +48,7 @@ function Services() {
       title: "User-Centric Design",
       description:
         "We provide the best product design, creating seamless, user-focused experiences that drive engagement, innovation, and business success.",
-      img: "/assets/imgs/serv-img/2.jpg",
+      img: "/assets/imgs/serv-img/6.jpg",
     },
     {
       num: "07",
@@ -56,7 +56,7 @@ function Services() {
       title: "Brand Growth",
       description:
         "We help businesses grow with social media & digital marketing, increasing brand awareness, interaction, and online reach.",
-      img: "/assets/imgs/serv-img/3.jpg",
+      img: "/assets/imgs/serv-img/7.jpg",
     },
     {
       num: "08",
@@ -64,7 +64,7 @@ function Services() {
       title: "Visual Storytelling",
       description:
         "We deliver photography & video production that captures your brand’s story, enhancing engagement, visibility, and trust with high-impact visuals.",
-      img: "/assets/imgs/serv-img/4.jpg",
+      img: "/assets/imgs/serv-img/8.jpg",
     },
     {
       num: "09",
@@ -72,7 +72,7 @@ function Services() {
       title: "High-Impact Visuals",
       description:
         "We design eye-catching VFX and CGI ads that boost brand visibility, engagement, and audience impact with stunning, high-quality visuals.",
-      img: "/assets/imgs/serv-img/1.jpg",
+      img: "/assets/imgs/serv-img/9.jpg",
     },
     {
       num: "10",
@@ -80,7 +80,7 @@ function Services() {
       title: "Effective Branding",
       description:
         "We craft print media solutions that boost brand visibility, marketing impact, and audience engagement with high-quality designs and materials.",
-      img: "/assets/imgs/serv-img/2.jpg",
+      img: "/assets/imgs/serv-img/10.jpg",
     },
   ];
 
