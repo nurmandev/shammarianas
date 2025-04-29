@@ -14,7 +14,7 @@ function UiUx() {
   }
   return (
     <>
-      <section className="intro section-padding">
+      <section className="container section-padding">
         <div className="col-md-6">
           <h6 className="sub-title main-color mb-15">
             The Power of UI/UX Design
