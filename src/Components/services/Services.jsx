@@ -4,6 +4,7 @@ function Services() {
   const services = [
     {
       num: "01",
+      slug: "branding-design",
       category: "Branding Design",
       title: "Creative Identity",
       description:
@@ -12,6 +13,7 @@ function Services() {
     },
     {
       num: "02",
+      slug: "uiux-design",
       category: "UI-UX Design",
       title: "User Experience",
       description:
@@ -20,6 +22,7 @@ function Services() {
     },
     {
       num: "03",
+      slug: "web-design",
       category: "Web Development",
       title: "Innovative Solutions",
       description:
@@ -28,6 +31,7 @@ function Services() {
     },
     {
       num: "04",
+      slug: "ecommerce",
       category: "E-Commerce Solutions",
       title: "Seamless Shopping",
       description:
@@ -36,6 +40,7 @@ function Services() {
     },
     {
       num: "05",
+      slug: "content",
       category: "Content Writing",
       title: "SEO-Optimized Content",
       description:
@@ -44,6 +49,7 @@ function Services() {
     },
     {
       num: "06",
+      slug: "product",
       category: "Product Design",
       title: "User-Centric Design",
       description:
@@ -52,6 +58,7 @@ function Services() {
     },
     {
       num: "07",
+      slug: "digital",
       category: "Social Media & Digital Marketing",
       title: "Brand Growth",
       description:
@@ -60,6 +67,7 @@ function Services() {
     },
     {
       num: "08",
+      slug: "video-production",
       category: "Photography & Video Production",
       title: "Visual Storytelling",
       description:
@@ -68,6 +76,7 @@ function Services() {
     },
     {
       num: "09",
+      slug: "vfx",
       category: "VFX and CGI ADs",
       title: "High-Impact Visuals",
       description:
@@ -76,6 +85,7 @@ function Services() {
     },
     {
       num: "10",
+      slug: "printing",
       category: "Print Media Solution",
       title: "Effective Branding",
       description:
@@ -101,8 +111,8 @@ function Services() {
             </div>
             <div className="ml-auto vi-more">
               <a
-                href="/page-services"
-                className="butn butn-sm butn-bord radius-30"
+                href={`/services/${service.slug} className="butn butn-sm butn-bord radius-30"
+              `}
               >
                 <span>View All</span>
               </a>
@@ -134,18 +144,11 @@ function Services() {
                   <p>{service.description}</p>
                 </div>
               </div>
-              <div className="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
-                <div className="position-relative w-100">
-                  <img
-                    src={service.img}
-                    alt={service.category}
-                    className="img-fluid w-100"
-                  />
-                  <a
-                    href="#page-services-details"
-                    className="position-absolute top-0 end-0 p-2 text-decoration-none"
-                  >
-                    <span className="ti-arrow-top-right fs-4 text-dark"></span>
+              <div className="col-lg-4">
+                <div className="img fit-img">
+                  <img src={service.img} alt={service.category} />
+                  <a href="#page-services-details">
+                    <span className="ti-arrow-top-right"></span>
                   </a>
                 </div>
               </div>

@@ -32,11 +32,15 @@ import PortfolioDetails from "./Pages/project-details";
 import Support from "./Pages/Support";
 import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
-import ServicesDetails from "./Pages/services-details";
+
 import StockPage from "./Pages/Stock";
 import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
+
+// Services Route
+import Branding from "./Pages/Branding";
+import ServicesDetails from "./Pages/services-details";
 
 // import Video from "./Pages/Types/Video";
 // import VideoTemplate from "./Pages/Types/VideoTemplate";
@@ -110,6 +114,7 @@ export const AppRoutes = () => (
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
+    <Route path="/branding" element={<Branding />} />
     <Route path="/page-services-details" element={<ServicesDetails />} />
   </Routes>
 );
