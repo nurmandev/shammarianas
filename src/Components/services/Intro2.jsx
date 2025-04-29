@@ -16,26 +16,19 @@ function Intro2() {
     <>
       <section className="intro section-padding">
         <div className="container">
-          <div className="row lg-marg">
-            <div className="col-lg-8">
-              <div className="row lg-marg">
-                <div className="col-md-6">
-                  <h6 className="sub-title main-color mb-15">
-                    The Power of UI/UX Design
-                  </h6>
+          <div className="col-md-6">
+            <h6 className="sub-title main-color mb-15">
+              The Power of UI/UX Design
+            </h6>
 
-                  <div className="text">
-                    <p className="mb-15">
-                      A user-friendly interface and intuitive design captivate
-                      users, boosting user engagement and driving higher
-                      conversion rates. A seamless UI/UX experience not only
-                      enhances user satisfaction but also builds brand trust and
-                      loyalty, ensuring repeat visits and long-term engagement
-                      with your brand.
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div className="text">
+              <p className="mb-15">
+                A user-friendly interface and intuitive design captivate users,
+                boosting user engagement and driving higher conversion rates. A
+                seamless UI/UX experience not only enhances user satisfaction
+                but also builds brand trust and loyalty, ensuring repeat visits
+                and long-term engagement with your brand.
+              </p>
             </div>
           </div>
         </div>
