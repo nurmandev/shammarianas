@@ -58,6 +58,7 @@ import Success from "./Pages/Success";
 
 import CategoryTemplate from "./Pages/Types/CategoryTemplate";
 import PageTeam from "./Pages/Page-team";
+import Error from "./Pages/Error";
 // CategoryTemplate.js
 
 const ScrollToTop = () => {
@@ -114,8 +115,11 @@ export const AppRoutes = () => (
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
-    <Route path="/:slug" element={<Services />} />
+    <Route path="/services/:slug" element={<Services />} />
     <Route path="/page-services-details" element={<ServicesDetails />} />
+
+    {/* Optional: 404 fallback */}
+    <Route path="*" element={<Error />} />
   </Routes>
 );
 
