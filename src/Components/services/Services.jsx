@@ -134,11 +134,18 @@ function Services() {
                   <p>{service.description}</p>
                 </div>
               </div>
-              <div className="col-lg-4">
-                <div className="img fit-img">
-                  <img src={service.img} alt={service.category} />
-                  <a href="#page-services-details">
-                    <span className="ti-arrow-top-right"></span>
+              <div className="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+                <div className="position-relative w-100">
+                  <img
+                    src={service.img}
+                    alt={service.category}
+                    className="img-fluid w-100"
+                  />
+                  <a
+                    href="#page-services-details"
+                    className="position-absolute top-0 end-0 p-2 text-decoration-none"
+                  >
+                    <span className="ti-arrow-top-right fs-4 text-dark"></span>
                   </a>
                 </div>
               </div>
