@@ -132,7 +132,7 @@ function WebDev() {
                   </div>
                   <div className="item wow fadeInUp" data-wow-delay=".5s">
                     <div onClick={openAccordion} className="title">
-                      <h6>WDo you provide ongoing website support?</h6>
+                      <h6>Do you provide ongoing website support?</h6>
                       <span className="ico ti-plus"></span>
                     </div>
                     <div className="accordion-info">

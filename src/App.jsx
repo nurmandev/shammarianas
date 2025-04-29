@@ -40,8 +40,9 @@ import Admin from "./Pages/Admin";
 
 // Services Route
 import Branding from "./Pages/services/Branding";
-import UIUXDesign  from "./Pages/services/UIUXDesign";
-import WebDesign  from "./Pages/services/Web-Services";
+import UIUXDesign from "./Pages/services/UIUXDesign";
+import WebDesign from "./Pages/services/Web-Services";
+import Ecommerce from "./Pages/services/Ecommerce";
 
 // import Video from "./Pages/Types/Video";
 // import VideoTemplate from "./Pages/Types/VideoTemplate";
@@ -123,8 +124,8 @@ export const AppRoutes = () => (
     <Route path="/services/branding" element={<Branding />} />
     <Route path="/services/uiux-design" element={<UIUXDesign />} />
     <Route path="/services/web-design" element={<WebDesign />} />
-    {/* <Route path="/services/ecommerce" element={<Ecommerce />} />
-    <Route path="/services/content" element={<Content />} />
+    <Route path="/services/ecommerce" element={<Ecommerce />} />
+    {/* <Route path="/services/content" element={<Content />} />
     <Route path="/services/product" element={<Product />} />
     <Route path="/services/digital" element={<Digital />} />
     <Route path="/services/video-production" element={<VideoProduction />} />
