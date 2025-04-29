@@ -114,7 +114,7 @@ export const AppRoutes = () => (
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
-    <Route path="/branding" element={<Branding />} />
+    <Route path="/:slug" element={<Services />} />
     <Route path="/page-services-details" element={<ServicesDetails />} />
   </Routes>
 );
