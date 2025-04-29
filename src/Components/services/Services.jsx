@@ -4,7 +4,7 @@ function Services() {
   const services = [
     {
       num: "01",
-      slug: "branding-design",
+      slug: "branding",
       category: "Branding Design",
       title: "Creative Identity",
       description:
@@ -144,7 +144,7 @@ function Services() {
               <div className="col-lg-4">
                 <div className="img fit-img">
                   <img src={service.img} alt={service.category} />
-                  <a href={`/${service.slug}`}>
+                  <a href={`/services/${service.slug}`}>
                     <span className="ti-arrow-top-right"></span>
                   </a>
                 </div>

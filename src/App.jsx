@@ -39,8 +39,8 @@ import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
 
 // Services Route
-import Branding from "./Pages/Branding";
-import ServicesDetails from "./Pages/services-details";
+import Branding from "./Pages/services/Branding";
+import UIUXDesign  from "./Pages/services/UIUXDesign";
 
 // import Video from "./Pages/Types/Video";
 // import VideoTemplate from "./Pages/Types/VideoTemplate";
@@ -115,9 +115,20 @@ export const AppRoutes = () => (
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
-    <Route path="/services/:slug" element={<Services />} />
-    <Route path="/page-services-details" element={<ServicesDetails />} />
+    {/* <Route path="/services/:slug" element={<Services />} />
+    <Route path="/page-services-details" element={<ServicesDetails />} /> */}
 
+    {/* Static individual service pages */}
+    <Route path="/services/branding" element={<Branding />} />
+    <Route path="/services/uiux-design" element={<UIUXDesign />} />
+    {/* <Route path="/services/web-design" element={<WebDesign />} />
+    <Route path="/services/ecommerce" element={<Ecommerce />} />
+    <Route path="/services/content" element={<Content />} />
+    <Route path="/services/product" element={<Product />} />
+    <Route path="/services/digital" element={<Digital />} />
+    <Route path="/services/video-production" element={<VideoProduction />} />
+    <Route path="/services/vfx" element={<VFX />} />
+    <Route path="/services/printing" element={<Printing />} /> */}
     {/* Optional: 404 fallback */}
     <Route path="*" element={<Error />} />
   </Routes>
