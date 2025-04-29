@@ -110,13 +110,10 @@ function Services() {
               </h3>
             </div>
             <div className="ml-auto vi-more">
-              <a
-                href={`/services/${service.slug} className="butn butn-sm butn-bord radius-30"
-              `}
-              >
+              <a href="/services" className="butn butn-sm butn-bord radius-30">
                 <span>View All</span>
+                <span className="icon ti-arrow-top-right"></span>
               </a>
-              <span className="icon ti-arrow-top-right"></span>
             </div>
           </div>
         </div>
@@ -133,7 +130,7 @@ function Services() {
                     <h2>
                       {service.title.split(" ")[0]}{" "}
                       <span className="fw-200">
-                        {service.title.split(" ")[1]}
+                        {service.title.split(" ")[1] || ""}
                       </span>
                     </h2>
                   </div>
@@ -147,7 +144,7 @@ function Services() {
               <div className="col-lg-4">
                 <div className="img fit-img">
                   <img src={service.img} alt={service.category} />
-                  <a href="#page-services-details">
+                  <a href={`/services/${service.slug}`}>
                     <span className="ti-arrow-top-right"></span>
                   </a>
                 </div>
