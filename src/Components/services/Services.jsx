@@ -146,7 +146,7 @@ function Services() {
                     href={`#/services/${service.slug}`}
                     className="position-absolute top-0 end-0 p-2 text-decoration-none"
                   >
-                    <span className="ti-arrow-top-right fs-4 text-dark"></span>
+                    <span className="ti-arrow-top-right"></span>
                   </a>
                 </div>
               </div>
