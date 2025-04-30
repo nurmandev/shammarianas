@@ -136,7 +136,7 @@ function Services() {
                 </div>
               </div>
               <div className="col-lg-4">
-                <div className="img fit-img">
+                <div className="img">
                   <img src={service.img} alt={service.category} />
                   <a href={`#/services/${service.slug}`}>
                     <span className="ti-arrow-top-right"></span>
