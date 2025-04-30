@@ -109,12 +109,6 @@ function Services() {
                 </span>
               </h3>
             </div>
-            {/* <div className="ml-auto vi-more">
-              <a href="/services" className="butn butn-sm butn-bord radius-30">
-                <span>View All</span>
-                <span className="icon ti-arrow-top-right"></span>
-              </a>
-            </div> */}
           </div>
         </div>
         {services.map((service, index) => (
@@ -141,14 +135,29 @@ function Services() {
                   <p>{service.description}</p>
                 </div>
               </div>
-              <div className="col-lg-4">
+              <div className="col-12 col-md-12 col-lg-4 d-flex justify-content-center">
+                <div className="position-relative w-100">
+                  <img
+                    src={service.img}
+                    alt={service.category}
+                    className="img-fluid rounded"
+                  />
+                  <a
+                    href={`#/services/${service.slug}`}
+                    className="position-absolute top-0 end-0 p-2 text-decoration-none"
+                  >
+                    <span className="ti-arrow-top-right"></span>
+                  </a>
+                </div>
+              </div>
+              {/* <div className="col-lg-4">
                 <div className="img fit-img">
                   <img src={service.img} alt={service.category} />
                   <a href={`#/services/${service.slug}`}>
                     <span className="ti-arrow-top-right"></span>
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         ))}
