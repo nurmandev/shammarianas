@@ -17,9 +17,16 @@ function Header() {
   const [projectData, setProjectData] = useState({
     title: "",
     category: "design",
+    client: "",
+    startDate: "",
+    designer: "",
+    challengeTitle: "The Challenge",
+    challengeDescription: "",
+    solutionTitle: "The Solution",
+    solutionDescription: "",
     description: "",
-    image: null,
-    imageUrl: "",
+    images: [],
+    imageUrls: [],
   });
 
   useEffect(() => {
@@ -49,10 +56,11 @@ function Header() {
   };
 
   const handleImageChange = (e) => {
-    if (e.target.files[0]) {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
       setProjectData((prev) => ({
         ...prev,
-        image: e.target.files[0],
+        images: filesArray,
       }));
     }
   };
@@ -61,27 +69,51 @@ function Header() {
     e.preventDefault();
 
     try {
-      let imageUrl = "";
-      if (projectData.image) {
-        const storageRef = ref(storage, `projects/${projectData.image.name}`);
-        await uploadBytes(storageRef, projectData.image);
-        imageUrl = await getDownloadURL(storageRef);
+      let imageUrls = [];
+
+      if (projectData.images.length > 0) {
+        const uploadPromises = projectData.images.map(async (image) => {
+          const storageRef = ref(
+            storage,
+            `projects/${image.name}-${Date.now()}`
+          );
+          await uploadBytes(storageRef, image);
+          return await getDownloadURL(storageRef);
+        });
+
+        imageUrls = await Promise.all(uploadPromises);
       }
+
       const docRef = await addDoc(collection(db, "projects"), {
         title: projectData.title,
         category: projectData.category,
+        client: projectData.client,
+        startDate: projectData.startDate,
+        designer: projectData.designer,
+        challengeTitle: projectData.challengeTitle,
+        challengeDescription: projectData.challengeDescription,
+        solutionTitle: projectData.solutionTitle,
+        solutionDescription: projectData.solutionDescription,
         description: projectData.description,
-        imageUrl: imageUrl,
+        imageUrls: imageUrls,
         createdAt: new Date(),
       });
+
       console.log("Document written with ID: ", docRef.id);
       setIsModalOpen(false);
       setProjectData({
         title: "",
         category: "design",
+        client: "",
+        startDate: "",
+        designer: "",
+        challengeTitle: "The Challenge",
+        challengeDescription: "",
+        solutionTitle: "The Solution",
+        solutionDescription: "",
         description: "",
-        image: null,
-        imageUrl: "",
+        images: [],
+        imageUrls: [],
       });
 
       window.location.reload();
@@ -145,14 +177,16 @@ function Header() {
               padding: "2rem",
               borderRadius: "8px",
               width: "80%",
-              maxWidth: "600px",
+              maxWidth: "800px",
+              maxHeight: "90vh",
+              overflowY: "auto",
             }}
           >
             <h2>Add New Project</h2>
 
             <form onSubmit={handleSubmit}>
               <div style={{ marginBottom: "1rem" }}>
-                <label className="">Project Title:</label>
+                <label>Project Title:</label>
                 <input
                   type="text"
                   name="title"
@@ -178,7 +212,113 @@ function Header() {
               </div>
 
               <div style={{ marginBottom: "1rem" }}>
-                <label>Description:</label>
+                <label>Client:</label>
+                <input
+                  type="text"
+                  name="client"
+                  value={projectData.client}
+                  onChange={handleInputChange}
+                  required
+                  style={{ width: "100%", padding: "0.5rem" }}
+                />
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Start Date:</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={projectData.startDate}
+                  onChange={handleInputChange}
+                  required
+                  style={{ width: "100%", padding: "0.5rem" }}
+                />
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Designer:</label>
+                <input
+                  type="text"
+                  name="designer"
+                  value={projectData.designer}
+                  onChange={handleInputChange}
+                  required
+                  style={{ width: "100%", padding: "0.5rem" }}
+                />
+              </div>
+
+              <div
+                style={{
+                  marginBottom: "1rem",
+                  borderBottom: "1px solid #eee",
+                  paddingBottom: "1rem",
+                }}
+              >
+                <h4>Challenge Section</h4>
+                <div style={{ marginBottom: "1rem" }}>
+                  <label>Challenge Title:</label>
+                  <input
+                    type="text"
+                    name="challengeTitle"
+                    value={projectData.challengeTitle}
+                    onChange={handleInputChange}
+                    required
+                    style={{ width: "100%", padding: "0.5rem" }}
+                  />
+                </div>
+                <div style={{ marginBottom: "1rem" }}>
+                  <label>Challenge Description:</label>
+                  <textarea
+                    name="challengeDescription"
+                    value={projectData.challengeDescription}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      width: "100%",
+                      padding: "0.5rem",
+                      minHeight: "100px",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div
+                style={{
+                  marginBottom: "1rem",
+                  borderBottom: "1px solid #eee",
+                  paddingBottom: "1rem",
+                }}
+              >
+                <h4>Solution Section</h4>
+                <div style={{ marginBottom: "1rem" }}>
+                  <label>Solution Title:</label>
+                  <input
+                    type="text"
+                    name="solutionTitle"
+                    value={projectData.solutionTitle}
+                    onChange={handleInputChange}
+                    required
+                    style={{ width: "100%", padding: "0.5rem" }}
+                  />
+                </div>
+                <div style={{ marginBottom: "1rem" }}>
+                  <label>Solution Description:</label>
+                  <textarea
+                    name="solutionDescription"
+                    value={projectData.solutionDescription}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      width: "100%",
+                      padding: "0.5rem",
+                      minHeight: "100px",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Project Description:</label>
                 <textarea
                   name="description"
                   value={projectData.description}
@@ -193,13 +333,19 @@ function Header() {
               </div>
 
               <div style={{ marginBottom: "1rem" }}>
-                <label>Project Image:</label>
+                <label>Project Images (Multiple):</label>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
+                  multiple
                   style={{ width: "100%", padding: "0.5rem" }}
                 />
+                {projectData.images.length > 0 && (
+                  <div style={{ marginTop: "0.5rem" }}>
+                    <p>Selected files: {projectData.images.length}</p>
+                  </div>
+                )}
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -287,7 +433,9 @@ function Header() {
                 <div className="item mb-50">
                   <div className="img">
                     <img
-                      src={project.imageUrl || "/assets/imgs/works/2/1.jpg"}
+                      src={
+                        project.imageUrls?.[0] || "/assets/imgs/works/2/1.jpg"
+                      }
                       alt={project.title}
                     />
                   </div>
@@ -300,7 +448,6 @@ function Header() {
                       <h6>{project.title}</h6>
                     </div>
                     <div className="ml-auto">
-                      {/* <a href={`#project-details`}> */}
                       <Link to={`/project-details/${project.id}`}>
                         <span className="ti-arrow-top-right"></span>
                       </Link>
