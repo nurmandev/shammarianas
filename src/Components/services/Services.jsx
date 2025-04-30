@@ -95,7 +95,7 @@ function Services() {
   ];
 
   return (
-    <section className="services-inline2 section-padding sub-bg bord-bottom-grd bord-top-grd">
+    <section className="services-inline2 section-padding sub-bg bord-bottom-grd">
       <div className="container ontop">
         <div className="sec-head mb-80">
           <div className="d-flex align-items-center">
@@ -105,16 +105,16 @@ function Services() {
               </span>
               <h3 className="fw-600 fz-50 text-u d-rotate wow">
                 <span className="rotate-text">
-                  Featured <span className="fw-200">Services.</span>
+                  Featured <span className="fw-200">Services</span>
                 </span>
               </h3>
             </div>
-            <div className="ml-auto vi-more">
+            {/* <div className="ml-auto vi-more">
               <a href="/services" className="butn butn-sm butn-bord radius-30">
                 <span>View All</span>
                 <span className="icon ti-arrow-top-right"></span>
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
         {services.map((service, index) => (
