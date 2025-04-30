@@ -1,8 +1,8 @@
-'use client';
-import React, { useEffect } from 'react';
+"use client";
+import React, { useEffect } from "react";
 //= Scripts
 
-import scrollToTop from '../common/scrollToTop';
+import scrollToTop from "../common/scrollToTop";
 const ProgressScroll = () => {
   useEffect(() => {
     scrollToTop();
