@@ -143,21 +143,21 @@ function Services() {
                     className="img-fluid rounded"
                   />
                   <a
-                    href={`#/services/${service.slug}`}
+                    href="#page-services-details"
                     className="position-absolute top-0 end-0 p-2 text-decoration-none"
                   >
-                    <span className="ti-arrow-top-right"></span>
+                    <span className="ti-arrow-top-right fs-4 text-dark"></span>
                   </a>
                 </div>
               </div>
-              {/* <div className="col-lg-4">
+              <div className="col-lg-4">
                 <div className="img fit-img">
                   <img src={service.img} alt={service.category} />
                   <a href={`#/services/${service.slug}`}>
                     <span className="ti-arrow-top-right"></span>
                   </a>
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
         ))}
