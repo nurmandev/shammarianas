@@ -73,7 +73,7 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">Project Manager</h6>
                   <div className="text">
                     <p>
                       With Sham-Marianas expert strategies and innovative
@@ -90,9 +90,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Rami Al-Hassan</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        Project Manager
                       </span>
                     </div>
                   </div>
@@ -102,12 +102,14 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">
+                    Business Development Director
+                  </h6>
                   <div className="text">
                     <p>
                       Working with Sham Marianas has been an absolute
-                      game-changer! Their team&apos;s creativity and strategic
-                      brilliance completely transformed our brand identity ”
+                      game-changer! Their team’s creativity and strategic
+                      brilliance completely transformed our brand identity
                     </p>
                   </div>
                 </div>
@@ -119,9 +121,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Faisal Nasser</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        Business Development Director
                       </span>
                     </div>
                   </div>
@@ -131,13 +133,15 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">
+                    Chief Marketing Officer (CMO)
+                  </h6>
                   <div className="text">
                     <p>
                       We gave Sham-Marianas a challenging task—to simplify a
                       complex issue and engage key stakeholders. They delivered
                       an innovative, compelling solution that captured attention
-                      and drove results. ”
+                      and drove results.
                     </p>
                   </div>
                 </div>
@@ -149,9 +153,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Omar Farid</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        Chief Marketing Officer (CMO)
                       </span>
                     </div>
                   </div>
@@ -161,13 +165,13 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">IT Specialist (Spain)</h6>
                   <div className="text">
                     <p>
                       Sham-Marianas exceeded our expectations with their
                       exceptional services. From branding to website design,
                       they delivered creative, original, and impactful solutions
-                      that perfectly conveyed our vision. ”
+                      that perfectly conveyed our vision.
                     </p>
                   </div>
                 </div>
@@ -179,9 +183,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Carlos García</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        IT Specialist (Spain)
                       </span>
                     </div>
                   </div>
@@ -191,13 +195,15 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">
+                    Senior Software Engineer (Russia)
+                  </h6>
                   <div className="text">
                     <p>
                       We partnered with Sham-Marianas to elevate our brand and
                       market positioning. They delivered exceptional results—an
                       impressive brand identity, strategic campaigns, and
-                      outstanding support at every step. ”
+                      outstanding support at every step.
                     </p>
                   </div>
                 </div>
@@ -209,9 +215,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Nikolai Ivanov</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        Senior Software Engineer (Russia)
                       </span>
                     </div>
                   </div>
@@ -221,7 +227,9 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">
+                    Senior Data Analyst (Czech Republic)
+                  </h6>
                   <div className="text">
                     <p>
                       I highly recommend Sham-Marianas for their strategic and
@@ -240,9 +248,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Martin Novak</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        Senior Data Analyst (Czech Republic)
                       </span>
                     </div>
                   </div>
