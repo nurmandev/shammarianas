@@ -1,7 +1,7 @@
-'use client';
-import React, { useEffect, useLayoutEffect } from 'react';
+"use client";
+import React, { useEffect, useLayoutEffect } from "react";
 
-import loadBackgroudImages from '../../common/loadBackgroudImages';
+import loadBackgroudImages from "../../common/loadBackgroudImages";
 function Header() {
   useEffect(() => {
     loadBackgroudImages();
