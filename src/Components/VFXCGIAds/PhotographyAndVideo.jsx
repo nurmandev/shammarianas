@@ -134,7 +134,7 @@ function PhotographyAndVideo() {
 
                   <div className="item wow fadeInUp" data-wow-delay=".5s">
                     <div onClick={openAccordion} className="title">
-                      <h6>. How do I get started?</h6>
+                      <h6>How do I get started?</h6>
                       <span className="ico ti-plus"></span>
                     </div>
                     <div className="accordion-info">
