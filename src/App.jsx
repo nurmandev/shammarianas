@@ -48,6 +48,7 @@ import Product from "./Pages/services/Product-Design";
 import Digital from "./Pages/services/DigitalMarketer";
 import VFX from "./Pages/services/VfxAndCGIAds";
 import VideoProduction from "./Pages/services/Photography";
+import Printing from "./Pages/services/PrintMediaSolutions";
 
 // import Video from "./Pages/Types/Video";
 // import VideoTemplate from "./Pages/Types/VideoTemplate";
@@ -135,7 +136,7 @@ export const AppRoutes = () => (
     <Route path="/services/digital" element={<Digital />} />
     <Route path="/services/video-production" element={<VideoProduction />} />
     <Route path="/services/vfx" element={<VFX />} />
-    {/* <Route path="/services/printing" element={<Printing />} /> */}
+    <Route path="/services/printing" element={<Printing />} />
     {/* Optional: 404 fallback */}
     <Route path="*" element={<Error />} />
   </Routes>
