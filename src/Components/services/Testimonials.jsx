@@ -236,7 +236,7 @@ function Testimonials() {
                       results-driven approach. They provided actionable
                       solutions that optimized our operations, enhanced
                       efficiency, and delivered outstanding results with
-                      professionalism and precision. ”
+                      professionalism and precision.
                     </p>
                   </div>
                 </div>
@@ -260,12 +260,14 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">
+                    Executive Assistant (Germany)
+                  </h6>
                   <div className="text">
                     <p>
                       Sham-Marianas impressed us with their unique and
                       innovative approach. Their solution received overwhelming
-                      praise from our leadership team. ”
+                      praise from our leadership team.
                     </p>
                   </div>
                 </div>
@@ -277,9 +279,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Anja Schmidt</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        Executive Assistant (Germany)
                       </span>
                     </div>
                   </div>
@@ -289,11 +291,13 @@ function Testimonials() {
             <SwiperSlide>
               <div className="item">
                 <div className="cont">
-                  <h6 className="sub-title mb-15">Design Quality</h6>
+                  <h6 className="sub-title mb-15">
+                    On-page SEO Specialist (Germany)
+                  </h6>
                   <div className="text">
                     <p>
                       Sham-MarianSall delivered impactful and creative solutions
-                      that strengthened our community outreach efforts. ”
+                      that strengthened our community outreach efforts.
                     </p>
                   </div>
                 </div>
@@ -305,9 +309,9 @@ function Testimonials() {
                       </div>
                     </div>
                     <div className="ml-20">
-                      <h6 className="fz-18">Haitham Al-Dukhin</h6>
+                      <h6 className="fz-18">Julia Müller</h6>
                       <span className="p-color opacity-8 fz-15 mt-5">
-                        Envato Customer
+                        On-page SEO Specialist (Germany)
                       </span>
                     </div>
                   </div>
