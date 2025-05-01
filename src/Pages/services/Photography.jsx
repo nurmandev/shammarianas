@@ -6,9 +6,9 @@ import Cursor from "../../common/cusor";
 import ProgressScroll from "../../common/ProgressScroll";
 import Lines from "../../Components/Lines";
 import Marq2 from "../../Components/marq2";
-import Intro from "../../Components/Product-Design/Intro";
-import Header from "../../Components/Product-Design/Header";
-import Product from "../../Components/Product-Design/Product-design";
+import Intro from "../../Components/Photography/Intro";
+import Header from "../../Components/Photography/Header";
+import PhotographyAndVideo from "../../Components/Photography/PhotographyAndVideo";
 
 export default function PageServicesDetails() {
   const main = useRef();
@@ -21,7 +21,7 @@ export default function PageServicesDetails() {
         <Lines />
         <Header />
         <Intro />
-        <Product />
+        <PhotographyAndVideo />
         <Marq2 />
       </body>
     </>
