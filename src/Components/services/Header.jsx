@@ -16,8 +16,8 @@ function Header() {
         <div className="row">
           <div className="col-12">
             <div className="text-center">
-              <h1 className="fz-80">
-                Our <span className="fw-200 ls1">Services</span>
+              <h1 className="ls1 fz-10">
+                Our <span className="fw-500">Services</span>
               </h1>
             </div>
           </div>
