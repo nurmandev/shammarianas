@@ -96,7 +96,7 @@ function Services() {
 
   return (
     <section className="services-inline2 section-padding sub-bg bord-bottom-grd">
-      <div className="container ontop mt-20">
+      <div className="container ontop">
         <div className="sec-head mb-80">
           <div className="d-flex align-items-center">
             <div>
