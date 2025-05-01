@@ -16,8 +16,8 @@ function Header() {
         <div className="row">
           <div className="col-12">
             <div className="text-center">
-              <h1 className="text-u ls1 fz-80 fw-200">
-                OUR <span className="fw-500">SERVICES</span>
+              <h1 className="text-u ls1 fz-80">
+                VFX <span className="fw-200">& CGI Ads</span>
               </h1>
             </div>
           </div>
