@@ -7,13 +7,14 @@ import { db } from "../../firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 
-import BlogEditor from "./BlogEditor";
+import BlogEditorModal from "./BlogEditor";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -74,7 +75,19 @@ function Blogs() {
         </div>
       </header>
 
-      {/* <BlogEditor /> */}
+      <div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Create New Blog Post
+        </button>
+
+        <BlogEditorModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      </div>
 
       <section className="blog-main section-padding">
         <div className="container">

@@ -47,7 +47,7 @@ const formats = [
   "direction",
 ];
 
-function BlogEditor() {
+function BlogEditorModal({ isOpen, onClose }) {
   const { quillRef } = useQuill({});
 
   const [blogData, setBlogData] = useState({
@@ -132,7 +132,7 @@ function BlogEditor() {
         content: "",
       });
       if (fileInputRef.current) fileInputRef.current.value = "";
-      window.location.reload();
+      onClose();
     } catch (error) {
       console.error("Error publishing blog:", error);
       alert("Error publishing blog: " + error.message);
@@ -141,143 +141,165 @@ function BlogEditor() {
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-12 font-poppins px-4 md:px-8">
-      <h1 className="text-xl font-semibold text-gray-800 mb-10 text-center">
-        Create a New Blog Post
-      </h1>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-semibold text-gray-800">
+              Create a New Blog Post
+            </h1>
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-4xl bg-white p-8 rounded-2xl shadow-lg space-y-6"
-      >
-        {/* Title */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Title <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={blogData.title}
-            onChange={handleInputChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter blog title"
-          />
-        </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Title */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Title <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={blogData.title}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder="Enter blog title"
+              />
+            </div>
 
-        {/* Excerpt */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Excerpt (Optional)
-          </label>
-          <textarea
-            name="excerpt"
-            value={blogData.excerpt}
-            onChange={handleInputChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Short description for preview"
-            rows="3"
-          />
-        </div>
+            {/* Excerpt */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Excerpt (Optional)
+              </label>
+              <textarea
+                name="excerpt"
+                value={blogData.excerpt}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder="Short description for preview"
+                rows="3"
+              />
+            </div>
 
-        {/* Featured Image */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Featured Image <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-            accept="image/*"
-            required
-            className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
-          />
-          <p className="text-sm text-red-600 mt-1">
-            * Only images below 1.25MB can be uploaded.
-          </p>
-        </div>
+            {/* Featured Image */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Featured Image <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                accept="image/*"
+                required
+                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+              />
+              <p className="text-sm text-red-600 mt-1">
+                * Only images below 1.25MB can be uploaded.
+              </p>
+            </div>
 
-        {/* Category */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Category <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="category"
-            value={blogData.category}
-            onChange={handleInputChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          >
-            <option value="business">Business</option>
-            <option value="technology">Technology</option>
-            <option value="design">Design</option>
-            <option value="lifestyle">Lifestyle</option>
-            <option value="marketing">Marketing</option>
-          </select>
-        </div>
+            {/* Category */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Category <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="category"
+                value={blogData.category}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="business">Business</option>
+                <option value="technology">Technology</option>
+                <option value="design">Design</option>
+                <option value="lifestyle">Lifestyle</option>
+                <option value="marketing">Marketing</option>
+              </select>
+            </div>
 
-        {/* Status */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Status <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="status"
-            value={blogData.status}
-            onChange={handleInputChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          >
-            <option value="DRAFT">Draft</option>
-            <option value="PUBLISHED">Published</option>
-            <option value="ARCHIVED">Archived</option>
-          </select>
-        </div>
+            {/* Status */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Status <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="status"
+                value={blogData.status}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="DRAFT">Draft</option>
+                <option value="PUBLISHED">Published</option>
+                <option value="ARCHIVED">Archived</option>
+              </select>
+            </div>
 
-        {/* Content */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Content <span className="text-red-500">*</span>
-          </label>
-          <div
-            value={blogData.content}
-            onChange={(value) =>
-              setBlogData((prev) => ({ ...prev, content: value }))
-            }
-            modules={modules}
-            ref={quillRef}
-            formats={formats}
-            className="h-96 bg-white"
-            theme="snow"
-          />
-        </div>
+            {/* Content */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Content <span className="text-red-500">*</span>
+              </label>
+              <div
+                value={blogData.content}
+                onChange={(value) =>
+                  setBlogData((prev) => ({ ...prev, content: value }))
+                }
+                modules={modules}
+                ref={quillRef}
+                formats={formats}
+                className="h-96 bg-white"
+                theme="snow"
+              />
+            </div>
 
-        {/* Buttons */}
-        <div className="flex justify-end gap-4 pt-4">
-          <button
-            type="button"
-            onClick={() =>
-              window.confirm("Discard changes?") && window.history.back()
-            }
-            className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "Publishing..." : "Publish Blog"}
-          </button>
+            {/* Buttons */}
+            <div className="flex justify-end gap-4 pt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Publishing..." : "Publish Blog"}
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
 
-export default BlogEditor;
+export default BlogEditorModal;
