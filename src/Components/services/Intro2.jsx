@@ -14,7 +14,7 @@ function Intro2() {
   }
   return (
     <section className="intro-accord mt-20">
-      <div className="container ontop">
+      <div className="container">
         <div className="row xlg-marg">
           <div className="col-lg-6">
             <div className="img md-mb50">
@@ -26,45 +26,78 @@ function Intro2() {
               <div className="sec-head mb-50">
                 <h6 className="sub-title main-color mb-15">Why choose us?</h6>
                 <h3>
-                  The creative process behind <br /> our digital marketing.
+                  We exceed expectations by blending creativity, <br />
+                  expertise, and innovation to drive your success.
                 </h3>
               </div>
               <div className="accordion bord">
                 <div className="item active wow fadeInUp" data-wow-delay=".1s">
                   <div onClick={openAccordion} className="title">
-                    <h6>Designing Content With AI Power</h6>
+                    <h6>Tailored Strategies</h6>
                     <span className="ico ti-plus"></span>
                   </div>
                   <div className="accordion-info">
                     <p className="">
-                      Taken possession of my entire soul, like these sweet
-                      mornings of spring which i enjoy with my whole.
+                      At Sham Marianas, we believe in tailored strategies —
+                      because one size never fits all. Backed by in-depth
+                      research and the power of AI, we create smart, data-driven
+                      solutions that take your brand to the next level with
+                      precision and innovation.
                     </p>
                   </div>
                 </div>
 
                 <div className="item wow fadeInUp" data-wow-delay=".3s">
                   <div onClick={openAccordion} className="title">
-                    <h6>Talented, Professional & Expert Team</h6>
+                    <h6>Expertise</h6>
                     <span className="ico ti-plus"></span>
                   </div>
                   <div className="accordion-info">
                     <p className="">
-                      Taken possession of my entire soul, like these sweet
-                      mornings of spring which i enjoy with my whole.
+                      With over 12 years in brand marketing, we’ve collaborated
+                      with diverse industries, offering deep insights and
+                      delivering tailored solutions that drive impactful
+                      results.
                     </p>
                   </div>
                 </div>
 
                 <div className="item wow fadeInUp" data-wow-delay=".5s">
                   <div onClick={openAccordion} className="title">
-                    <h6>We Build and Activate Brands</h6>
+                    <h6>Affordable Plans</h6>
                     <span className="ico ti-plus"></span>
                   </div>
                   <div className="accordion-info">
                     <p className="">
-                      Taken possession of my entire soul, like these sweet
-                      mornings of spring which i enjoy with my whole.
+                      We know every business is different, whether you're new or
+                      well-established. That's why we offer affordable packages
+                      that fit your business's size and needs.
+                    </p>
+                  </div>
+                </div>
+                <div className="item wow fadeInUp" data-wow-delay=".5s">
+                  <div onClick={openAccordion} className="title">
+                    <h6>Impactful Outcomes</h6>
+                    <span className="ico ti-plus"></span>
+                  </div>
+                  <div className="accordion-info">
+                    <p className="">
+                      After working with countless clients, we've learned what
+                      truly works. Our team is dedicated to providing solutions
+                      that get real, measurable results for your business.
+                    </p>
+                  </div>
+                </div>
+                <div className="item wow fadeInUp" data-wow-delay=".5s">
+                  <div onClick={openAccordion} className="title">
+                    <h6>At Your Services</h6>
+                    <span className="ico ti-plus"></span>
+                  </div>
+                  <div className="accordion-info">
+                    <p className="">
+                      We prioritize your concerns, responding within 24 hours.
+                      Our team is always available to assist with any urgent
+                      needs or emergencies.
                     </p>
                   </div>
                 </div>
