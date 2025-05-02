@@ -13,7 +13,7 @@ function Intro2() {
     event.currentTarget.nextElementSibling.classList.add("active");
   }
   return (
-    <section className="intro-accord mt-20 mb-20 pt-20 pb-20">
+    <section className="intro-accord mt-20 mb-20">
       <div className="container">
         <div className="row xlg-marg">
           <div className="col-lg-6">
