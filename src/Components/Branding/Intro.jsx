@@ -9,7 +9,6 @@ function Intro() {
             <div className="row lg-marg">
               <div className="col-md-6">
                 <div>
-                  <h6 className="sub-title main-color mb-15">Description</h6>
                   <h3 className="mb-30">
                     Building Brands
                     <span className="fw-300">That</span>
@@ -31,9 +30,6 @@ function Intro() {
 
                   <div className="mt-30">
                     <ul className="rest dot-list">
-                      <li className="mb-10">
-                        Crafting Unique Branding Design for You
-                      </li>
                       <li className="mb-10">Logo Creation</li>
                       <li className="mb-10">Brand Identity Design</li>
                       <li className="mb-10">Visual Style Guides</li>
