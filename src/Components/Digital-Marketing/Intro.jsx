@@ -9,7 +9,6 @@ function Intro() {
             <div className="row lg-marg">
               <div className="col-md-6">
                 <div>
-                  <h6 className="sub-title main-color mb-15">Description</h6>
                   <h3 className="mb-30">
                     Posting Isn’t Enough — We Cultivate
                     <span className="fw-300">Digital</span>
@@ -34,9 +33,6 @@ function Intro() {
 
                   <div className="mt-30">
                     <ul className="rest dot-list">
-                      <li className="mb-10">
-                        Our Expertise in Social Media & Digital Marketing
-                      </li>
                       <li className="mb-10">Social Media Management</li>
                       <li className="mb-10">Targeted Ad Campaigns</li>
                       <li className="mb-10">Content Strategy & Planning</li>
@@ -52,38 +48,6 @@ function Intro() {
                         SEO-Integrated Content for Blogs & Social
                       </li>
                     </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="numbers mt-80 md-mb50">
-              <div className="row lg-marg">
-                <div className="col-md-6">
-                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30">
-                    <div>
-                      <h3 className="fw-300 mb-10">100%</h3>
-                      <h6 className="p-color sub-title">
-                        Clients Satisfaction
-                      </h6>
-                    </div>
-                    <div className="ml-auto">
-                      <div className="icon-img-40">
-                        <img src="/assets/imgs/arw0.png" alt="" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
-                    <div>
-                      <h3 className="fw-300 mb-10">6700</h3>
-                      <h6 className="p-color sub-title">Projects Completed</h6>
-                    </div>
-                    <div className="ml-auto">
-                      <div className="icon-img-40">
-                        <img src="/assets/imgs/arw0.png" alt="" />
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

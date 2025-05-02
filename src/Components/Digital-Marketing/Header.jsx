@@ -18,7 +18,7 @@ function Header() {
             <div className="text-center">
               <h1 className="text-u ls1 fz-80">
                 Social Media &
-                <span className="fw-200">Digital Marketing Service</span>
+                <span className="fw-200">Digital Marketing</span>
               </h1>
             </div>
           </div>
