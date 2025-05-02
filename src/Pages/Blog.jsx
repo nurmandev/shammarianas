@@ -14,7 +14,7 @@ function Blogs() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
