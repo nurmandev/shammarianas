@@ -23,8 +23,8 @@ function Intro2() {
           </div>
           <div className="col-lg-6 valign">
             <div>
-              <div className="sec-head mb-50">
-                <h6 className="sub-title main-color mb-25">Why choose us?</h6>
+              <div className="sec-head mb-50 mt-50">
+                <h6 className="sub-title main-color mb-25 mt-25">Why choose us?</h6>
                 <h3>
                   We exceed expectations by blending creativity, <br />
                   expertise, and innovation to drive your success.
