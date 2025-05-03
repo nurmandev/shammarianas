@@ -86,6 +86,9 @@ function Creativity() {
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-lg-6 valign">
+              <h6 className="sub-title main-color mb-15">
+                Frequently Asked Questions
+              </h6>
               <div className="accordion bord">
                 <div className="item active wow fadeInUp" data-wow-delay=".1s">
                   <div onClick={openAccordion} className="title">
