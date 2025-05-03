@@ -16,7 +16,7 @@ function Intro() {
                   </h3>
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 text-left">
                 <div className="text-left">
                   <p className="mb-15">
                     At <span className="font-bold">Sham Marianas</span>, we
