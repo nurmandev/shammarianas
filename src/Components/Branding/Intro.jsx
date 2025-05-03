@@ -10,9 +10,9 @@ function Intro() {
               <div className="col-md-6">
                 <div>
                   <h3 className="mb-30">
-                    Building Brands{" "}
-                    <span className="fw-300">That{" "}</span>
-                    <span className="fw-300">Speak.</span>
+                    Building Brands{"  "}
+                    <span className="fw-300">That{"  "}</span>
+                    <span className="fw-300">{"  "}Speak.</span>
                   </h3>
                 </div>
               </div>

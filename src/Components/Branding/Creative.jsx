@@ -39,7 +39,7 @@ function UiUx() {
             </div>
             <div className="col-lg-6">
               <div className="img md-mb50">
-                <img src="/assets/imgs/FAQ.png" alt="" />
+                <img src="/assets/imgs/arw2.png" alt="" />
               </div>
             </div>
           </div>
