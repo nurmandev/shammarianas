@@ -4,60 +4,69 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 const data = [
   {
+    id:1 ,
     title: "Branding Design",
     img: "/assets/imgs/serv-icons/3.png",
     desc: "We build strong brand identities that connect with audiences, boost recognition, and support long-term business growth.",
     link: "/services/branding-design",
   },
   {
+    id:2 ,
     title: "UI-UX Design",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We design smooth and engaging user interfaces that enhance usability, increase conversions, and elevate brand experiences.",
     link: "/services/ui-ux-design",
   },
   {
-    title: "Web Developments",
+    id:3 ,
+    title: "Web Development",
     img: "/assets/imgs/serv-icons/4.png",
     desc: "We create modern websites with top performance, seamless navigation, and responsive design to help your brand thrive.",
     link: "/services/web-development",
   },
   {
+    id:4 ,
     title: "E-Commerce Solutions",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We deliver user-friendly e-commerce platforms that improve customer experience, boost sales, and drive online business success.",
     link: "/services/ecommerce-solutions",
   },
   {
+    id:5 ,
     title: "Content Writing",
     img: "/assets/imgs/serv-icons/3.png",
     desc: "We write compelling, SEO-optimized content that attracts audiences, builds trust, and strengthens your digital presence.",
     link: "/services/content-writing",
   },
   {
+    id:6 ,
     title: "Product Design",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We design intuitive and innovative products that focus on user needs, driving engagement, satisfaction, and business success.",
     link: "/services/product-design",
   },
   {
+    id:7 ,
     title: "Social Media & Digital Marketing",
     img: "/assets/imgs/serv-icons/4.png",
     desc: "We grow your business with marketing strategies that boost visibility, improve interaction, and maximize digital reach.",
     link: "/services/social-media-digital-marketing",
   },
   {
+    id:8 ,
     title: "Photography & Video Production",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We create stunning visuals and videos that tell your story, increase brand appeal, and captivate your audience.",
     link: "/services/photography-video-production",
   },
   {
+    id:9 ,
     title: "VFX and CGI ADs",
     img: "/assets/imgs/serv-icons/4.png",
     desc: "We create stunning VFX and CGI ads that capture attention, elevate your brand identity, and impress. Our team delivers high-quality visuals and audio.",
     link: "/services/vfx-cgi-ads",
   },
-  {
+  {    id:10 ,
     title: "Print Media Solution",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We offer premium print design solutions that amplify marketing efforts and reinforce brand presence through quality visuals.",
@@ -142,9 +151,10 @@ function Services() {
               <SwiperSlide key={i}>
                 <div className="item-box">
                   <div className="icon mb-40 opacity-5">
+                 
                     <img src={item.img} alt="" />
                   </div>
-                  <h5 className="mb-15">{item.title}</h5>
+                  <h5 className="mb-15">{item.id}. {item.title}</h5>
                   <p>{item.desc}</p>
                   <a href={item.link} className="rmore mt-30 flex">
                     <span className="sub-title">Read More</span>
