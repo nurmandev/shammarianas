@@ -127,16 +127,8 @@ export const AppRoutes = () => (
     <Route path="/page-services-details" element={<ServicesDetails />} /> */}
 
     {/* Static individual service pages */}
-    <Route path="/services/branding" element={<Branding />} />
-    <Route path="/services/uiux-design" element={<UIUXDesign />} />
-    <Route path="/services/web-design" element={<WebDesign />} />
-    <Route path="/services/ecommerce" element={<Ecommerce />} />
-    <Route path="/services/content" element={<Content />} />
-    <Route path="/services/product" element={<Product />} />
-    <Route path="/services/digital" element={<Digital />} />
-    <Route path="/services/video-production" element={<VideoProduction />} />
-    <Route path="/services/vfx" element={<VFX />} />
-    <Route path="/services/printing" element={<Printing />} />
+    desc: "We create stunning VFX and CGI ads that capture attention, elevate your brand identity, and impress. Our team delivers high-quality visuals that engage audiences and enhance storytelling. We craft realistic animations and digital effects that bring your ideas to life. With cutting-edge technology, we ensure every ad leaves a lasting impression. Our work enhances brand recognition and drives viewer engagement, creating memorable and impactful campaigns.",
+
     {/* Optional: 404 fallback */}
     <Route path="*" element={<Error />} />
   </Routes>

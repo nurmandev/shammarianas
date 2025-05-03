@@ -2,67 +2,66 @@
 import React from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 const data = [
   {
     title: "Branding Design",
     img: "/assets/imgs/serv-icons/3.png",
     desc: "We build strong brand identities that connect with audiences, boost recognition, and support long-term business growth.",
-    link: "/services/branding",
+    link: "/services/branding-design",
   },
   {
     title: "UI-UX Design",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We design smooth and engaging user interfaces that enhance usability, increase conversions, and elevate brand experiences.",
-    link: "/services/uiux-design",
+    link: "/services/ui-ux-design",
   },
   {
     title: "Web Developments",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "We create modern websites with top performance, seamless navigation, and responsive design to help your brand thrive online.",
-    link: "/services/web-design",
+    desc: "We create modern websites with top performance, seamless navigation, and responsive design to help your brand thrive.",
+    link: "/services/web-development",
   },
   {
     title: "E-Commerce Solutions",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We deliver user-friendly e-commerce platforms that improve customer experience, boost sales, and drive online business success.",
-    link: "/services/ecommerce",
+    link: "/services/ecommerce-solutions",
   },
   {
     title: "Content Writing",
     img: "/assets/imgs/serv-icons/3.png",
     desc: "We write compelling, SEO-optimized content that attracts audiences, builds trust, and strengthens your digital presence.",
-    link: "/services/content",
+    link: "/services/content-writing",
   },
   {
     title: "Product Design",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We design intuitive and innovative products that focus on user needs, driving engagement, satisfaction, and business success.",
-    link: "/services/product",
+    link: "/services/product-design",
   },
   {
     title: "Social Media & Digital Marketing",
     img: "/assets/imgs/serv-icons/4.png",
     desc: "We grow your business with marketing strategies that boost visibility, improve interaction, and maximize digital reach.",
-    link: "/services/digital",
+    link: "/services/social-media-digital-marketing",
   },
   {
     title: "Photography & Video Production",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We create stunning visuals and videos that tell your story, increase brand appeal, and captivate your target audience.",
-    link: "/services/video-production",
+    desc: "We create stunning visuals and videos that tell your story, increase brand appeal, and captivate your audience.",
+    link: "/services/photography-video-production",
   },
   {
     title: "VFX and CGI ADs",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "We craft high-quality VFX and CGI ads that grab attention, enhance brand identity, and leave lasting impressions.",
-    link: "/services/vfx",
+    desc: "We create stunning VFX and CGI ads that capture attention, elevate your brand identity, and impress. Our team delivers high-quality visuals and audio.",
+    link: "/services/vfx-cgi-ads",
   },
   {
     title: "Print Media Solution",
     img: "/assets/imgs/serv-icons/5.png",
     desc: "We offer premium print design solutions that amplify marketing efforts and reinforce brand presence through quality visuals.",
-    link: "/services/printing",
+    link: "/services/print-media-solution",
   },
 ];
 
