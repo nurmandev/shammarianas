@@ -15,31 +15,37 @@ function UiUx() {
   return (
     <>
       <section className="container section-padding">
-        <div className="col-lg-6">
-          <div className="img md-mb50">
-            <img src="/assets/imgs/arw2.png" alt="" />
-          </div>
-        </div>
-        <div className="col-md-6">
-          <h6 className="sub-title main-color mb-15">
-            The Importance of Effective Branding Design
-          </h6>
+        <div className="container ontop">
+          <div className="row xlg-marg">
+            <div className="col-lg-6">
+              <div className="img md-mb50">
+                <img src="/assets/imgs/arw2.png" alt="" />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <h6 className="sub-title main-color mb-15">
+                The Importance of Effective Branding Design
+              </h6>
 
-          <div className="text">
-            <p className="mb-15">
-              Effective branding design is key to building trust and
-              recognition. It gives your business a unique identity that helps
-              you stand out and stay memorable in a competitive market. From
-              your logo to your website, consistent visuals create a
-              professional and polished image. More than just looks, great
-              branding creates emotional connections. It makes your business
-              feel relatable and reliable, encouraging customer loyalty and
-              repeat visits. A well-designed brand doesn&apos;t just attract
-              attention — it builds lasting relationships.
-            </p>
+              <div className="text">
+                <p className="mb-15">
+                  Effective branding design is key to building trust and
+                  recognition. It gives your business a unique identity that
+                  helps you stand out and stay memorable in a competitive
+                  market. From your logo to your website, consistent visuals
+                  create a professional and polished image. More than just
+                  looks, great branding creates emotional connections. It makes
+                  your business feel relatable and reliable, encouraging
+                  customer loyalty and repeat visits. A well-designed brand
+                  doesn&apos;t just attract attention — it builds lasting
+                  relationships.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
       <section className="intro-accord">
         <div className="container ontop">
           <div className="row xlg-marg">
