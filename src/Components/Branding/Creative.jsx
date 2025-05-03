@@ -15,6 +15,11 @@ function UiUx() {
   return (
     <>
       <section className="container section-padding">
+        <div className="col-lg-6">
+          <div className="img md-mb50">
+            <img src="/assets/imgs/arw2.png" alt="" />
+          </div>
+        </div>
         <div className="col-md-6">
           <h6 className="sub-title main-color mb-15">
             The Importance of Effective Branding Design
