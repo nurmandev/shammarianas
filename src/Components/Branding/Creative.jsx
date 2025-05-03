@@ -87,7 +87,7 @@ function Creativity() {
           <div className="row xlg-marg">
             <div className="col-lg-6 valign">
               <div className="accordion bord">
-                <h6 className="sub-title main-color mb-15">
+                <h6 className="sub-title main-color mb-15 text-xl">
                   Frequently Asked Questions
                 </h6>
                 <div className="item active wow fadeInUp" data-wow-delay=".1s">
