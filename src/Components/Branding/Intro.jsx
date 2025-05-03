@@ -19,13 +19,14 @@ function Intro() {
               <div className="col-md-6">
                 <div className="text">
                   <p className="mb-15">
-                    At Sham Marianas, we craft branding designs that go beyond
-                    just visuals — we create identities. Your brand is your
-                    story, and we help you tell it with clarity, creativity, and
-                    consistency. Whether you're a startup or an established
-                    business, our branding design services ensure that your
-                    logo, color scheme, typography, and messaging all align to
-                    leave a strong and lasting impression.
+                    At <span className="fw-300">Sham Marianas</span> , we craft
+                    branding designs that go beyond just visuals — we create
+                    identities. Your brand is your story, and we help you tell
+                    it with clarity, creativity, and consistency. Whether you're
+                    a startup or an established business, our branding design
+                    services ensure that your logo, color scheme, typography,
+                    and messaging all align to leave a strong and lasting
+                    impression.
                   </p>
 
                   <div className="mt-30">
@@ -40,6 +41,38 @@ function Intro() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="numbers mt-80 md-mb50">
+              {/* <div className="row lg-marg">
+                <div className="col-md-6">
+                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30">
+                    <div>
+                      <h3 className="fw-300 mb-10">100%</h3>
+                      <h6 className="p-color sub-title">
+                        Clients Satisfaction
+                      </h6>
+                    </div>
+                    <div className="ml-auto">
+                      <div className="icon-img-40">
+                        <img src="/assets/imgs/arw0.png" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
+                    <div>
+                      <h3 className="fw-300 mb-10">6700</h3>
+                      <h6 className="p-color sub-title">Projects Completed</h6>
+                    </div>
+                    <div className="ml-auto">
+                      <div className="icon-img-40">
+                        <img src="/assets/imgs/arw0.png" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> */}
             </div>
           </div>
           <div className="col-lg-4">

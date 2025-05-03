@@ -123,8 +123,6 @@ export const AppRoutes = () => (
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
-    {/* <Route path="/services/:slug" element={<Services />} />
-    <Route path="/page-services-details" element={<ServicesDetails />} /> */}
 
     {/* Static individual service pages */}
     <Route path="/services/branding" element={<Branding />} />
