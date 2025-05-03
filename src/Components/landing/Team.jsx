@@ -10,16 +10,11 @@ function Team() {
               <span className="sub-title main-color mb-5">Our Team</span>
               <h3 className="fw-600 fz-50 text-u d-rotate wow">
                 <span className="rotate-text">
-                  Meet our <span className="fw-200">legends.</span>
+                  Visionary <span className="fw-200">Crew</span>
                 </span>
               </h3>
             </div>
-            <div className="ml-auto vi-more">
-              <a href="/page-team" className="butn butn-sm butn-bord radius-30">
-                <span>Join to us</span>
-              </a>
-              <span className="icon ti-arrow-top-right"></span>
-            </div>
+        
           </div>
         </div>
         <div className="row">

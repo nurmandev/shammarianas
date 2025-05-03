@@ -7,64 +7,66 @@ const data = [
   {
     title: "Branding Design",
     img: "/assets/imgs/serv-icons/3.png",
-    desc: "Our branding design creates strong brand identities that attract audiences, build recognition, and grow businesses for long-term success.",
-    link: "#page-services-details",
+    desc: "We build strong brand identities that connect with audiences, boost recognition, and support long-term business growth.",
+    link: "/services/branding",
   },
   {
     title: "UI-UX Design",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We offer UI/UX design that creates smooth, user-friendly experiences that boost engagement, conversions, and brand success, making every interaction seamless and enjoyable.",
-    link: "#page-services-details",
+    desc: "We design smooth and engaging user interfaces that enhance usability, increase conversions, and elevate brand experiences.",
+    link: "/services/uiux-design",
   },
   {
     title: "Web Developments",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "At Sham Marianas, we build cutting-edge web development solutions that blend innovation, performance, and seamless user experiences to help businesses thrive online.",
-    link: "#page-services-details",
+    desc: "We create modern websites with top performance, seamless navigation, and responsive design to help your brand thrive online.",
+    link: "/services/web-design",
   },
   {
     title: "E-Commerce Solutions",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We build e-commerce solutions that make online selling seamless and profitable. Our expert services enhance customer reach, conversions, and sales growth",
-    link: "#page-services-details",
+    desc: "We deliver user-friendly e-commerce platforms that improve customer experience, boost sales, and drive online business success.",
+    link: "/services/ecommerce",
   },
   {
     title: "Content Writing",
     img: "/assets/imgs/serv-icons/3.png",
-    desc: "We create SEO-friendly content writing that captures attention, builds authority, and boosts online presence.",
-    link: "#page-services-details",
+    desc: "We write compelling, SEO-optimized content that attracts audiences, builds trust, and strengthens your digital presence.",
+    link: "/services/content",
   },
   {
     title: "Product Design",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We provide the best product design, creating seamless, user-focused experiences that drive engagement, innovation, and business success.",
-    link: "#page-services-details",
+    desc: "We design intuitive and innovative products that focus on user needs, driving engagement, satisfaction, and business success.",
+    link: "/services/product",
   },
   {
     title: "Social Media & Digital Marketing",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "We help businesses grow with social media & digital marketing, increasing brand awareness, interaction, and online reach.",
-    link: "#page-services-details",
+    desc: "We grow your business with marketing strategies that boost visibility, improve interaction, and maximize digital reach.",
+    link: "/services/digital",
   },
   {
     title: "Photography & Video Production",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We deliver photography & video production that captures your brand’s story, enhancing engagement, visibility, and trust with high-impact visuals.",
-    link: "#page-services-details",
+    desc: "We create stunning visuals and videos that tell your story, increase brand appeal, and captivate your target audience.",
+    link: "/services/video-production",
   },
   {
     title: "VFX and CGI ADs",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "We design eye-catching VFX and CGI ads that boost brand visibility, engagement, and audience impact with stunning, high-quality visuals.",
-    link: "#page-services-details",
+    desc: "We craft high-quality VFX and CGI ads that grab attention, enhance brand identity, and leave lasting impressions.",
+    link: "/services/vfx",
   },
   {
     title: "Print Media Solution",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We craft print media solutions that boost brand visibility, marketing impact, and audience engagement with high-quality designs and materials.",
-    link: "#page-services-details",
+    desc: "We offer premium print design solutions that amplify marketing efforts and reinforce brand presence through quality visuals.",
+    link: "/services/printing",
   },
 ];
+
+
 function Services() {
   const swiperOptions = {
     modules: [Navigation],
@@ -92,7 +94,7 @@ function Services() {
     },
   };
   return (
-    <section className="services section-padding overflow-hidden">
+    <section className="services section-padding w-full overflow-hidden">
       <div
         style={{
           width: "100%",

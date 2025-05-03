@@ -1,5 +1,15 @@
 import React from "react";
 
+const footerLinks = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "#about" },
+  { name: "Templates", href: "#templates" },
+  { name: "Services", href: "#services" },
+  { name: "Portfolio", href: "#portfolio" },
+  { name: "Blog", href: "#blog" },
+  { name: "Contact us", href: "#contact" },
+];
+
 function Footer() {
   return (
     <footer className="clean-footer crev">
@@ -13,47 +23,23 @@ function Footer() {
           <div className="col-lg-4">
             <div className="column md-mb50">
               <h6 className="sub-title mb-30">Contact</h6>
-              {/* <h6 className="p-color fw-400">
-                5919 Trussville Crossings <br /> Pkwy, Birmingham
-              </h6> */}
               <h6 className="mt-30 mb-15">
-                <a
-                  href="mail:info@shammarianas.com
-"
-                >
-                  info@shammarianas.com
-                </a>
+                <a href="mailto:info@shammarianas.com">info@shammarianas.com</a>
+              <br />
+              <br />
+                <a href="mailto:info@shammarianas.com">+971 52 803 6012</a>
               </h6>
-              {/* <a href="#0" className="underline">
-                <span className="fz-22 main-color">+2 456 (343) 24 45</span>
-              </a> */}
             </div>
           </div>
           <div className="col-lg-2">
             <div className="column md-mb50">
               <h6 className="sub-title mb-30">Useful Links</h6>
               <ul className="rest fz-14 opacity-7">
-                <li className="mb-15">
-                  <a href="/">Home</a>
-                </li>
-                <li className="mb-15">
-                  <a href="#services">Services</a>
-                </li>
-                <li className="mb-15">
-                  <a href="#portfolio">Portfolio</a>
-                </li>
-                <li className="mb-15">
-                  <a href="#Stock">Stock</a>
-                </li>
-                <li className="mb-15">
-                  <a href="#about">About</a>
-                </li>
-                <li className="mb-15">
-                  <a href="#blog">Blog</a>
-                </li>
-                <li>
-                  <a href="#contact">Contact us</a>
-                </li>
+                {footerLinks.map((link, index) => (
+                  <li className="mb-15" key={index}>
+                    <a href={link.href}>{link.name}</a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -68,45 +54,27 @@ function Footer() {
               </div>
               <ul className="rest social-icon d-flex align-items-center">
                 <li className="hover-this cursor-pointer">
-                  <a
-                    href="https://www.youtube.com/c/ShamMarianasSM"
-                    target="_blank"
-                    // className="hover-anim"
-                  >
-                    <i class="fa-brands fa-youtube"></i>
+                  <a href="https://www.youtube.com/c/ShamMarianasSM" target="_blank">
+                    <i className="fa-brands fa-youtube"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer">
-                  <a
-                    href="https://www.facebook.com/shammarianas"
-                    // className="hover-anim"
-                    target="_blank"
-                  >
+                  <a href="https://www.facebook.com/shammarianas" target="_blank">
                     <i className="fab fa-facebook-f"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a
-                    href="https://shammarianas.com"
-                    target="_blank"
-                    // className="hover-anim"
-                  >
+                  <a href="https://shammarianas.com" target="_blank">
                     <i className="fab fa-dribbble"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a
-                    href="https://www.pinterest.com/shammarianas"
-                    // className="hover-anim"
-                  >
+                  <a href="https://www.pinterest.com/shammarianas">
                     <i className="fab fa-linkedin-in"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a
-                    href="https://www.instagram.com/sham_marianas"
-                    className="hover-anim"
-                  >
+                  <a href="https://www.instagram.com/sham_marianas" className="hover-anim">
                     <i className="fab fa-instagram"></i>
                   </a>
                 </li>
@@ -120,7 +88,7 @@ function Footer() {
               © 2025 All Rights Reserved By{" "}
               <span className="underline main-color">
                 <a href="/" target="_blank">
-                  Sham Marians
+                  Sham Marianas
                 </a>
               </span>
             </p>
