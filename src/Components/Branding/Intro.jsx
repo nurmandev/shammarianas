@@ -16,34 +16,35 @@ function Intro() {
                   </h3>
                 </div>
               </div>
-              <div className="col-md-6">
-                <div className="text text-left">
-                  <p className="mb-15">
+              <div className="md:w-1/2">
+                <div className="text-left">
+                  <p className="mb-4">
                     At <span className="font-bold">Sham Marianas</span>, we
                     craft branding designs that go beyond just visuals — we
                     create identities. Your brand is your story, and we help you
                     tell it with clarity, creativity, and consistency.
                   </p>
 
-                  <p className="mb-15">
+                  <p className="mb-4">
                     Whether you're a startup or an established business, our
                     branding design services ensure that your logo, color
                     scheme, typography, and messaging all align to leave a
                     strong and lasting impression.
                   </p>
 
-                  <div className="mt-30">
-                    <ul className="rest dot-list">
-                      <li className="mb-10">Logo Creation</li>
-                      <li className="mb-10">Brand Identity Design</li>
-                      <li className="mb-10">Visual Style Guides</li>
-                      <li className="mb-10">Typography and Color Palette</li>
-                      <li className="mb-10">Social Media Branding</li>
-                      <li className="mb-10">Brand Strategy & Messaging</li>
+                  <div className="mt-6">
+                    <ul className="list-disc list-inside space-y-2">
+                      <li>Logo Creation</li>
+                      <li>Brand Identity Design</li>
+                      <li>Visual Style Guides</li>
+                      <li>Typography and Color Palette</li>
+                      <li>Social Media Branding</li>
+                      <li>Brand Strategy & Messaging</li>
                     </ul>
                   </div>
                 </div>
               </div>
+
               <div className="numbers mt-80 md-mb50">
                 <div className="row lg-marg">
                   <div className="col-md-6">
