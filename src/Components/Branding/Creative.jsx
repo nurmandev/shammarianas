@@ -17,12 +17,7 @@ function UiUx() {
       <section className="container section-padding">
         <div className="container ontop">
           <div className="row xlg-marg">
-            <div className="col-lg-6">
-              <div className="img md-mb50">
-                <img src="/assets/imgs/arw2.png" alt="" />
-              </div>
-            </div>
-            <div className="col-md-6">
+            <div className="col-md-6 text-left">
               <h6 className="sub-title main-color mb-15">
                 The Importance of Effective Branding Design
               </h6>
@@ -40,6 +35,11 @@ function UiUx() {
                   doesn&apos;t just attract attention — it builds lasting
                   relationships.
                 </p>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="img md-mb50">
+                <img src="/assets/imgs/FAQ.png" alt="" />
               </div>
             </div>
           </div>
@@ -64,14 +64,14 @@ function UiUx() {
                     In today&apos;s fast-paced digital world, branding design is
                     essential for businesses to stand out and build connections
                     with their audience. At{" "}
-                    <span className="fw-300">Sham Marianas</span>, we create
+                    <span className="font-bold">Sham Marianas</span>, we create
                     unique branding designs that help define your identity,
                     communicate your message clearly, and leave a lasting
                     impression. Good branding isn&apos;t just about aesthetics;
                     it&apos;s about consistency and trust. A cohesive design
                     across all platforms builds loyalty and keeps your brand
                     relevant. At
-                    <span className="fw-300">Sham Marianas</span>, we ensure
+                    <span className="font-bold">Sham Marianas</span>, we ensure
                     your brand evolves with the digital trends, keeping it fresh
                     and engaging. In short, effective branding design is key to
                     staying ahead in the competitive digital landscape, building
@@ -159,7 +159,7 @@ function UiUx() {
                       <p className="">
                         To get started, simply contact us through our website or
                         reach out to our team at{" "}
-                        <span className="fw-300">Sham Marianas</span>.
+                        <span className="font-bold">Sham Marianas</span>.
                         We&apos;ll schedule a consultation to understand your
                         needs and begin the process of crafting your unique
                         brand identity.
