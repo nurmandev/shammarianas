@@ -17,7 +17,7 @@ function Intro() {
                 </div>
               </div>
               <div className="col-md-6">
-                <div className="text">
+                <div className="text text-left">
                   <p className="mb-15">
                     At <span className="fw-300">Sham Marianas</span>, we craft
                     branding designs that go beyond just visuals — we create
@@ -41,6 +41,16 @@ function Intro() {
                       <li className="mb-10">Social Media Branding</li>
                       <li className="mb-10">Brand Strategy & Messaging</li>
                     </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="numbers mt-80 md-mb50">
+                <div className="row lg-marg">
+                  <div className="col-md-6">
+                    <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30"></div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20"></div>
                   </div>
                 </div>
               </div>
