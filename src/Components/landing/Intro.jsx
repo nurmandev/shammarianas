@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
 function Intro() {
   return (
     <section className="intro section-padding">
@@ -15,7 +16,7 @@ function Intro() {
               <div className="col-md-6">
                 <div className="text">
                   <h3 className="mb-30">
-                    Sham Marians{" "}
+                    Sham Marianas{" "}
                     <span className="fw-300">
                       Powering Creativity & Boosting Digital Growth with Top
                       Advertising Strategies
@@ -34,11 +35,11 @@ function Intro() {
                     new heights!
                   </p>
 
-                  <a href="/page-about" className="underline main-color mt-40">
+                  <Link to="/about" className="underline main-color mt-40">
                     <span className="text">
                       More About Us <i className="ti-arrow-top-right"></i>
                     </span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

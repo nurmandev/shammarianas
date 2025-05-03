@@ -1,85 +1,73 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Intro() {
   return (
     <section className="intro section-padding">
       <div className="container">
         <div className="row lg-marg">
-          <div className="col-lg-8">
-            <div className="row lg-marg">
+          <div className="col-lg-8 md-mb80">
+            <div className="row lg-marg align-items-center">
               <div className="col-md-6">
-                <div>
-                  <h6 className="sub-title main-color mb-15">Description</h6>
-                  <h3 className="mb-30">
-                    Words That
-                    <span className="fw-300">Build</span>
-                    <span className="fw-300">Brands</span>
-                  </h3>
+                <div className="img1 sm-mb50">
+                  <img src="/assets/imgs/intro/04.webp" alt="intro" />
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="text">
-                  <p className="mb-15">
-                    At Sham Marianas, we turn words into experiences — crafting
-                    powerful, engaging content that speaks your brand&apos;s truth
-                    and connects with your audience. From attention-grabbing web
-                    copy to SEO-friendly blogs, we create content that builds
-                    trust, boosts traffic, and drives real results. Whether
-                    you're building a new website or refreshing your existing
-                    one, our content writing services are designed to bring
-                    clarity, creativity, and purpose to every page. We focus on
-                    user intent, search engine visibility, and brand consistency
-                    — turning passive readers into active customers. With us,
-                    your brand won&apos;t just be heard — it will be remembered.
+                  <h3 className="mb-30">
+                    Sham Marianas{" "}
+                    <span className="fw-300">
+                      Powering Creativity & Boosting Digital Growth with Top
+                      Advertising Strategies
+                    </span>
+                  </h3>
+                  <p>
+                    <span className="text-bold underline main-color">
+                      Sham Marianas
+                    </span>{" "}
+                    is a top advertising agency that helps businesses grow with
+                    digital marketing, brand building, and ROI-focused
+                    advertising. We employ tried-and-true marketing techniques
+                    to increase our internet presence, draw in new clients, and
+                    provide tangible outcomes. Let's grow your company to new
+                    heights!
                   </p>
 
-                  <div className="mt-30">
-                    <ul className="rest dot-list">
-                      <li className="mb-10">
-                        Content Writing Services Tailored to You
-                      </li>
-                      <li className="mb-10">Website Copywriting</li>
-                      <li className="mb-10">Blog Writing & Management</li>
-                      <li className="mb-10">SEO Content Writing</li>
-                      <li className="mb-10">Product Descriptions</li>
-                      <li className="mb-10">Social Media Captions & Content</li>
-                      <li className="mb-10">Landing Page Content</li>
-                      <li className="mb-10">Email Marketing Copy</li>
-                      <li className="mb-10">
-                        Brand Messaging & Voice Development
-                      </li>
-                      <li className="mb-10">Content Strategy & Planning</li>
-                    </ul>
-                  </div>
+                  <Link to="/about" className="underline main-color mt-40">
+                    <span className="text">
+                      More About Us <i className="ti-arrow-top-right"></i>
+                    </span>
+                  </Link>
                 </div>
               </div>
             </div>
-            <div className="numbers mt-80 md-mb50">
+
+            <div className="numbers mt-80">
               <div className="row lg-marg">
                 <div className="col-md-6">
-                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30">
+                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
                     <div>
                       <h3 className="fw-300 mb-10">100%</h3>
-                      <h6 className="p-color sub-title">
-                        Clients Satisfaction
-                      </h6>
+                      <h6 className="p-color sub-title">Clients Satisfaction</h6>
                     </div>
                     <div className="ml-auto">
                       <div className="icon-img-40">
-                        <img src="/assets/imgs/arw0.png" alt="" />
+                        <img src="/assets/imgs/arrow-image.webp" alt="arrow" />
                       </div>
                     </div>
                   </div>
                 </div>
+
                 <div className="col-md-6">
                   <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
                     <div>
-                      <h3 className="fw-300 mb-10">6700</h3>
+                      <h3 className="fw-300 mb-10">6745</h3>
                       <h6 className="p-color sub-title">Projects Completed</h6>
                     </div>
                     <div className="ml-auto">
                       <div className="icon-img-40">
-                        <img src="/assets/imgs/arw0.png" alt="" />
+                        <img src="/assets/imgs/arrow-image.webp" alt="arrow" />
                       </div>
                     </div>
                   </div>
@@ -87,9 +75,10 @@ function Intro() {
               </div>
             </div>
           </div>
+
           <div className="col-lg-4">
             <div className="img-full fit-img">
-              <img src="/assets/imgs/intro/2.jpg" alt="" />
+              <img src="/assets/imgs/intro/04.jpg" alt="intro full" />
             </div>
           </div>
         </div>

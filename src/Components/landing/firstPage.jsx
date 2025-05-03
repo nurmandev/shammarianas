@@ -18,7 +18,7 @@ function FirstPage() {
         <div className="row">
           <div className="col-lg-11">
             <div className="caption">
-              <h1 className="new">Top Advertising Agency Services:</h1>
+              <h1 className="new">Top Advertising Agency :</h1>
               <h1>
                 Elevate Your <span className="main-color">Brand</span> Today
               </h1>
