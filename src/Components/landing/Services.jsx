@@ -7,70 +7,69 @@ const data = [
     id: 1,
     title: "Branding Design",
     img: "/assets/imgs/serv-icons/3.png",
-    desc: "We build strong brand identities that connect with audiences, boost recognition, and support long-term business growth.",
+    desc: "Our branding design creates strong brand identities that attract audiences, build recognition, and grow businesses for long-term success.",
     link: "/services/branding-design",
   },
   {
     id: 2,
     title: "UI-UX Design",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We design smooth and engaging user interfaces that enhance usability, increase conversions, and elevate brand experiences.     ",
-    link: "/services/ui-ux-design",
+    desc: "We offer UI/UX design that creates smooth, user-friendly experiences that boost engagement, conversions, and brand success, making every interaction seamless and enjoyable.",
   },
   {
     id: 3,
     title: "Web Development",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "We create modern websites with top performance, seamless navigation, and responsive design to help your brand thrive.     ",
+    desc: "At Sham Marianas, we build cutting-edge web development solutions that blend innovation, performance, and seamless user experiences to help businesses thrive online.",
     link: "/services/web-development",
   },
   {
     id: 4,
     title: "E-Commerce Solutions",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We deliver user-friendly e-commerce platforms that improve user and sales experience.",
+    desc: "We build e-commerce solutions that make online selling seamless and profitable. Our expert services enhance customer reach, conversions, and sales growth.",
     link: "/services/ecommerce-solutions",
   },
   {
     id: 5,
     title: "Content Writing",
     img: "/assets/imgs/serv-icons/3.png",
-    desc: "We write compelling, SEO-optimized content that attracts audiences, builds trust, and strengthens your digital presence.     ",
+    desc: "We create SEO-friendly content writing that captures attention, builds authority, and boosts online presence.",
     link: "/services/content-writing",
   },
   {
     id: 6,
     title: "Product Design",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We design intuitive and innovative products that focus on user needs, driving engagement, satisfaction, and business success.   ",
+    desc: "We provide the best product design, creating seamless, user-focused experiences that drive engagement, innovation, and business success.",
     link: "/services/product-design",
   },
   {
     id: 7,
     title: "Social Media & Digital Marketing",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "We grow your business with marketing strategies that boost visibility, improve interaction, and maximize digital reach.      ",
+    desc: "We help businesses grow with social media & digital marketing, increasing brand awareness, interaction, and online reach.",
     link: "/services/social-media-digital-marketing",
   },
   {
     id: 8,
     title: "Photography & Video Production",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We create stunning visuals and videos that tell your story, increase brand appeal, and captivate your audience.      ",
+    desc: "We deliver photography & video production that captures your brand’s story, enhancing engagement, visibility, and trust with high-impact visuals.",
     link: "/services/photography-video-production",
   },
   {
     id: 9,
     title: "VFX and CGI ADs",
     img: "/assets/imgs/serv-icons/4.png",
-    desc: "We create stunning VFX and CGI ads that capture attention, elevate your brand identity, and impress. Our team delivers high-quality visuals and audio.",
+    desc: "We design eye-catching VFX and CGI ads that boost brand visibility, engagement, and audience impact with stunning, high-quality visuals.",
     link: "/services/vfx-cgi-ads",
   },
   {
     id: 10,
     title: "Print Media Solution",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We offer premium print design solutions that amplify marketing efforts and reinforce brand presence through quality visuals.     ",
+    desc: " We craft print media solutions that boost brand visibility, marketing impact, and audience engagement with high-quality designs and materials.",
     link: "/services/print-media-solution",
   },
 ];
@@ -150,13 +149,36 @@ function Services() {
           >
             {data.map((item, i) => (
               <SwiperSlide key={i}>
-                <div className="item-box">
+                <div
+                  className="item-box"
+                  style={{
+                    width: "400px", // Fixed width for the card
+                    height: "450px", // Fixed height for the card
+                    display: "flex", // Flexbox for alignment
+                    flexDirection: "column", // Vertical alignment of content
+                    justifyContent: "space-between", // Space out content vertically
+                    alignItems: "start", // Center content horizontally
+                    padding: "40px", // Padding for spacing
+                    boxSizing: "border-box", // Include padding in  // Optional: Add a border
+                    padding: "40px", // Padding inside the card
+          // Optional: Rounded corners
+                 // Optional: Background color
+                  
+                    overflow: "hidden", // Prevent content overflow
+                  }}
+                >
                   <div className="icon mb-40 opacity-5">
-                 
-                    <img src={item.img} alt="" />
+                    <img
+                      src={item.img}
+                      alt=""
+                      style={{
+                        maxWidth: "100%", // Ensure the image fits within the card
+                        maxHeight: "100%", // Prevent image overflow
+                      }}
+                    />
                   </div>
                   <h5 className="mb-15">{item.id}. {item.title}</h5>
-                  <p>{item.desc}</p>
+                  <p style={{ textAlign: "start" }}>{item.desc}</p>
                   <a href={item.link} className="rmore mt-30 flex">
                     <span className="sub-title">Read More</span>
                     <img

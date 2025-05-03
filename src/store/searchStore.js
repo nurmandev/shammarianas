@@ -10,3 +10,5 @@ const useSearchStore = create((set) => ({
 }));
 
 export default useSearchStore;
+
+
