@@ -63,18 +63,23 @@ function Creativity() {
                     In today&apos;s fast-paced digital world, branding design is
                     essential for businesses to stand out and build connections
                     with their audience. At{" "}
-                    <span className="font-bold">Sham Marianas</span>, we create
-                    unique branding designs that help define your identity,
-                    communicate your message clearly, and leave a lasting
-                    impression. Good branding isn&apos;t just about aesthetics;
-                    it&apos;s about consistency and trust. A cohesive design
-                    across all platforms builds loyalty and keeps your brand
-                    relevant. At
-                    <span className="font-bold">Sham Marianas</span>, we ensure
-                    your brand evolves with the digital trends, keeping it fresh
-                    and engaging. In short, effective branding design is key to
-                    staying ahead in the competitive digital landscape, building
-                    relationships with customers, and driving success.
+                    <span className="text-bold underline main-color">
+                      Sham Marianas
+                    </span>
+                    , we create unique branding designs that help define your
+                    identity, communicate your message clearly, and leave a
+                    lasting impression. Good branding isn&apos;t just about
+                    aesthetics; it&apos;s about consistency and trust. A
+                    cohesive design across all platforms builds loyalty and
+                    keeps your brand relevant. At
+                    <span className="text-bold underline main-color">
+                      Sham Marianas
+                    </span>
+                    , we ensure your brand evolves with the digital trends,
+                    keeping it fresh and engaging. In short, effective branding
+                    design is key to staying ahead in the competitive digital
+                    landscape, building relationships with customers, and
+                    driving success.
                   </p>
                 </div>
               </div>
@@ -164,8 +169,10 @@ function Creativity() {
                     <p className="">
                       To get started, simply contact us through our website or
                       reach out to our team at{" "}
-                      <span className="font-bold">Sham Marianas</span>.
-                      We&apos;ll schedule a consultation to understand your
+                      <span className="text-bold underline main-color">
+                        Sham Marianas
+                      </span>
+                      . We&apos;ll schedule a consultation to understand your
                       needs and begin the process of crafting your unique brand
                       identity.
                     </p>

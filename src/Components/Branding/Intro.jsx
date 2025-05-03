@@ -19,7 +19,7 @@ function Intro() {
               <div className="col-md-6 text-left">
                 <div className="text-left">
                   <p className="mb-15">
-                    At <span className="font-extrabold">Sham Marianas</span>, we
+                    At <span className="text-bold underline main-color">Sham Marianas</span>, we
                     craft branding designs that go beyond just visuals — we
                     create identities. Your brand is your story, and we help you
                     tell it with clarity, creativity, and consistency.
