@@ -39,7 +39,7 @@ function Creativity() {
             </div>
             <div className="col-lg-6">
               <div className="img md-mb50">
-                <img src="/assets/imgs/arw2.png" alt="" />
+                <img src="/assets/imgs/Asset_img.png" alt="" />
               </div>
             </div>
           </div>
@@ -50,7 +50,7 @@ function Creativity() {
           <div className="row xlg-marg">
             <div className="col-lg-6">
               <div className="img md-mb50">
-                <img src="/assets/imgs/arw2.png" alt="" />
+                <img src="/assets/imgs/Asset_img.png" alt="" />
               </div>
             </div>
             <div className="col-lg-6 valign">
