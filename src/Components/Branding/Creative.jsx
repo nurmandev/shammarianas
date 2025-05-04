@@ -38,7 +38,7 @@ function Creativity() {
               </div>
             </div>
             <div className="col-lg-6">
-              <div className="img md-mb50">
+              <div className="">
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt=""
