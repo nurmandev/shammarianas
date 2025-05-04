@@ -12,15 +12,18 @@ function Intro() {
                   <h3 className="mb-30">
                     Building Brands{"  "}
                     <span className="fw-300">That{"  "}</span>
-                    <span className="fw-300">{"  "}Speak.</span>
+                    <span className="fw-300">Speak.</span>
                   </h3>
                 </div>
               </div>
               <div className="col-md-6 text-left">
                 <div className="text-left">
                   <p className="mb-15">
-                    At <span className="text-bold text-left underline main-color">Sham Marianas</span>, we
-                    craft branding designs that go beyond just visuals — we
+                    At{" "}
+                    <span className="text-bold text-left underline main-color">
+                      Sham Marianas
+                    </span>
+                    , we craft branding designs that go beyond just visuals — we
                     create identities. Your brand is your story, and we help you
                     tell it with clarity, creativity, and consistency.
                   </p>
