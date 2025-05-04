@@ -39,7 +39,11 @@ function Creativity() {
             </div>
             <div className="col-lg-6">
               <div className="img md-mb50">
-                <img src="/assets/imgs/Asset_img.png" alt="" />
+                <img
+                  src="/assets/imgs/Asset_img.png"
+                  alt=""
+                  className="w-[300px] h-[300px] object-contain mx-auto"
+                />
               </div>
             </div>
           </div>
