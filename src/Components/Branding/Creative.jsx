@@ -63,7 +63,7 @@ function Creativity() {
                   <h6 className="sub-title main-color mb-15">
                     The Role of Branding Design in a Fast-Paced Digital World?
                   </h6>
-                  <p>
+                  <p className="align-text">
                     In today&apos;s fast-paced digital world, branding design is
                     essential for businesses to stand out and build connections
                     with their audience. At{" "}

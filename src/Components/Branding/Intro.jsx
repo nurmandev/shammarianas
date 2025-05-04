@@ -20,9 +20,9 @@ function Intro() {
                 <div className="text-left">
                   <p className="mb-15 align-text">
                     At{" "}
-                    {/* <span className="text-bold text-left underline main-color">
+                    <span className="text-bold text-left underline main-color">
                       Sham Marianas
-                    </span> */}
+                    </span>
                     , we craft branding designs that go beyond just visuals — we
                     create identities. Your brand is your story, and we help you
                     tell it with clarity, creativity, and consistency.
