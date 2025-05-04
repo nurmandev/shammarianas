@@ -6260,6 +6260,7 @@ footer.clean-footer.crev .circle-blur {
 .services-images {
   width: 90%;
   height: 60vh;
+  padding: 2rem;
   padding-bottom: 5rem;
 }
 .services .item-box {
