@@ -49,7 +49,8 @@ main {
   z-index: 5;
 }
 .align-text {
-  display: flex;
+  /* display: flex; */
+  text-align: left;
   align-items: flex-start;
   justify-content: flex-start;
 }
