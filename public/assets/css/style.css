@@ -48,11 +48,12 @@ main {
   position: relative;
   z-index: 5;
 }
-.align-text{
-  text-align: left !important;
+.align-text {
+  display: flex;
   align-items: flex-start;
-justify-content: left;
+  justify-content: flex-start;
 }
+
 
 .row > * {
   padding-left: 15px;
