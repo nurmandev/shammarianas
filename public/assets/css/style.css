@@ -6258,8 +6258,8 @@ footer.clean-footer.crev .circle-blur {
 /* Services
 -----------------------------------------------------------------*/
 .services-images{
-  width: 20%;
-  height: 20vh;
+  width: 90%;
+  height: 80vh;
   background-color: red;
 }
 .services .item-box {
