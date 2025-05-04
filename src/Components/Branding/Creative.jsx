@@ -42,7 +42,7 @@ function Creativity() {
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt=""
-                  className="object-contain mx-auto"
+                  className="w-[80px] h-[50px] object-contain mx-auto"
                 />
               </div>
             </div>
@@ -53,8 +53,12 @@ function Creativity() {
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-lg-6">
-              <div className="img md-mb50 services-images">
-                <img src="/assets/imgs/Asset_img.png" alt="" />
+              <div className="services-images">
+                <img
+                  src="/assets/imgs/Asset_img.png"
+                  alt=""
+                  className="w-[80px] h-[50px] object-contain mx-auto"
+                />
               </div>
             </div>
             <div className="col-lg-6 valign">
