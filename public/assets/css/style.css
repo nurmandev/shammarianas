@@ -50,6 +50,7 @@ main {
 }
 .align-text{
   text-align: left !important;
+  background-color: red;
 }
 
 .row > * {
