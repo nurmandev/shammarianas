@@ -42,7 +42,7 @@ function Creativity() {
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt=""
-                  className="w-[80px] h-[50px] object-contain mx-auto"
+                  className="object-contain mx-auto"
                 />
               </div>
             </div>
