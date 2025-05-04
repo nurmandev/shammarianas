@@ -50,7 +50,8 @@ main {
 }
 .align-text{
   text-align: left !important;
-  background-color: red;
+  align-items: flex-start;
+justify-content: left;
 }
 
 .row > * {
