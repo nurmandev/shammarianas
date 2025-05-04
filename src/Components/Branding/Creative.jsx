@@ -23,7 +23,7 @@ function Creativity() {
               </h6>
 
               <div className="text">
-                <p className="mb-15">
+                <p className="mb-15 align-text">
                   Effective branding design is key to building trust and
                   recognition. It gives your business a unique identity that
                   helps you stand out and stay memorable in a competitive

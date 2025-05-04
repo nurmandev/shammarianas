@@ -48,6 +48,9 @@ main {
   position: relative;
   z-index: 5;
 }
+.align-text{
+  text-align: left !important;
+}
 
 .row > * {
   padding-left: 15px;
