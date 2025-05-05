@@ -14,8 +14,8 @@ function Creativity() {
   }
   return (
     <>
-      <section className="container section-padding bord-bottom-grd m-10">
-        <div className="container ontop">
+      <section className="container section-padding bord-bottom-grd">
+        <div className="container ontop mt-20">
           <div className="row xlg-marg">
             <div className="col-md-6 text-left">
               <h2 className="sub-title-new main-color mb-20">
