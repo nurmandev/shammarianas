@@ -14,7 +14,7 @@ function Creativity() {
   }
   return (
     <>
-      <section className="container section-padding sub-bg bord-bottom-grd">
+      <section className="container section-padding sub-bg">
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-md-6 text-left">
@@ -89,7 +89,7 @@ function Creativity() {
                       Sham Marianas
                     </span>
                     , we ensure your brand evolves with the digital trends,
-                    keeping it fresh and engaging. {" "} In short, effective branding
+                    keeping it fresh and engaging. {" "}In short, effective branding
                     design is key to staying ahead in the competitive digital
                     landscape, building relationships with customers, and
                     driving success.
