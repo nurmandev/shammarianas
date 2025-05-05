@@ -16,7 +16,7 @@ function Creativity() {
     <>
       <section className="container section-padding">
         <div className="container ontop">
-          <div className="row xlg-marg">
+          <div className="row xlg-marg justify-content-center">
             <div className="col-md-6 text-left">
               <h3 className="sub-title main-color mb-20">
                 The Importance of Effective Branding Design
