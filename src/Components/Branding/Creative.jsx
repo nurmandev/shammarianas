@@ -51,7 +51,7 @@ function Creativity() {
           </div>
         </div>
       </section>
-      <section className="intro-accord">
+      <section className="intro-accord bord-bottom-grd">
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-lg-6">
