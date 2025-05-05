@@ -64,7 +64,7 @@ function Creativity() {
             <div className="col-lg-6 valign">
               <div>
                 <div className="sec-head mb-50 text-left">
-                  <h2 className="-new main-color mb-15">
+                  <h2 className="sub-title-new main-color mb-15">
                     The Role of Branding Design in a Fast-Paced Digital World?
                   </h2>
                   <p className="align-text">
