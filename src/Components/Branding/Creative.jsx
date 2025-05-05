@@ -14,9 +14,9 @@ function Creativity() {
   }
   return (
     <>
-      <section className="container section-padding  m-20">
+      <section className="container section-padding">
         <div className="container ontop bord-bottom-grd">
-          <div className="row xlg-marg">
+          <div className="row xlg-marg   m-20">
             <div className="col-md-6 text-left">
               <h2 className="sub-title-new main-color mb-20">
                 The Importance of Effective Branding Design
