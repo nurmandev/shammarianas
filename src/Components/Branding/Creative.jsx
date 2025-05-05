@@ -18,7 +18,7 @@ function Creativity() {
         <div className="container ontop">
           <div className="row xlg-marg justify-content-center">
             <div className="col-md-6 text-left">
-              <h3 className="main-color mb-20 text-[32px]">
+              <h3 className="main-color mb-20 text-[20px] uppercase">
                 The Importance of Effective Branding Design
               </h3>
 
@@ -42,7 +42,7 @@ function Creativity() {
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt=""
-                  className="w-[80px] h-[130px] object-contain mx-auto"
+                  className="w-[80px] h-[30px] object-contain mx-auto"
                 />
               </div>
             </div>
@@ -64,7 +64,7 @@ function Creativity() {
             <div className="col-lg-6 valign">
               <div>
                 <div className="sec-head mb-50 text-left">
-                  <h3 className="main-color mb-15 text-[72px]">
+                  <h3 className="main-color mb-15 text-[20px] uppercase">
                     The Role of Branding Design in a Fast-Paced Digital World?
                   </h3>
                   <p className="align-text">
