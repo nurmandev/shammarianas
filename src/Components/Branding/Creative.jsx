@@ -69,7 +69,7 @@ function Creativity() {
                   <h2 className="sub-title-new main-color mb-15">
                     The Role of Branding Design in a Fast-Paced Digital World?
                   </h2>
-                  <p className="align-text">
+                  <p className="mb-15 align-text">
                     In today&apos;s fast-paced digital world, branding design is
                     essential for businesses to stand out and build connections
                     with their audience. At{" "}
@@ -81,7 +81,7 @@ function Creativity() {
                     lasting impression.
                   </p>
 
-                  <p className="align-text">
+                  <p className="mb-15 align-text">
                     Good branding isn&apos;t just about aesthetics; it&apos;s
                     about consistency and trust. A cohesive design across all
                     platforms builds loyalty and keeps your brand relevant. At{" "}
