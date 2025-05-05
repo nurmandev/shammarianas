@@ -49,15 +49,17 @@ main {
   z-index: 5;
 }
 .align-text {
-  text-align: left !important;
+  text-align: justify !important;
   font-size: 16px;
   /* line-height: 1.8;
   letter-spacing: 0.5px; */
+  word-break: break-word;
   align-content: flex-start;
   align-self: flex-start;
   align-items: flex-start !important;
   justify-content: flex-start !important;
 }
+
 
 .row > * {
   padding-left: 15px;
