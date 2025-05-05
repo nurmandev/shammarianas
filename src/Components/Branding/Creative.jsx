@@ -18,7 +18,7 @@ function Creativity() {
         <div className="container ontop">
           <div className="row xlg-marg justify-content-center">
             <div className="col-md-6 text-left">
-              <h5 className="main-color mb-20 text-[20px] uppercase">
+              <h5 className="main-color mb-20 text-[20px] !uppercase">
                 The Importance of Effective Branding Design
               </h5>
 
