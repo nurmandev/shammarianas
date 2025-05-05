@@ -6261,6 +6261,7 @@ footer.clean-footer.crev .circle-blur {
   width: 90%;
   height: 60vh;
   padding: 2rem;
+  padding-top: 0;
   padding-bottom: 5rem;
 }
 .services .item-box {
