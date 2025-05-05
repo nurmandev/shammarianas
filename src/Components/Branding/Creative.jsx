@@ -28,14 +28,12 @@ function Creativity() {
                   recognition. It gives your business a unique identity that
                   helps you stand out and stay memorable in a competitive
                   market. From your logo to your website, consistent visuals
-                  create a professional and polished image.
-                </p>
-                <p className="mb-15 align-text">
-                  More than just looks, great branding creates emotional
-                  connections. It makes your business feel relatable and
-                  reliable, encouraging customer loyalty and repeat visits. A
-                  well-designed brand doesn&apos;t just attract attention — it
-                  builds lasting relationships.
+                  create a professional and polished image. More than just
+                  looks, great branding creates emotional connections. It makes
+                  your business feel relatable and reliable, encouraging
+                  customer loyalty and repeat visits. A well-designed brand
+                  doesn&apos;t just attract attention — it builds lasting
+                  relationships.
                 </p>
               </div>
             </div>
@@ -69,7 +67,7 @@ function Creativity() {
                   <h2 className="sub-title-new main-color mb-15">
                     The Role of Branding Design in a Fast-Paced Digital World?
                   </h2>
-                  <p className="mb-15 align-text">
+                  <p className="align-text">
                     In today&apos;s fast-paced digital world, branding design is
                     essential for businesses to stand out and build connections
                     with their audience. At{" "}
@@ -78,13 +76,10 @@ function Creativity() {
                     </span>
                     , we create unique branding designs that help define your
                     identity, communicate your message clearly, and leave a
-                    lasting impression.
-                  </p>
-
-                  <p className="mb-15 align-text">
-                    Good branding isn&apos;t just about aesthetics; it&apos;s
-                    about consistency and trust. A cohesive design across all
-                    platforms builds loyalty and keeps your brand relevant. At{" "}
+                    lasting impression. Good branding isn&apos;t just about
+                    aesthetics; it&apos;s about consistency and trust. A
+                    cohesive design across all platforms builds loyalty and
+                    keeps your brand relevant. At{" "}
                     <span className="text-bold underline main-color">
                       Sham Marianas
                     </span>
