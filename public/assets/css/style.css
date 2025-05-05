@@ -49,7 +49,7 @@ main {
   z-index: 5;
 }
 .align-text {
-  text-align: right !important;
+  text-align: left !important;
   /* align-items: flex-start !important;
   background-color: red;
   justify-content: flex-start !important; */
