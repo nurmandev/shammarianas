@@ -89,10 +89,13 @@ function Creativity() {
                       Sham Marianas
                     </span>
                     , we ensure your brand evolves with the digital trends,
-                    keeping it fresh and engaging. In short, effective branding
-                    design is key to staying ahead in the competitive digital
-                    landscape, building relationships with customers, and
-                    driving success.
+                    keeping it fresh and engaging.
+                  </p>
+
+                  <p className="mb-15 align-text">
+                    In short, effective branding design is key to staying ahead
+                    in the competitive digital landscape, building relationships
+                    with customers, and driving success.
                   </p>
                 </div>
               </div>
