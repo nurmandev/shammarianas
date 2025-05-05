@@ -49,13 +49,13 @@ main {
   z-index: 5;
 }
 .align-text {
-  text-align: left !important;
+  text-align: right !important;
   font-size: 16px;
-  align-content: flex-start;
+  /* align-content: flex-start;
   align-self: flex-start;
   align-items: flex-start !important;
   background-color: red;
-  justify-content: flex-start !important;
+  justify-content: flex-start !important; */
 }
 
 .row > * {
