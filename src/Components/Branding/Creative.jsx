@@ -42,7 +42,7 @@ function Creativity() {
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt=""
-                  className="w-[80px] h-[30px] object-contain mx-auto"
+                  className="w-[80px] h-[130px] object-contain mx-auto"
                 />
               </div>
             </div>
@@ -63,8 +63,8 @@ function Creativity() {
             </div>
             <div className="col-lg-6 valign">
               <div>
-                <div className="sec-head mb-50">
-                  <h3 className="sub-title main-color mb-15 text-[32px]">
+                <div className="sec-head mb-50 text-left">
+                  <h3 className="sub-title main-color mb-15 text-[72px]">
                     The Role of Branding Design in a Fast-Paced Digital World?
                   </h3>
                   <p className="align-text">
