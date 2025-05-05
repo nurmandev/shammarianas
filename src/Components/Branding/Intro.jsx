@@ -17,8 +17,8 @@ function Intro() {
                 </div>
               </div>
               <div className="col-md-6 text-left">
-                <div className="text-left">
-                  <p className="mb-15 align-text">
+                <div className="text-left align-text">
+                  <p className="mb-15 text-left">
                     At{" "}
                     <span className="text-bold text-left underline main-color">
                       Sham Marianas
