@@ -18,7 +18,7 @@ function Intro() {
               </div>
               <div className="col-md-6 text-left">
                 <div className="text-left align-text">
-                  <p className="mb-15 text-left leading-relaxed tracking-wide">
+                  <p className="mb-15 text-left align-text">
                     At{" "}
                     <span className="text-bold text-left underline main-color">
                       Sham Marianas
@@ -28,7 +28,7 @@ function Intro() {
                     tell it with clarity, creativity, and consistency.
                   </p>
 
-                  <p className="mb-8 text-left leading-relaxed tracking-wide align-text">
+                  <p className="mb-15 align-text">
                     Whether you're a startup or an established business, our
                     branding design services ensure that your logo, color
                     scheme, typography, and messaging all align to leave a
