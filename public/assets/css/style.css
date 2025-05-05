@@ -52,7 +52,7 @@ main {
   /* display: flex; */
   text-align: left !important;
   align-items: flex-start !important;
-  background-color: red;
+  /* background-color: red; */
   justify-content: flex-start !important;
 }
 
