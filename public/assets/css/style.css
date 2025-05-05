@@ -54,8 +54,8 @@ main {
   /* line-height: 1.8;
   letter-spacing: 0.5px; */
   word-break: break-word;
-  align-content: flex-start;
-  align-self: flex-start;
+  /* align-content: flex-start;
+  align-self: flex-start; */
   align-items: flex-start !important;
   justify-content: flex-start !important;
 }
