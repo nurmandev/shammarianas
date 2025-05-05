@@ -28,12 +28,14 @@ function Creativity() {
                   recognition. It gives your business a unique identity that
                   helps you stand out and stay memorable in a competitive
                   market. From your logo to your website, consistent visuals
-                  create a professional and polished image. More than just
-                  looks, great branding creates emotional connections. It makes
-                  your business feel relatable and reliable, encouraging
-                  customer loyalty and repeat visits. A well-designed brand
-                  doesn&apos;t just attract attention — it builds lasting
-                  relationships.
+                  create a professional and polished image.
+                </p>
+                <p className="mb-15 align-text">
+                  More than just looks, great branding creates emotional
+                  connections. It makes your business feel relatable and
+                  reliable, encouraging customer loyalty and repeat visits. A
+                  well-designed brand doesn&apos;t just attract attention — it
+                  builds lasting relationships.
                 </p>
               </div>
             </div>
@@ -76,10 +78,13 @@ function Creativity() {
                     </span>
                     , we create unique branding designs that help define your
                     identity, communicate your message clearly, and leave a
-                    lasting impression. Good branding isn&apos;t just about
-                    aesthetics; it&apos;s about consistency and trust. A
-                    cohesive design across all platforms builds loyalty and
-                    keeps your brand relevant. At{" "}
+                    lasting impression.
+                  </p>
+
+                  <p className="align-text">
+                    Good branding isn&apos;t just about aesthetics; it&apos;s
+                    about consistency and trust. A cohesive design across all
+                    platforms builds loyalty and keeps your brand relevant. At{" "}
                     <span className="text-bold underline main-color">
                       Sham Marianas
                     </span>
