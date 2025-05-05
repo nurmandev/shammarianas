@@ -18,9 +18,9 @@ function Creativity() {
         <div className="container ontop">
           <div className="row xlg-marg justify-content-center">
             <div className="col-md-6 text-left">
-              <h2 className="sub-title main-color mb-20 text-[32px]">
+              <h1 className="sub-title main-color mb-20">
                 The Importance of Effective Branding Design
-              </h2>
+              </h1>
 
               <div className="text">
                 <p className="mb-15 align-text">
@@ -64,9 +64,9 @@ function Creativity() {
             <div className="col-lg-6 valign">
               <div>
                 <div className="sec-head mb-50 text-left">
-                  <h2 className="sub-title main-color mb-15 text-[32px]">
+                  <h1 className="sub-title main-color mb-15">
                     The Role of Branding Design in a Fast-Paced Digital World?
-                  </h2>
+                  </h1>
                   <p className="align-text">
                     In today&apos;s fast-paced digital world, branding design is
                     essential for businesses to stand out and build connections
