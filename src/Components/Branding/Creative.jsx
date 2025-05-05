@@ -14,7 +14,7 @@ function Creativity() {
   }
   return (
     <>
-      <section className="container section-padding bord-bottom-grd">
+      <section className="container section-padding bord-bottom-grd m-10">
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-md-6 text-left">
