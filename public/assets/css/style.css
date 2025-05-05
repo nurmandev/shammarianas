@@ -1779,6 +1779,10 @@ img.left {
   padding-top: 140px;
   padding-bottom: 140px;
 }
+.section-padding-new {
+  padding-top: 100px;
+  padding-bottom: 140px;
+}
 
 .section-ptb {
   padding: 80px 0;

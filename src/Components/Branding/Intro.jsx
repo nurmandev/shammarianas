@@ -10,7 +10,7 @@ function Intro() {
               <div className="col-md-6">
                 <div>
                   <h3 className="mb-30">
-                    Building Brands{"  "}
+                    Building Brands{" "}
                     <span className="fw-300">That</span>{" "}
                     <span className="fw-300">Speak.</span>
                   </h3>
@@ -23,7 +23,7 @@ function Intro() {
                     <span className="text-bold text-left underline main-color">
                       Sham Marianas
                     </span>
-                    , we craft branding designs that go beyond just visuals we
+                    , we craft branding and designs that go beyond just visuals we
                     create identities. Your brand is your story, and we help you
                     tell it with clarity, creativity, and consistency.
                   </p>
