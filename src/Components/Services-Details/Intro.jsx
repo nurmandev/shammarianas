@@ -1,74 +1,74 @@
-import React from "react";
+// import React from "react";
 
-const Intro = ({
-  title,
-  highlightedWords = [],
-  paragraphs = [],
-  listItems = [],
-  imageSrc,
-  imageAlt = "",
-}) => {
-  return (
-    <section className="intro section-padding">
-      <div className="container">
-        <div className="row lg-marg">
-          <div className="col-lg-8">
-            <div className="row lg-marg">
-              <div className="col-md-6">
-                <div>
-                  <h3 className="mb-30">
-                    {title}{" "}
-                    {highlightedWords.map((word, index) => (
-                      <span key={index} className="fw-300">
-                        {word}
-                        {index < highlightedWords.length - 1 ? " " : ""}
-                      </span>
-                    ))}
-                  </h3>
-                </div>
-              </div>
-              <div className="col-md-6 text-left">
-                <div className="text-left align-text">
-                  {paragraphs.map((text, idx) => (
-                    <p key={idx} className="mb-15 text-left align-text">
-                      {text}
-                    </p>
-                  ))}
+// const Intro = ({
+//   title,
+//   highlightedWords = [],
+//   paragraphs = [],
+//   listItems = [],
+//   imageSrc,
+//   imageAlt = "",
+// }) => {
+//   return (
+//     <section className="intro section-padding">
+//       <div className="container">
+//         <div className="row lg-marg">
+//           <div className="col-lg-8">
+//             <div className="row lg-marg">
+//               <div className="col-md-6">
+//                 <div>
+//                   <h3 className="mb-30">
+//                     {title}{" "}
+//                     {highlightedWords.map((word, index) => (
+//                       <span key={index} className="fw-300">
+//                         {word}
+//                         {index < highlightedWords.length - 1 ? " " : ""}
+//                       </span>
+//                     ))}
+//                   </h3>
+//                 </div>
+//               </div>
+//               <div className="col-md-6 text-left">
+//                 <div className="text-left align-text">
+//                   {paragraphs.map((text, idx) => (
+//                     <p key={idx} className="mb-15 text-left align-text">
+//                       {text}
+//                     </p>
+//                   ))}
 
-                  {listItems.length > 0 && (
-                    <div className="mt-30">
-                      <ul className="rest dot-list">
-                        {listItems.map((item, idx) => (
-                          <li key={idx} className="mb-10">
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="numbers mt-80 md-mb50">
-                <div className="row lg-marg">
-                  <div className="col-md-6">
-                    <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30"></div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4">
-            <div className="img-full fit-img">
-              <img src={imageSrc} alt={imageAlt} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+//                   {listItems.length > 0 && (
+//                     <div className="mt-30">
+//                       <ul className="rest dot-list">
+//                         {listItems.map((item, idx) => (
+//                           <li key={idx} className="mb-10">
+//                             {item}
+//                           </li>
+//                         ))}
+//                       </ul>
+//                     </div>
+//                   )}
+//                 </div>
+//               </div>
+//               <div className="numbers mt-80 md-mb50">
+//                 <div className="row lg-marg">
+//                   <div className="col-md-6">
+//                     <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30"></div>
+//                   </div>
+//                   <div className="col-md-6">
+//                     <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20"></div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//           <div className="col-lg-4">
+//             <div className="img-full fit-img">
+//               <img src={imageSrc} alt={imageAlt} />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
 
-export default Intro;
+// export default Intro;
