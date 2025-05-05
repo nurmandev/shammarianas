@@ -7,7 +7,7 @@ function Intro() {
         <div className="row lg-marg">
           <div className="col-lg-8">
             <div className="row lg-marg">
-              <div className="col-md-6">
+              <div className="col-md-6 justify-content-left">
                 <div>
                   <h3 className="mb-30">
                     Building Brands{"  "}

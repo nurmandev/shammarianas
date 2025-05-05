@@ -18,7 +18,7 @@ function Creativity() {
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-md-6 text-left">
-              <h3 className="sub-title main-color mb-15">
+              <h3 className="sub-title main-color mb-20">
                 The Importance of Effective Branding Design
               </h3>
 
