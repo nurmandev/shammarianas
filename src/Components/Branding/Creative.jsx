@@ -100,7 +100,7 @@ function Creativity() {
           </div>
         </div>
       </section>
-      <section className="intro-accord container section-padding  bord-bottom-grd">
+      <section className="intro-accord container section-padding">
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-lg-6 valign">
