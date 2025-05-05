@@ -51,6 +51,7 @@ main {
 .align-text {
   /* display: flex; */
   text-align: left !important;
+  border-color: red;
   align-items: flex-start;
   justify-content: flex-start;
 }
