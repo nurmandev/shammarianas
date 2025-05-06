@@ -20,7 +20,7 @@ const BrandingPage = () => {
           <>
             At{" "}
             <span className="text-bold text-left underline main-color">
-              Sham Marianas
+              Just a Demo
             </span>
             , we craft branding and designs that go beyond just visuals — we
             create identities. Your brand is your story, and we help you tell it
