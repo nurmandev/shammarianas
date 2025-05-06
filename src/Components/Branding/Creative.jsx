@@ -44,7 +44,7 @@ function Creativity() {
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt=""
-                  className="w-[80px] h-[30px] object-contain mx-auto"
+                  className="object-contain mx-auto"
                 />
               </div>
             </div>
@@ -59,7 +59,7 @@ function Creativity() {
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt=""
-                  className="w-[80px] h-[30px] object-contain mx-auto"
+                  className="object-contain mx-auto"
                 />
               </div>
             </div>
@@ -103,7 +103,7 @@ function Creativity() {
           </div>
         </div>
       </section>
-      <div className="bord-bottom-grd"></div>
+      <div className="bord-bottom-grd mt-20"></div>
       <section className="intro-accord container section-padding">
         <div className="container ontop">
           <div className="row xlg-marg">
