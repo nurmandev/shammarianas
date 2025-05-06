@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import HeaderSection from "../ServicesDetails/HeaderSection";
-import IntroSection from "../ServicesDetails/IntroSection";
-import BrandingContentSection from "../ServicesDetails/ContentSection";
-import FAQAccordion from "../ServicesDetails/FAQAccordion";
+import HeaderSection from "../../Components/ServicesDetails/HeaderSection";
+import IntroSection from "../../Components/ServicesDetails/IntroSection";
+import BrandingContentSection from "../../Components/ServicesDetails/ContentSection";
+import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
 const BrandingDesignPage = () => {
   const sectionOne = {
