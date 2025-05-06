@@ -96,8 +96,8 @@ const BrandingPage = () => {
         paragraphs={[
           <>
             <span className="text-bold text-left underline main-color">
-              Sham Marianas{" "}
-            </span>
+              Sham Marianas
+            </span>{" "}
             delivers smart, user-focused UI/UX design that combines beauty and
             usability. We craft intuitive digital experiences that elevate your
             brand. From startups to enterprises, we turn ideas into powerful,
