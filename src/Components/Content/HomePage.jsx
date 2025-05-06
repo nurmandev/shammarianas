@@ -25,12 +25,20 @@ const BrandingPage = () => {
       <>
         In the fast-paced digital landscape, staying up-to-date is key. What’s
         trendy today may be outdated tomorrow. Regularly updating your UI/UX
-        design ensures your platform remains fresh, relevant, and engaging. . At{" "}
-        <span className="text-bold underline main-color">Sham Marianas</span>,
-        we ensure your brand evolves with the digital trends, keeping it fresh
-        and engaging.
+        design ensures your platform remains fresh, relevant, and engaging.
       </>,
-      "In short, effective branding design is key to staying ahead in the competitive digital landscape, building relationships with customers, and driving success.",
+      <>
+        An intuitive, easy-to-navigate interface encourages users to explore
+        more. The longer they engage with your platform, the higher the chances
+        of conversion .
+      </>,
+      <>
+        Discover how{" "}
+        <span className="text-bold underline main-color">Sham Marianas</span>
+        can transform your digital presence with innovative mobile UI/UX design
+        solutions. Stay a head of the competition and lead the market with
+        expert design services.
+      </>,
     ],
     image: "/assets/imgs/Asset_img.png",
   };
