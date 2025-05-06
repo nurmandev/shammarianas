@@ -95,7 +95,7 @@ function Creativity() {
           </div>
         </div>
       </section>
-      <div className="bord-bottom-grd pb-40 pt-40 ontop"></div>
+      <div className="bord-bottom-grd "></div>
       <section className="intro-accord container section-padding">
         <div className="container ontop">
           <div className="row xlg-marg">
