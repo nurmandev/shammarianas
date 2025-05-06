@@ -139,7 +139,7 @@ export const AppRoutes = () => (
     <Route path="/services/video-production" element={<VideoProduction />} />
     <Route path="/services/vfx" element={<VFX />} />
     <Route path="/services/printing" element={<Printing />} />
-    <Route path="/brandingpage" element={<BrandingPage />} />
+    <Route path="/services/brandingpage" element={<BrandingPage />} />
     {/* Optional: 404 fallback */}
     <Route path="*" element={<Error />} />
   </Routes>
