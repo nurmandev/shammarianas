@@ -1,10 +1,40 @@
 import React from "react";
 import HeaderSection from "../ServicesDetails/HeaderSection";
 import IntroSection from "../ServicesDetails/IntroSection";
-// import MainPage from "../ServicesDetails/MainPage";
-import ReusableSection from "../ServicesDetails/ReusableSection";
+import BrandingContentSection from "../ServicesDetails/ContentSection";
 
 const BrandingPage = () => {
+  const sectionOne = {
+    title: "The Power of UI/UX Design",
+    paragraphs: [
+      "A user-friendly interface and intuitive design captivate users, boosting user engagement and driving higher conversion rates. A seamless UI/UX experience not only enhances user satisfaction but also builds brand trust and loyalty, ensuring repeat visits and long-term engagement with your brand.",
+    ],
+    image: "/assets/imgs/Asset_img.png",
+  };
+
+  const sectionTwo = {
+    title: "Why Do You Need UI/UX Services in Today’s Digital World?",
+    paragraphs: [
+      <>
+        To make an impact on a wider audience, it’s essential to cater to
+        different user preferences. At{" "}
+        <span className="text-bold underline main-color">Sham Marianas</span>,
+        our tailored UI/UX solutions are designed to provide personalized
+        experiences that meet diverse needs.
+      </>,
+      <>
+        In the fast-paced digital landscape, staying up-to-date is key. What’s
+        trendy today may be outdated tomorrow. Regularly updating your UI/UX
+        design ensures your platform remains fresh, relevant, and engaging. . At{" "}
+        <span className="text-bold underline main-color">Sham Marianas</span>,
+        we ensure your brand evolves with the digital trends, keeping it fresh
+        and engaging.
+      </>,
+      "In short, effective branding design is key to staying ahead in the competitive digital landscape, building relationships with customers, and driving success.",
+    ],
+    image: "/assets/imgs/Asset_img.png",
+  };
+
   return (
     <>
       <HeaderSection
@@ -42,7 +72,7 @@ const BrandingPage = () => {
         imageAlt="Intro branding"
       />
 
-      {/* <MainPage /> */}
+      <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
     </>
   );
 };
