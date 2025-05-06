@@ -41,11 +41,7 @@ function Creativity() {
             </div>
             <div className="col-lg-6">
               <div className="services-images">
-                <img
-                  src="/assets/imgs/Asset_img.png"
-                  alt=""
-                  className="w-[60px] h-[20px] object-contain mx-auto"
-                />
+                <img src="/assets/imgs/Asset_img.png" alt="services images" />
               </div>
             </div>
           </div>
@@ -56,11 +52,7 @@ function Creativity() {
           <div className="row xlg-marg">
             <div className="col-lg-6">
               <div className="services-images">
-                <img
-                  src="/assets/imgs/Asset_img.png"
-                  alt=""
-                  className="w-[60px] h-[20px] object-contain mx-auto"
-                />
+                <img src="/assets/imgs/Asset_img.png" alt="services images" />
               </div>
             </div>
             <div className="col-lg-6 valign">
