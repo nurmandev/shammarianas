@@ -47,7 +47,7 @@ import WebDesign from "./Pages/services/Web-Services";
 import Ecommerce from "./Pages/services/Ecommerce";
 import Content from "./Pages/services/Content";
 import Product from "./Pages/services/Product-Design";
-import Digital from "./Pages/services/DigitalMarketer";
+import DigitalMaketerPage from "./Pages/ServicesDetails/Digital-Marketer";
 import VFX from "./Pages/services/VfxAndCGIAds";
 import VideoProduction from "./Pages/services/Photography";
 import Printing from "./Pages/services/PrintMediaSolutions";
@@ -135,7 +135,7 @@ export const AppRoutes = () => (
     <Route path="/services/ecommerce" element={<Ecommerce />} />
     <Route path="/services/content" element={<Content />} />
     <Route path="/services/product" element={<Product />} />
-    <Route path="/services/digital" element={<Digital />} />
+    <Route path="/services/digital" element={<DigitalMaketerPage/>} />
     <Route path="/services/video-production" element={<VideoProduction />} />
     <Route path="/services/vfx" element={<VFX />} />
     <Route path="/services/printing" element={<Printing />} />
