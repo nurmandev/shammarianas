@@ -79,7 +79,7 @@ const BrandingDesignPage = () => {
       />
       <IntroSection
         title="Building Brands"
-        highlightedWords={["That", "Speak"]}
+        highlightedWords={["That ", "Speak"]}
         paragraphs={[
           <>
             At{" "}
