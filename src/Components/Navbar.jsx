@@ -1,200 +1,502 @@
- 
-
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import logo from "../assets/Icons/logo.png";
+"use client";
+import React, { useEffect } from "react";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
-import { useLocation } from "react-router-dom";
+import logo from "../assets/Icons/logo.png";
 
 const Navbar = () => {
-  const { currentUser } = useUser();
+  const { currentUser } = useUser() || "";
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartCount = cart.length;
+  const currentPage = useLocation().pathname;
 
-  const cart = JSON.parse(localStorage.getItem("cart"));
+  useEffect(() => {
+    const handleScroll = () => {
+      const navbar = document.querySelector(".navbar");
+      if (window.scrollY > 300) navbar?.classList.add("nav-scroll");
+      else navbar?.classList.remove("nav-scroll");
+    };
 
-  if (cart) {
-    var cartCount = cart.length;
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Navbar
+
+  function handleScroll() {
+    const bodyScroll = window.scrollY;
+    const navbar = document.querySelector(".navbar");
+
+    if (bodyScroll > 300) navbar.classList.add("nav-scroll");
+    else navbar.classList.remove("nav-scroll");
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  function handleDropdownMouseMove(event) {
+    event.currentTarget.querySelector(".dropdown-menu").classList.add("show");
   }
 
-  const currentPage = useLocation().pathname;
+  function handleDropdownMouseLeave(event) {
+    event.currentTarget
+      .querySelector(".dropdown-menu")
+      .classList.remove("show");
+  }
+  function handleToggleNav() {
+    if (
+      document
+        .querySelector(".navbar .navbar-collapse")
+        .classList.contains("show")
+    ) {
+      document
+        .querySelector(".navbar .navbar-collapse")
+        .classList.remove("show");
+    } else if (
+      !document
+        .querySelector(".navbar .navbar-collapse")
+        .classList.contains("show")
+    ) {
+      document.querySelector(".navbar .navbar-collapse").classList.add("show");
+    }
+  }
+  // If user is NOT logged in
+  if (!currentUser) {
+    return (
+      <>
+        <nav className="navbar navbar-expand-lg bord blur">
+          <div className="container o-hidden">
+            <a className="logo icon-img-100" href="#">
+              <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              onClick={() =>
+                document
+                  .querySelector(".navbar .navbar-collapse")
+                  ?.classList.toggle("show")
+              }
+            >
+              <span className="icon-bar">
+                <i className="fas fa-bars"></i>
+              </span>
+            </button>
+            <div
+              className="collapse navbar-collapse justify-content-center"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav">
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link dropdown-toggle"
+                    data-toggle="dropdown"
+                    href="#"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Home</span>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#about">
+                        About us
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#stock"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Tempelates</span>
+                  </a>
+                </li>
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#services"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Services</span>
+                  </a>
+                </li>
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#portfolio"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Portfolio</span>
+                  </a>
+                </li>
+
+                <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link"
+                    href="#blog"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Blogs</span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#contact">
+                    <span className="rolling-text">Contact Us</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="contact-button">
+              <Link
+                to="/login"
+                className="butn butn-sm butn-bg main-colorbg radius-5"
+              >
+                <span className="text">Sign In</span>
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        {["/stock"].includes(currentPage) && (
+          <div className="bottom-bar">
+            <div className="links">
+              <ul style={{ whiteSpace: "nowrap", alignItems: "center" }}>
+                {[
+                  { path: "/hot", label: "Hot" },
+                  { path: "/Videos", label: "Videos" },
+                  { path: "/Models", label: "3D Models" },
+                  { path: "/templates", label: "Video Template" },
+                  { path: "/images", label: "Pictures" },
+                  { path: "/graphics", label: "Graphic Templates" },
+                  { path: "/Mockups", label: "Mockups" },
+                  { path: "/Fonts", label: "Fonts" },
+                  { path: "/More", label: "More" },
+                ].map(({ path, icon, label }) => {
+                  if (label == "More") {
+                    return (
+                      <nav
+                        key={path}
+                        style={{ position: "relative" }}
+                        className="navbar navbar-expand-lg"
+                      >
+                        <div className="">
+                          <div
+                            className="collapse navbar-collapse justify-content-center"
+                            id="navbarSupportedContent"
+                          >
+                            <span className="navbar-nav">
+                              <li
+                                onMouseLeave={handleDropdownMouseLeave}
+                                onMouseMove={handleDropdownMouseMove}
+                                className="nav-item dropdown"
+                              >
+                                <p
+                                  className="nav-link dropdown-toggle"
+                                  data-toggle="dropdown"
+                                  href="#"
+                                  role="button"
+                                  aria-haspopup="true"
+                                  aria-expanded="false"
+                                >
+                                  <span
+                                    style={{ marginTop: "3px" }}
+                                    className="rolling-text"
+                                  >
+                                    More
+                                  </span>
+                                </p>
+                                <ul
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                  className="dropdown-menu"
+                                >
+                                  {[
+                                    { label: "Icons", href: "#icons" },
+                                    { label: "Textures", href: "#Textures" },
+                                    { label: "Scripts", href: "#Scripts" },
+                                    { label: "Plugins", href: "#Plugins" },
+                                    { label: "HDRIs", href: "#HDRIs" },
+
+                                    // { label: "Printable", href: "#Printable" },
+                                    // { label: "Models", href: "#" },
+                                    // { label: "Shaders", href: "#Shaders" },
+                                  ].map(({ label, href }) => (
+                                    <li key={href}>
+                                      <a className="dropdown-item" href={href}>
+                                        {label}
+                                      </a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            </span>
+                          </div>
+                        </div>
+                      </nav>
+                    );
+                  }
+                  return (
+                    <li key={path}>
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive ? "active" : undefined
+                        }
+                        to={path}
+                      >
+                        <i className={`fa-solid ${icon}`}></i>
+                        {label}
+                      </NavLink>
+                    </li>
+                  );
+                })}
+                {/* Separate Navigation Bar */}
+              </ul>
+            </div>
+
+            <div className="buttons">
+              {/* <Link to="/Upload">
+               <button>
+                 <i className="icon fa-solid fa-plus"></i> Upload
+               </button>
+             </Link> */}
+
+              <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
+                <button>
+                  <i className="icon fa-solid fa-right-left"></i> Trade
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
 
   return (
     <>
-      <div className="navbar">
-        <div className="logo">
-          <Link to="/">
-            <img src={logo} alt="logo" />
-            <span>Meshables</span>
-          </Link>
-        </div>
+      <div className="navbar navbar-expand-lg bord blur">
+        {/* <nav className="navbar navbar-expand-lg bord blur"> */}
 
+        <a className="logo icon-img-100" href="#">
+          <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
+        </a>
+        <Link to="stock">
+          <div className="ml-auto vi-more">
+            <a href="#stock" className="butn butn-sm butn-bord radius-30">
+              <span>Explore</span>
+            </a>
+            <span className="icon ti-arrow-top-right"></span>
+          </div>
+        </Link>
         <Search />
-
         <div className="right">
           <div className="nav_buttons">
-            {/* <button>Upload</button> */}
-
             <Link to="/Cart">
               <button>
                 <i className="icon fa-solid fa-shopping-cart"></i>
-                {cartCount ? (
+                {cartCount > 0 && (
                   <span className="cart_count">{cartCount}</span>
-                ) : null}
+                )}
               </button>
             </Link>
-
-            {currentUser ? (
-              <div className="navbar_dropdown">
-                <Link to={`/Profile/${currentUser.uid}`}>
+            <div className="navbar_dropdown">
+              {currentUser?.uid ? (
+                <Link to={`/Profile/${currentUser?.uid}`}>
                   <button className="signed_in">
                     <i className="icon fa-solid fa-user"></i>
                     <span className="username">
-                      {currentUser.displayName
-                        ? currentUser.displayName
-                        : "User"}
+                      {currentUser?.displayName || "User"}
                     </span>
                   </button>
                 </Link>
-                <div className="dropdown">
-                  <ul className="links">
-                    <li>
-                      <Link to="/Library">Library</Link>
-                    </li>
-                    <li>
-                      <Link to={`/Profile/${currentUser.uid}`}>Profile</Link>
-                    </li>
-                    <li>
-                      <Link to="/Trade">Trade</Link>
-                    </li>
-                    <li>
-                      <Link to="/Upload">Upload</Link>
-                    </li>
-                    <li>
-                      <Link className="logout" to="/Logout">
-                        Logout
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            ) : (
-              <>
+              ) : (
                 <Link to="/Login">
-                  <button className="login_btn">Sign In</button>
+                  <button className="">Sign In</button>
                 </Link>
-                {/* <button className="primary">Sign Up</button> */}
-              </>
-            )}
+              )}
+
+              <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
+                <ul className="links">
+                  <li>
+                    <Link to="/MyDownloads">My Downloads</Link>
+                  </li>
+                  <li>
+                    {/* <Link to="/Library">My Library</Link> */}
+                    <Link to="/Favorites">My Favorites</Link>
+                  </li>
+
+                  <li>
+                    <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
+                  </li>
+                  <li>
+                    <Link to="/Trade">Trade</Link>
+                  </li>
+                  <li>
+                    <Link to="/Upload">Upload</Link>
+                  </li>
+                  <li>
+                    <Link to="/Support">Support</Link>
+                  </li>
+                  <li>
+                    <Link className="logout" to="/Logout">
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {currentPage != "/" &&
-        currentPage != "/Login" &&
-        currentPage != "/Upload" &&
-        currentPage != "/reset" && (
-          <div className="bottom-bar">
-            <div className="links">
-              <ul>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/hot"
-                  >
-                    <i className="icon fa-solid fa-fire"></i> Hot
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/Printable"
-                  >
-                    <i className="icon fa-solid fa-print"></i> Printable
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/Models"
-                  >
-                    <i className="icon fa-solid fa-cube"></i> Models
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/Textures"
-                  >
-                    <i className="icon fa-solid fa-image"></i> Textures
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/Scripts"
-                  >
-                    <i className="icon fa-solid fa-code"></i> Scripts
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/Shaders"
-                  >
-                    <i className="icon fa-solid fa-magic"></i> Shaders
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/Plugins"
-                  >
-                    <i className="icon fa-solid fa-plug"></i> Plugins
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive ? "active" : undefined
-                    }
-                    to="/HDRIs"
-                  >
-                    <i className="icon fa-solid fa-globe"></i> HDRIs
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
-            {currentUser && (
-              <div className="buttons">
-                <Link to="/Upload">
-                  <button>
-                    <i className="icon fa-solid fa-plus"></i>
-                    Upload
-                  </button>
-                </Link>
-                <Link to="/Trade">
-                  <button>
-                    <i className="icon fa-solid fa-right-left"></i> Trade
-                  </button>
-                </Link>
-              </div>
-            )}
+      {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
+        <div className="bottom-bar">
+          <div className="links">
+            <ul style={{ whiteSpace: "nowrap", alignItems: "center" }}>
+              {[
+                { path: "/hot", label: "Hot" },
+                { path: "/Videos", label: "Videos" },
+                { path: "/Models", label: "3D Models" },
+                { path: "/templates", label: "Video Template" },
+                { path: "/images", label: "Pictures" },
+                { path: "/graphics", label: "Graphic Templates" },
+                { path: "/Mockups", label: "Mockups" },
+                { path: "/Fonts", label: "Fonts" },
+                { path: "/More", label: "More" },
+              ].map(({ path, icon, label }) => {
+                if (label == "More") {
+                  return (
+                    <nav
+                      key={path}
+                      style={{ position: "relative" }}
+                      className="navbar navbar-expand-lg"
+                    >
+                      <div className="">
+                        <div
+                          className="collapse navbar-collapse justify-content-center"
+                          id="navbarSupportedContent"
+                        >
+                          <span className="navbar-nav">
+                            <li
+                              onMouseLeave={handleDropdownMouseLeave}
+                              onMouseMove={handleDropdownMouseMove}
+                              className="nav-item dropdown"
+                            >
+                              <p
+                                className="nav-link dropdown-toggle"
+                                data-toggle="dropdown"
+                                href="#"
+                                role="button"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                              >
+                                <span
+                                  style={{ marginTop: "3px" }}
+                                  className="rolling-text"
+                                >
+                                  More
+                                </span>
+                              </p>
+                              <ul
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                                className="dropdown-menu"
+                              >
+                                {[
+                                  { label: "Icons", href: "#icons" },
+                                  { label: "Textures", href: "#Textures" },
+                                  { label: "Scripts", href: "#Scripts" },
+                                  { label: "Plugins", href: "#Plugins" },
+                                  { label: "HDRIs", href: "#HDRIs" },
+
+                                  // { label: "Printable", href: "#Printable" },
+                                  // { label: "Models", href: "#" },
+                                  // { label: "Shaders", href: "#Shaders" },
+                                ].map(({ label, href }) => (
+                                  <li key={href}>
+                                    <a className="dropdown-item" href={href}>
+                                      {label}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </li>
+                          </span>
+                        </div>
+                      </div>
+                    </nav>
+                  );
+                }
+                return (
+                  <li key={path}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "active" : undefined
+                      }
+                      to={path}
+                    >
+                      <i className={`fa-solid ${icon}`}></i>
+                      {label}
+                    </NavLink>
+                  </li>
+                );
+              })}
+              {/* Separate Navigation Bar */}
+            </ul>
           </div>
-        )}
+
+          <div className="buttons">
+            {/* <Link to="/Upload">
+              <button>
+                <i className="icon fa-solid fa-plus"></i> Upload
+              </button>
+            </Link> */}
+
+            <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
+              <button>
+                <i className="icon fa-solid fa-right-left"></i> Trade
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
     </>
   );
 };
