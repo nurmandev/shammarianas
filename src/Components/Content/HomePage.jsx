@@ -7,24 +7,24 @@ const BrandingPage = () => {
   return (
     <>
       <HeaderSection
-        title="Branding"
+        title="UI/UX"
         highlightedText="Design"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />
 
       <IntroSection
-        title="Building Brands"
-        highlightedWords={["That", "Speak"]}
+        title="Empowering Experiences Through"
+        highlightedWords={["Smart", "Design"]}
         paragraphs={[
           <>
-            At{" "}
             <span className="text-bold text-left underline main-color">
-              Just a Demo
+              Sham Marianas
             </span>
-            , we craft branding and designs that go beyond just visuals — we
-            create identities. Your brand is your story, and we help you tell it
-            with clarity, creativity, and consistency.
+            delivers smart, user-focused UI/UX design that combines beauty and
+            usability. We craft intuitive digital experiences that elevate your
+            brand. From startups to enterprises, we turn ideas into powerful,
+            engaging interfaces.
           </>,
           "Whether you're a startup or an established business, our branding design services ensure that your logo, color scheme, typography, and messaging all align to leave a strong and lasting impression.",
         ]}
