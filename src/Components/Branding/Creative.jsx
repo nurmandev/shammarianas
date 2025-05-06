@@ -40,7 +40,7 @@ function Creativity() {
               </div>
             </div>
             <div className="col-lg-6">
-              <div className="w-[90%] h-[30vh] px-8 pt-0 pb-20 mx-auto">
+              <div className="w-[60%] h-[20vh] px-8 pt-0 pb-20 mx-auto">
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt="service"
@@ -55,7 +55,7 @@ function Creativity() {
         <div className="container ontop">
           <div className="row xlg-marg">
             <div className="col-lg-6">
-              <div className="w-[90%] h-[30vh] px-8 pt-0 pb-20 mx-auto">
+              <div className="w-[60%] h-[20vh] px-8 pt-0 pb-20 mx-auto">
                 <img
                   src="/assets/imgs/Asset_img.png"
                   alt="service"
