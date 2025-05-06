@@ -39,10 +39,10 @@ import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
 
 // Services Route
-import Branding from "./Pages/services/Branding";
+import BrandingDesignPage from "./Pages/ServicesDetails/BrandingDesignPage";
 import BrandingPage from "./Components/Content/HomePage";
 
-import UIUXDesign from "./Pages/services/UIUXDesign";
+import UiUxDesignPage from "./Pages/ServicesDetails/UIUXDesignPage";
 import WebDesign from "./Pages/services/Web-Services";
 import Ecommerce from "./Pages/services/Ecommerce";
 import Content from "./Pages/services/Content";
@@ -129,8 +129,8 @@ export const AppRoutes = () => (
     <Route path="/page-services-details" element={<ServicesDetails />} /> */}
 
     {/* Static individual service pages */}
-    <Route path="/services/branding" element={<Branding />} />
-    <Route path="/services/uiux-design" element={<UIUXDesign />} />
+    <Route path="/services/branding" element={<BrandingDesignPage />} />
+    <Route path="/services/uiux-design" element={<UiUxDesignPage />} />
     <Route path="/services/web-design" element={<WebDesign />} />
     <Route path="/services/ecommerce" element={<Ecommerce />} />
     <Route path="/services/content" element={<Content />} />
