@@ -60,7 +60,6 @@ main {
   justify-content: flex-start !important;
 }
 
-
 .row > * {
   padding-left: 15px;
   padding-right: 15px;
@@ -6273,12 +6272,22 @@ footer.clean-footer.crev .circle-blur {
 /* Services
 -----------------------------------------------------------------*/
 .services-images {
-  width: 90%;
-  height: 30vh;
+  width: 100%;
+  max-width: 90%;
+  height: auto;
   padding: 2rem;
   padding-top: 0;
   padding-bottom: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.services-images img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 .services .item-box {
   padding: 60px 40px;
   border: 1px solid rgba(255, 255, 255, 0.08);
