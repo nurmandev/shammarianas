@@ -2,7 +2,7 @@ import React from "react";
 import HeaderSection from "../ServicesDetails/HeaderSection";
 import IntroSection from "../ServicesDetails/IntroSection";
 // import MainPage from "../ServicesDetails/MainPage";
-import ReusableSection from "./ReusableSection";
+import ReusableSection from "../ServicesDetails/ReusableSection";
 
 const BrandingPage = () => {
   return (
@@ -20,7 +20,7 @@ const BrandingPage = () => {
         paragraphs={[
           <>
             <span className="text-bold text-left underline main-color">
-              Sham Marianas
+              Sham Marianas{" "}
             </span>
             delivers smart, user-focused UI/UX design that combines beauty and
             usability. We craft intuitive digital experiences that elevate your
