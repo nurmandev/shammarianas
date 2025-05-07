@@ -43,14 +43,14 @@ import BrandingDesignPage from "./Pages/ServicesDetails/BrandingDesignPage";
 import BrandingPage from "./Components/Content/HomePage";
 
 import UiUxDesignPage from "./Pages/ServicesDetails/UIUXDesignPage";
-import WebDesign from "./Pages/services/Web-Services";
+import WebDesign from "./Pages/ServicesDetails/WebDevelopment";
 import EcommercePage from "./Pages/ServicesDetails/E-CommercePage";
 import ContentWritingPage from "./Pages/ServicesDetails/ContentWritingPage";
 import ProductDesignPage from "./Pages/ServicesDetails/ProductDesignPage";
 import DigitalMaketerPage from "./Pages/ServicesDetails/Digital-Marketer";
 import VfxAndAds from "./Pages/ServicesDetails/VfxAndAds";
 import VideoProduction from "./Pages/ServicesDetails/Video-Production";
-import Printing from "./Pages/services/PrintMediaSolutions";
+import PrintMedia from "./Pages/ServicesDetails/PrintMedia";
 
 // import Video from "./Pages/Types/Video";
 // import VideoTemplate from "./Pages/Types/VideoTemplate";
@@ -138,7 +138,7 @@ export const AppRoutes = () => (
     <Route path="/services/digital" element={<DigitalMaketerPage/>} />
     <Route path="/services/video-production" element={<VideoProduction />} />
     <Route path="/services/vfx" element={<VfxAndAds />} />
-    <Route path="/services/printing" element={<Printing />} />
+    <Route path="/services/printing" element={<PrintMedia />} />
     <Route path="/services/brandingpage" element={<BrandingPage />} />
     {/* Optional: 404 fallback */}
     <Route path="*" element={<Error />} />
