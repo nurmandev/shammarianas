@@ -7,28 +7,34 @@ import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
 const VfxAndAdsPage = () => {
   const sectionOne = {
-    title: "From Lens to Legacy Visuals That Resonate",
+    title: "From Concept to Impact — Ads That Hit Different",
     paragraphs: [
-      "Our photography & video production services go far beyond the lens. We don’t just point and shoot — we tell your brand’s story frame by frame. Whether it’s bold product photography, cinematic brand videos, or crisp lifestyle visuals, we create content that stops the scroll, sparks curiosity, and drives action. Every image we capture is built to speak your message — loud, clear, and beautifully.",
-
-      "From creative planning to final edit, we deliver full-scale visual production tailored for digital impact. Think scroll-stopping social media clips, polished promo videos, striking product shots, and branded storytelling — all crafted with pro-level lighting, styling, direction, and editing. If your brand needs to be seen and felt, we’re here to bring that vision to life — one unforgettable visual at a time.",
+      <>
+        Every VFX and CGI project we create starts with purpose and ends with
+        performance. At{" "}
+        <span className="text-bold underline main-color">Sham Marianas</span>,
+        we don’t just make things look amazing — we make them work. Each frame
+        is part of a bigger plan to grab attention, spark engagement, and drive
+        results.
+      </>,
+      "From the very first idea to the final pixel, we handle everything — concept creation, scriptwriting, storyboarding, animation, editing, and platform-specific optimization. It’s a full-circle creative process designed to deliver both visual impact and marketing value.",
+      "Launching a new product? Running a bold campaign? Want your brand to shine in a sea of sameness? Our VFX and CGI-powered ads give you an undeniable edge — blending future-forward visuals with storytelling that stops the scroll and moves your audience to act.",
     ],
     image: "/assets/imgs/Asset_img.png",
   };
 
   const sectionTwo = {
-    title:
-      "Framing Brands with Purpose — Photography & Video Production That Converts",
+    title: "From Bold Ideas to Breathtaking Visuals",
     paragraphs: [
       <>
         At <span className="text-bold underline main-color">Sham Marianas</span>
-        , it’s more than just visuals — it’s about crafting high-impact photo
-        and video content that tells your story, connects with your audience,
-        and fuels business growth. Our photography & video production services
-        are built to elevate your brand through clear, compelling, and
-        conversion-driven visuals.
+        , we bring ambitious ideas to life through cinematic visuals that
+        captivate, connect, and convert. Whether it's a surreal animation, a
+        stylized brand story, or a hyper-real visual experience, every project
+        is crafted with sharp strategy, artistic finesse, and storytelling that
+        resonates.
       </>,
-      "Whether it’s fashion campaigns, product photography, behind-the-scenes content, or cinematic brand videos, we align each frame with your vision and marketing goals. From creative direction to post-production, we deliver polished, platform-ready content that not only looks stunning but also drives real engagement and results.",
+      "We transform animation into art — immersive visual journeys that make people stop, feel, and act. Every frame is designed to speak louder than words and leave a lasting mark.",
     ],
     image: "/assets/imgs/Asset_img.png",
   };
