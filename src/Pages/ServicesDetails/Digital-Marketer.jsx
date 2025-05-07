@@ -7,112 +7,111 @@ import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
 const DigitalMaketerPage = () => {
   const sectionOne = {
-    title: "The Power of UI/UX Design",
+    title: "Digital Presence That Drives Real Growth",
     paragraphs: [
-      "A user-friendly interface and intuitive design captivate users, boosting user engagement and driving higher conversion rates. A seamless UI/UX experience not only enhances user satisfaction but also builds brand trust and loyalty, ensuring repeat visits and long-term engagement with your brand.",
+      <>
+        In today’s fast-paced digital world, your social media & digital
+        marketing presence is key to making a lasting first impression. At{" "}
+        <span className="text-bold underline main-color">Sham Marianas</span>,
+        we craft strategies that go beyond likes and shares. We focus on
+        creating authentic connections, building trust, and driving real action
+        with every piece of content and campaign we execute. From captivating
+        posts to data-driven ads, we ensure your brand stands out, engages
+        meaningfully, and converts followers into loyal customers.
+      </>,
+      "Our approach emphasizes storytelling, community building, and strategic growth. We align every effort with your brand’s goals, focusing on measurable results that drive sustainable success. Ready to transform your social media & digital marketing into a powerful tool for business growth? Let’s create something unforgettable.",
     ],
     image: "/assets/imgs/Asset_img.png",
   };
 
   const sectionTwo = {
-    title: "Why Do You Need UI/UX Services in Today’s Digital World?",
+    title: "Transforming Digital Engagement Into Real Business Growth",
     paragraphs: [
+      "Let's face it, nobody scrolls aimlessly nowadays. They scroll to discover, to connect, and to buy. And we’re here to make sure your brand is part of that journey.",
       <>
-        To make an impact on a wider audience, it’s essential to cater to
-        different user preferences. At{" "}
-        <span className="text-bold underline main-color">Sham Marianas</span>,
-        our tailored UI/UX solutions are designed to provide personalized
-        experiences that meet diverse needs.
+        At <span className="text-bold underline main-color">Sham Marianas</span>
+        , we combine innovative storytelling with data-driven tactics to craft
+        social media & digital marketing strategies that don’t just capture
+        attention but convert it into real business results. Whether we’re
+        setting your brand’s tone, launching viral campaigns, or guiding
+        customers through tailored marketing funnels, we ensure your content
+        isn’t just seen — it’s remembered, trusted, and acted upon.
       </>,
-      <>
-        In the fast-paced digital landscape, staying up-to-date is key. What’s
-        trendy today may be outdated tomorrow. Regularly updating your UI/UX
-        design ensures your platform remains fresh, relevant, and engaging.
-      </>,
-      <>
-        An intuitive, easy-to-navigate interface encourages users to explore
-        more. The longer they engage with your platform, the higher the chances
-        of conversion .
-      </>,
-      <>
-        Discover how{" "}
-        <span className="text-bold underline main-color">Sham Marianas</span>,
-        can transform your digital presence with innovative mobile UI/UX design
-        solutions. Stay a head of the competition and lead the market with
-        expert design services.
-      </>,
+      "From product launches to re-engaging past customers, we build digital experiences that deliver not just quick wins but sustained, long-term growth.",
     ],
     image: "/assets/imgs/Asset_img.png",
   };
   const faqs = [
     {
-      question: "Why is UI/UX design important?",
+      question: "What makes digital marketing different from social media?",
       answer:
-        "Good UI/UX design helps improve user engagement, boosts conversion rates, and builds brand loyalty. It makes your platform more intuitive, ensuring users have a positive experience.",
+        "Social media marketing (SMM) focuses on promoting brands through social media platforms, while digital marketing is a broader strategy that includes various online channels like SEO, email marketing, and PPC. Using social media to connect with and interact with a larger audience.",
     },
     {
-      question: "How Does UI Design Differ from UX Design?",
+      question:
+        "Why do I need professional social media and digital marketing?",
       answer:
-        "UI design focuses on the visual aspects of a product—like colors, buttons, and layout—making it look appealing and easy to interact with.UX design, on the other hand, focuses on the overall experience, ensuring the product is user-friendly, intuitive, and enjoyable to use.",
+        "Because your audience is online — and so is your competition. A solid strategy helps you cut through the noise, build real connections, and drive results.",
     },
     {
-      question: "How Can Good UI/UX Design Enhance My Product?",
+      question: "Which platforms do you work with?",
       answer:
-        "Good UI/UX design enhances your product by improving user engagement and creating an intuitive, visually appealing interface. A seamless user experience increases user retention, boosts conversion rates, and ensures your product remains competitive and user-friendly.",
+        "We manage campaigns and content across Instagram, Facebook, LinkedIn, YouTube, TikTok, and more — wherever your audience is.",
     },
     {
-      question: "What makes your UI/UX design services different?",
+      question: "Will you create the content too?",
       answer:
-        "At Sham Marianas, we focus on personalized, user-centered designs. We combine creativity with functionality to deliver seamless, engaging experiences that enhance your brand's digital presence.",
+        "Yes! We handle the entire process — from planning to designing, writing, and publishing—so your brand stays consistent and professional.",
     },
     {
-      question: "Do You Include User Testing in Your Design Workflow?",
+      question: "Can you run paid ads for me?",
       answer:
-        "Yes, user testing is integral to our design work flow. We conduct usability testing to ensure our UI/UX designs are intuitive, user-friendly, and meet audience needs. This helps improve user engagement, boost conversion rates, and enhance user retention.",
+        "Absolutely. We create and manage high-performing ad campaigns focused on conversions, not just impressions.",
     },
     {
-      question: "What UI/UX design tools and technologies do you use?",
+      question: "How do I measure success?",
       answer:
-        "At Sham Marianas, we use top UI/UX design tools like Adobe XD, Sketch, and Figma for wireframing, prototyping, and creating intuitive designs. We also utilize InVision and UsabilityHub for user testing to ensure a seamless user experience, improve user engagement, and boost conversion rates.",
+        "We provide detailed analytics and monthly performance reports so you can track growth, engagement, and ROI.",
     },
     {
-      question: "How Long Does It Take to Complete a UI/UX Design?",
+      question: "How do I get started?",
       answer:
-        "The time to complete a UI/UX design project varies but typically takes 4 to 8 weeks. This includes stages like user research, wireframing, prototyping, and user testing. We focus on enhancing user engagement, boosting conversion rates, and improving user retention",
+        "Simply reach out through our website —we’ll schedule a discovery call and map out your digital success journey.",
     },
   ];
 
   return (
     <>
       <HeaderSection
-        title="UI/UX"
-        highlightedText="Design"
+        title="Social Media & Digital"
+        highlightedText="Marketing"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />
       <IntroSection
-        title="Empowering Experiences Through"
-        highlightedWords={["Smart", "Design"]}
+        title="Posting Isn’t Enough —"
+        highlightedWords={["We Cultivate Digital Impact"]}
         paragraphs={[
           <>
+            At{" "}
             <span className="text-bold text-left underline main-color">
               Sham Marianas
             </span>{" "}
-            delivers smart, user-focused UI/UX design that combines beauty and
-            usability. We craft intuitive digital experiences that elevate your
-            brand. From startups to enterprises, we turn ideas into powerful,
-            engaging interfaces.
+            we elevate social media management into an art — creating digital
+            experiences that grab attention, spark conversations, and drive real
+            business growth.
           </>,
-          "Whether you're a startup or an established business, our branding design services ensure that your logo, color scheme, typography, and messaging all align to leave a strong and lasting impression.",
+          "Whether you’re a new brand looking to build your presence or an established name aiming to scale, our social media and digital marketing solutions are tailored for results. From strategic content creation to ROI-driven ad campaigns, we help you connect, engage, and convert — all while staying true to your brand’s voice. With us, your digital success isn’t just possible — it’s inevitable.",
         ]}
         listItems={[
-          "Dynamic Design Elements",
-          "Layout Design",
-          "Usability Check",
-          "Drafting",
-          "Audience Research and Insights",
-          "Mobile UI/UX Creation",
-          "Designing Looks",
+          "Social Media Management",
+          "Targeted Ad Campaigns",
+          "Content Strategy & Planning",
+          "Visual Content Creation",
+          "Performance Tracking & Analytics",
+          "Influencer & Community Marketing",
+          "Email Marketing & Automation",
+          "SEO-Integrated Content for Blogs & Social",
         ]}
         imageSrc="/assets/imgs/intro/2.jpg"
         imageAlt="Intro branding"
