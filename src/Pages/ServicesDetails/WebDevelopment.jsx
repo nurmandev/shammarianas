@@ -7,7 +7,7 @@ import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
 const WebDevelopmentPage = () => {
   const sectionOne = {
-    title: "Your Website is Your Business’s Digital Powerhouse",
+    title: "Your Website is Your — Business’s Digital Powerhouse",
     paragraphs: [
       "In today’s fast-moving digital world, your website is your 24/7 storefront. A well-developed website builds trust, shows credibility, and gives visitors a smooth, satisfying experience — no matter the device or browser.",
       <>
