@@ -5,7 +5,7 @@ import IntroSection from "../../Components/ServicesDetails/IntroSection";
 import BrandingContentSection from "../../Components/ServicesDetails/ContentSection";
 import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
-const VideoProductionPage = () => {
+const VfxAndAdsPage = () => {
   const sectionOne = {
     title: "From Lens to Legacy Visuals That Resonate",
     paragraphs: [
@@ -70,37 +70,38 @@ const VideoProductionPage = () => {
   return (
     <>
       <HeaderSection
-        title="Photography & Video"
-        highlightedText="Production Service"
+        title="VFX & CGI"
+        highlightedText="Ads"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />
       <IntroSection
-        title="Bringing Strategy and"
-        highlightedWords={["Creativity Into Every Frame"]}
+        title="Creating the Unreal — "
+        highlightedWords={["VFX & CGI Ads That Captivate and Convert"]}
         paragraphs={[
           <>
             At{" "}
             <span className="text-bold text-left underline main-color">
               Sham Marianas
             </span>{" "}
-            photography & video production is where storytelling meets strategy
-            — capturing emotion, building connection, and elevating your brand.
-            From stunning product shoots to cinematic brand videos, we create
-            visuals that your audience won’t forget.
+            we turn imagination into impact — crafting cinematic visuals that
+            not only dazzle the eye but also drive real results. Our VFX (visual
+            effects) and CGI (computer-generated imagery) services merge
+            storytelling with next-level design to create ads that demand
+            attention and inspire action.
           </>,
-          "Whether you're launching something new, introducing your team, or shaping your brand, our creative team turns your ideas into powerful visuals. We craft every shot with purpose — to catch attention, spark interest, and drive results. We don’t just make videos; we create visual stories that connect and deliver.",
+          "From surreal animations to lifelike 3D worlds, we breathe digital life into your ideas — building visual experiences that break boundaries, stir emotions, and amplify your brand message. Whether it’s a high-energy product ad or a futuristic brand film, we bring creativity and precision to every frame.",
         ]}
         listItems={[
-          "Brand & Product Photography",
-          "Promotional & Commercial Videos",
-          "Corporate Photography & Headshots",
-          "Event Photography & Videography",
-          "Lifestyle & Fashion Shoots",
-          "Short-Form Content for Social Media",
-          "Reels, TikToks & YouTube Videos",
-          "Scriptwriting & Storyboarding",
-          "Professional Editing & Post-Production",
+          "3D Product Animations & Commercials",
+          "CGI Brand Videos",
+          "Motion Graphics & Visual Effects",
+          "Virtual Environments & Set Extensions",
+          "Animated Explainer Ads",
+          "Logo Animations & Visual Intros",
+          "Cinematic CGI for TVCs & Digital Ads",
+          "Post-Production FX & Compositing",
+          "Custom CGI for Social Media Campaigns",
         ]}
         imageSrc="/assets/imgs/intro/2.jpg"
         imageAlt="Intro branding"
@@ -117,4 +118,4 @@ const VideoProductionPage = () => {
   );
 };
 
-export default VideoProductionPage;
+export default VfxAndAdsPage;
