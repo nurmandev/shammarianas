@@ -7,7 +7,7 @@ import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
 const VfxAndAdsPage = () => {
   const sectionOne = {
-    title: "From Concept to Impact — Ads That Hit Different",
+    title: "From Concept to Impact Ads That Hit Different",
     paragraphs: [
       <>
         Every VFX and CGI project we create starts with purpose and ends with
