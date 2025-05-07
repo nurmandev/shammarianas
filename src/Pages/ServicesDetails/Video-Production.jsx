@@ -7,7 +7,7 @@ import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
 const DigitalMaketerPage = () => {
   const sectionOne = {
-    title: "From Lens to Legacy — Visuals That Resonate",
+    title: "From Lens to Legacy Visuals That Resonate",
     paragraphs: [
       "Our photography & video production services go far beyond the lens. We don’t just point and shoot — we tell your brand’s story frame by frame. Whether it’s bold product photography, cinematic brand videos, or crisp lifestyle visuals, we create content that stops the scroll, sparks curiosity, and drives action. Every image we capture is built to speak your message — loud, clear, and beautifully.",
 
