@@ -70,8 +70,7 @@ const VideoProductionPage = () => {
   return (
     <>
       <HeaderSection
-        title="Photography & Video"
-        highlightedText="Production Service"
+        title="Photography & Video Production"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />

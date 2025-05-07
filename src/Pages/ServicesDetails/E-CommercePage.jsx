@@ -69,8 +69,7 @@ const EcommercePage = () => {
   return (
     <>
       <HeaderSection
-        title="E-Commerce"
-        highlightedText="Solutions Service"
+        title="E-Commerce Solutions"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />

@@ -72,7 +72,6 @@ const WebDevelopmentPage = () => {
     <>
       <HeaderSection
         title="Web Development"
-        highlightedText="Service"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />

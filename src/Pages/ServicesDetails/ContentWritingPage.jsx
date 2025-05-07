@@ -62,8 +62,7 @@ const ContentServicePage = () => {
   return (
     <>
       <HeaderSection
-        title="Content"
-        highlightedText="Writing Service"
+        title="Content Writing"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />

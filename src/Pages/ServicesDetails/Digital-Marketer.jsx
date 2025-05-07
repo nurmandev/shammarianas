@@ -83,8 +83,7 @@ const DigitalMaketerPage = () => {
   return (
     <>
       <HeaderSection
-        title="Social Media & Digital"
-        highlightedText="Marketing"
+        title="Social Media & Digital Marketing"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />

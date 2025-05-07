@@ -82,8 +82,7 @@ const ProductDesignPage = () => {
   return (
     <>
       <HeaderSection
-        title="Product"
-        highlightedText="Design Service"
+        title="Product Design"
         backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />
