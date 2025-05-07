@@ -7,7 +7,7 @@ import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 
 const PrintMediaPage = () => {
   const sectionOne = {
-    title: "From Concept to Impact — Print That Drives Success",
+    title: "From Concept to Impact Print That Drives Success",
     paragraphs: [
       <>
         At <span className="text-bold underline main-color">Sham Marianas</span>
