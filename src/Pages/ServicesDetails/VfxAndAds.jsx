@@ -40,36 +40,29 @@ const VfxAndAdsPage = () => {
   };
   const faqs = [
     {
-      question:
-        "What types of photography and video production services do you offer?",
+      question: "What’s the difference between VFX and CGI?",
       answer:
-        "We offer a wide range of visual content services, including product photography, fashion shoots, lifestyle photography, corporate headshots, behind-the-scenes content, promotional videos, brand films, and more — all tailored to your brand’s needs.",
+        "CGI (computer-generated imagery) creates visuals from scratch, like 3D models and animations. VFX (visual effects) adds those visuals into real footage — combining both to build stunning, lifelike results.",
     },
     {
-      question: "Do you help with concept and creative direction?",
+      question: "Do you help with concept and storyboarding?",
       answer:
-        "Absolutely! From brainstorming visual ideas to storyboarding and art direction, we guide you through the entire creative process to ensure your content aligns with your brand identity and goals.",
+        "Yes! We guide you from idea to execution — helping shape concepts, write scripts, storyboard scenes, and plan each effect with your brand in mind.",
     },
     {
-      question: "Will the content be optimized for social media and websites?",
+      question: "Can you create short CGI ads for social media?",
       answer:
-        "Yes. All our photo and video content is formatted and optimized for platforms like Instagram, Facebook, TikTok, YouTube, and your website — ensuring high-quality visuals across every channel.",
+        "Absolutely. We design optimized short-form VFX/CGI ads tailored for platforms like Instagram, TikTok, YouTube, and Facebook.",
     },
     {
-      question: "How long does it take to complete a project?",
+      question: "Are your CGI ads mobile-friendly and web-optimized?",
       answer:
-        "Timelines depend on the scope of your project. We’ll give you a clear timeline during the planning stage and always aim for fast, high-quality delivery.",
+        "Yes. Every project is rendered in the ideal format and resolution for web, mobile, and social media — ensuring smooth playback and high quality across all devices.",
     },
-    {
-      question: "Do you provide editing and post-production as well?",
-      answer:
-        "Yes, we handle the full production cycle — from shooting to editing, color grading, sound design, and final delivery.",
-    },
-
     {
       question: "How do I get started?",
       answer:
-        "Just reach out through our website or contact form! We’ll schedule a discovery call to understand your vision and start planning your custom visual content journey.",
+        "Just reach out through our website or contact form. We’ll set up a discovery call to understand your vision and start creating visuals that push your brand forward.",
     },
   ];
 
