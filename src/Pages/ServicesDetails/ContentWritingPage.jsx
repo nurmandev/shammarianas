@@ -69,7 +69,7 @@ const ContentServicePage = () => {
       />
       <IntroSection
         title="Words That"
-        highlightedWords={["Build ", "Brands"]}
+        highlightedWords={["Build", " ", "Brands"]}
         paragraphs={[
           <>
             At{" "}

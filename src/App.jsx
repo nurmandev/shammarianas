@@ -46,7 +46,7 @@ import UiUxDesignPage from "./Pages/ServicesDetails/UIUXDesignPage";
 import WebDesign from "./Pages/services/Web-Services";
 import EcommercePage from "./Pages/ServicesDetails/E-CommercePage";
 import ContentWritingPage from "./Pages/ServicesDetails/ContentWritingPage";
-import Product from "./Pages/services/Product-Design";
+import ProductDesignPage from "./Pages/ServicesDetails/ProductDesignPage";
 import DigitalMaketerPage from "./Pages/ServicesDetails/Digital-Marketer";
 import VFX from "./Pages/services/VfxAndCGIAds";
 import VideoProduction from "./Pages/services/Photography";
@@ -134,7 +134,7 @@ export const AppRoutes = () => (
     <Route path="/services/web-design" element={<WebDesign />} />
     <Route path="/services/ecommerce" element={<EcommercePage />} />
     <Route path="/services/content" element={<ContentWritingPage/>} />
-    <Route path="/services/product" element={<Product />} />
+    <Route path="/services/product" element={<ProductDesignPage />} />
     <Route path="/services/digital" element={<DigitalMaketerPage/>} />
     <Route path="/services/video-production" element={<VideoProduction />} />
     <Route path="/services/vfx" element={<VFX />} />
