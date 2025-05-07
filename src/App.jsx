@@ -49,7 +49,7 @@ import ContentWritingPage from "./Pages/ServicesDetails/ContentWritingPage";
 import ProductDesignPage from "./Pages/ServicesDetails/ProductDesignPage";
 import DigitalMaketerPage from "./Pages/ServicesDetails/Digital-Marketer";
 import VFX from "./Pages/services/VfxAndCGIAds";
-import VideoProduction from "./Pages/services/Photography";
+import VideoProduction from "./Pages/ServicesDetails/Video-Production";
 import Printing from "./Pages/services/PrintMediaSolutions";
 
 // import Video from "./Pages/Types/Video";
