@@ -103,7 +103,6 @@ const UiUxDesignPage = () => {
             brand. From startups to enterprises, we turn ideas into powerful,
             engaging interfaces.
           </>,
-          "Whether you're a startup or an established business, our branding design services ensure that your logo, color scheme, typography, and messaging all align to leave a strong and lasting impression.",
         ]}
         listItems={[
           "Dynamic Design Elements",
