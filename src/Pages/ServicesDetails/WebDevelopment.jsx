@@ -84,13 +84,13 @@ const WebDevelopmentPage = () => {
             <span className="text-bold text-left underline main-color">
               Sham Marianas
             </span>{" "}
-            we create websites that do more than just look great, they load
+            we create websites that do more than just look great they load
             fast, run smoothly on all devices, and leave a strong first
             impression. With responsive layouts, clean code, and SEO-friendly
             structures, your site will not only look professional but also rank
             higher and perform consistently across all browsers.
           </>,
-          "We build digital experiences that grow with your business. From fully customized designs that reflect your brand’s voice to smart features like booking systems, forms, and online stores everything is tailored to your needs. You’ll have full control to update your content easily, without any tech skills just real results.",
+          "We build digital experiences that grow with your business. From fully customized designs that reflect your brand’s voice to smart features like booking systems, forms, and online stores — everything is tailored to your needs. You’ll have full control to update your content easily, without any tech skills just real results.",
         ]}
         listItems={[
           "Ibexa DXP Development",
@@ -101,14 +101,14 @@ const WebDevelopmentPage = () => {
           "CMS Development",
           // "Laravel Development",
           // "PHP Development",
-          "Python, PHP , Laravel, ASP.Net, AngularJS Development",
+          "Python, PHP , Laravel Development",
           "Website Maintenance",
           "Enterprise Development",
           // "Pentesting",
           // "WhatsApp Integration",
           "Drupal Development",
-          // "ASP.Net Development",
-          // "AngularJS Development",
+          "ASP.Net Development",
+          "AngularJS Development",
         ]}
         imageSrc="/assets/imgs/intro/2.jpg"
         imageAlt="Intro branding"
