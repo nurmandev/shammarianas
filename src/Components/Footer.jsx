@@ -43,7 +43,7 @@ function Footer() {
                   <a href="#portfolio">Portfolio</a>
                 </li>
                 <li className="mb-15">
-                  <a href="#Stock">Stock</a>
+                  <a href="#Stock">Templates</a>
                 </li>
                 <li className="mb-15">
                   <a href="#about">About</a>
