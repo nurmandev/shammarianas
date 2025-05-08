@@ -67,7 +67,7 @@ function Footer() {
                 </button>
               </div>
               <ul className="rest social-icon d-flex align-items-center">
-                <li className="hover-this cursor-pointer">
+                <li className="hover-this cursor-pointer ml-10">
                   <a
                     href="https://www.youtube.com/c/ShamMarianasSM"
                     target="_blank"
