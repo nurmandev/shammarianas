@@ -18,15 +18,15 @@ function Intro() {
                 </div>
                 <div className="demo-test">
                   <ul className="rest dot-list">
-                  <li className="mb-10">Python Development</li>
-                      <li className="mb-10">Website Maintenance</li>
-                      <li className="mb-10">Enterprise Development</li>
-                      <li className="mb-10">Pentesting</li>
-                      <li className="mb-10">Joomla Development</li>
-                      <li className="mb-10">WhatsApp Integration</li>
-                      <li className="mb-10">Drupal Development</li>
-                      <li className="mb-10">ASP.Net Development</li>
-                      <li className="mb-10">AngularJS Development</li>
+                    <li className="mb-10">Python Development</li>
+                    <li className="mb-10">Website Maintenance</li>
+                    <li className="mb-10">Enterprise Development</li>
+                    <li className="mb-10">Pentesting</li>
+                    <li className="mb-10">Joomla Development</li>
+                    <li className="mb-10">WhatsApp Integration</li>
+                    <li className="mb-10">Drupal Development</li>
+                    <li className="mb-10">ASP.Net Development</li>
+                    <li className="mb-10">AngularJS Development</li>
                   </ul>
                 </div>
               </div>
@@ -68,32 +68,10 @@ function Intro() {
             <div className="numbers mt-80 md-mb50">
               <div className="row lg-marg">
                 <div className="col-md-6">
-                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30">
-                    <div>
-                      <h3 className="fw-300 mb-10">100%</h3>
-                      <h6 className="p-color sub-title">
-                        Clients Satisfaction
-                      </h6>
-                    </div>
-                    <div className="ml-auto">
-                      <div className="icon-img-40">
-                        <img src="/assets/imgs/arw0.png" alt="" />
-                      </div>
-                    </div>
-                  </div>
+                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20 sm-mb30"></div>
                 </div>
                 <div className="col-md-6">
-                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
-                    <div>
-                      <h3 className="fw-300 mb-10">6700</h3>
-                      <h6 className="p-color sub-title">Projects Completed</h6>
-                    </div>
-                    <div className="ml-auto">
-                      <div className="icon-img-40">
-                        <img src="/assets/imgs/arw0.png" alt="" />
-                      </div>
-                    </div>
-                  </div>
+                  <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20"></div>
                 </div>
               </div>
             </div>
