@@ -23,7 +23,7 @@ function Intro() {
                     </span>
                   </h3>
                   <p>
-                    <span className="text-bold underline main-color ">
+                    <span className="text-bold underline main-color align-text">
                       {" "}
                       Sham Marianas
                     </span>{" "}
