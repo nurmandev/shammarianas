@@ -120,7 +120,7 @@ function Footer() {
               © 2025 All Rights Reserved By{" "}
               <span className="underline main-color">
                 <a href="/" target="_blank">
-                  Sham Marians
+                  Sham Marianas
                 </a>
               </span>
             </p>
