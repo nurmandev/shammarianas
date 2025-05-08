@@ -87,11 +87,11 @@ function Footer() {
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
                   <a
-                    href="https://shammarianas.com"
+                    href="https://www.behance.net/shammarianas"
                     target="_blank"
                     // className="hover-anim"
                   >
-                    <i className="fab fa-dribbble"></i>
+                    <i className="fab fa-behance"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
