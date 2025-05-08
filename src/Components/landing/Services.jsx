@@ -144,7 +144,7 @@ function Services() {
                     <img src={item.img} alt="" />
                   </div>
                   <h5 className="mb-15">{item.title}</h5>
-                  <p>{item.desc}</p>
+                  <p className="align-text">{item.desc}</p>
                   <a href={item.link} className="rmore mt-30 flex">
                     <span className="sub-title">Read More</span>
                     <img
