@@ -101,14 +101,14 @@ const WebDevelopmentPage = () => {
           "CMS Development",
           // "Laravel Development",
           // "PHP Development",
-          "Python, PHP , Laravel Development",
+          "Python, PHP , Laravel, ASP.Net, AngularJS Development",
           "Website Maintenance",
           "Enterprise Development",
           // "Pentesting",
           // "WhatsApp Integration",
           "Drupal Development",
-          "ASP.Net Development",
-          "AngularJS Development",
+          // "ASP.Net Development",
+          // "AngularJS Development",
         ]}
         imageSrc="/assets/imgs/intro/2.jpg"
         imageAlt="Intro branding"
