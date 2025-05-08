@@ -41,6 +41,8 @@ import Admin from "./Pages/Admin";
 // Services Route
 import BrandingDesignPage from "./Pages/ServicesDetails/BrandingDesignPage";
 import BrandingPage from "./Components/Content/HomePage";
+import Demo from "./Pages/services/Web-Services";
+
 
 import UiUxDesignPage from "./Pages/ServicesDetails/UIUXDesignPage";
 import WebDesign from "./Pages/ServicesDetails/WebDevelopment";
@@ -139,7 +141,11 @@ export const AppRoutes = () => (
     <Route path="/services/video-production" element={<VideoProduction />} />
     <Route path="/services/vfx" element={<VfxAndAds />} />
     <Route path="/services/printing" element={<PrintMedia />} />
+
+    {/* Demo Page */}
     <Route path="/services/brandingpage" element={<BrandingPage />} />
+    <Route path="/services/demo" element={<Demo />} />
+
     {/* Optional: 404 fallback */}
     <Route path="*" element={<Error />} />
   </Routes>

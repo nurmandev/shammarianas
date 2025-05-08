@@ -123,7 +123,7 @@ const Navbar = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <span className="rolling-text">Tempelates</span>
+                    <span className="rolling-text">Templates</span>
                   </a>
                 </li>
                 <li
@@ -141,6 +141,64 @@ const Navbar = () => {
                     <span className="rolling-text">Services</span>
                   </a>
                 </li>
+                {/* <li
+                  onMouseLeave={handleDropdownMouseLeave}
+                  onMouseMove={handleDropdownMouseMove}
+                  className="nav-item dropdown"
+                >
+                  <a
+                    className="nav-link dropdown-toggle"
+                    data-toggle="dropdown"
+                    href="#"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span className="rolling-text">Services</span>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#hot">
+                        Hot
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Printable">
+                        Printable
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Models">
+                        Models
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Textures">
+                        Textures
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Scripts">
+                        Scripts
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Shaders">
+                        Shaders
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#Plugins">
+                        Plugins
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#HDRIs">
+                        HDRIs
+                      </a>
+                    </li>
+                  </ul>
+                </li> */}
                 <li
                   onMouseLeave={handleDropdownMouseLeave}
                   onMouseMove={handleDropdownMouseMove}
