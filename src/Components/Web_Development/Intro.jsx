@@ -16,6 +16,19 @@ function Intro() {
                     <span className="fw-300">Work.</span>
                   </h3>
                 </div>
+                <div className="demo-test">
+                  <ul className="rest dot-list">
+                  <li className="mb-10">Python Development</li>
+                      <li className="mb-10">Website Maintenance</li>
+                      <li className="mb-10">Enterprise Development</li>
+                      <li className="mb-10">Pentesting</li>
+                      <li className="mb-10">Joomla Development</li>
+                      <li className="mb-10">WhatsApp Integration</li>
+                      <li className="mb-10">Drupal Development</li>
+                      <li className="mb-10">ASP.Net Development</li>
+                      <li className="mb-10">AngularJS Development</li>
+                  </ul>
+                </div>
               </div>
               <div className="col-md-6">
                 <div className="text">
@@ -47,15 +60,6 @@ function Intro() {
                       <li className="mb-10">CMS Development</li>
                       <li className="mb-10">Laravel Development</li>
                       <li className="mb-10">PHP Development</li>
-                      <li className="mb-10">Python Development</li>
-                      <li className="mb-10">Website Maintenance</li>
-                      <li className="mb-10">Enterprise Development</li>
-                      <li className="mb-10">Pentesting</li>
-                      <li className="mb-10">Joomla Development</li>
-                      <li className="mb-10">WhatsApp Integration</li>
-                      <li className="mb-10">Drupal Development</li>
-                      <li className="mb-10">ASP.Net Development</li>
-                      <li className="mb-10">AngularJS Development</li>
                     </ul>
                   </div>
                 </div>
