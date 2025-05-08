@@ -60,6 +60,10 @@ main {
   justify-content: flex-start !important;
 }
 
+.item-box-new{
+  width: 90%;
+  height: 40vh;
+}
 .row > * {
   padding-left: 15px;
   padding-right: 15px;

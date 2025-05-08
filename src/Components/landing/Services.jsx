@@ -139,7 +139,7 @@ function Services() {
           >
             {data.map((item, i) => (
               <SwiperSlide key={i}>
-                <div className="item-box">
+                <div className="item-box item-box-new">
                   <div className="icon mb-40 opacity-5">
                     <img src={item.img} alt="" />
                   </div>
