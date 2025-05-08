@@ -22,8 +22,8 @@ function Intro() {
                       Advertising Strategies
                     </span>
                   </h3>
-                  <p>
-                    <span className="text-bold underline main-color align-text">
+                  <p className="align-text">
+                    <span className="text-bold underline main-color ">
                       {" "}
                       Sham Marianas
                     </span>{" "}
