@@ -9,15 +9,15 @@ function Contact() {
             <div className="col-lg-4 valign">
               <div className="sec-head info-box full-width md-mb80">
                 <div className="phone fz-30 fw-600 underline main-color">
-                  <a href="tel:+923116788423">+92 311 678 8423</a>
+                  <a href="tel:+971528036012">+971 52 803 6012</a>
                 </div>
                 <div className="morinfo mt-50 pb-30 bord-thin-bottom">
                   <h6 className="mb-15">Address</h6>
-                  <p>Besòs 1, 08174 Sant Cugat del Vallès, Barcelona</p>
+                  <p>Dubai</p>
                 </div>
                 <div className="morinfo mt-30 pb-30 bord-thin-bottom">
                   <h6 className="mb-15">Email</h6>
-                  <p>shammarians@gmail.com</p>
+                  <p>info@shammarians.com</p>
                 </div>
 
                 <div className="social-icon mt-50">
