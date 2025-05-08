@@ -22,7 +22,7 @@ export default function PageServicesDetails() {
         <Lines />
         <Header />
         <Intro />
-        <WebDev/>
+        {/* <WebDev/> */}
         <Marq2 />
       </body>
     </>
