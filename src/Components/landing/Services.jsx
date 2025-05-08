@@ -25,7 +25,7 @@ const data = [
   {
     title: "4. E-Commerce Solutions",
     img: "/assets/imgs/serv-icons/5.png",
-    desc: "We build e-commerce solutions that make online selling seamless and profitable. Our expert services enhance customer reach, conversions, and sales growth",
+    desc: "We build e-commerce solutions that make online selling seamless & profitable. Our expert services enhance customer reach, conversions, & sales growth",
     link: "#services/ecommerce",
   },
   {
