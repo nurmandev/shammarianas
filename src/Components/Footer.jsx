@@ -99,7 +99,7 @@ function Footer() {
                     href="https://www.pinterest.com/shammarianas"
                     // className="hover-anim"
                   >
-                    <i className="fab fa-linkedin-in"></i>
+                    <i class="fa-brands fa-pinterest"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
