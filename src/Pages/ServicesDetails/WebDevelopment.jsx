@@ -108,7 +108,7 @@ const WebDevelopmentPage = () => {
           "WhatsApp Integration",
           "Drupal Development",
           "ASP.Net Development",
-          "AngularJS Development"
+          "AngularJS Development",
         ]}
         imageSrc="/assets/imgs/intro/2.jpg"
         imageAlt="Intro branding"

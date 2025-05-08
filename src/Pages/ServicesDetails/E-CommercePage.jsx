@@ -75,7 +75,7 @@ const EcommercePage = () => {
       />
       <IntroSection
         title="We Don’t Just Build Stores"
-        highlightedWords={["We Create Online Success."]}
+        highlightedWords={["We Create Online Success"]}
         paragraphs={[
           <>
             At{" "}
