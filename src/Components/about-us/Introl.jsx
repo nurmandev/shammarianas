@@ -4,7 +4,7 @@ function Intro() {
   return (
     <section className="page-intro section-padding pb-0">
       <div className="container">
-        <div className="item pt-20 d-flex align-items-center">
+        <div className="item pt-10 d-flex align-items-center">
           <div className="cont">
             <p className="mb-50 fw-300 align-text" style={{ fontSize: "24px" }}>
               Ehtasham ul Haq, A seasoned expert with 12 years of experience in
