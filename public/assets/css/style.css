@@ -1816,6 +1816,19 @@ img.left {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.7);
 }
 
+.fit-img-new {
+  overflow: hidden;
+}
+
+.fit-img-new img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+  /* margin-top: -70px; */
+}
 .fit-img {
   overflow: hidden;
 }
