@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="clean-footer">
+    <footer className="clean-footer crev">
       <div className="container pb-40 pt-40 ontop">
         <div className="row justify-content-between">
           <div className="col-lg-2">
