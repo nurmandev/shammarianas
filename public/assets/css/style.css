@@ -4835,20 +4835,24 @@ footer.clean-footer.crev:after {
     linear,
     left bottom,
     left top,
-    from(rgba(255, 255, 255, 0.01)),
+    from(rgba(82, 177, 181, 0.15)),
     to(transparent)
   );
   background: -webkit-linear-gradient(
     bottom,
-    rgba(255, 255, 255, 0.01),
+    rgba(82, 177, 181, 0.15),
     transparent
   );
   background: -o-linear-gradient(
     bottom,
-    rgba(255, 255, 255, 0.01),
+    rgba(82, 177, 181, 0.15),
     transparent
   );
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.01), transparent);
+  background: linear-gradient(
+    to top,
+    rgba(82, 177, 181, 0.15),
+    transparent
+  );
   -webkit-backdrop-filter: blur(100px);
   backdrop-filter: blur(100px);
   position: absolute;
