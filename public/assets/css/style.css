@@ -5359,13 +5359,12 @@ footer.clean-footer.crev .circle-blur {
   left: 10vw;
   width: 80vw;
   height: 80vw;
-  background: -webkit-radial-gradient(circle, #52B1B5 0%, transparent 66%);
-  background: -o-radial-gradient(circle, #52B1B5 0%, transparent 66%);
-  background: radial-gradient(circle, #52B1B5 0%, transparent 66%);
+  background: -webkit-radial-gradient(circle, #52b1b5 0%, transparent 66%);
+  background: -o-radial-gradient(circle, #52b1b5 0%, transparent 66%);
+  background: radial-gradient(circle, #52b1b5 0%, transparent 66%);
   opacity: 0.3;
   z-index: -1;
 }
-
 
 .numbers-crev .item h3 {
   font-size: 100px;
