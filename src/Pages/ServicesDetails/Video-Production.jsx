@@ -4,6 +4,7 @@ import HeaderSection from "../../Components/ServicesDetails/HeaderSection";
 import IntroSection from "../../Components/ServicesDetails/IntroSection";
 import BrandingContentSection from "../../Components/ServicesDetails/ContentSection";
 import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
+import Marq2 from "../../Components/marq2";
 
 const VideoProductionPage = () => {
   const sectionOne = {
@@ -112,6 +113,7 @@ const VideoProductionPage = () => {
         imageSrc="/assets/imgs/FAQ.png"
       />
       ;
+       <Marq2 />
     </>
   );
 };

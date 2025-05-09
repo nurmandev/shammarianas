@@ -4,6 +4,7 @@ import HeaderSection from "../../Components/ServicesDetails/HeaderSection";
 import IntroSection from "../../Components/ServicesDetails/IntroSection";
 import BrandingContentSection from "../../Components/ServicesDetails/ContentSection";
 import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
+import Marq2 from "../../Components/marq2";
 
 const WebDevelopmentPage = () => {
   const sectionOne = {
@@ -84,11 +85,11 @@ const WebDevelopmentPage = () => {
             <span className="text-bold text-left underline main-color">
               Sham Marianas
             </span>{" "}
-            we create websites that do more than just look great they load
-            fast, run smoothly on all devices, and leave a strong first
-            impression. With responsive layouts, clean code, and SEO-friendly
-            structures, your site will not only look professional but also rank
-            higher and perform consistently across all browsers.
+            we create websites that do more than just look great they load fast,
+            run smoothly on all devices, and leave a strong first impression.
+            With responsive layouts, clean code, and SEO-friendly structures,
+            your site will not only look professional but also rank higher and
+            perform consistently across all browsers.
           </>,
           "We build digital experiences that grow with your business. From fully customized designs that reflect your brand’s voice to smart features like booking systems, forms, and online stores — everything is tailored to your needs. You’ll have full control to update your content easily, without any tech skills just real results.",
         ]}
@@ -121,6 +122,7 @@ const WebDevelopmentPage = () => {
         imageSrc="/assets/imgs/FAQ.png"
       />
       ;
+       <Marq2 />
     </>
   );
 };
