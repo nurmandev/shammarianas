@@ -85,7 +85,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img ">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
@@ -116,7 +116,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img ">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
@@ -148,7 +148,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img ">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
@@ -178,7 +178,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
@@ -210,7 +210,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img ">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
@@ -243,7 +243,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img ">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
@@ -274,7 +274,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img ">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
@@ -304,7 +304,7 @@ function Testimonials() {
                 <div className="info">
                   <div className="d-flex align-items-center">
                     <div>
-                      <div className="img fit-img">
+                      <div className="img ">
                         <img src="/assets/imgs/team/3.jpg" alt="" />
                       </div>
                     </div>
