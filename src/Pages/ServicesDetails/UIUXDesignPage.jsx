@@ -12,7 +12,7 @@ const UiUxDesignPage = () => {
     paragraphs: [
       "A user-friendly interface and intuitive design captivate users, boosting user engagement and driving higher conversion rates. A seamless UI/UX experience not only enhances user satisfaction but also builds brand trust and loyalty, ensuring repeat visits and long-term engagement with your brand.",
     ],
-    image: "/assets/imgs/UI-UX/2.png",
+    image: "/assets/imgs/UI-UX/002.png",
   };
 
   const sectionTwo = {
@@ -114,7 +114,7 @@ const UiUxDesignPage = () => {
           "Mobile UI/UX Creation",
           "Designing Looks",
         ]}
-        imageSrc="/assets/imgs/UI-UX/002.png"
+        imageSrc="/assets/imgs/UI-UX/2.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
