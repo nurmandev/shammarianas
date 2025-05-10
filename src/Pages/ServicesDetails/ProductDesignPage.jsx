@@ -20,7 +20,7 @@ const ProductDesignPage = () => {
       "We blend aesthetics with function to create products that don’t just stand out — they become essentials.",
     ],
 
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/ProductDesign/006.png",
   };
 
   const sectionTwo = {
@@ -49,7 +49,7 @@ const ProductDesignPage = () => {
         a lasting impact in the market.
       </>,
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/ProductDesign/06.png",
   };
   const faqs = [
     {
@@ -114,7 +114,7 @@ const ProductDesignPage = () => {
           "User-Centered Design",
           "Ergonomic Design"
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/ProductDesign/6.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
