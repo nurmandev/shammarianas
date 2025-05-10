@@ -40,7 +40,7 @@ const BrandingDesignPage = () => {
         and driving success.
       </>,
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/Branding/1.png",
   };
   const faqs = [
     {
