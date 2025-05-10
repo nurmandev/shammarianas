@@ -21,7 +21,7 @@ const ContentServicePage = () => {
       "We use proven SEO strategies to ensure your content appears in front of the right audience — while keeping the tone natural, human, and easy to understand.",
       "Whether it’s a blog post or a product page, every word we write is focused on one goal: helping you grow.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/Content/05.png",
   };
 
   const sectionTwo = {
@@ -30,7 +30,7 @@ const ContentServicePage = () => {
       "You don’t need generic content — you need writing that tells your story, matches your tone, and turns interest into action. Our experienced writers combine creativity with strategy to craft content that’s not just informative but persuasive.",
       "We research your audience, understand your industry, and align every piece of content with your brand goals. The result? Writing that is intriguing, self-assured, and clear keeps readers interested and maintains Google ranking.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/Content/005.png",
   };
   const faqs = [
     {
@@ -64,7 +64,7 @@ const ContentServicePage = () => {
     <>
       <HeaderSection
         title="Content Writing"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/b4.jpg"
         overlayDark="8"
       />
       <IntroSection
@@ -95,7 +95,7 @@ const ContentServicePage = () => {
           "Brand Messaging & Voice Development",
           "Content Strategy & Planning",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/Content/5.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
