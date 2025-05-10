@@ -23,7 +23,7 @@ const EcommercePage = () => {
         memorable — helping you convert visitors into loyal customers.
       </>,
     ],
-    image: "/assets/imgs/E-Commerce/4.png",
+    image: "/assets/imgs/E-Commerce/004.png",
   };
 
   const sectionTwo = {
@@ -100,7 +100,7 @@ const EcommercePage = () => {
           "Third-Party App & Plugin Integrations",
           "Performance Tracking & Analytics",
         ]}
-        imageSrc="/assets/imgs/E-Commerce/004.png"
+        imageSrc="/assets/imgs/E-Commerce/04.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
