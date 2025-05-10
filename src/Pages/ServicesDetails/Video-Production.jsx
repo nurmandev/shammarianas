@@ -14,7 +14,7 @@ const VideoProductionPage = () => {
 
       "From creative planning to final edit, we deliver full-scale visual production tailored for digital impact. Think scroll-stopping social media clips, polished promo videos, striking product shots, and branded storytelling — all crafted with pro-level lighting, styling, direction, and editing. If your brand needs to be seen and felt, we’re here to bring that vision to life — one unforgettable visual at a time.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/PhotographyVideo/008.png",
   };
 
   const sectionTwo = {
@@ -31,7 +31,7 @@ const VideoProductionPage = () => {
       </>,
       "Whether it’s fashion campaigns, product photography, behind-the-scenes content, or cinematic brand videos, we align each frame with your vision and marketing goals. From creative direction to post-production, we deliver polished, platform-ready content that not only looks stunning but also drives real engagement and results.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/PhotographyVideo/08.png",
   };
   const faqs = [
     {
@@ -102,7 +102,7 @@ const VideoProductionPage = () => {
           "Scriptwriting & Storyboarding",
           "Professional Editing & Post-Production",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/PhotographyVideo/8.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
