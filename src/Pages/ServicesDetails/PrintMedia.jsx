@@ -21,7 +21,7 @@ const PrintMediaPage = () => {
       </>,
       "We take care of everything — from initial concept and creative ideation to design, production, and delivery — ensuring your print materials are aligned with your brand’s voice, laser-focused on your message, and optimized for maximum impact. Because great print isn’t just a visual; it’s a strategic tool that moves your brand forward.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/PrintMediaSolution/010.png",
   };
 
   const sectionTwo = {
@@ -38,7 +38,7 @@ const PrintMediaPage = () => {
       </>,
       "Whether it’s a sleek brochure, a powerful business card, or a standout flyer, every design is carefully tailored to leave a lasting mark. We blend cutting-edge design with smart marketing strategy, ensuring your print materials don’t just look great — they perform and deliver measurable results.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/PrintMediaSolution/0010.png",
   };
   const faqs = [
     {
@@ -73,7 +73,7 @@ const PrintMediaPage = () => {
       <HeaderSection
         title="Print Media"
         highlightedText="Solutions"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/bg3.jpg"
         overlayDark="8"
       />
       <IntroSection
@@ -108,7 +108,7 @@ const PrintMediaPage = () => {
           "Screen Printing",
           "Laser Printing",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/PrintMediaSolution/10.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
