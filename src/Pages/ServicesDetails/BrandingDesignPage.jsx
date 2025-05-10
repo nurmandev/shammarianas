@@ -40,7 +40,7 @@ const BrandingDesignPage = () => {
         and driving success.
       </>,
     ],
-    image: "/assets/imgs/Branding/1.png",
+    image: "/assets/imgs/Branding/01.png",
   };
   const faqs = [
     {
@@ -101,7 +101,7 @@ const BrandingDesignPage = () => {
           "Social Media Branding",
           "Brand Strategy & Messaging",
         ]}
-        imageSrc="/assets/imgs/Branding/01.png"
+        imageSrc="/assets/imgs/Branding/1.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
