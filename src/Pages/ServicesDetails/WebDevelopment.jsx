@@ -19,7 +19,7 @@ const WebDevelopmentPage = () => {
         and grow with confidence.
       </>,
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/WebDev/003.png",
   };
 
   const sectionTwo = {
@@ -39,7 +39,7 @@ const WebDevelopmentPage = () => {
       </>,
       "Simply put — if your website isn’t delivering results, it’s holding you back. Don’t let your online presence fall behind — let us help you stand out in today’s competitive digital world.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/WebDev/03.png",
   };
   const faqs = [
     {
@@ -73,7 +73,7 @@ const WebDevelopmentPage = () => {
     <>
       <HeaderSection
         title="Web Development"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/b2.jpg"
         overlayDark="8"
       />
       <IntroSection
@@ -111,7 +111,7 @@ const WebDevelopmentPage = () => {
           "ASP.Net Development",
           "AngularJS Development",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/WebDev/3.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
