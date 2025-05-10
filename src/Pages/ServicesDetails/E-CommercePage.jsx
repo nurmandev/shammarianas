@@ -23,7 +23,7 @@ const EcommercePage = () => {
         memorable — helping you convert visitors into loyal customers.
       </>,
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/E-Commerce/4.png",
   };
 
   const sectionTwo = {
@@ -32,7 +32,7 @@ const EcommercePage = () => {
       "In today’s world, simply having a website isn’t enough — customers expect a seamless e-commerce experience that’s fast, secure, and easy to navigate. Our tailored e-commerce solutions are designed to meet these high expectations, giving your business the tools it needs to grow and succeed online.",
       "We combine sleek design with robust functionality and cutting-edge SEO strategies to create an e-commerce store that not only looks impressive but also works tirelessly to convert visitors into loyal customers. Whether you’re selling a handful of products or scaling a large inventory, we ensure your e-commerce website is built to grow with your business, delivering results and keeping customers engaged for the long run.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/E-Commerce/04.png",
   };
   const faqs = [
     {
@@ -71,7 +71,7 @@ const EcommercePage = () => {
     <>
       <HeaderSection
         title="E-Commerce Solutions"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/b3.jpg"
         overlayDark="8"
       />
       <IntroSection
@@ -100,7 +100,7 @@ const EcommercePage = () => {
           "Third-Party App & Plugin Integrations",
           "Performance Tracking & Analytics",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/E-Commerce/004.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
