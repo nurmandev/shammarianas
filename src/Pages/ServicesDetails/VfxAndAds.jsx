@@ -21,7 +21,7 @@ const VfxAndAdsPage = () => {
       "From the very first idea to the final pixel, we handle everything — concept creation, scriptwriting, storyboarding, animation, editing, and platform-specific optimization. It’s a full-circle creative process designed to deliver both visual impact and marketing value.",
       "Launching a new product? Running a bold campaign? Want your brand to shine in a sea of sameness? Our VFX and CGI-powered ads give you an undeniable edge — blending future-forward visuals with storytelling that stops the scroll and moves your audience to act.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/VFXandCGIADs/09.png",
   };
 
   const sectionTwo = {
@@ -37,7 +37,7 @@ const VfxAndAdsPage = () => {
       </>,
       "We transform animation into art — immersive visual journeys that make people stop, feel, and act. Every frame is designed to speak louder than words and leave a lasting mark.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/VFXandCGIADs/009.png",
   };
   const faqs = [
     {
@@ -72,7 +72,7 @@ const VfxAndAdsPage = () => {
       <HeaderSection
         title="VFX & CGI"
         highlightedText="Ads"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/bg1.jpg"
         overlayDark="8"
       />
       <IntroSection
@@ -103,7 +103,7 @@ const VfxAndAdsPage = () => {
           "Post-Production FX & Compositing",
           "Custom CGI for Social Media Campaigns",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/VFXandCGIADs/9.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
