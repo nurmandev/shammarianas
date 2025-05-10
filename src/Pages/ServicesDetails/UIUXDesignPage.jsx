@@ -88,7 +88,7 @@ const UiUxDesignPage = () => {
       <HeaderSection
         title="UI/UX"
         highlightedText="Design"
-        backgroundImage="/assets/imgs/background/1.jpg"
+        backgroundImage="/assets/imgs/background/b1.jpg"
         overlayDark="8"
       />
       <IntroSection
