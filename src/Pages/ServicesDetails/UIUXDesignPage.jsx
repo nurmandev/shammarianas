@@ -12,7 +12,7 @@ const UiUxDesignPage = () => {
     paragraphs: [
       "A user-friendly interface and intuitive design captivate users, boosting user engagement and driving higher conversion rates. A seamless UI/UX experience not only enhances user satisfaction but also builds brand trust and loyalty, ensuring repeat visits and long-term engagement with your brand.",
     ],
-    image: "/assets/imgs/UI-UX/002.png",
+    image: "/assets/imgs/UI-UX/02.png",
   };
 
   const sectionTwo = {
@@ -43,7 +43,7 @@ const UiUxDesignPage = () => {
         expert design services.
       </>,
     ],
-    image: "/assets/imgs/UI-UX/02.png",
+    image: "/assets/imgs/UI-UX/002.png",
   };
   const faqs = [
     {
