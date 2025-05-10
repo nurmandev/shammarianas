@@ -84,7 +84,7 @@ const ProductDesignPage = () => {
     <>
       <HeaderSection
         title="Product Design"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/bg3.jpg"
         overlayDark="8"
       />
       <IntroSection

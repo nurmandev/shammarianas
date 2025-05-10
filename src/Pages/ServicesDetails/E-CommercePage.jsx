@@ -71,7 +71,7 @@ const EcommercePage = () => {
     <>
       <HeaderSection
         title="E-Commerce Solutions"
-        backgroundImage="/assets/imgs/background/b3.jpg"
+        backgroundImage="/assets/imgs/background/bg4.jpg"
         overlayDark="8"
       />
       <IntroSection
