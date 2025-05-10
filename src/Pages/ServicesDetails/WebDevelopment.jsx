@@ -19,7 +19,7 @@ const WebDevelopmentPage = () => {
         and grow with confidence.
       </>,
     ],
-    image: "/assets/imgs/WebDev/003.png",
+    image: "/assets/imgs/WebDev/03.png",
   };
 
   const sectionTwo = {
@@ -39,7 +39,7 @@ const WebDevelopmentPage = () => {
       </>,
       "Simply put — if your website isn’t delivering results, it’s holding you back. Don’t let your online presence fall behind — let us help you stand out in today’s competitive digital world.",
     ],
-    image: "/assets/imgs/WebDev/03.png",
+    image: "/assets/imgs/WebDev/003.png",
   };
   const faqs = [
     {
