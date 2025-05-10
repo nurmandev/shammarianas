@@ -100,7 +100,7 @@ const EcommercePage = () => {
           "Third-Party App & Plugin Integrations",
           "Performance Tracking & Analytics",
         ]}
-        imageSrc="/assets/imgs/E-Commerce/04.png"
+        imageSrc="/assets/imgs/E-Commerce/4.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
