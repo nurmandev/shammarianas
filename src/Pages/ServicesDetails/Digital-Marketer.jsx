@@ -22,7 +22,7 @@ const DigitalMaketerPage = () => {
       </>,
       "Our approach emphasizes storytelling, community building, and strategic growth. We align every effort with your brand’s goals, focusing on measurable results that drive sustainable success. Ready to transform your social media & digital marketing into a powerful tool for business growth? Let’s create something unforgettable.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/SocialMediaDigital/07.png",
   };
 
   const sectionTwo = {
@@ -40,7 +40,7 @@ const DigitalMaketerPage = () => {
       </>,
       "From product launches to re-engaging past customers, we build digital experiences that deliver not just quick wins but sustained, long-term growth.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/SocialMediaDigital/007.png",
   };
   const faqs = [
     {
@@ -85,7 +85,7 @@ const DigitalMaketerPage = () => {
     <>
       <HeaderSection
         title="Social Media & Digital Marketing"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/b2.jpg"
         overlayDark="8"
       />
       <IntroSection
@@ -113,7 +113,7 @@ const DigitalMaketerPage = () => {
           "Email Marketing & Automation",
           "SEO-Integrated Content for Blogs & Social",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/SocialMediaDigital/7.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
