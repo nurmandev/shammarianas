@@ -72,7 +72,7 @@ const VideoProductionPage = () => {
     <>
       <HeaderSection
         title="Photography & Video Production"
-        backgroundImage="/assets/imgs/background/bg4.jpg"
+        backgroundImage="/assets/imgs/background/bg.jpg"
         overlayDark="8"
       />
       <IntroSection
