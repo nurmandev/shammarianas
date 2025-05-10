@@ -13,7 +13,7 @@ const BrandingDesignPage = () => {
       "Effective branding design is key to building trust and recognition. It gives your business a unique identity that helps you stand out and stay memorable in a competitive market. From your logo to your website, consistent visuals create a professional and polished image.",
       "More than just looks, great branding creates emotional connections. It makes your business feel relatable and reliable, encouraging customer loyalty and repeat visits. A well-designed brand doesn&apos;t just attract attention — it builds lasting relationships.",
     ],
-    image: "/assets/imgs/Asset_img.png",
+    image: "/assets/imgs/Branding/001.png",
   };
 
   const sectionTwo = {
@@ -101,7 +101,7 @@ const BrandingDesignPage = () => {
           "Social Media Branding",
           "Brand Strategy & Messaging",
         ]}
-        imageSrc="/assets/imgs/intro/2.jpg"
+        imageSrc="/assets/imgs/Branding/01.png"
         imageAlt="Intro branding"
       />
       <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
