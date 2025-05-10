@@ -73,7 +73,7 @@ const PrintMediaPage = () => {
       <HeaderSection
         title="Print Media"
         highlightedText="Solutions"
-        backgroundImage="/assets/imgs/background/bg3.jpg"
+        backgroundImage="/assets/imgs/background/bg5.jpg"
         overlayDark="8"
       />
       <IntroSection
