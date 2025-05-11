@@ -91,6 +91,7 @@ const DigitalMaketerPage = () => {
       <IntroSection
         title="Posting Isn’t Enough —"
         highlightedWords={["We Cultivate Digital Impact"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}

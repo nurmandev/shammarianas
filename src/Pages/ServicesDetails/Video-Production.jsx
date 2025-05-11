@@ -78,6 +78,7 @@ const VideoProductionPage = () => {
       <IntroSection
         title="Bringing Strategy and"
         highlightedWords={["Creativity Into Every Frame"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}
