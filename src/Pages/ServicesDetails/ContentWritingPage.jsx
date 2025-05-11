@@ -70,6 +70,7 @@ const ContentServicePage = () => {
       <IntroSection
         title="Words That"
         highlightedWords={["Build", " ", "Brands"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}
