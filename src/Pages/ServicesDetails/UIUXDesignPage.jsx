@@ -74,7 +74,7 @@ const UiUxDesignPage = () => {
     {
       question: "What UI/UX design tools and technologies do you use?",
       answer:
-        "At Sham Marianas, we use top UI/UX design tools like Adobe XD, Sketch, and Figma for wireframing, prototyping, and creating intuitive designs. We also utilize InVision and UsabilityHub for user testing to ensure a seamless user experience, improve user engagement, and boost conversion rates.",
+        "At Sham Marianas, we use top UI/UX design tools like Adobe XD, Sketch, and Figma for wireframing, prototyping, and creating intuitive designs. We also utilize InVision and Usability Hub for user testing to ensure a seamless user experience, improve user engagement, and boost conversion rates.",
     },
     {
       question: "How Long Does It Take to Complete a UI/UX Design?",
