@@ -79,6 +79,7 @@ const WebDevelopmentPage = () => {
       <IntroSection
         title="Building Websites "
         highlightedWords={["That", " ", " Work"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}
@@ -122,7 +123,7 @@ const WebDevelopmentPage = () => {
         imageSrc="/assets/imgs/FAQ.png"
       />
       ;
-       <Marq2 />
+      <Marq2 />
     </>
   );
 };
