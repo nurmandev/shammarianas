@@ -18,7 +18,7 @@ const ContentSection = ({ sectionOne, sectionTwo }) => {
                 ))}
               </div>
             </div>
-            <div className="col-lg-6">
+            <div className="">
               <div className="services-images">
                 <img src={sectionOne.image} alt="services images" />
               </div>

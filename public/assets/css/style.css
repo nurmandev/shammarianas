@@ -73,7 +73,6 @@ main {
 .branding-page-section img {
   width: 350px; /* Custom width */
   height: 300px;
-  margin: 11rem;
   object-fit: contain;
 }
 
