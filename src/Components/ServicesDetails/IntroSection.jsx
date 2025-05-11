@@ -7,9 +7,10 @@ const IntroSection = ({
   listItems = [],
   imageSrc = "",
   imageAlt = "",
+  customClass = "", // ✅ Accepting custom class
 }) => {
   return (
-    <section className="intro section-padding">
+    <section className={`intro section-padding ${customClass}`}>
       <div className="container">
         <div className="row lg-marg">
           <div className="col-lg-8">
@@ -64,7 +65,11 @@ const IntroSection = ({
 
           <div className="col-lg-4">
             <div className="img-full fit-img">
-              <img src={imageSrc} alt={imageAlt} />
+              <img
+                src={imageSrc}
+                alt={imageAlt}
+                className="custom-intro-img" // ✅ This class is scoped by customClass
+              />
             </div>
           </div>
         </div>

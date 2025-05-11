@@ -61,6 +61,13 @@ main {
   height: 60vh;
   padding: 1rem;
 }
+
+.intro-webdev-section .custom-intro-img {
+  width: 300px; /* Customize as needed */
+  max-width: 100%;
+  height: auto;
+}
+
 .row > * {
   padding-left: 15px;
   padding-right: 15px;
