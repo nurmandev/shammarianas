@@ -13,7 +13,7 @@ const BrandingDesignPage = () => {
       "Effective branding design is key to building trust and recognition. It gives your business a unique identity that helps you stand out and stay memorable in a competitive market. From your logo to your website, consistent visuals create a professional and polished image.",
       "More than just looks, great branding creates emotional connections. It makes your business feel relatable and reliable, encouraging customer loyalty and repeat visits. A well-designed brand doesn&apos;t just attract attention — it builds lasting relationships.",
     ],
-    image: "/assets/imgs/Branding/001.png",
+    image: "/assets/imgs/Branding/01.png",
   };
 
   const sectionTwo = {
@@ -23,7 +23,7 @@ const BrandingDesignPage = () => {
         In today&apos;s fast-paced digital world, branding design is essential
         for businesses to stand out and build connections with their audience.
         At <span className="text-bold underline main-color">Sham Marianas</span>
-        , , we create unique branding designs that help define your identity,
+        , we create unique branding designs that help define your identity,
         communicate your message clearly, and leave a lasting impression.
       </>,
       <>
@@ -40,7 +40,7 @@ const BrandingDesignPage = () => {
         and driving success.
       </>,
     ],
-    image: "/assets/imgs/Branding/01.png",
+    image: "/assets/imgs/Branding/001.png",
   };
   const faqs = [
     {
