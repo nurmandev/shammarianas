@@ -77,6 +77,7 @@ const EcommercePage = () => {
       <IntroSection
         title="We Don’t Just Build Stores"
         highlightedWords={["We Create Online Success"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}
