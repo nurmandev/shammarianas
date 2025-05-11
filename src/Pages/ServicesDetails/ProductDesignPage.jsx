@@ -90,6 +90,7 @@ const ProductDesignPage = () => {
       <IntroSection
         title="Shaping Ideas Into Products"
         highlightedWords={["That Speak for Themselves"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}

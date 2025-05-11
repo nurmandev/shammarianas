@@ -79,6 +79,7 @@ const PrintMediaPage = () => {
       <IntroSection
         title="Print That Powers Your Brand — "
         highlightedWords={["Creative, Strategic, and Impactful"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}

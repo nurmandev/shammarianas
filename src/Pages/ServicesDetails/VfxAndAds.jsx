@@ -78,6 +78,7 @@ const VfxAndAdsPage = () => {
       <IntroSection
         title="Creating the Unreal — "
         highlightedWords={["VFX & CGI Ads That Captivate and Convert"]}
+        customClass="intro-webdev-section" // 👈 Custom class added here
         paragraphs={[
           <>
             At{" "}
