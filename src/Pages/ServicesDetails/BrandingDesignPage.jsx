@@ -104,7 +104,12 @@ const BrandingDesignPage = () => {
         imageSrc="/assets/imgs/Branding/1.png"
         imageAlt="Intro branding"
       />
-      <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
+      <div className="branding-page-section">
+        <BrandingContentSection
+          sectionOne={sectionOne}
+          sectionTwo={sectionTwo}
+        />
+      </div>
       <div className="bord-bottom-grd pb-40 pt-40 ontop"></div>
       <FAQAccordion
         title="Frequently Asked Questions"

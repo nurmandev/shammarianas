@@ -69,6 +69,14 @@ main {
   /* height: auto; */
 }
 
+/* Only applies to BrandingContentSection inside this specific wrapper */
+.branding-page-section img {
+  width: 350px; /* Custom width */
+  height: auto;
+  object-fit: contain;
+}
+
+
 .row > * {
   padding-left: 15px;
   padding-right: 15px;
