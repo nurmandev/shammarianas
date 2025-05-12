@@ -5,12 +5,15 @@ import Footer from "../Components/Footer";
 import Marq2 from "../Components/marq2";
 import { db } from "../../firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import BlogEditor from "./BlogEditor";
+import loadBackgroudImages from "../common/loadBackgroudImages";
+
+import BlogEditorModal from "./BlogEditor";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -29,6 +32,7 @@ function Blogs() {
     };
 
     fetchBlogs();
+    loadBackgroudImages();
   }, []);
 
   const handleDelete = async (id) => {
@@ -60,32 +64,33 @@ function Blogs() {
       >
         <div className="container pt-80">
           <div className="row">
-            <div className="col-12 text-center">
-              <h1 className="text-u ls1 fz-80">
-                Blog <span className="fw-200">Standard</span>
-              </h1>
+            <div className="col-12">
+              <div className="text-center">
+                <h1 className="text-u ls1 fz-80">
+                  Blog <span className="fw-200"> Standard</span>
+                </h1>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      <BlogEditor />
+      <div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Create New Blog Post
+        </button>
+
+        <BlogEditorModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      </div>
 
       <section className="blog-main section-padding">
         <div className="container">
-          <div className="widget mb-4">
-            <h6 className="title-widget">Search Here</h6>
-            <div className="search-box">
-              <input
-                type="text"
-                placeholder="Search by title..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <span className="icon pe-7s-search"></span>
-            </div>
-          </div>
-
           <div className="row lg-marg justify-content-around">
             <div className="col-lg-8">
               <div className="md-mb80">
@@ -149,6 +154,150 @@ function Blogs() {
                 ) : (
                   <p>No blogs match your search.</p>
                 )}
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="sidebar">
+                <div className="widget mb-4">
+                  <h6 className="title-widget">Search Here</h6>
+                  <div className="search-box">
+                    <input
+                      type="text"
+                      placeholder="Search by title..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <span className="icon pe-7s-search"></span>
+                  </div>
+                </div>
+
+                {/* Categories */}
+                <div className="widget catogry">
+                  <h6 className="title-widget">Categories</h6>
+                  <ul className="rest">
+                    <li>
+                      <span>
+                        <a href="/blog-grid-sidebar">All</a>
+                      </span>
+                      <span className="ml-auto">{blogs.length}</span>
+                    </li>
+                    <li>
+                      <span>
+                        <a href="/blog-grid-sidebar">Business</a>
+                      </span>
+                      <span className="ml-auto">{blogs.length}</span>
+                    </li>
+                    <li>
+                      <span>
+                        <a href="/blog-grid-sidebar">Lifestyle</a>
+                      </span>
+                      <span className="ml-auto">05</span>
+                    </li>
+                    <li>
+                      <span>
+                        <a href="/blog-grid-sidebar">Creative</a>
+                      </span>
+                      <span className="ml-auto">28</span>
+                    </li>
+                    <li>
+                      <span>
+                        <a href="/blog-grid-sidebar">WordPress</a>
+                      </span>
+                      <span className="ml-auto">17</span>
+                    </li>
+                    <li>
+                      <span>
+                        <a href="/blog-grid-sidebar">Design</a>
+                      </span>
+                      <span className="ml-auto">45</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="widget last-post-thum">
+                  <h6 className="title-widget">latest Posts</h6>
+                  <div className="item d-flex align-items-center">
+                    <div>
+                      <div className="img">
+                        <a href="/blog-grid-sidebar">
+                          <img src="/assets/imgs/blog/c1.jpg" alt="" />
+                          <span className="date">
+                            <span>
+                              14 / <br /> sep
+                            </span>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div className="cont">
+                      <span className="tag">
+                        <a href="/blog-grid-sidebar">Web Design</a>
+                      </span>
+                      <h6>
+                        <a href="/blog-grid-sidebar">
+                          ways to quickly increase traffic to your website
+                        </a>
+                      </h6>
+                    </div>
+                  </div>
+                  <div className="item d-flex align-items-center">
+                    <div>
+                      <div className="img">
+                        <a href="/blog-grid-sidebar">
+                          <img src="/assets/imgs/blog/c2.jpg" alt="" />
+                          <span className="date">
+                            <span>
+                              14 / <br /> sep
+                            </span>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div className="cont">
+                      <span className="tag">
+                        <a href="/blog-grid-sidebar">Web Design</a>
+                      </span>
+                      <h6>
+                        <a href="/blog-grid-sidebar">
+                          breaking the rules: using sqlite to demo web
+                        </a>
+                      </h6>
+                    </div>
+                  </div>
+                  <div className="item d-flex align-items-center">
+                    <div>
+                      <div className="img">
+                        <a href="/blog-grid-sidebar">
+                          <img src="/assets/imgs/blog/c3.jpg" alt="" />
+                          <span className="date">
+                            <span>
+                              14 / <br /> sep
+                            </span>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div className="cont">
+                      <span className="tag">
+                        <a href="/blog-grid-sidebar">Web Design</a>
+                      </span>
+                      <h6>
+                        <a href="/blog-grid-sidebar">
+                          building better ui designs with layout grids
+                        </a>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+                <div className="widget tags">
+                  <h6 className="title-widget">Tags</h6>
+                  <div>
+                    <a href="/blog-grid-sidebar">Creative</a>
+                    <a href="/blog-grid-sidebar">Design</a>
+                    <a href="/blog-grid-sidebar">Dark & Light</a>
+                    <a href="/blog-grid-sidebar">Minimal</a>
+                    <a href="/blog-grid-sidebar">Infolio</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

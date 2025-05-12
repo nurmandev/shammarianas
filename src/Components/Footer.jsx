@@ -43,7 +43,7 @@ function Footer() {
                   <a href="#portfolio">Portfolio</a>
                 </li>
                 <li className="mb-15">
-                  <a href="#Stock">Stock</a>
+                  <a href="#Stock">Templates</a>
                 </li>
                 <li className="mb-15">
                   <a href="#about">About</a>
@@ -67,7 +67,7 @@ function Footer() {
                 </button>
               </div>
               <ul className="rest social-icon d-flex align-items-center">
-                <li className="hover-this cursor-pointer">
+                <li className="hover-this cursor-pointer ml-10">
                   <a
                     href="https://www.youtube.com/c/ShamMarianasSM"
                     target="_blank"
@@ -87,11 +87,11 @@ function Footer() {
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
                   <a
-                    href="https://shammarianas.com"
+                    href="https://www.behance.net/shammarianas"
                     target="_blank"
                     // className="hover-anim"
                   >
-                    <i className="fab fa-dribbble"></i>
+                    <i className="fab fa-behance"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
@@ -99,7 +99,7 @@ function Footer() {
                     href="https://www.pinterest.com/shammarianas"
                     // className="hover-anim"
                   >
-                    <i className="fab fa-linkedin-in"></i>
+                    <i class="fa-brands fa-pinterest"></i>
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
@@ -120,7 +120,7 @@ function Footer() {
               © 2025 All Rights Reserved By{" "}
               <span className="underline main-color">
                 <a href="/" target="_blank">
-                  Sham Marians
+                  Sham Marianas
                 </a>
               </span>
             </p>

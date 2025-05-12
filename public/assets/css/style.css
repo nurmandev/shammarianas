@@ -48,6 +48,34 @@ main {
   position: relative;
   z-index: 5;
 }
+.align-text {
+  text-align: justify !important;
+  font-size: 16px;
+  word-break: break-word;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+
+.item-box-new {
+  width: 100%;
+  height: 60vh;
+  padding: 1rem;
+}
+
+.intro-webdev-section .custom-intro-img {
+  width: 600px; /* Customize as needed */
+  max-width: 100%;
+  height: 650px;
+  /* height: auto; */
+}
+
+/* Only applies to BrandingContentSection inside this specific wrapper */
+.branding-page-section img {
+  width: 350px; /* Custom width */
+  height: 300px;
+  object-fit: contain;
+}
+
 
 .row > * {
   padding-left: 15px;
@@ -1769,6 +1797,10 @@ img.left {
   padding-top: 140px;
   padding-bottom: 140px;
 }
+.section-padding-new {
+  padding-top: 100px;
+  padding-bottom: 140px;
+}
 
 .section-ptb {
   padding: 80px 0;
@@ -1800,6 +1832,19 @@ img.left {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.7);
 }
 
+.fit-img-new {
+  overflow: hidden;
+}
+
+.fit-img-new img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+  /* margin-top: -70px; */
+}
 .fit-img {
   overflow: hidden;
 }
@@ -3728,6 +3773,11 @@ body.loaded {
   text-transform: uppercase;
   letter-spacing: 2px;
 }
+.sub-title-new {
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
 
 .title-bord {
   font-size: 14px;
@@ -4814,20 +4864,16 @@ footer.clean-footer.crev:after {
     linear,
     left bottom,
     left top,
-    from(rgba(255, 255, 255, 0.01)),
+    from(rgba(82, 177, 181, 0.15)),
     to(transparent)
   );
   background: -webkit-linear-gradient(
     bottom,
-    rgba(255, 255, 255, 0.01),
+    rgba(82, 177, 181, 0.15),
     transparent
   );
-  background: -o-linear-gradient(
-    bottom,
-    rgba(255, 255, 255, 0.01),
-    transparent
-  );
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.01), transparent);
+  background: -o-linear-gradient(bottom, rgba(82, 177, 181, 0.15), transparent);
+  background: linear-gradient(to top, rgba(82, 177, 181, 0.15), transparent);
   -webkit-backdrop-filter: blur(100px);
   backdrop-filter: blur(100px);
   position: absolute;
@@ -5342,9 +5388,9 @@ footer.clean-footer.crev .circle-blur {
   left: 10vw;
   width: 80vw;
   height: 80vw;
-  background: -webkit-radial-gradient(circle, #ff3700 0%, transparent 66%);
-  background: -o-radial-gradient(circle, #ff3700 0%, transparent 66%);
-  background: radial-gradient(circle, #ff3700 0%, transparent 66%);
+  background: -webkit-radial-gradient(circle, #52b1b5 0%, transparent 66%);
+  background: -o-radial-gradient(circle, #52b1b5 0%, transparent 66%);
+  background: radial-gradient(circle, #52b1b5 0%, transparent 66%);
   opacity: 0.3;
   z-index: -1;
 }
@@ -6251,6 +6297,23 @@ footer.clean-footer.crev .circle-blur {
 
 /* Services
 -----------------------------------------------------------------*/
+.services-images {
+  width: 100%;
+  max-width: 90%;
+  height: auto;
+  padding: 2rem;
+  padding-top: 0;
+  padding-bottom: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.services-images img {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
+}
+
 .services .item-box {
   padding: 60px 40px;
   border: 1px solid rgba(255, 255, 255, 0.08);

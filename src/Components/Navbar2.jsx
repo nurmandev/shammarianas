@@ -123,7 +123,7 @@ const Navbar = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <span className="rolling-text">Stock</span>
+                    <span className="rolling-text">Templates</span>
                   </a>
                 </li>
                 <li

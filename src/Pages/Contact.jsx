@@ -9,28 +9,40 @@ function Contact() {
             <div className="col-lg-4 valign">
               <div className="sec-head info-box full-width md-mb80">
                 <div className="phone fz-30 fw-600 underline main-color">
-                  <a href="#0">+1 840 841 25 69</a>
+                  <a href="tel:+971528036012">+971 52 803 6012</a>
                 </div>
                 <div className="morinfo mt-50 pb-30 bord-thin-bottom">
                   <h6 className="mb-15">Address</h6>
-                  <p>Besòs 1, 08174 Sant Cugat del Vallès, Barcelona</p>
+                  <p>Dubai</p>
                 </div>
                 <div className="morinfo mt-30 pb-30 bord-thin-bottom">
                   <h6 className="mb-15">Email</h6>
-                  <p>Support@UiCamp.com</p>
+                  <p>info@shammarians.com</p>
                 </div>
 
                 <div className="social-icon mt-50">
-                  <a href="#0">
+                  <a
+                    href="https://www.facebook.com/shammarianas"
+                    target="_blank"
+                  >
                     <i className="fab fa-facebook-f"></i>
                   </a>
-                  <a href="#0">
-                    <i className="fab fa-dribbble"></i>
+                  <a
+                    href="https://www.youtube.com/c/ShamMarianasSM"
+                    target="_blank"
+                  >
+                    <i class="fa-brands fa-youtube"></i>
                   </a>
-                  <a href="#0">
+                  <a
+                    href="https://www.behance.net/shammarianas"
+                    target="_blank"
+                  >
                     <i className="fab fa-behance"></i>
                   </a>
-                  <a href="#0">
+                  <a
+                    href="https://www.instagram.com/sham_marianas/"
+                    target="_blank"
+                  >
                     <i className="fab fa-instagram"></i>
                   </a>
                 </div>
@@ -119,7 +131,7 @@ function Contact() {
       <div className="google-map">
         <iframe
           id="gmap_canvas"
-          src="https://maps.google.com/maps?q=hollwood&t=&z=11&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=dubai&t=&z=11&ie=UTF8&iwloc=&output=embed"
         ></iframe>
       </div>
     </>

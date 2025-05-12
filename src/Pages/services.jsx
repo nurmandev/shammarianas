@@ -7,10 +7,8 @@ import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
 import Marq2 from "../Components/marq2";
 import Header from "../Components/services/Header";
-import Numbers from "../Components/services/Numbers";
+// import Numbers from "../Components/services/Numbers";
 import Intro2 from "../Components/services/Intro2";
-import Clients from "../Components/landing/Clients";
-import Blog from "../Components/about-us/Blog";
 // import Services from "../Components/landing/Services";
 import Services from "./../Components/services/Services";
 import Testimonials from "../Components/services/Testimonials";
@@ -36,10 +34,8 @@ export default function PageServices() {
           <Header />
           <Services />
           <Intro2 />
-          <Numbers />
+          {/* <Numbers /> */}
           <Testimonials />
-          {/* <Clients /> */}
-          {/* <Blog /> */}
           <Marq2 />
         </main>
       </div>

@@ -24,7 +24,6 @@ import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
 import Contact from "./Pages/Contact";
-import Blogi from "./Pages/Blogs/Blogs";
 import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
@@ -33,11 +32,27 @@ import PortfolioDetails from "./Pages/project-details";
 import Support from "./Pages/Support";
 import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
-import ServicesDetails from "./Pages/services-details";
+
 import StockPage from "./Pages/Stock";
 import MyDownloads from "./Pages/MyDownloads";
 import Favorites from "./Pages/Favorites";
 import Admin from "./Pages/Admin";
+
+// Services Route
+import BrandingDesignPage from "./Pages/ServicesDetails/BrandingDesignPage";
+import BrandingPage from "./Components/Content/HomePage";
+import Demo from "./Pages/services/Web-Services";
+
+
+import UiUxDesignPage from "./Pages/ServicesDetails/UIUXDesignPage";
+import WebDesign from "./Pages/ServicesDetails/WebDevelopment";
+import EcommercePage from "./Pages/ServicesDetails/E-CommercePage";
+import ContentWritingPage from "./Pages/ServicesDetails/ContentWritingPage";
+import ProductDesignPage from "./Pages/ServicesDetails/ProductDesignPage";
+import DigitalMaketerPage from "./Pages/ServicesDetails/Digital-Marketer";
+import VfxAndAds from "./Pages/ServicesDetails/VfxAndAds";
+import VideoProduction from "./Pages/ServicesDetails/Video-Production";
+import PrintMedia from "./Pages/ServicesDetails/PrintMedia";
 
 // import Video from "./Pages/Types/Video";
 // import VideoTemplate from "./Pages/Types/VideoTemplate";
@@ -55,6 +70,7 @@ import Success from "./Pages/Success";
 
 import CategoryTemplate from "./Pages/Types/CategoryTemplate";
 import PageTeam from "./Pages/Page-team";
+import Error from "./Pages/Error";
 // CategoryTemplate.js
 
 const ScrollToTop = () => {
@@ -101,7 +117,6 @@ export const AppRoutes = () => (
     <Route path="/Terms" element={<Terms />} />
     <Route path="/Privacy" element={<Privacy />} />
     <Route path="/contact" element={<Contact />} />
-    <Route path="/blogi" element={<Blogi />} />
     <Route path="/blog" element={<Blog />} />
     <Route path="/blog-details/:id" element={<Blogs />} />
     <Route path="/portfolio" element={<Portfolio />} />
@@ -112,7 +127,27 @@ export const AppRoutes = () => (
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
-    <Route path="/page-services-details" element={<ServicesDetails />} />
+    {/* <Route path="/services/:slug" element={<Services />} />
+    <Route path="/page-services-details" element={<ServicesDetails />} /> */}
+
+    {/* Static individual service pages */}
+    <Route path="/services/branding" element={<BrandingDesignPage />} />
+    <Route path="/services/uiux-design" element={<UiUxDesignPage />} />
+    <Route path="/services/web-design" element={<WebDesign />} />
+    <Route path="/services/ecommerce" element={<EcommercePage />} />
+    <Route path="/services/content" element={<ContentWritingPage/>} />
+    <Route path="/services/product" element={<ProductDesignPage />} />
+    <Route path="/services/digital" element={<DigitalMaketerPage/>} />
+    <Route path="/services/video-production" element={<VideoProduction />} />
+    <Route path="/services/vfx" element={<VfxAndAds />} />
+    <Route path="/services/printing" element={<PrintMedia />} />
+
+    {/* Demo Page */}
+    <Route path="/services/brandingpage" element={<BrandingPage />} />
+    <Route path="/services/demo" element={<Demo />} />
+
+    {/* Optional: 404 fallback */}
+    <Route path="*" element={<Error />} />
   </Routes>
 );
 
