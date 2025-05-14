@@ -117,28 +117,35 @@ const VideoProductionPage = () => {
           <div className="row xlg-marg">
             <div className="col-md-6 text-left">
               <h2 className="sub-title-new main-color mb-20">
-                The Importance of Effective Branding Design
+                From Lens to Legacy Visuals That Resonate
               </h2>
 
               <div className="text">
                 <p className="mb-15 align-text">
-                  Effective branding design is key to building trust and
-                  recognition. It gives your business a unique identity that
-                  helps you stand out and stay memorable in a competitive
-                  market. From your logo to your website, consistent visuals
-                  create a professional and polished image.
+                  Our photography & video production services go far beyond the
+                  lens. We don’t just point and shoot — we tell your brand’s
+                  story frame by frame. Whether it’s bold product photography,
+                  cinematic brand videos, or crisp lifestyle visuals, we create
+                  content that stops the scroll, sparks curiosity, and drives
+                  action. Every image we capture is built to speak your message
+                  — loud, clear, and beautifully.
                 </p>
                 <p className="mb-15 align-text">
-                  More than just looks, great branding creates emotional
-                  connections. It makes your business feel relatable and
-                  reliable, encouraging customer loyalty and repeat visits. A
-                  well-designed brand doesn&apos;t just attract attention — it
-                  builds lasting relationships.
+                  From creative planning to final edit, we deliver full-scale
+                  visual production tailored for digital impact. Think
+                  scroll-stopping social media clips, polished promo videos,
+                  striking product shots, and branded storytelling — all crafted
+                  with pro-level lighting, styling, direction, and editing. If
+                  your brand needs to be seen and felt, we’re here to bring that
+                  vision to life — one unforgettable visual at a time.
                 </p>
               </div>
             </div>
             <div className="col-lg-6 video-page-section">
-              <img src="/assets/imgs/PhotographyVideo/08.png" alt="services images" />
+              <img
+                src="/assets/imgs/PhotographyVideo/08.png"
+                alt="services images"
+              />
             </div>
           </div>
         </div>
