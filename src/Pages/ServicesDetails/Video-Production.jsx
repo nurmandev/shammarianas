@@ -150,6 +150,54 @@ const VideoProductionPage = () => {
           </div>
         </div>
       </section>
+      <section className="intro-accord">
+        <div className="container ontop">
+          <div className="row xlg-marg">
+            <div className="col-lg-6">
+              <div className="services-images">
+                <img src="/assets/imgs/Asset_img.png" alt="services images" />
+              </div>
+            </div>
+            <div className="col-lg-6 valign">
+              <div>
+                <div className="sec-head mb-50 text-left">
+                  <h2 className="sub-title-new main-color mb-15">
+                    The Role of Branding Design in a Fast-Paced Digital World?
+                  </h2>
+                  <p className="mb-15 align-text">
+                    In today&apos;s fast-paced digital world, branding design is
+                    essential for businesses to stand out and build connections
+                    with their audience. At{" "}
+                    <span className="text-bold underline main-color">
+                      Sham Marianas
+                    </span>
+                    , we create unique branding designs that help define your
+                    identity, communicate your message clearly, and leave a
+                    lasting impression.
+                  </p>
+
+                  <p className="mb-15 align-text">
+                    Good branding isn&apos;t just about aesthetics; it&apos;s
+                    about consistency and trust. A cohesive design across all
+                    platforms builds loyalty and keeps your brand relevant. At{" "}
+                    <span className="text-bold underline main-color">
+                      Sham Marianas
+                    </span>
+                    , we ensure your brand evolves with the digital trends,
+                    keeping it fresh and engaging.
+                  </p>
+
+                  <p className="mb-15 align-text">
+                    In short, effective branding design is key to staying ahead
+                    in the competitive digital landscape, building relationships
+                    with customers, and driving success.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <div className="bord-bottom-grd pb-40 pt-40 ontop"></div>
       <FAQAccordion
         title="Frequently Asked Questions"
