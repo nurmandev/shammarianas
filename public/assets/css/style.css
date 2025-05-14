@@ -71,8 +71,8 @@ main {
 
 /* Only applies to BrandingContentSection inside this specific wrapper */
 .branding-page-section img {
-  width: 350px; /* Custom width */
-  height: 300px;
+  width: 500px; /* Custom width */
+  height: 200px;
   object-fit: contain;
 }
 
