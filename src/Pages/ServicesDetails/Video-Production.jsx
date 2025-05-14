@@ -106,7 +106,12 @@ const VideoProductionPage = () => {
         imageSrc="/assets/imgs/PhotographyVideo/8.png"
         imageAlt="Intro branding"
       />
-      <BrandingContentSection sectionOne={sectionOne} sectionTwo={sectionTwo} />
+      <div className="branding-page-section">
+        <BrandingContentSection
+          sectionOne={sectionOne}
+          sectionTwo={sectionTwo}
+        />
+      </div>
       <div className="bord-bottom-grd pb-40 pt-40 ontop"></div>
       <FAQAccordion
         title="Frequently Asked Questions"
@@ -114,7 +119,7 @@ const VideoProductionPage = () => {
         imageSrc="/assets/imgs/FAQ.png"
       />
       ;
-       <Marq2 />
+      <Marq2 />
     </>
   );
 };
