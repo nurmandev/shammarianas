@@ -106,7 +106,7 @@ const VideoProductionPage = () => {
         imageSrc="/assets/imgs/PhotographyVideo/8.png"
         imageAlt="Intro branding"
       />
-      <div className="branding-page-section">
+      <div className="video-page-section">
         <BrandingContentSection
           sectionOne={sectionOne}
           sectionTwo={sectionTwo}

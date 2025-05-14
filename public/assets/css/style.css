@@ -76,6 +76,12 @@ main {
   object-fit: contain;
 }
 
+.video-page-section img {
+  width: 350px; /* Custom width */
+  height: 500px;
+  /* object-fit: contain; */
+}
+
 
 .row > * {
   padding-left: 15px;
