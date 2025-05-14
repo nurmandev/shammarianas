@@ -7,15 +7,15 @@ import FAQAccordion from "../../Components/ServicesDetails/FAQAccordion";
 import Marq2 from "../../Components/marq2";
 
 const VideoProductionPage = () => {
-  const sectionOne = {
-    title: "From Lens to Legacy Visuals That Resonate",
-    paragraphs: [
-      "Our photography & video production services go far beyond the lens. We don’t just point and shoot — we tell your brand’s story frame by frame. Whether it’s bold product photography, cinematic brand videos, or crisp lifestyle visuals, we create content that stops the scroll, sparks curiosity, and drives action. Every image we capture is built to speak your message — loud, clear, and beautifully.",
+  // const sectionOne = {
+  //   title: "From Lens to Legacy Visuals That Resonate",
+  //   paragraphs: [
+  //     "Our photography & video production services go far beyond the lens. We don’t just point and shoot — we tell your brand’s story frame by frame. Whether it’s bold product photography, cinematic brand videos, or crisp lifestyle visuals, we create content that stops the scroll, sparks curiosity, and drives action. Every image we capture is built to speak your message — loud, clear, and beautifully.",
 
-      "From creative planning to final edit, we deliver full-scale visual production tailored for digital impact. Think scroll-stopping social media clips, polished promo videos, striking product shots, and branded storytelling — all crafted with pro-level lighting, styling, direction, and editing. If your brand needs to be seen and felt, we’re here to bring that vision to life — one unforgettable visual at a time.",
-    ],
-    image: "/assets/imgs/PhotographyVideo/08.png",
-  };
+  //     "From creative planning to final edit, we deliver full-scale visual production tailored for digital impact. Think scroll-stopping social media clips, polished promo videos, striking product shots, and branded storytelling — all crafted with pro-level lighting, styling, direction, and editing. If your brand needs to be seen and felt, we’re here to bring that vision to life — one unforgettable visual at a time.",
+  //   ],
+  //   image: "/assets/imgs/PhotographyVideo/08.png",
+  // };
 
   const sectionTwo = {
     title:
@@ -106,12 +106,45 @@ const VideoProductionPage = () => {
         imageSrc="/assets/imgs/PhotographyVideo/8.png"
         imageAlt="Intro branding"
       />
-      <div className="video-page-section">
+      {/* <div className="video-page-section">
         <BrandingContentSection
           sectionOne={sectionOne}
           sectionTwo={sectionTwo}
         />
-      </div>
+      </div> */}
+      <section className="container section-padding">
+        <div className="container ontop">
+          <div className="row xlg-marg">
+            <div className="col-md-6 text-left">
+              <h2 className="sub-title-new main-color mb-20">
+                The Importance of Effective Branding Design
+              </h2>
+
+              <div className="text">
+                <p className="mb-15 align-text">
+                  Effective branding design is key to building trust and
+                  recognition. It gives your business a unique identity that
+                  helps you stand out and stay memorable in a competitive
+                  market. From your logo to your website, consistent visuals
+                  create a professional and polished image.
+                </p>
+                <p className="mb-15 align-text">
+                  More than just looks, great branding creates emotional
+                  connections. It makes your business feel relatable and
+                  reliable, encouraging customer loyalty and repeat visits. A
+                  well-designed brand doesn&apos;t just attract attention — it
+                  builds lasting relationships.
+                </p>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="services-images">
+                <img src="/assets/imgs/Asset_img.png" alt="services images" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <div className="bord-bottom-grd pb-40 pt-40 ontop"></div>
       <FAQAccordion
         title="Frequently Asked Questions"
