@@ -155,42 +155,36 @@ const VideoProductionPage = () => {
           <div className="row xlg-marg">
             <div className="col-lg-6">
               <div className="services-images">
-                <img src="/assets/imgs/Asset_img.png" alt="services images" />
+                <img src="/assets/imgs/PhotographyVideo/008.png" alt="services images" />
               </div>
             </div>
             <div className="col-lg-6 valign">
               <div>
                 <div className="sec-head mb-50 text-left">
                   <h2 className="sub-title-new main-color mb-15">
-                    The Role of Branding Design in a Fast-Paced Digital World?
+                    Framing Brands with Purpose — Photography & Video Production
+                    That Converts
                   </h2>
                   <p className="mb-15 align-text">
-                    In today&apos;s fast-paced digital world, branding design is
-                    essential for businesses to stand out and build connections
-                    with their audience. At{" "}
+                    At{" "}
                     <span className="text-bold underline main-color">
                       Sham Marianas
                     </span>
-                    , we create unique branding designs that help define your
-                    identity, communicate your message clearly, and leave a
-                    lasting impression.
+                    , it’s more than just visuals — it’s about crafting
+                    high-impact photo and video content that tells your story,
+                    connects with your audience, and fuels business growth. Our
+                    photography & video production services are built to elevate
+                    your brand through clear, compelling, and conversion-driven
+                    visuals.
                   </p>
 
                   <p className="mb-15 align-text">
-                    Good branding isn&apos;t just about aesthetics; it&apos;s
-                    about consistency and trust. A cohesive design across all
-                    platforms builds loyalty and keeps your brand relevant. At{" "}
-                    <span className="text-bold underline main-color">
-                      Sham Marianas
-                    </span>
-                    , we ensure your brand evolves with the digital trends,
-                    keeping it fresh and engaging.
-                  </p>
-
-                  <p className="mb-15 align-text">
-                    In short, effective branding design is key to staying ahead
-                    in the competitive digital landscape, building relationships
-                    with customers, and driving success.
+                    Whether it’s fashion campaigns, product photography,
+                    behind-the-scenes content, or cinematic brand videos, we
+                    align each frame with your vision and marketing goals. From
+                    creative direction to post-production, we deliver polished,
+                    platform-ready content that not only looks stunning but also
+                    drives real engagement and results.
                   </p>
                 </div>
               </div>
