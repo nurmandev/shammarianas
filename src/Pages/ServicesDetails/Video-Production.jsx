@@ -138,7 +138,7 @@ const VideoProductionPage = () => {
               </div>
             </div>
             <div className="col-lg-6 video-page-section">
-              <img src="/assets/imgs/Asset_img.png" alt="services images" />
+              <img src="/assets/imgs/PhotographyVideo/08.png" alt="services images" />
             </div>
           </div>
         </div>
