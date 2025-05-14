@@ -153,7 +153,7 @@ const VideoProductionPage = () => {
       <section className="intro-accord">
         <div className="container ontop">
           <div className="row xlg-marg">
-            <div className="col-lg-6 video-page-section">
+            <div className="col-lg-6 video-page-section-two">
               <img
                 src="/assets/imgs/PhotographyVideo/008.png"
                 alt="services images"
