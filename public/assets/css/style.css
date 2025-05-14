@@ -79,12 +79,12 @@ main {
 .video-page-section img {
   width: 550px; /* Custom width */
   height: 400px;
-  /* object-fit: contain; */
+  object-fit: contain;
 }
 .video-page-section-two img {
   width: 300px; /* Custom width */
   height: 400px;
-  /* object-fit: contain; */
+  object-fit: contain;
 }
 
 
