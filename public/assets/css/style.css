@@ -89,7 +89,7 @@ main {
 .videoImage-section-two {
   width: 400px; /* Custom width */
   height: 500px;
-  margin: 12rem;
+  margin: 10rem;
   object-fit: contain;
 }
 
