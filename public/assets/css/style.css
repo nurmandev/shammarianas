@@ -86,6 +86,12 @@ main {
   height: 400px;
   object-fit: contain;
 }
+.videoImage-section-two {
+  width: 300px; /* Custom width */
+  height: 400px;
+  margin: 2rem;
+  object-fit: contain;
+}
 
 
 .row > * {

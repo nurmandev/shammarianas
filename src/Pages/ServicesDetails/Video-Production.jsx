@@ -156,7 +156,7 @@ const VideoProductionPage = () => {
             <div className="col-lg-6 video-page-section-two">
               <img
                 src="/assets/imgs/PhotographyVideo/008.png"
-                alt="services images"
+                alt="services images" className="videoImage-section-two"
               />
             </div>
             <div className="col-lg-6 valign">
