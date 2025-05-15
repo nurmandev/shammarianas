@@ -87,8 +87,8 @@ main {
   object-fit: contain;
 }
 .videoImage-section-two {
-  width: 300px; /* Custom width */
-  height: 400px;
+  width: 400px; /* Custom width */
+  height: 500px;
   margin: 12rem;
   object-fit: contain;
 }
