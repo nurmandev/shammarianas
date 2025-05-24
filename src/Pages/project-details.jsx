@@ -11,6 +11,7 @@ import Challenge from "../Components/portfolio-details/Challenge";
 import Header from "../Components/portfolio-details/Header";
 import { db } from "../../firebase";
 import { getDoc, doc } from "firebase/firestore";
+import LoadingScreen from "../common/loader";
 export default function ProjectDetails() {
   const { id } = useParams();
   const [project, setProjects] = useState([]);
@@ -39,15 +40,22 @@ export default function ProjectDetails() {
   if (loading) return <p>Loading...</p>;
   if (!project) return <p>Portfolio not found</p>;
 
+  console.log("project", project, id);
   return (
     <>
       <body>
+        {/* <LoadingScreen /> */}
         <Cursor />
         <ProgressScroll />
         {/* <Header /> */}
+
         <header
           className=" header-project bg-img d-flex align-items-end"
-          style={{ backgroundImage: `url(${project.imageUrl})` }}
+          data-background={
+            project.imageUrls?.length > 0
+              ? project.imageUrls[0]
+              : project.imageUrl
+          }
           data-overlay-dark="9"
         >
           <div className="container">
@@ -61,7 +69,7 @@ export default function ProjectDetails() {
           </div>
         </header>
 
-        <h1>{project.description}</h1>
+        {/* <h1>{project.description}</h1> */}
 
         <section className="section-padding">
           <div className="container">
@@ -85,35 +93,13 @@ export default function ProjectDetails() {
                 </div>
               </div>
             </div>
-            {/* <div className="row justify-content-center">
+            <div className="row justify-content-center">
               <div className="col-lg-11">
-                <div className="row">
-                  <div className="col-lg-5">
-                    <h4 className="mb-50">01 . The Challenge</h4>
-                  </div>
-                  <div className="col-lg-7">
-                    <div className="text">
-                      <h5 className="mb-30 fw-400 line-height-40">
-                        The goal is there are many variations of passages of
-                        Lorem Ipsum available, but the majority have suffered
-                        alteration in some form, by injected humour, or
-                        randomised words which don&lsquo;t look even slightly
-                        believable.
-                      </h5>
-                      <p className="fz-18">
-                        There are many variations of passages of Lorem Ipsum
-                        available, but the majority have suffered alteration in
-                        some form, by injected humour, or randomised words which
-                        don&lsquo;t look even slightly believable. If you are
-                        going to use a passage of Lorem Ipsum, you need to be
-                        sure there isn&lsquo;t anything embarrassing hidden in
-                        the middle of text.
-                      </p>
-                    </div>
-                  </div>
+                <div className="">
+                  <div className="text">{project.description}</div>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </section>
         {/* <Challenge /> */}
