@@ -304,7 +304,6 @@ function Blogs() {
       </section>
 
       <Marq2 />
-      <Footer />
     </div>
   );
 }
