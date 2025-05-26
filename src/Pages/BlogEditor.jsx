@@ -144,20 +144,147 @@ function BlogEditorModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-xl font-semibold text-gray-800">
-              Create a New Blog Post
-            </h1>
+    <div className="blog-modal-overlay">
+      <style>{`
+        .blog-modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 50;
+          padding: 1rem;
+        }
+        .blog-modal-container {
+          background: #fff;
+          border-radius: 1.25rem;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+          width: 100%;
+          max-width: 900px;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+        .blog-modal-content {
+          padding: 1.5rem;
+        }
+        .blog-modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+        }
+        .blog-modal-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #2d3748;
+        }
+        .blog-modal-close {
+          background: none;
+          border: none;
+          color: #6b7280;
+          cursor: pointer;
+          transition: color 0.2s;
+        }
+        .blog-modal-close:hover {
+          color: #374151;
+        }
+        .blog-form-group {
+          margin-bottom: 1.5rem;
+        }
+        .blog-form-label {
+          display: block;
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 0.5rem;
+        }
+        .blog-form-required {
+          color: #e53e3e;
+        }
+        .blog-form-input,
+        .blog-form-select,
+        .blog-form-textarea {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          font-size: 1rem;
+          outline: none;
+          transition: border 0.2s, box-shadow 0.2s;
+        }
+        .blog-form-input:focus,
+        .blog-form-select:focus,
+        .blog-form-textarea:focus {
+          border-color: #2563eb;
+          box-shadow: 0 0 0 2px #bfdbfe;
+        }
+        .blog-form-file {
+          width: 100%;
+          font-size: 0.95rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: #f9fafb;
+        }
+        .blog-form-hint {
+          font-size: 0.9rem;
+          color: #e53e3e;
+          margin-top: 0.25rem;
+        }
+        .blog-form-buttons {
+          display: flex;
+          justify-content: flex-end;
+          gap: 1rem;
+          padding-top: 1rem;
+        }
+        .blog-btn {
+          padding: 0.5rem 1.25rem;
+          border-radius: 0.5rem;
+          border: none;
+          font-size: 1rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background 0.2s, color 0.2s, opacity 0.2s;
+        }
+        .blog-btn-cancel {
+          background: #e5e7eb;
+          color: #374151;
+        }
+        .blog-btn-cancel:hover {
+          background: #d1d5db;
+        }
+        .blog-btn-submit {
+          background: #2563eb;
+          color: #fff;
+        }
+        .blog-btn-submit:hover {
+          background: #1d4ed8;
+        }
+        .blog-btn-submit:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+        .blog-quill-editor {
+          min-height: 24rem;
+          background: #fff;
+          border-radius: 0.5rem;
+          border: 1px solid #d1d5db;
+          margin-bottom: 0.5rem;
+        }
+      `}</style>
+      <div className="blog-modal-container">
+        <div className="blog-modal-content">
+          <div className="blog-modal-header">
+            <h1 className="blog-modal-title">Create a New Blog Post</h1>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
+              className="blog-modal-close"
+              aria-label="Close"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                style={{ height: 24, width: 24 }}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -172,11 +299,11 @@ function BlogEditorModal({ isOpen, onClose }) {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit}>
             {/* Title */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Title <span className="text-red-500">*</span>
+            <div className="blog-form-group">
+              <label className="blog-form-label">
+                Title <span className="blog-form-required">*</span>
               </label>
               <input
                 type="text"
@@ -184,30 +311,28 @@ function BlogEditorModal({ isOpen, onClose }) {
                 value={blogData.title}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="blog-form-input"
                 placeholder="Enter blog title"
               />
             </div>
 
             {/* Excerpt */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Excerpt (Optional)
-              </label>
+            <div className="blog-form-group">
+              <label className="blog-form-label">Excerpt (Optional)</label>
               <textarea
                 name="excerpt"
                 value={blogData.excerpt}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="blog-form-textarea"
                 placeholder="Short description for preview"
                 rows="3"
               />
             </div>
 
             {/* Featured Image */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Featured Image <span className="text-red-500">*</span>
+            <div className="blog-form-group">
+              <label className="blog-form-label">
+                Featured Image <span className="blog-form-required">*</span>
               </label>
               <input
                 type="file"
@@ -215,24 +340,24 @@ function BlogEditorModal({ isOpen, onClose }) {
                 onChange={handleImageChange}
                 accept="image/*"
                 required
-                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+                className="blog-form-file"
               />
-              <p className="text-sm text-red-600 mt-1">
+              <p className="blog-form-hint">
                 * Only images below 1.25MB can be uploaded.
               </p>
             </div>
 
             {/* Category */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Category <span className="text-red-500">*</span>
+            <div className="blog-form-group">
+              <label className="blog-form-label">
+                Category <span className="blog-form-required">*</span>
               </label>
               <select
                 name="category"
                 value={blogData.category}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="blog-form-select"
               >
                 <option value="business">Business</option>
                 <option value="technology">Technology</option>
@@ -243,16 +368,16 @@ function BlogEditorModal({ isOpen, onClose }) {
             </div>
 
             {/* Status */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Status <span className="text-red-500">*</span>
+            <div className="blog-form-group">
+              <label className="blog-form-label">
+                Status <span className="blog-form-required">*</span>
               </label>
               <select
                 name="status"
                 value={blogData.status}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="blog-form-select"
               >
                 <option value="DRAFT">Draft</option>
                 <option value="PUBLISHED">Published</option>
@@ -261,9 +386,9 @@ function BlogEditorModal({ isOpen, onClose }) {
             </div>
 
             {/* Content */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Content <span className="text-red-500">*</span>
+            <div className="blog-form-group">
+              <label className="blog-form-label">
+                Content <span className="blog-form-required">*</span>
               </label>
               <div
                 value={blogData.content}
@@ -273,24 +398,24 @@ function BlogEditorModal({ isOpen, onClose }) {
                 modules={modules}
                 ref={quillRef}
                 formats={formats}
-                className="h-96 bg-white"
+                className="blog-quill-editor"
                 theme="snow"
               />
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-end gap-4 pt-4">
+            <div className="blog-form-buttons">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+                className="blog-btn blog-btn-cancel"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="blog-btn blog-btn-submit"
               >
                 {isSubmitting ? "Publishing..." : "Publish Blog"}
               </button>

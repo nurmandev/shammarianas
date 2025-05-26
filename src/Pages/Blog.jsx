@@ -74,10 +74,21 @@ function Blogs() {
         </div>
       </header>
 
-      <div>
+      <div style={{ margin: "30px 0", textAlign: "center" }}>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          style={{
+            padding: "10px 24px",
+            background: "#2563eb",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontSize: "1rem",
+            cursor: "pointer",
+            transition: "background 0.2s",
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.background = "#1d4ed8")}
+          onMouseOut={(e) => (e.currentTarget.style.background = "#2563eb")}
         >
           Create New Blog Post
         </button>
@@ -156,7 +167,7 @@ function Blogs() {
               </div>
             </div>
             <div className="col-lg-4">
-              <div className="sidebar" style={{width: "100%"}}>
+              <div className="sidebar" style={{ width: "100%" }}>
                 <div className="widget mb-4">
                   <h6 className="title-widget">Search Here</h6>
                   <div className="search-box">
@@ -342,7 +353,7 @@ export default Blogs;
 //     };
 
 //     fetchBlogs();
-//     loadBackgroudImages();
+//     lo</div>adBackgroudImages();
 //   }, []);
 
 //   const handleDelete = async (id) => {

@@ -51,15 +51,20 @@ function Blogs() {
 
   return (
     <>
-      <header className="header blog-header section-padding pb-0">
-        <div className="container mt-80">
+      <div className="header blog-header section-padding">
+        <div className="container mt-30">
           <div className="row justify-content-center">
             <div className="col-lg-11">
               <div className="caption">
-                <div className="sub-title fz-12">
-                  <h1>{blog.category}</h1>
+                <div className="sub-title fz-12 text-left">
+                  <div>{blog.category}</div>
                 </div>
-                <h1 className="fz-55 mt-30">{blog.title}</h1>
+                <h1
+                  className="fz-55 mt-30 text-left"
+                  style={{ maxWidth: "70%" }}
+                >
+                  {blog.title}
+                </h1>
               </div>
               <div className="info d-flex mt-40 align-items-center">
                 <div className="left-info">
@@ -79,7 +84,7 @@ function Blogs() {
                         </a>
                       </div>
                     </div> */}
-                    <div className="date ml-50">
+                    <div className="date ">
                       <a href="#0">
                         <span className="opacity-7">Published</span>
                         <h6 className="fz-16">
@@ -103,46 +108,31 @@ function Blogs() {
             </div>
           </div>
         </div>
-        <div
-          className="background bg-img mt-80"
-          data-background="/assets/imgs/blog/b1.jpg"
-        ></div>
-      </header>
+      </div>
+      {blog.imageUrl && (
+        <div className="mb-6">
+          <img
+            src={blog.imageUrl}
+            alt={blog.title}
+            className="w-full rounded-xl object-cover max-h-[500px]"
+          />
+        </div>
+      )}
+
       {/* Body Blog Details Section*/}
 
-      <section className="blog-main section-padding">
+      <section className="blog section-padding">
         <div className="container">
-          <div className="row lg-marg justify-content-around">
-            <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
-              <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md">
-                <h1 className="text-3xl font-bold text-gray-800 mb-4">
-                  {blog.title}
-                </h1>
-
-                <div className="flex flex-wrap items-center justify-between mb-6 text-sm text-gray-500">
-                  <span>
-                    {new Date(blog.createdAt?.toDate()).toLocaleDateString()}
-                  </span>
-                  <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium uppercase">
-                    {blog.category}
-                  </span>
-                </div>
-
-                {blog.imageUrl && (
-                  <div className="mb-6">
-                    <img
-                      src={blog.imageUrl}
-                      alt={blog.title}
-                      className="w-full rounded-xl object-cover max-h-[500px]"
-                    />
-                  </div>
-                )}
-
-                <div
-                  className="prose prose-blue max-w-none"
-                  dangerouslySetInnerHTML={{ __html: blog.content }}
-                />
-              </article>
+          <div className="row xlg-marg">
+            <div className="col-lg-8">
+              <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
+                <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md">
+                  <div
+                    className="prose prose-blue max-w-none"
+                    dangerouslySetInnerHTML={{ __html: blog.content }}
+                  />
+                </article>
+              </div>
             </div>
 
             <div className="col-lg-4">
