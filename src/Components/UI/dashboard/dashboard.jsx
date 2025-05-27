@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   doc,
-//   getDoc,
+  getDoc,
   getDocs,
   collection,
   updateDoc,
+  setDoc,
+  deleteDoc,
   orderBy,
   query,
 } from "firebase/firestore";
@@ -32,31 +34,8 @@ const AdminDashboard = () => {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
-  
-    useEffect(() => {
-      const fetchCurrentUserRole = async () => {
-        try {
-          const currentUser = auth.currentUser;
-          if (!currentUser) {
-            navigate("/login");
-            return;
-          }
-          
-          const userDoc = await getDoc(doc(db, "Profiles", currentUser.uid));
-          if (!userDoc.exists() || userDoc.data().role !== "admin") {
-            navigate("/unauthorized");
-            return;
-          }
-          
-          fetchUsers();
-          fetchSupportMessages();
-        } catch (error) {
-          console.error("Error checking user role:", error);
-          setError("Failed to verify admin privileges");
-        }
-      };
-  
-      const fetchUsers = async () => {
+
+          const fetchUsers = async () => {
         setLoading(true);
         try {
           const querySnapshot = await getDocs(collection(db, "Profiles"));
@@ -91,10 +70,45 @@ const AdminDashboard = () => {
         }
       };
   
-      fetchCurrentUserRole();
-    }, [navigate]);
-  
-    const handleRoleChange = async (userId, newRole) => {
+ useEffect(() => {
+  const fetchCurrentUserRole = async () => {
+    try {
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        navigate("/login");
+        return;
+      }
+
+      const email = currentUser.email?.toLowerCase();
+
+      const isDevAdmin = process.env.NODE_ENV === "development" &&
+        process.env.REACT_APP_DEV_ADMIN_EMAILS?.split(",").map(e => e.trim().toLowerCase()).includes(email);
+
+      if (isDevAdmin) {
+        fetchUsers();
+        fetchSupportMessages();
+        return;
+      }
+
+      const adminDoc = await getDoc(doc(db, "adminUsers", email));
+      if (!adminDoc.exists()) {
+        navigate("/unauthorized");
+        return;
+      }
+
+      fetchUsers();
+      fetchSupportMessages();
+    } catch (error) {
+      console.error("Error checking admin status:", error);
+      setError("Failed to verify admin privileges");
+    }
+  };
+
+  fetchCurrentUserRole();
+}, [navigate]);
+
+
+        const handleRoleChange = async (userId, newRole) => {
       if (window.confirm("Are you sure you want to change this user's role?")) {
         try {
           await updateDoc(doc(db, "Profiles", userId), { role: newRole });
@@ -104,6 +118,25 @@ const AdminDashboard = () => {
         } catch (error) {
           console.error("Error updating role:", error);
           setError("Failed to update user role");
+        }
+      }
+    };
+
+        const handleBulkRoleChange = async (newRole) => {
+      if (selectedUsers.length === 0) return;
+      
+      if (window.confirm(`Change role of ${selectedUsers.length} user(s) to ${newRole}?`)) {
+        try {
+          await Promise.all(selectedUsers.map(userId => 
+            updateDoc(doc(db, "Profiles", userId), { role: newRole })
+          ));
+          setUsers(users.map(user => 
+            selectedUsers.includes(user.id) ? { ...user, role: newRole } : user
+          ));
+          setSelectedUsers([]);
+        } catch (error) {
+          console.error("Error updating roles:", error);
+          setError("Failed to update user roles");
         }
       }
     };
@@ -122,24 +155,6 @@ const AdminDashboard = () => {
       }
     };
   
-    const handleBulkRoleChange = async (newRole) => {
-      if (selectedUsers.length === 0) return;
-      
-      if (window.confirm(`Change role of ${selectedUsers.length} user(s) to ${newRole}?`)) {
-        try {
-          await Promise.all(selectedUsers.map(userId => 
-            updateDoc(doc(db, "Profiles", userId), { role: newRole })
-          ));
-          setUsers(users.map(user => 
-            selectedUsers.includes(user.id) ? { ...user, role: newRole } : user
-          ));
-          setSelectedUsers([]);
-        } catch (error) {
-          console.error("Error updating roles:", error);
-          setError("Failed to update user roles");
-        }
-      }
-    };
     
     const handleBulkStatusChange = async (newStatus) => {
       if (selectedMessages.length === 0) return;
@@ -253,6 +268,13 @@ const AdminDashboard = () => {
               <FiFileText className="menu-icon" />
               <span>Blog</span>
             </li>
+            <li 
+              className={`menu-item ${activeTab === 5 ? "active" : ""}`} 
+              onClick={() => setActiveTab(5)}
+            >
+              <FiUsers className="menu-icon" />
+              <span>Admin manager</span>
+            </li>
           </ul>
         </div>
   
@@ -263,6 +285,7 @@ const AdminDashboard = () => {
               {activeTab === 2 && "Support Messages"}
               {activeTab === 3 && "File Uploads"}
               {activeTab === 4 && "Blog Editor"}
+              {activeTab === 5 && "Admin Manager"}
             </h1>
             <div className="search-bar">
               <FiSearch className="search-icon" />
@@ -395,6 +418,11 @@ const AdminDashboard = () => {
                   onClose={() => setIsModalOpen(false)}
                 />
               )}
+              {
+                activeTab === 5 && (
+                  <AdminManager />
+                )
+              }
             </div>
   
             <div className="card-footer">
@@ -684,5 +712,102 @@ const AdminDashboard = () => {
       </div>
     );
   };
+
+const AdminManager = () => {
+  const [admins, setAdmins] = useState([]);
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [logMessage, setLogMessage] = useState("");
+  const [logType, setLogType] = useState("info"); // "success", "error", "info"
+
+  const currentUser = auth.currentUser;
+
+  useEffect(() => {
+    const fetchAdmins = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "adminUsers"));
+        setAdmins(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } catch (error) {
+        setLogMessage("Failed to fetch admin list.");
+        setLogType("error");
+      }
+    };
+    fetchAdmins();
+  }, []);
+
+  const addAdmin = async () => {
+    const email = newAdminEmail.trim().toLowerCase();
+    if (!email) {
+      setLogMessage("Email cannot be empty.");
+      setLogType("error");
+      return;
+    }
+
+    try {
+      await setDoc(doc(db, "adminUsers", email), {
+        addedBy: currentUser?.email || "unknown",
+        createdAt: new Date(),
+      });
+      setAdmins([...admins, { id: email }]);
+      setNewAdminEmail("");
+      setLogMessage(`Admin ${email} added successfully.`);
+      setLogType("success");
+    } catch (err) {
+      console.error("Failed to add admin", err);
+      setLogMessage(`Failed to add admin: ${email}`);
+      setLogType("error");
+    }
+  };
+
+  const removeAdmin = async (email) => {
+    if (!window.confirm(`Remove admin: ${email}?`)) return;
+
+    try {
+      await deleteDoc(doc(db, "adminUsers", email));
+      setAdmins(admins.filter(a => a.id !== email));
+      setLogMessage(`Admin ${email} removed successfully.`);
+      setLogType("success");
+    } catch (err) {
+      console.error("Failed to remove admin", err);
+      setLogMessage(`Failed to remove admin: ${email}`);
+      setLogType("error");
+    }
+  };
+
+  return (
+    <div className="admin-manager">
+      <h3>Admin Manager</h3>
+
+      <input
+        placeholder="Enter admin email"
+        value={newAdminEmail}
+        onChange={(e) => setNewAdminEmail(e.target.value)}
+      />
+      <button onClick={addAdmin}>Add Admin</button>
+
+      {logMessage && (
+        <div
+          style={{
+            marginTop: "10px",
+            color: logType === "success" ? "green" : logType === "error" ? "red" : "black",
+          }}
+        >
+          {logMessage}
+        </div>
+      )}
+
+      <ul style={{ marginTop: "20px" }}>
+        {admins.map((admin) => (
+          <li key={admin.id}>
+            {admin.id}
+            <button style={{ marginLeft: "10px" }} onClick={() => removeAdmin(admin.id)}>
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 
 export default AdminDashboard;
