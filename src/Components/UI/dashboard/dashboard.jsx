@@ -14,34 +14,14 @@ import {
 } from "firebase/firestore";
 import Upload from "../../../Pages/Upload";
 import BlogEditorModal from "../../../Pages/BlogEditor";
-import {
-  FiUsers,
-  FiMail,
-  FiUpload,
-  FiFileText,
-  FiSearch,
-  FiChevronDown,
-  FiChevronUp,
-  FiCheck,
-  FiX,
-} from "react-icons/fi";
-import "./style.css";
+import { FiUsers, FiMail, FiUpload, FiFileText, FiSearch, FiChevronDown, FiChevronUp, FiCheck, FiX } from "react-icons/fi";
+import './style.css'
 import { serverTimestamp } from "firebase/firestore"; // Make sure to import
 
 const UnauthorizedAccess = ({ error }) => {
   console.log("UnauthorizedAccess component rendered with error:", error);
   return (
-    <div
-      className="unauthorized-access"
-      style={{
-        padding: "20px",
-        textAlign: "center",
-        color: "red",
-        backgroundColor: "#ffe6e6",
-        borderRadius: "8px",
-        margin: "20px",
-      }}
-    >
+    <div className="unauthorized-access" style={{ padding: '20px', textAlign: 'center', color: 'red', backgroundColor: '#ffe6e6', borderRadius: '8px', margin: '20px' }}>
       <h3>Access Denied</h3>
       <p>{error || "You do not have permission to access this page."}</p>
     </div>
@@ -62,82 +42,25 @@ const AdminDashboard = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [sortConfig, setSortConfig] = useState({
-    key: null,
-    direction: "ascending",
-  });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedProfileId, setSelectedProfileId] = useState(null);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if the current user is an admin
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-      if (!currentUser) {
-        setError("Please log in to access the admin dashboard");
-        return;
-      }
-
-      try {
-        const email = currentUser.email?.toLowerCase();
-        if (!email) {
-          setError("User email not available");
-          return;
-        }
-
-        const devAdminEmails = process.env.REACT_APP_DEV_ADMIN_EMAILS
-          ? process.env.REACT_APP_DEV_ADMIN_EMAILS.split(",").map((e) =>
-              e.trim().toLowerCase()
-            )
-          : [];
-        const isDevAdmin =
-          process.env.NODE_ENV === "development" &&
-          devAdminEmails.includes(email);
-
-        if (isDevAdmin || (await checkAdminStatus(email, setError))) {
-          setIsAdmin(true);
-          await Promise.all([
-            fetchUsers(),
-            fetchSupportMessages(currentUser.uid),
-          ]);
-          setSelectedProfileId(currentUser.uid);
-        } else {
-          setError("You do not have admin privileges");
-        }
-      } catch (error) {
-        console.error("Error in auth state change:", error, {
-          code: error.code,
-          message: error.message,
-        });
-        setError(`Failed to verify admin privileges: ${error.message}`);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []); // Add dependencies if they rely on external state
-
-  const checkAdminStatus = async (email, setError) => {
+  const checkAdminStatus = async (email) => {
+    console.log({email})
     if (!email) return false;
-    const superAdminEmails = process.env.REACT_APP_SUPER_ADMIN_EMAILS
-      ? process.env.REACT_APP_SUPER_ADMIN_EMAILS.split(",").map((e) =>
-          e.trim().toLowerCase()
-        )
-      : [];
-    if (superAdminEmails.includes(email)) return true;
-
+    const lowerEmail = email.toLowerCase();
+    if (lowerEmail === "shammarianas@gmail.com") return true;
     try {
-      const adminDoc = await getDoc(doc(db, "adminUsers", email));
+      const adminDoc = await getDoc(doc(db, "adminUsers", lowerEmail));
       return adminDoc.exists();
     } catch (error) {
-      console.error("Error checking admin status for email:", email, error, {
-        code: error.code,
-        message: error.message,
-      });
+      console.error("Error checking admin status for email:", lowerEmail, error, { code: error.code, message: error.message });
       if (error.code === "permission-denied") {
-        console.warn(
-          "Permission denied for adminUsers read. Check Firestore rules."
-        );
+        // Non-existent adminUsers collection or document; treat as non-admin
         return false;
       }
       setError(`Failed to verify admin privileges: ${error.message}`);
@@ -155,10 +78,7 @@ const AdminDashboard = () => {
       }));
       setUsers(userList);
     } catch (error) {
-      console.error("Error fetching users:", error, {
-        code: error.code,
-        message: error.message,
-      });
+      console.error("Error fetching users:", error, { code: error.code, message: error.message });
       setError(`Failed to load users: ${error.message}`);
     } finally {
       setLoading(false);
@@ -185,17 +105,49 @@ const AdminDashboard = () => {
       }));
       setSupportMessages(messages);
     } catch (error) {
-      console.error(
-        "Error fetching support messages for profileId:",
-        profileId,
-        error,
-        { code: error.code, message: error.message }
-      );
+      console.error("Error fetching support messages for profileId:", profileId, error, { code: error.code, message: error.message });
       setError(`Failed to load support messages: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      if (!currentUser) {
+        setError("Please log in to access the admin dashboard");
+        return;
+      }
+
+      try {
+        const email = currentUser.email?.toLowerCase();
+        if (!email) {
+          setError("User email not available");
+          return;
+        }
+
+        const isDevAdmin =
+          process.env.NODE_ENV === "development" &&
+          process.env.REACT_APP_DEV_ADMIN_EMAILS?.split(",")
+            .map((e) => e.trim().toLowerCase())
+            .includes(email);
+
+        if (isDevAdmin || (await checkAdminStatus(email))) {
+          setIsAdmin(true);
+          fetchUsers();
+          setSelectedProfileId(currentUser.uid);
+          fetchSupportMessages(currentUser.uid);
+        } else {
+          setError("You do not have admin privileges");
+        }
+      } catch (error) {
+        console.error("Error in auth state change:", error, { code: error.code, message: error.message });
+        setError(`Failed to verify admin privileges: ${error.message}`);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   // const handleRoleChange = async (userId, newRole) => {
   //   if (!isAdmin) {
@@ -216,141 +168,53 @@ const AdminDashboard = () => {
   // };
 
   const handleRoleChange = async (userId, newRole, userEmail) => {
-    console.log("handleRoleChange called with userEmail:", userEmail);
-    if (!isAdmin) {
-      setError("Only admins can change user roles");
-      return;
-    }
+  if (!isAdmin) {
+    setError("Only admins can change user roles");
+    return;
+  }
 
-    if (
-      window.confirm(
-        `XX Are you sure you want to change this user's role to ${newRole}?`
-      )
-    ) {
-      try {
-        const lowerCaseEmail = userEmail.toLowerCase();
-        // Always update the role field in their profile
-        await updateDoc(doc(db, "Profiles", userId), { role: newRole });
+  if (window.confirm("Are you sure you want to change this user's role?")) {
+    try {
+      // Update role in Profiles
+      await updateDoc(doc(db, "Profiles", userId), { role: newRole });
 
-        if (newRole === "admin") {
-          // Promote to admin: Add to adminUsers collection
-          await setDoc(doc(db, "adminUsers", lowerCaseEmail), {
-            createdAt: serverTimestamp(),
-            promotedBy: auth.currentUser.email, // Good to track who did it
-          });
-        } else {
-          // Demote from admin: Remove from adminUsers collection
-          await deleteDoc(doc(db, "adminUsers", lowerCaseEmail));
-        }
-
-        // Update local state...
-        setUsers(
-          users.map((user) =>
-            user.id === userId ? { ...user, role: newRole } : user
-          )
-        );
-      } catch (error) {
-        console.error("Error updating role:", error);
-        setError(`Failed to update role: ${error.message}`);
+      // If promoting to admin, add to adminUsers
+      if (newRole === "admin") {
+        await setDoc(doc(db, "adminUsers", userEmail.toLowerCase()), {
+          createdAt: serverTimestamp(),
+        });
       }
-    }
-  };
 
-  // const handleBulkRoleChange = async (newRole) => {
-  //   if (!isAdmin) {
-  //     setError("Only admins can perform bulk role changes");
-  //     return;
-  //   }
-  //   if (selectedUsers.length === 0) return;
-  //   if (window.confirm(`Change role of ${selectedUsers.length} user(s) to ${newRole}?`)) {
-  //     try {
-  //       await Promise.all(
-  //         selectedUsers.map((userId) =>
-  //           updateDoc(doc(db, "Profiles", userId), { role: newRole })
-  //         )
-  //       );
-  //       setUsers(users.map((user) =>
-  //         selectedUsers.includes(user.id) ? { ...user, role: newRole } : user
-  //       ));
-  //       setSelectedUsers([]);
-  //     } catch (error) {
-  //       console.error("Error updating bulk user roles:", error, { code: error.code, message: error.message });
-  //       setError(`Failed to update user roles: ${error.message}`);
-  //     }
-  //   }
-  // };
+      // Update local state
+      setUsers(users.map((user) =>
+        user.id === userId ? { ...user, role: newRole } : user
+      ));
+    } catch (error) {
+      console.error("Error updating role:", error);
+      setError(`Failed to update role: ${error.message}`);
+    }
+  }
+};
 
   const handleBulkRoleChange = async (newRole) => {
     if (!isAdmin) {
       setError("Only admins can perform bulk role changes");
       return;
     }
-    if (selectedUsers.length === 0) {
-      // No users selected, do nothing.
-      return;
-    }
-
-    // Confirm the action with the admin
-    if (
-      window.confirm(
-        `Are you sure you want to change the role of ${selectedUsers.length} user(s) to "${newRole}"?`
-      )
-    ) {
+    if (selectedUsers.length === 0) return;
+    if (window.confirm(`Change role of ${selectedUsers.length} user(s) to ${newRole}?`)) {
       try {
-        // Create a flat array of all promises that need to be executed.
-        // We use flatMap because each user might require multiple database operations.
-        const allPromises = selectedUsers.flatMap((userId) => {
-          // Find the full user object from your local state to get their email.
-          // This assumes your `users` state array contains objects like { id: '...', email: '...' }
-          const user = users.find((u) => u.id === userId);
-
-          // Safety check: if user or email isn't found, skip this one.
-          if (!user || !user.email) {
-            console.warn(
-              `Could not find user data for ID: ${userId}. Skipping role change for this user.`
-            );
-            return []; // Return an empty array which flatMap will discard
-          }
-
-          const lowerCaseEmail = user.email.toLowerCase();
-          const operationsForThisUser = [];
-
-          // Promise 1: Always update the 'role' field in the user's Profile document.
-          operationsForThisUser.push(
+        await Promise.all(
+          selectedUsers.map((userId) =>
             updateDoc(doc(db, "Profiles", userId), { role: newRole })
-          );
-
-          // Promise 2: Conditionally add or remove them from the adminUsers collection.
-          if (newRole === "admin") {
-            // PROMOTION: Add a document to adminUsers.
-            operationsForThisUser.push(
-              setDoc(doc(db, "adminUsers", lowerCaseEmail), {
-                createdAt: serverTimestamp(),
-                promotedBy: auth.currentUser.email,
-              })
-            );
-          } else {
-            // DEMOTION: Remove the document from adminUsers.
-            operationsForThisUser.push(
-              deleteDoc(doc(db, "adminUsers", lowerCaseEmail))
-            );
-          }
-
-          return operationsForThisUser;
-        });
-
-        // Execute all database operations concurrently.
-        await Promise.all(allPromises);
-
-        // Update the local UI state after all database operations succeed.
-        setUsers(
-          users.map((user) =>
-            selectedUsers.includes(user.id) ? { ...user, role: newRole } : user
           )
         );
-        setSelectedUsers([]); // Clear the selection
+        setUsers(users.map((user) =>
+          selectedUsers.includes(user.id) ? { ...user, role: newRole } : user
+        ));
+        setSelectedUsers([]);
       } catch (error) {
-        console.error("Error updating bulk user roles:", error);
+        console.error("Error updating bulk user roles:", error, { code: error.code, message: error.message });
         setError(`Failed to update user roles: ${error.message}`);
       }
     }
@@ -361,105 +225,68 @@ const AdminDashboard = () => {
       setError("Only admins can change other users' message status");
       return;
     }
-    if (
-      window.confirm("Are you sure you want to change this message's status?")
-    ) {
+    if (window.confirm("Are you sure you want to change this message's status?")) {
       try {
         await updateDoc(doc(db, `Profiles/${profileId}/Support`, messageId), {
           status: newStatus,
         });
-        setSupportMessages(
-          supportMessages.map((msg) =>
-            msg.id === messageId && msg.profileId === profileId
-              ? { ...msg, status: newStatus }
-              : msg
-          )
-        );
+        setSupportMessages(supportMessages.map((msg) =>
+          msg.id === messageId && msg.profileId === profileId ? { ...msg, status: newStatus } : msg
+        ));
       } catch (error) {
-        console.error(
-          "Error updating message status for profileId:",
-          profileId,
-          "messageId:",
-          messageId,
-          error,
-          { code: error.code, message: error.message }
-        );
+        console.error("Error updating message status for profileId:", profileId, "messageId:", messageId, error, { code: error.code, message: error.message });
         setError(`Failed to update message status: ${error.message}`);
       }
     }
   };
 
   const handleBulkStatusChange = async (newStatus) => {
-    if (
-      !isAdmin &&
-      selectedMessages.some(
-        (id) =>
-          supportMessages.find((msg) => msg.id === id).profileId !==
-          auth.currentUser?.uid
-      )
-    ) {
-      setError(
-        "Only admins can perform bulk status changes for other users' messages"
-      );
+    if (!isAdmin && selectedMessages.some((id) => supportMessages.find((msg) => msg.id === id).profileId !== auth.currentUser?.uid)) {
+      setError("Only admins can perform bulk status changes for other users' messages");
       return;
     }
     if (selectedMessages.length === 0) return;
-    if (
-      window.confirm(
-        `Change status of ${selectedMessages.length} message(s) to ${newStatus}?`
-      )
-    ) {
+    if (window.confirm(`Change status of ${selectedMessages.length} message(s) to ${newStatus}?`)) {
       try {
         await Promise.all(
           selectedMessages.map((messageId) => {
             const message = supportMessages.find((msg) => msg.id === messageId);
-            return updateDoc(
-              doc(db, `Profiles/${message.profileId}/Support`, messageId),
-              {
-                status: newStatus,
-              }
-            );
+            return updateDoc(doc(db, `Profiles/${message.profileId}/Support`, messageId), {
+              status: newStatus,
+            });
           })
         );
-        setSupportMessages(
-          supportMessages.map((msg) =>
-            selectedMessages.includes(msg.id)
-              ? { ...msg, status: newStatus }
-              : msg
-          )
-        );
+        setSupportMessages(supportMessages.map((msg) =>
+          selectedMessages.includes(msg.id) ? { ...msg, status: newStatus } : msg
+        ));
         setSelectedMessages([]);
       } catch (error) {
-        console.error("Error updating bulk message statuses:", error, {
-          code: error.code,
-          message: error.message,
-        });
+        console.error("Error updating bulk message statuses:", error, { code: error.code, message: error.message });
         setError(`Failed to update message statuses: ${error.message}`);
       }
     }
   };
 
   const handleSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
     }
     setSortConfig({ key, direction });
   };
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.email.toLowerCase().includes(search.toLowerCase()) &&
-      (roleFilter ? user.role === roleFilter : true)
+  const filteredUsers = users.filter((user) =>
+    user.email.toLowerCase().includes(search.toLowerCase()) &&
+    (roleFilter ? user.role === roleFilter : true)
   );
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     if (!sortConfig.key) return 0;
     if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
+      return sortConfig.direction === 'ascending' ? -1 : 1;
     }
     if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
+      return sortConfig.direction === 'ascending' ? 1 : -1;
     }
     return 0;
   });
@@ -475,10 +302,10 @@ const AdminDashboard = () => {
   const sortedMessages = [...filteredMessages].sort((a, b) => {
     if (!sortConfig.key) return 0;
     if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
+      return sortConfig.direction === 'ascending' ? -1 : 1;
     }
     if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
+      return sortConfig.direction === 'ascending' ? 1 : -1;
     }
     return 0;
   });
@@ -486,18 +313,14 @@ const AdminDashboard = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentUsers = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
-  const currentMessages = sortedMessages.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentMessages = sortedMessages.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const stats = {
     totalUsers: users.length,
-    totalAdmins: users.filter((user) => user.role === "admin").length,
-    pendingMessages: supportMessages.filter((msg) => msg.status === "unopened")
-      .length,
+    totalAdmins: users.filter((user) => user.role === 'admin').length,
+    pendingMessages: supportMessages.filter((msg) => msg.status === 'unopened').length,
   };
 
   if (error && !isAdmin) {
@@ -543,16 +366,6 @@ const AdminDashboard = () => {
             <span>Blog</span>
           </li>
           <li
-            className={`menu-item ${activeTab === 6 ? "active" : ""}`}
-            onClick={() => {
-              setActiveTab(4);
-              setIsModalOpen(true);
-            }}
-          >
-            <FiFileText className="menu-icon" />
-            <span>Portfolio</span>
-          </li>
-          <li
             className={`menu-item ${activeTab === 5 ? "active" : ""}`}
             onClick={() => setActiveTab(5)}
           >
@@ -570,15 +383,12 @@ const AdminDashboard = () => {
             {activeTab === 3 && "File Uploads"}
             {activeTab === 4 && "Blog Editor"}
             {activeTab === 5 && "Admin Manager"}
-            {activeTab === 6 && "Portfolio uploads"}
           </h1>
           <div className="search-bar">
             <FiSearch className="search-icon" />
             <input
               type="text"
-              placeholder={
-                activeTab === 1 ? "Search users..." : "Search messages..."
-              }
+              placeholder={activeTab === 1 ? "Search users..." : "Search messages..."}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -627,32 +437,20 @@ const AdminDashboard = () => {
                     <option value="user">User</option>
                   </select>
                   <button
-                    onClick={() => handleSort("email")}
-                    className={`sort-button ${
-                      sortConfig.key === "email" ? "active" : ""
-                    }`}
+                    onClick={() => handleSort('email')}
+                    className={`sort-button ${sortConfig.key === 'email' ? 'active' : ''}`}
                   >
-                    Email{" "}
-                    {sortConfig.key === "email" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                    Email {sortConfig.key === 'email' && (
+                      sortConfig.direction === 'ascending' ? <FiChevronUp /> : <FiChevronDown />
+                    )}
                   </button>
                   <button
-                    onClick={() => handleSort("role")}
-                    className={`sort-button ${
-                      sortConfig.key === "role" ? "active" : ""
-                    }`}
+                    onClick={() => handleSort('role')}
+                    className={`sort-button ${sortConfig.key === 'role' ? 'active' : ''}`}
                   >
-                    Role{" "}
-                    {sortConfig.key === "role" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                    Role {sortConfig.key === 'role' && (
+                      sortConfig.direction === 'ascending' ? <FiChevronUp /> : <FiChevronDown />
+                    )}
                   </button>
                 </>
               )}
@@ -668,9 +466,7 @@ const AdminDashboard = () => {
                       }}
                       className="filter-select"
                     >
-                      <option value="" disabled>
-                        Select User
-                      </option>
+                      <option value="" disabled>Select User</option>
                       {users.map((user) => (
                         <option key={user.id} value={user.id}>
                           {user.email}
@@ -689,32 +485,20 @@ const AdminDashboard = () => {
                     <option value="responded">Responded</option>
                   </select>
                   <button
-                    onClick={() => handleSort("createdAt")}
-                    className={`sort-button ${
-                      sortConfig.key === "createdAt" ? "active" : ""
-                    }`}
+                    onClick={() => handleSort('createdAt')}
+                    className={`sort-button ${sortConfig.key === 'createdAt' ? 'active' : ''}`}
                   >
-                    Date{" "}
-                    {sortConfig.key === "createdAt" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                    Date {sortConfig.key === 'createdAt' && (
+                      sortConfig.direction === 'ascending' ? <FiChevronUp /> : <FiChevronDown />
+                    )}
                   </button>
                   <button
-                    onClick={() => handleSort("subject")}
-                    className={`sort-button ${
-                      sortConfig.key === "subject" ? "active" : ""
-                    }`}
+                    onClick={() => handleSort('subject')}
+                    className={`sort-button ${sortConfig.key === 'subject' ? 'active' : ''}`}
                   >
-                    Subject{" "}
-                    {sortConfig.key === "subject" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                    Subject {sortConfig.key === 'subject' && (
+                      sortConfig.direction === 'ascending' ? <FiChevronUp /> : <FiChevronDown />
+                    )}
                   </button>
                 </>
               )}
@@ -748,12 +532,8 @@ const AdminDashboard = () => {
                 onClose={() => setIsModalOpen(false)}
               />
             )}
-            {activeTab === 5 && <AdminManager />}
-            {activeTab === 6 && (
-              <BlogEditorModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              />
+            {activeTab === 5 && (
+              <AdminManager />
             )}
           </div>
 
@@ -766,47 +546,18 @@ const AdminDashboard = () => {
               >
                 Previous
               </button>
-              {Array.from(
-                {
-                  length: Math.ceil(
-                    (activeTab === 1
-                      ? filteredUsers.length
-                      : filteredMessages.length) / itemsPerPage
-                  ),
-                },
-                (_, i) => (
-                  <button
-                    key={i + 1}
-                    onClick={() => paginate(i + 1)}
-                    className={`page-item ${
-                      currentPage === i + 1 ? "active" : ""
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                )
-              )}
+              {Array.from({ length: Math.ceil((activeTab === 1 ? filteredUsers.length : filteredMessages.length) / itemsPerPage) }, (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => paginate(i + 1)}
+                  className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                >
+                  {i + 1}
+                </button>
+              ))}
               <button
-                onClick={() =>
-                  paginate(
-                    Math.min(
-                      Math.ceil(
-                        (activeTab === 1
-                          ? filteredUsers.length
-                          : filteredMessages.length) / itemsPerPage
-                      ),
-                      currentPage + 1
-                    )
-                  )
-                }
-                disabled={
-                  currentPage ===
-                  Math.ceil(
-                    (activeTab === 1
-                      ? filteredUsers.length
-                      : filteredMessages.length) / itemsPerPage
-                  )
-                }
+                onClick={() => paginate(Math.min(Math.ceil((activeTab === 1 ? filteredUsers.length : filteredMessages.length) / itemsPerPage), currentPage + 1))}
+                disabled={currentPage === Math.ceil((activeTab === 1 ? filteredUsers.length : filteredMessages.length) / itemsPerPage)}
                 className="page-nav"
               >
                 Next
@@ -827,14 +578,7 @@ const AdminDashboard = () => {
   );
 };
 
-const SupportList = ({
-  messages,
-  onStatusChange,
-  onMessageClick,
-  selectedMessages,
-  setSelectedMessages,
-  handleBulkStatusChange,
-}) => {
+const SupportList = ({ messages, onStatusChange, onMessageClick, selectedMessages, setSelectedMessages, handleBulkStatusChange }) => {
   const handleSelectMessage = (messageId) => {
     if (selectedMessages.includes(messageId)) {
       setSelectedMessages(selectedMessages.filter((id) => id !== messageId));
@@ -856,13 +600,13 @@ const SupportList = ({
       {selectedMessages.length > 0 && (
         <div className="table-actions">
           <button
-            onClick={() => handleBulkStatusChange("opened")}
+            onClick={() => handleBulkStatusChange('opened')}
             className="action-button"
           >
             Mark as Opened
           </button>
           <button
-            onClick={() => handleBulkStatusChange("responded")}
+            onClick={() => handleBulkStatusChange('responded')}
             className="action-button"
           >
             Mark as Responded
@@ -876,10 +620,7 @@ const SupportList = ({
             <th>
               <input
                 type="checkbox"
-                checked={
-                  selectedMessages.length === messages.length &&
-                  messages.length > 0
-                }
+                checked={selectedMessages.length === messages.length && messages.length > 0}
                 onChange={handleSelectAll}
               />
             </th>
@@ -893,9 +634,7 @@ const SupportList = ({
         <tbody>
           {messages.length === 0 ? (
             <tr>
-              <td colSpan="6" className="no-data">
-                No messages found
-              </td>
+              <td colSpan="6" className="no-data">No messages found</td>
             </tr>
           ) : (
             messages.map((msg) => (
@@ -919,9 +658,7 @@ const SupportList = ({
                 </td>
                 <td>
                   <select
-                    onChange={(e) =>
-                      onStatusChange(msg.profileId, msg.id, e.target.value)
-                    }
+                    onChange={(e) => onStatusChange(msg.profileId, msg.id, e.target.value)}
                     value={msg.status}
                     className="status-select"
                   >
@@ -961,41 +698,28 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
         </div>
         <div className="modal-body">
           <div className="message-meta">
-            <div>
-              <strong>From:</strong> {message.email}
-            </div>
-            <div>
-              <strong>Date:</strong>{" "}
-              {message.createdAt?.toDate().toLocaleString()}
-            </div>
-            <div className={`status-badge ${message.status}`}>
-              {message.status}
-            </div>
+            <div><strong>From:</strong> {message.email}</div>
+            <div><strong>Date:</strong> {message.createdAt?.toDate().toLocaleString()}</div>
+            <div className={`status-badge ${message.status}`}>{message.status}</div>
           </div>
-          <div className="message-content">{message.description}</div>
+          <div className="message-content">
+            {message.description}
+          </div>
         </div>
         <div className="modal-footer">
           <button
             onClick={handleMarkAsOpened}
             disabled={message.status === "opened"}
-            className={`action-button ${
-              message.status === "opened" ? "disabled" : ""
-            }`}
+            className={`action-button ${message.status === "opened" ? "disabled" : ""}`}
           >
-            <FiCheck />{" "}
-            {message.status === "opened" ? "Already Opened" : "Mark as Opened"}
+            <FiCheck /> {message.status === "opened" ? "Already Opened" : "Mark as Opened"}
           </button>
           <button
             onClick={handleMarkAsResponded}
             disabled={message.status === "responded"}
-            className={`action-button ${
-              message.status === "responded" ? "disabled" : ""
-            }`}
+            className={`action-button ${message.status === "responded" ? "disabled" : ""}`}
           >
-            <FiCheck />{" "}
-            {message.status === "responded"
-              ? "Already Responded"
-              : "Mark as Responded"}
+            <FiCheck /> {message.status === "responded" ? "Already Responded" : "Mark as Responded"}
           </button>
         </div>
       </div>
@@ -1003,13 +727,7 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
   );
 };
 
-const UserList = ({
-  users,
-  onRoleChange,
-  selectedUsers,
-  setSelectedUsers,
-  handleBulkRoleChange,
-}) => {
+const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handleBulkRoleChange }) => {
   const handleSelectUser = (userId) => {
     if (selectedUsers.includes(userId)) {
       setSelectedUsers(selectedUsers.filter((id) => id !== userId));
@@ -1026,25 +744,24 @@ const UserList = ({
     }
   };
 
-  // console.log('user email', users.map(user => user.email));
   return (
     <div className="table-container">
       {selectedUsers.length > 0 && (
         <div className="table-actions">
           <button
-            onClick={() => handleBulkRoleChange("admin")}
+            onClick={() => handleBulkRoleChange('admin')}
             className="action-button"
           >
             Make Admin
           </button>
           <button
-            onClick={() => handleBulkRoleChange("moderator")}
+            onClick={() => handleBulkRoleChange('moderator')}
             className="action-button"
           >
             Make Moderator
           </button>
           <button
-            onClick={() => handleBulkRoleChange("user")}
+            onClick={() => handleBulkRoleChange('user')}
             className="action-button"
           >
             Make Regular User
@@ -1058,9 +775,7 @@ const UserList = ({
             <th>
               <input
                 type="checkbox"
-                checked={
-                  selectedUsers.length === users.length && users.length > 0
-                }
+                checked={selectedUsers.length === users.length && users.length > 0}
                 onChange={handleSelectAll}
               />
             </th>
@@ -1072,9 +787,7 @@ const UserList = ({
         <tbody>
           {users.length === 0 ? (
             <tr>
-              <td colSpan="4" className="no-data">
-                No users found
-              </td>
+              <td colSpan="4" className="no-data">No users found</td>
             </tr>
           ) : (
             users.map((user) => (
@@ -1088,13 +801,13 @@ const UserList = ({
                 </td>
                 <td>{user.email}</td>
                 <td>
-                  <span className={`role-badge ${user.role}`}>{user.role}</span>
+                  <span className={`role-badge ${user.role}`}>
+                    {user.role}
+                  </span>
                 </td>
                 <td>
                   <select
-                    onChange={(e) =>
-                      onRoleChange(user.id, e.target.value, user.email)
-                    }
+                    onChange={(e) => onRoleChange(user.id, e.target.value)}
                     value={user.role}
                     className="role-select"
                   >
@@ -1126,10 +839,7 @@ const AdminManager = () => {
         const snapshot = await getDocs(collection(db, "adminUsers"));
         setAdmins(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
       } catch (error) {
-        console.error("Error fetching admins:", error, {
-          code: error.code,
-          message: error.message,
-        });
+        console.error("Error fetching admins:", error, { code: error.code, message: error.message });
         if (error.code === "permission-denied") {
           // Non-existent adminUsers collection; treat as empty
           setAdmins([]);
@@ -1157,18 +867,12 @@ const AdminManager = () => {
         addedBy: currentUser?.email || "unknown",
         createdAt: new Date(),
       });
-      setAdmins([
-        ...admins,
-        { id: email, addedBy: currentUser?.email, createdAt: new Date() },
-      ]);
+      setAdmins([...admins, { id: email, addedBy: currentUser?.email, createdAt: new Date() }]);
       setNewAdminEmail("");
       setLogMessage(`Admin ${email} added successfully.`);
       setLogType("success");
     } catch (error) {
-      console.error("Failed to add admin:", email, error, {
-        code: error.code,
-        message: error.message,
-      });
+      console.error("Failed to add admin:", email, error, { code: error.code, message: error.message });
       setLogMessage(`Failed to add admin ${email}: ${error.message}`);
       setLogType("error");
     }
@@ -1183,10 +887,7 @@ const AdminManager = () => {
       setLogMessage(`Admin ${email} removed successfully.`);
       setLogType("success");
     } catch (error) {
-      console.error("Failed to remove admin:", email, error, {
-        code: error.code,
-        message: error.message,
-      });
+      console.error("Failed to remove admin:", email, error, { code: error.code, message: error.message });
       setLogMessage(`Failed to remove admin ${email}: ${error.message}`);
       setLogType("error");
     }
@@ -1205,12 +906,7 @@ const AdminManager = () => {
         <div
           style={{
             marginTop: "10px",
-            color:
-              logType === "success"
-                ? "green"
-                : logType === "error"
-                ? "red"
-                : "black",
+            color: logType === "success" ? "green" : logType === "error" ? "red" : "black",
           }}
         >
           {logMessage}
@@ -1220,10 +916,7 @@ const AdminManager = () => {
         {admins.map((admin) => (
           <li key={admin.id}>
             {admin.id}
-            <button
-              style={{ marginLeft: "10px" }}
-              onClick={() => removeAdmin(admin.id)}
-            >
+            <button style={{ marginLeft: "10px" }} onClick={() => removeAdmin(admin.id)}>
               Remove
             </button>
           </li>

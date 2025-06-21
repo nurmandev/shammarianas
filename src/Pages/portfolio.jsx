@@ -139,14 +139,16 @@ function Header() {
                   Portfolio <span className="fw-200"></span>
                 </h1>
 
-                <div className="container text-center mt-40">
+                {/* Upload portfolio */}
+
+                {/* <div className="container text-center mt-40">
                   <button
                     onClick={() => setIsModalOpen(true)}
                     className="btn btn-lg btn-curve btn-lit"
                   >
                     <span>Add Project</span>
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
