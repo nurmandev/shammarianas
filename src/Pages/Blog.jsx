@@ -74,7 +74,7 @@ function Blogs() {
         </div>
       </header>
 
-      <div style={{ margin: "30px 0", textAlign: "center" }}>
+      {/* <div style={{ margin: "30px 0", textAlign: "center" }}>
         <button
           onClick={() => setIsModalOpen(true)}
           style={{
@@ -97,7 +97,7 @@ function Blogs() {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
-      </div>
+      </div> */}
 
       <section className="blog-main section-padding">
         <div className="container">
