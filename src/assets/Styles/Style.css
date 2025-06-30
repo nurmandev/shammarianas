@@ -201,7 +201,7 @@ a {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .navbar .search_main .search_results .result .details {
   display: flex;
@@ -497,7 +497,7 @@ a {
   border-radius: 0.7rem;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   aspect-ratio: 16/9;
   box-shadow: 0 -60px 200px rgba(255, 255, 255, 0.178);
 }
@@ -594,8 +594,8 @@ a {
   filter: invert(1) brightness(15);
   opacity: 0.6;
   -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   pointer-events: none;
 }
 .home_main .asset_types {
@@ -756,7 +756,7 @@ a {
   width: 100%;
   border-radius: 0.8rem;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   filter: invert(1);
   opacity: 0.6;
 }
@@ -846,7 +846,7 @@ a {
   height: 100%;
   border-radius: 0.8rem;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 @media screen and (max-width: 1040px) {
   .home_main .hero_div_main .hero_text {
@@ -1614,8 +1614,8 @@ a {
   cursor: pointer;
   padding: 1rem 0rem;
   -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.0549019608);
   transition: all 0.3s ease;
 }
@@ -1630,7 +1630,7 @@ a {
   aspect-ratio: 1/1;
   filter: invert(1);
 }
-.page_content .listing_section .listing_sidebar form .filter_section .filter_options ul li label input[type=checkbox] {
+.page_content .listing_section .listing_sidebar form .filter_section .filter_options ul li label input[type="checkbox"] {
   display: none;
 }
 .page_content .listing_section .listing_sidebar form .filter_section .filter_options .range {
@@ -1762,13 +1762,13 @@ a {
   font-weight: 500;
   z-index: 1;
   -webkit-clip-path: polygon(0 0, 100% 0%, 84% 100%, 0% 100%);
-          clip-path: polygon(0 0, 100% 0%, 84% 100%, 0% 100%);
+  clip-path: polygon(0 0, 100% 0%, 84% 100%, 0% 100%);
 }
 .page_content .item_listing .item_card .card_image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   filter: drop-shadow(0 0 0.5rem rgba(0, 0, 0, 0.226));
 }
 .page_content .item_listing .item_card .card_content {
@@ -1936,8 +1936,8 @@ a {
   padding: 0.5rem;
   width: 100%;
   -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .page_content .view_item_main .content .left .view_images_main .texture_viewer_main .controls label {
   font-size: 0.8rem;
@@ -1957,7 +1957,7 @@ a {
 .page_content .view_item_main .content .left .view_images_main .texture_viewer_main .controls label input {
   display: none;
 }
-.page_content .view_item_main .content .left .view_images_main .texture_viewer_main .controls label input[type=checkbox] {
+.page_content .view_item_main .content .left .view_images_main .texture_viewer_main .controls label input[type="checkbox"] {
   display: none;
 }
 @media screen and (max-width: 768px) {
@@ -1986,7 +1986,7 @@ a {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
   }
   .page_content .view_item_main .content .left .view_images_main .texture_viewer_main .loading_textures {
     font-size: 1rem;
@@ -2025,7 +2025,7 @@ a {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .page_content .view_item_main .content .left .script_viewer_main {
   width: 100%;
@@ -2170,7 +2170,7 @@ a {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
   }
 }
 .page_content .view_item_main .content .left .model_showcase .full_screen_btn {
@@ -2308,7 +2308,7 @@ a {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 @media screen and (max-width: 768px) {
   .page_content .view_item_main .content .left .model_showcase .controls {
@@ -2423,7 +2423,7 @@ a {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
   }
 }
 .page_content .view_item_main .content .left .asset_details {
@@ -2589,13 +2589,13 @@ a {
   height: 2rem;
   border-radius: 50%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .page_content .view_item_main .right .top_info .title .deatils .user .user_image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 50%;
 }
 .page_content .view_item_main .right .top_info .title .deatils .user .username {
@@ -2692,7 +2692,6 @@ div > button.add_to_wishlist_btn.favorited {
   background-color: #fff !important;
   color: #000 !important;
 }
-
 
 @media screen and (max-width: 768px) {
   .page_content .view_item_main .right .top_info {
@@ -3250,7 +3249,7 @@ div > button.add_to_wishlist_btn.favorited {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .cart_main .cart_items .cart_item a .item_details {
   display: flex;
@@ -3486,7 +3485,7 @@ div > button.add_to_wishlist_btn.favorited {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .checkout_main .container .left form .section .input_field select {
   width: 100%;
@@ -3565,7 +3564,7 @@ div > button.add_to_wishlist_btn.favorited {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .checkout_main .container .right .order_items .items .item .item_details {
   display: flex;
@@ -3941,7 +3940,7 @@ div > button.add_to_wishlist_btn.favorited {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   opacity: 0.05;
 }
 
@@ -3989,7 +3988,7 @@ div > button.add_to_wishlist_btn.favorited {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .profile_main .profile .top .left .profile_details {
   display: flex;
@@ -4261,7 +4260,7 @@ div.hidden.none {
   aspect-ratio: 16/9;
   border-radius: 0.5rem;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .upload_section form .left .thumbnail_input_label .thumbnail_preview .file_name {
   font-size: 0.8rem;
@@ -4273,7 +4272,7 @@ div.hidden.none {
   width: 7rem;
   aspect-ratio: 1/1;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 0.3rem;
   filter: invert(1);
   opacity: 0.1;
@@ -4322,16 +4321,17 @@ div.hidden.none {
   border-radius: 0.5rem;
   color: #f5f5f5;
 }
-.upload_section form input[type=file] {
+.upload_section form input[type="file"] {
   display: none;
 }
-.upload_section form input[type=number] {
+.upload_section form input[type="number"] {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: textfield;
   margin: 0;
 }
-.upload_section form input[type=number]::-webkit-inner-spin-button, .upload_section form input[type=number]::-webkit-outer-spin-button {
+.upload_section form input[type="number"]::-webkit-inner-spin-button,
+.upload_section form input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -4413,7 +4413,7 @@ div.hidden.none {
   width: 100%;
   aspect-ratio: 1/1;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   filter: invert(1);
   opacity: 0.1;
 }
@@ -4433,7 +4433,7 @@ div.hidden.none {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .upload_section form select {
   padding: 1rem;
@@ -4473,7 +4473,7 @@ div.hidden.none {
   cursor: pointer;
   align-self: flex-start;
 }
-.upload_section form label input[type=checkbox] {
+.upload_section form label input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -4485,15 +4485,15 @@ div.hidden.none {
   border-radius: 0.2rem;
   cursor: pointer;
 }
-.upload_section form label input[type=checkbox]:hover {
+.upload_section form label input[type="checkbox"]:hover {
   background-color: rgba(255, 255, 255, 0.1215686275);
 }
-.upload_section form label input[type=checkbox]:checked {
+.upload_section form label input[type="checkbox"]:checked {
   background-color: #fff;
   border-color: #fff;
   position: relative;
 }
-.upload_section form label input[type=checkbox]:checked:after {
+.upload_section form label input[type="checkbox"]:checked:after {
   content: "";
   position: absolute;
   left: 4px;
@@ -4681,7 +4681,7 @@ div.hidden.none {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 0.5rem;
   filter: invert(1);
   opacity: 0.3;
@@ -4739,7 +4739,7 @@ div.hidden.none {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .trade_main .trade_frame {
   width: 100%;
@@ -4772,7 +4772,7 @@ div.hidden.none {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 0.5rem;
   filter: invert(1);
   opacity: 0.3;
@@ -4814,7 +4814,7 @@ div.hidden.none {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .trade_main .trade_frame .top .trading_for_item .trading_for_item_container .trading_for_item_card .card_details {
   display: flex;
@@ -4878,7 +4878,7 @@ div.hidden.none {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .trade_main .trade_frame .top .my_trade_item .my_trade_item_container .my_trade_item_card .card_details {
   display: flex;
@@ -4966,7 +4966,7 @@ div.hidden.none {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .trade_main .trade_options .trade_option_card .card_details {
   display: flex;
@@ -5083,6 +5083,7 @@ div.hidden.none {
 }
 
 .login {
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5152,7 +5153,7 @@ div.hidden.none {
   font-weight: 500;
   opacity: 0.6;
 }
-.login .login_tab form .accept_terms input[type=checkbox] {
+.login .login_tab form .accept_terms input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -5164,15 +5165,15 @@ div.hidden.none {
   border-radius: 0.2rem;
   cursor: pointer;
 }
-.login .login_tab form .accept_terms input[type=checkbox]:hover {
+.login .login_tab form .accept_terms input[type="checkbox"]:hover {
   background-color: rgba(255, 255, 255, 0.1215686275);
 }
-.login .login_tab form .accept_terms input[type=checkbox]:checked {
+.login .login_tab form .accept_terms input[type="checkbox"]:checked {
   background-color: #fff;
   border-color: #fff;
   position: relative;
 }
-.login .login_tab form .accept_terms input[type=checkbox]:checked:after {
+.login .login_tab form .accept_terms input[type="checkbox"]:checked:after {
   content: "";
   position: absolute;
   left: 3px;
@@ -5230,13 +5231,13 @@ div.hidden.none {
   aspect-ratio: 1/1;
   filter: invert(1);
 }
-.login .login_tab form .input input[type=password] {
+.login .login_tab form .input input[type="password"] {
   letter-spacing: 0.2rem;
 }
-.login .login_tab form .input input[type=password]::-moz-placeholder {
+.login .login_tab form .input input[type="password"]::-moz-placeholder {
   letter-spacing: 0.2rem;
 }
-.login .login_tab form .input input[type=password]::placeholder {
+.login .login_tab form .input input[type="password"]::placeholder {
   letter-spacing: 0.2rem;
 }
 .login .login_tab form .error {
@@ -5279,8 +5280,8 @@ div.hidden.none {
   cursor: pointer;
   transition: all 0.3s ease;
   -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   margin-top: 0.5rem;
 }
 .login .login_tab form .login_btn.disabled {
@@ -5481,4 +5482,4 @@ div.hidden.none {
 .markdown-preview table tr {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1215686275);
   padding: 1rem;
-}/*# sourceMappingURL=Style.css.map */
+} /*# sourceMappingURL=Style.css.map */

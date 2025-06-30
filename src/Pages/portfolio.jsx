@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { db, storage } from "../../firebase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { db, auth, storage } from "../../firebase";
+import { collection, addDoc, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
 import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
 import { Link } from "react-router-dom";
@@ -13,7 +13,8 @@ import Marq2 from "../Components/marq2";
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
-
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [filter, setFilter] = useState("*"); // State to track active filter
   const [projectData, setProjectData] = useState({
     title: "",
     category: "design",
@@ -43,7 +44,29 @@ function Header() {
       }
     };
 
+    const checkAdminStatus = async () => {
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        try {
+          const userProfileRef = doc(db, "Profiles", currentUser.uid);
+          const userDoc = await getDoc(userProfileRef);
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setIsAdmin(userData.role === "admin");
+          } else {
+            setIsAdmin(false);
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
     fetchProjects();
+    checkAdminStatus();
     loadBackgroudImages();
   }, []);
 
@@ -73,10 +96,7 @@ function Header() {
 
       if (projectData.images.length > 0) {
         const uploadPromises = projectData.images.map(async (image) => {
-          const storageRef = ref(
-            storage,
-            `projects/${image.name}-${Date.now()}`
-          );
+          const storageRef = ref(storage, `projects/${image.name}-${Date.now()}`);
           await uploadBytes(storageRef, image);
           return await getDownloadURL(storageRef);
         });
@@ -122,40 +142,52 @@ function Header() {
     }
   };
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this project?");
+    if (!confirmDelete) return;
+
+    try {
+      await deleteDoc(doc(db, "projects", id));
+      setProjects((prevProjects) => prevProjects.filter((project) => project.id !== id));
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
+  };
+
+  const handleFilterChange = (filterValue) => {
+    setFilter(filterValue);
+  };
+
+  // Filter projects based on the selected filter
+  const filteredProjects = filter === "*" ? projects : projects.filter((project) => project.category === filter.slice(1));
+
   return (
     <>
       <Cursor />
       <ProgressScroll />
-      <header
-        className="page-header bg-img section-padding valign"
-        data-background="/assets/imgs/background/bg4.jpg"
-        data-overlay-dark="8"
-      >
+      <header className="page-header bg-img section-padding valign" data-background="/assets/imgs/background/bg4.jpg" data-overlay-dark="8">
         <div className="container pt-80">
           <div className="row">
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-u ls1 fz-80">
-                  Portfolio <span className="fw-200"></span>
+                  Portfolio <span className="fw-200">Grid</span>
                 </h1>
 
-                {/* Upload portfolio */}
-
-                {/* <div className="container text-center mt-40">
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="btn btn-lg btn-curve btn-lit"
-                  >
-                    <span>Add Project</span>
-                  </button>
-                </div> */}
+                {isAdmin && (
+                  <div className="container text-center mt-40">
+                    <button onClick={() => setIsModalOpen(true)} className="btn btn-lg btn-curve btn-lit">
+                      <span>Add Project</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      {isModalOpen && (
+      {isAdmin && isModalOpen && (
         <div
           className="modal"
           style={{
@@ -170,8 +202,7 @@ function Header() {
             alignItems: "center",
             zIndex: 1000,
             color: "black",
-          }}
-        >
+          }}>
           <div
             className="modal-content"
             style={{
@@ -182,31 +213,18 @@ function Header() {
               maxWidth: "800px",
               maxHeight: "90vh",
               overflowY: "auto",
-            }}
-          >
+            }}>
             <h2>Add New Project</h2>
 
             <form onSubmit={handleSubmit}>
               <div style={{ marginBottom: "1rem" }}>
                 <label>Project Title:</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={projectData.title}
-                  onChange={handleInputChange}
-                  required
-                  style={{ width: "100%", padding: "0.5rem" }}
-                />
+                <input type="text" name="title" value={projectData.title} onChange={handleInputChange} required style={{ width: "100%", padding: "0.5rem" }} />
               </div>
 
               <div style={{ marginBottom: "1rem" }}>
                 <label>Category:</label>
-                <select
-                  name="category"
-                  value={projectData.category}
-                  onChange={handleInputChange}
-                  style={{ width: "100%", padding: "0.5rem" }}
-                >
+                <select name="category" value={projectData.category} onChange={handleInputChange} style={{ width: "100%", padding: "0.5rem" }}>
                   <option value="design">Design</option>
                   <option value="development">Development</option>
                   <option value="marketing">Marketing</option>
@@ -215,38 +233,18 @@ function Header() {
 
               <div style={{ marginBottom: "1rem" }}>
                 <label>Client:</label>
-                <input
-                  type="text"
-                  name="client"
-                  value={projectData.client}
-                  onChange={handleInputChange}
-                  required
-                  style={{ width: "100%", padding: "0.5rem" }}
-                />
+                <input type="text" name="client" value={projectData.client} onChange={handleInputChange} required style={{ width: "100%", padding: "0.5rem" }} />
               </div>
 
               <div style={{ marginBottom: "1rem" }}>
                 <label>Start Date:</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  value={projectData.startDate}
-                  onChange={handleInputChange}
-                  required
-                  style={{ width: "100%", padding: "0.5rem" }}
-                />
+                <input type="date" name="startDate" value={projectData.startDate} onChange={handleInputChange} required style={{ width: "100%", padding: "0.5rem" }} />
               </div>
 
               <div style={{ marginBottom: "1rem" }}>
                 <label>Designer:</label>
-                <input
-                  type="text"
-                  name="designer"
-                  value={projectData.designer}
-                  onChange={handleInputChange}
-                  required
-                  style={{ width: "100%", padding: "0.5rem" }}
-                />
+                NOVEMBER 2024
+                <input type="text" name="designer" value={projectData.designer} onChange={handleInputChange} required style={{ width: "100%", padding: "0.5rem" }} />
               </div>
 
               <div
@@ -254,19 +252,11 @@ function Header() {
                   marginBottom: "1rem",
                   borderBottom: "1px solid #eee",
                   paddingBottom: "1rem",
-                }}
-              >
+                }}>
                 <h4>Challenge Section</h4>
                 <div style={{ marginBottom: "1rem" }}>
                   <label>Challenge Title:</label>
-                  <input
-                    type="text"
-                    name="challengeTitle"
-                    value={projectData.challengeTitle}
-                    onChange={handleInputChange}
-                    required
-                    style={{ width: "100%", padding: "0.5rem" }}
-                  />
+                  <input type="text" name="challengeTitle" value={projectData.challengeTitle} onChange={handleInputChange} required style={{ width: "100%", padding: "0.5rem" }} />
                 </div>
                 <div style={{ marginBottom: "1rem" }}>
                   <label>Challenge Description:</label>
@@ -289,19 +279,11 @@ function Header() {
                   marginBottom: "1rem",
                   borderBottom: "1px solid #eee",
                   paddingBottom: "1rem",
-                }}
-              >
+                }}>
                 <h4>Solution Section</h4>
                 <div style={{ marginBottom: "1rem" }}>
                   <label>Solution Title:</label>
-                  <input
-                    type="text"
-                    name="solutionTitle"
-                    value={projectData.solutionTitle}
-                    onChange={handleInputChange}
-                    required
-                    style={{ width: "100%", padding: "0.5rem" }}
-                  />
+                  <input type="text" name="solutionTitle" value={projectData.solutionTitle} onChange={handleInputChange} required style={{ width: "100%", padding: "0.5rem" }} />
                 </div>
                 <div style={{ marginBottom: "1rem" }}>
                   <label>Solution Description:</label>
@@ -336,13 +318,7 @@ function Header() {
 
               <div style={{ marginBottom: "1rem" }}>
                 <label>Project Images (Multiple):</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  multiple
-                  style={{ width: "100%", padding: "0.5rem" }}
-                />
+                <input type="file" accept="image/*" onChange={handleImageChange} multiple style={{ width: "100%", padding: "0.5rem" }} />
                 {projectData.images.length > 0 && (
                   <div style={{ marginTop: "0.5rem" }}>
                     <p>Selected files: {projectData.images.length}</p>
@@ -351,11 +327,7 @@ function Header() {
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  style={{ padding: "0.5rem 1rem", background: "#ccc" }}
-                >
+                <button type="button" onClick={() => setIsModalOpen(false)} style={{ padding: "0.5rem 1rem", background: "#ccc" }}>
                   Cancel
                 </button>
                 <button
@@ -364,8 +336,7 @@ function Header() {
                     padding: "0.5rem 1rem",
                     background: "#4CAF50",
                     color: "white",
-                  }}
-                >
+                  }}>
                   Save Project
                 </button>
               </div>
@@ -379,45 +350,38 @@ function Header() {
           <div className="row mb-80">
             <div className="col-lg-4">
               <div className="sec-head">
-                <h6 className="sub-title main-color mb-10">
-                  DISCOVER OUR CASES
-                </h6>
+                <h6 className="sub-title main-color mb-10">DISCOVER OUR CASES</h6>
                 <h3>Latest Projects</h3>
               </div>
             </div>
             <div className="filtering col-lg-8 d-flex justify-content-end align-items-end">
               <div>
                 <div className="filter">
-                  <span
-                    data-filter="*"
-                    className="active"
-                    data-count={projects.length}
-                  >
+                  <span data-filter="*" className={filter === "*" ? "active" : ""} data-count={projects.length} onClick={() => handleFilterChange("*")} style={{ cursor: "pointer" }}>
                     All
                   </span>
                   <span
                     data-filter=".design"
-                    data-count={
-                      projects.filter((p) => p.category === "design").length
-                    }
-                  >
+                    className={filter === ".design" ? "active" : ""}
+                    data-count={projects.filter((p) => p.category === "design").length}
+                    onClick={() => handleFilterChange(".design")}
+                    style={{ cursor: "pointer" }}>
                     Design
                   </span>
                   <span
                     data-filter=".development"
-                    data-count={
-                      projects.filter((p) => p.category === "development")
-                        .length
-                    }
-                  >
+                    className={filter === ".development" ? "active" : ""}
+                    data-count={projects.filter((p) => p.category === "development").length}
+                    onClick={() => handleFilterChange(".development")}
+                    style={{ cursor: "pointer" }}>
                     Development
                   </span>
                   <span
                     data-filter=".marketing"
-                    data-count={
-                      projects.filter((p) => p.category === "marketing").length
-                    }
-                  >
+                    className={filter === ".marketing" ? "active" : ""}
+                    data-count={projects.filter((p) => p.category === "marketing").length}
+                    onClick={() => handleFilterChange(".marketing")}
+                    style={{ cursor: "pointer" }}>
                     Marketing
                   </span>
                 </div>
@@ -427,37 +391,47 @@ function Header() {
         </div>
         <div className="container">
           <div className="gallery row md-marg">
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className={`col-lg-4 col-md-6 items ${project.category}`}
-              >
-                <div className="item mb-50">
-                  <div className="img">
-                    <img
-                      src={
-                        project.imageUrls?.[0] || "/assets/imgs/works/2/1.jpg"
-                      }
-                      alt={project.title}
-                    />
-                  </div>
-                  <div className="cont d-flex align-items-end mt-30">
-                    <div>
-                      <span className="p-color mb-5 sub-title">
-                        {project.category.charAt(0).toUpperCase() +
-                          project.category.slice(1)}
-                      </span>
-                      <h6>{project.title}</h6>
+            {filteredProjects.length > 0 ? (
+              filteredProjects.map((project) => (
+                <div key={project.id} className={`col-lg-4 col-md-6 items ${project.category}`}>
+                  <div className="item mb-50">
+                    <div className="img">
+                      <img src={project.imageUrls?.[0] || "/assets/imgs/works/2/1.jpg"} alt={project.title} />
                     </div>
-                    <div className="ml-auto">
-                      <Link to={`/project-details/${project.id}`}>
-                        <span className="ti-arrow-top-right"></span>
-                      </Link>
+                    <div className="cont d-flex align-items-end mt-30">
+                      <div>
+                        <span className="p-color mb-5 sub-title">{project.category.charAt(0).toUpperCase() + project.category.slice(1)}</span>
+                        <h6>{project.title}</h6>
+                      </div>
+                      <div className="ml-auto d-flex align-items-center">
+                        {isAdmin && (
+                          <button
+                            onClick={() => handleDelete(project.id)}
+                            className="btn btn-sm btn-danger mr-2"
+                            style={{
+                              background: "#ff4d4f",
+                              color: "white",
+                              border: "none",
+                              padding: "5px 10px",
+                              borderRadius: "4px",
+                              cursor: "pointer",
+                            }}>
+                            Delete
+                          </button>
+                        )}
+                        <Link to={`/project-details/${project.id}`}>
+                          <span className="ti-arrow-top-right"></span>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="col-12 text-center">
+                <p>No projects found for this category.</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>
