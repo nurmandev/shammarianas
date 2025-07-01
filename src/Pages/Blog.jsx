@@ -6,7 +6,6 @@ import Marq2 from "../Components/marq2";
 import { db, auth } from "../../firebase";
 import { collection, getDocs, deleteDoc, doc, getDoc } from "firebase/firestore";
 import loadBackgroudImages from "../common/loadBackgroudImages";
-import BlogEditorModal from "./BlogEditor";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -95,28 +94,6 @@ function Blogs() {
         </div>
       </header>
 
-      {isAdmin && (
-        <div style={{ margin: "30px 0", textAlign: "center" }}>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            style={{
-              padding: "10px 24px",
-              background: "#2563eb",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              fontSize: "1rem",
-              cursor: "pointer",
-              transition: "background 0.2s",
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.background = "#1d4ed8")}
-            onMouseOut={(e) => (e.currentTarget.style.background = "#2563eb")}>
-            Create New Blog Post
-          </button>
-          <BlogEditorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        </div>
-      )}
-
       <section className="blog-main section-padding">
         <div className="container">
           <div className="row lg-marg justify-content-around">
@@ -138,21 +115,7 @@ function Blogs() {
                             {blog.commentsCount || 0} Comments
                           </div>
                         </div>
-                        {isAdmin && (
-                          <button
-                            onClick={() => handleDelete(blog.id)}
-                            className="btn btn-sm btn-danger ml-auto"
-                            style={{
-                              background: "#ff4d4f",
-                              color: "white",
-                              border: "none",
-                              padding: "5px 10px",
-                              borderRadius: "4px",
-                              cursor: "pointer",
-                            }}>
-                            Delete
-                          </button>
-                        )}
+
                         <h3 className="mb-15">
                           <Link to={`/blog-details/${blog.id}`}>{blog.title}</Link>
                         </h3>
@@ -165,6 +128,21 @@ function Blogs() {
                         <Link to={`/blog-details/${blog.id}`} className="d-flex align-items-center main-color mt-40">
                           <span className="text mr-15">Read More</span>
                           <span className="ti-arrow-top-right"></span>
+                          {isAdmin && (
+                            <button
+                              onClick={() => handleDelete(blog.id)}
+                              className="btn btn-sm btn-danger ml-auto"
+                              style={{
+                                background: "#ff4d4f",
+                                color: "white",
+                                border: "none",
+                                padding: "5px 10px",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                              }}>
+                              Delete
+                            </button>
+                          )}
                         </Link>
                       </div>
                     </div>

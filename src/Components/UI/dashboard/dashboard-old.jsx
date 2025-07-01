@@ -1,30 +1,11 @@
 import { auth, db } from "../../../../firebase";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  doc,
-  getDoc,
-  getDocs,
-  collection,
-  updateDoc,
-  setDoc,
-  deleteDoc,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, updateDoc, setDoc, deleteDoc, orderBy, query } from "firebase/firestore";
 import Upload from "../../../Pages/Upload";
 import BlogEditorModal from "../../../Pages/BlogEditor";
-import {
-  FiUsers,
-  FiMail,
-  FiUpload,
-  FiFileText,
-  FiSearch,
-  FiChevronDown,
-  FiChevronUp,
-  FiCheck,
-  FiX,
-} from "react-icons/fi";
+import ProjectModal from "../../../Pages/PortfolioUpload";
+import { FiUsers, FiMail, FiUpload, FiFileText, FiSearch, FiChevronDown, FiChevronUp, FiCheck, FiX } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore"; // Make sure to import
 
@@ -40,8 +21,7 @@ const UnauthorizedAccess = ({ error }) => {
         backgroundColor: "#ffe6e6",
         borderRadius: "8px",
         margin: "20px",
-      }}
-    >
+      }}>
       <h3>Access Denied</h3>
       <p>{error || "You do not have permission to access this page."}</p>
     </div>
@@ -86,21 +66,12 @@ const AdminDashboard = () => {
           return;
         }
 
-        const devAdminEmails = process.env.REACT_APP_DEV_ADMIN_EMAILS
-          ? process.env.REACT_APP_DEV_ADMIN_EMAILS.split(",").map((e) =>
-              e.trim().toLowerCase()
-            )
-          : [];
-        const isDevAdmin =
-          process.env.NODE_ENV === "development" &&
-          devAdminEmails.includes(email);
+        const devAdminEmails = process.env.REACT_APP_DEV_ADMIN_EMAILS ? process.env.REACT_APP_DEV_ADMIN_EMAILS.split(",").map((e) => e.trim().toLowerCase()) : [];
+        const isDevAdmin = process.env.NODE_ENV === "development" && devAdminEmails.includes(email);
 
         if (isDevAdmin || (await checkAdminStatus(email, setError))) {
           setIsAdmin(true);
-          await Promise.all([
-            fetchUsers(),
-            fetchSupportMessages(currentUser.uid),
-          ]);
+          await Promise.all([fetchUsers(), fetchSupportMessages(currentUser.uid)]);
           setSelectedProfileId(currentUser.uid);
         } else {
           setError("You do not have admin privileges");
@@ -119,11 +90,7 @@ const AdminDashboard = () => {
 
   const checkAdminStatus = async (email, setError) => {
     if (!email) return false;
-    const superAdminEmails = process.env.REACT_APP_SUPER_ADMIN_EMAILS
-      ? process.env.REACT_APP_SUPER_ADMIN_EMAILS.split(",").map((e) =>
-          e.trim().toLowerCase()
-        )
-      : [];
+    const superAdminEmails = process.env.REACT_APP_SUPER_ADMIN_EMAILS ? process.env.REACT_APP_SUPER_ADMIN_EMAILS.split(",").map((e) => e.trim().toLowerCase()) : [];
     if (superAdminEmails.includes(email)) return true;
 
     try {
@@ -135,9 +102,7 @@ const AdminDashboard = () => {
         message: error.message,
       });
       if (error.code === "permission-denied") {
-        console.warn(
-          "Permission denied for adminUsers read. Check Firestore rules."
-        );
+        console.warn("Permission denied for adminUsers read. Check Firestore rules.");
         return false;
       }
       setError(`Failed to verify admin privileges: ${error.message}`);
@@ -173,10 +138,7 @@ const AdminDashboard = () => {
     }
     setLoading(true);
     try {
-      const q = query(
-        collection(db, `Profiles/${profileId}/Support`),
-        orderBy("createdAt", "desc")
-      );
+      const q = query(collection(db, `Profiles/${profileId}/Support`), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const messages = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -185,12 +147,7 @@ const AdminDashboard = () => {
       }));
       setSupportMessages(messages);
     } catch (error) {
-      console.error(
-        "Error fetching support messages for profileId:",
-        profileId,
-        error,
-        { code: error.code, message: error.message }
-      );
+      console.error("Error fetching support messages for profileId:", profileId, error, { code: error.code, message: error.message });
       setError(`Failed to load support messages: ${error.message}`);
     } finally {
       setLoading(false);
@@ -222,11 +179,7 @@ const AdminDashboard = () => {
       return;
     }
 
-    if (
-      window.confirm(
-        `XX Are you sure you want to change this user's role to ${newRole}?`
-      )
-    ) {
+    if (window.confirm(`XX Are you sure you want to change this user's role to ${newRole}?`)) {
       try {
         const lowerCaseEmail = userEmail.toLowerCase();
         // Always update the role field in their profile
@@ -244,11 +197,7 @@ const AdminDashboard = () => {
         }
 
         // Update local state...
-        setUsers(
-          users.map((user) =>
-            user.id === userId ? { ...user, role: newRole } : user
-          )
-        );
+        setUsers(users.map((user) => (user.id === userId ? { ...user, role: newRole } : user)));
       } catch (error) {
         console.error("Error updating role:", error);
         setError(`Failed to update role: ${error.message}`);
@@ -291,11 +240,7 @@ const AdminDashboard = () => {
     }
 
     // Confirm the action with the admin
-    if (
-      window.confirm(
-        `Are you sure you want to change the role of ${selectedUsers.length} user(s) to "${newRole}"?`
-      )
-    ) {
+    if (window.confirm(`Are you sure you want to change the role of ${selectedUsers.length} user(s) to "${newRole}"?`)) {
       try {
         // Create a flat array of all promises that need to be executed.
         // We use flatMap because each user might require multiple database operations.
@@ -306,9 +251,7 @@ const AdminDashboard = () => {
 
           // Safety check: if user or email isn't found, skip this one.
           if (!user || !user.email) {
-            console.warn(
-              `Could not find user data for ID: ${userId}. Skipping role change for this user.`
-            );
+            console.warn(`Could not find user data for ID: ${userId}. Skipping role change for this user.`);
             return []; // Return an empty array which flatMap will discard
           }
 
@@ -316,9 +259,7 @@ const AdminDashboard = () => {
           const operationsForThisUser = [];
 
           // Promise 1: Always update the 'role' field in the user's Profile document.
-          operationsForThisUser.push(
-            updateDoc(doc(db, "Profiles", userId), { role: newRole })
-          );
+          operationsForThisUser.push(updateDoc(doc(db, "Profiles", userId), { role: newRole }));
 
           // Promise 2: Conditionally add or remove them from the adminUsers collection.
           if (newRole === "admin") {
@@ -331,9 +272,7 @@ const AdminDashboard = () => {
             );
           } else {
             // DEMOTION: Remove the document from adminUsers.
-            operationsForThisUser.push(
-              deleteDoc(doc(db, "adminUsers", lowerCaseEmail))
-            );
+            operationsForThisUser.push(deleteDoc(doc(db, "adminUsers", lowerCaseEmail)));
           }
 
           return operationsForThisUser;
@@ -343,11 +282,7 @@ const AdminDashboard = () => {
         await Promise.all(allPromises);
 
         // Update the local UI state after all database operations succeed.
-        setUsers(
-          users.map((user) =>
-            selectedUsers.includes(user.id) ? { ...user, role: newRole } : user
-          )
-        );
+        setUsers(users.map((user) => (selectedUsers.includes(user.id) ? { ...user, role: newRole } : user)));
         setSelectedUsers([]); // Clear the selection
       } catch (error) {
         console.error("Error updating bulk user roles:", error);
@@ -361,73 +296,36 @@ const AdminDashboard = () => {
       setError("Only admins can change other users' message status");
       return;
     }
-    if (
-      window.confirm("Are you sure you want to change this message's status?")
-    ) {
+    if (window.confirm("Are you sure you want to change this message's status?")) {
       try {
         await updateDoc(doc(db, `Profiles/${profileId}/Support`, messageId), {
           status: newStatus,
         });
-        setSupportMessages(
-          supportMessages.map((msg) =>
-            msg.id === messageId && msg.profileId === profileId
-              ? { ...msg, status: newStatus }
-              : msg
-          )
-        );
+        setSupportMessages(supportMessages.map((msg) => (msg.id === messageId && msg.profileId === profileId ? { ...msg, status: newStatus } : msg)));
       } catch (error) {
-        console.error(
-          "Error updating message status for profileId:",
-          profileId,
-          "messageId:",
-          messageId,
-          error,
-          { code: error.code, message: error.message }
-        );
+        console.error("Error updating message status for profileId:", profileId, "messageId:", messageId, error, { code: error.code, message: error.message });
         setError(`Failed to update message status: ${error.message}`);
       }
     }
   };
 
   const handleBulkStatusChange = async (newStatus) => {
-    if (
-      !isAdmin &&
-      selectedMessages.some(
-        (id) =>
-          supportMessages.find((msg) => msg.id === id).profileId !==
-          auth.currentUser?.uid
-      )
-    ) {
-      setError(
-        "Only admins can perform bulk status changes for other users' messages"
-      );
+    if (!isAdmin && selectedMessages.some((id) => supportMessages.find((msg) => msg.id === id).profileId !== auth.currentUser?.uid)) {
+      setError("Only admins can perform bulk status changes for other users' messages");
       return;
     }
     if (selectedMessages.length === 0) return;
-    if (
-      window.confirm(
-        `Change status of ${selectedMessages.length} message(s) to ${newStatus}?`
-      )
-    ) {
+    if (window.confirm(`Change status of ${selectedMessages.length} message(s) to ${newStatus}?`)) {
       try {
         await Promise.all(
           selectedMessages.map((messageId) => {
             const message = supportMessages.find((msg) => msg.id === messageId);
-            return updateDoc(
-              doc(db, `Profiles/${message.profileId}/Support`, messageId),
-              {
-                status: newStatus,
-              }
-            );
+            return updateDoc(doc(db, `Profiles/${message.profileId}/Support`, messageId), {
+              status: newStatus,
+            });
           })
         );
-        setSupportMessages(
-          supportMessages.map((msg) =>
-            selectedMessages.includes(msg.id)
-              ? { ...msg, status: newStatus }
-              : msg
-          )
-        );
+        setSupportMessages(supportMessages.map((msg) => (selectedMessages.includes(msg.id) ? { ...msg, status: newStatus } : msg)));
         setSelectedMessages([]);
       } catch (error) {
         console.error("Error updating bulk message statuses:", error, {
@@ -447,11 +345,7 @@ const AdminDashboard = () => {
     setSortConfig({ key, direction });
   };
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.email.toLowerCase().includes(search.toLowerCase()) &&
-      (roleFilter ? user.role === roleFilter : true)
-  );
+  const filteredUsers = users.filter((user) => user.email.toLowerCase().includes(search.toLowerCase()) && (roleFilter ? user.role === roleFilter : true));
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     if (!sortConfig.key) return 0;
@@ -465,9 +359,7 @@ const AdminDashboard = () => {
   });
 
   const filteredMessages = supportMessages.filter((msg) => {
-    const matchesSearch =
-      msg.subject.toLowerCase().includes(search.toLowerCase()) ||
-      msg.email.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = msg.subject.toLowerCase().includes(search.toLowerCase()) || msg.email.toLowerCase().includes(search.toLowerCase());
     if (messageFilter === "all") return matchesSearch;
     return msg.status === messageFilter && matchesSearch;
   });
@@ -486,18 +378,14 @@ const AdminDashboard = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentUsers = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
-  const currentMessages = sortedMessages.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentMessages = sortedMessages.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const stats = {
     totalUsers: users.length,
     totalAdmins: users.filter((user) => user.role === "admin").length,
-    pendingMessages: supportMessages.filter((msg) => msg.status === "unopened")
-      .length,
+    pendingMessages: supportMessages.filter((msg) => msg.status === "unopened").length,
   };
 
   if (error && !isAdmin) {
@@ -511,24 +399,15 @@ const AdminDashboard = () => {
           <h2>Admin Panel</h2>
         </div>
         <ul className="sidebar-menu">
-          <li
-            className={`menu-item ${activeTab === 1 ? "active" : ""}`}
-            onClick={() => setActiveTab(1)}
-          >
+          <li className={`menu-item ${activeTab === 1 ? "active" : ""}`} onClick={() => setActiveTab(1)}>
             <FiUsers className="menu-icon" />
             <span>Users</span>
           </li>
-          <li
-            className={`menu-item ${activeTab === 2 ? "active" : ""}`}
-            onClick={() => setActiveTab(2)}
-          >
+          <li className={`menu-item ${activeTab === 2 ? "active" : ""}`} onClick={() => setActiveTab(2)}>
             <FiMail className="menu-icon" />
             <span>Support</span>
           </li>
-          <li
-            className={`menu-item ${activeTab === 3 ? "active" : ""}`}
-            onClick={() => setActiveTab(3)}
-          >
+          <li className={`menu-item ${activeTab === 3 ? "active" : ""}`} onClick={() => setActiveTab(3)}>
             <FiUpload className="menu-icon" />
             <span>Uploads</span>
           </li>
@@ -537,25 +416,20 @@ const AdminDashboard = () => {
             onClick={() => {
               setActiveTab(4);
               setIsModalOpen(true);
-            }}
-          >
+            }}>
             <FiFileText className="menu-icon" />
             <span>Blog</span>
           </li>
           <li
-            className={`menu-item ${activeTab === 6 ? "active" : ""}`}
+            className={`menu-item ${activeTab === 5 ? "active" : ""}`}
             onClick={() => {
-              setActiveTab(4);
+              setActiveTab(5);
               setIsModalOpen(true);
-            }}
-          >
+            }}>
             <FiFileText className="menu-icon" />
             <span>Portfolio</span>
           </li>
-          <li
-            className={`menu-item ${activeTab === 5 ? "active" : ""}`}
-            onClick={() => setActiveTab(5)}
-          >
+          <li className={`menu-item ${activeTab === 6 ? "active" : ""}`} onClick={() => setActiveTab(6)}>
             <FiUsers className="menu-icon" />
             <span>Admin Manager</span>
           </li>
@@ -574,14 +448,7 @@ const AdminDashboard = () => {
           </h1>
           <div className="search-bar">
             <FiSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder={
-                activeTab === 1 ? "Search users..." : "Search messages..."
-              }
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <input type="text" placeholder={activeTab === 1 ? "Search users..." : "Search messages..."} value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
         </div>
 
@@ -616,43 +483,17 @@ const AdminDashboard = () => {
             <div className="filters">
               {activeTab === 1 && (
                 <>
-                  <select
-                    value={roleFilter}
-                    onChange={(e) => setRoleFilter(e.target.value)}
-                    className="filter-select"
-                  >
+                  <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} className="filter-select">
                     <option value="">All Roles</option>
                     <option value="admin">Admin</option>
                     <option value="moderator">Moderator</option>
                     <option value="user">User</option>
                   </select>
-                  <button
-                    onClick={() => handleSort("email")}
-                    className={`sort-button ${
-                      sortConfig.key === "email" ? "active" : ""
-                    }`}
-                  >
-                    Email{" "}
-                    {sortConfig.key === "email" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("email")} className={`sort-button ${sortConfig.key === "email" ? "active" : ""}`}>
+                    Email {sortConfig.key === "email" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
-                  <button
-                    onClick={() => handleSort("role")}
-                    className={`sort-button ${
-                      sortConfig.key === "role" ? "active" : ""
-                    }`}
-                  >
-                    Role{" "}
-                    {sortConfig.key === "role" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("role")} className={`sort-button ${sortConfig.key === "role" ? "active" : ""}`}>
+                    Role {sortConfig.key === "role" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
                 </>
               )}
@@ -666,8 +507,7 @@ const AdminDashboard = () => {
                         setSelectedProfileId(e.target.value);
                         fetchSupportMessages(e.target.value);
                       }}
-                      className="filter-select"
-                    >
+                      className="filter-select">
                       <option value="" disabled>
                         Select User
                       </option>
@@ -678,43 +518,17 @@ const AdminDashboard = () => {
                       ))}
                     </select>
                   )}
-                  <select
-                    value={messageFilter}
-                    onChange={(e) => setMessageFilter(e.target.value)}
-                    className="filter-select"
-                  >
+                  <select value={messageFilter} onChange={(e) => setMessageFilter(e.target.value)} className="filter-select">
                     <option value="all">All Messages</option>
                     <option value="unopened">Unopened</option>
                     <option value="opened">Opened</option>
                     <option value="responded">Responded</option>
                   </select>
-                  <button
-                    onClick={() => handleSort("createdAt")}
-                    className={`sort-button ${
-                      sortConfig.key === "createdAt" ? "active" : ""
-                    }`}
-                  >
-                    Date{" "}
-                    {sortConfig.key === "createdAt" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("createdAt")} className={`sort-button ${sortConfig.key === "createdAt" ? "active" : ""}`}>
+                    Date {sortConfig.key === "createdAt" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
-                  <button
-                    onClick={() => handleSort("subject")}
-                    className={`sort-button ${
-                      sortConfig.key === "subject" ? "active" : ""
-                    }`}
-                  >
-                    Subject{" "}
-                    {sortConfig.key === "subject" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("subject")} className={`sort-button ${sortConfig.key === "subject" ? "active" : ""}`}>
+                    Subject {sortConfig.key === "subject" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
                 </>
               )}
@@ -723,13 +537,7 @@ const AdminDashboard = () => {
 
           <div className="card-body">
             {activeTab === 1 && (
-              <UserList
-                users={currentUsers}
-                onRoleChange={handleRoleChange}
-                selectedUsers={selectedUsers}
-                setSelectedUsers={setSelectedUsers}
-                handleBulkRoleChange={handleBulkRoleChange}
-              />
+              <UserList users={currentUsers} onRoleChange={handleRoleChange} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} handleBulkRoleChange={handleBulkRoleChange} />
             )}
             {activeTab === 2 && (
               <SupportList
@@ -742,99 +550,43 @@ const AdminDashboard = () => {
               />
             )}
             {activeTab === 3 && <Upload />}
-            {activeTab === 4 && (
-              <BlogEditorModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              />
-            )}
-            {activeTab === 5 && <AdminManager />}
-            {activeTab === 6 && (
-              <BlogEditorModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              />
-            )}
+            {activeTab === 4 && <BlogEditorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+            {activeTab === 5 && <ProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+            {activeTab === 6 && <AdminManager />}
           </div>
 
           <div className="card-footer">
             <div className="pagination">
-              <button
-                onClick={() => paginate(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="page-nav"
-              >
+              <button onClick={() => paginate(Math.max(1, currentPage - 1))} disabled={currentPage === 1} className="page-nav">
                 Previous
               </button>
               {Array.from(
                 {
-                  length: Math.ceil(
-                    (activeTab === 1
-                      ? filteredUsers.length
-                      : filteredMessages.length) / itemsPerPage
-                  ),
+                  length: Math.ceil((activeTab === 1 ? filteredUsers.length : filteredMessages.length) / itemsPerPage),
                 },
                 (_, i) => (
-                  <button
-                    key={i + 1}
-                    onClick={() => paginate(i + 1)}
-                    className={`page-item ${
-                      currentPage === i + 1 ? "active" : ""
-                    }`}
-                  >
+                  <button key={i + 1} onClick={() => paginate(i + 1)} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
                     {i + 1}
                   </button>
                 )
               )}
               <button
-                onClick={() =>
-                  paginate(
-                    Math.min(
-                      Math.ceil(
-                        (activeTab === 1
-                          ? filteredUsers.length
-                          : filteredMessages.length) / itemsPerPage
-                      ),
-                      currentPage + 1
-                    )
-                  )
-                }
-                disabled={
-                  currentPage ===
-                  Math.ceil(
-                    (activeTab === 1
-                      ? filteredUsers.length
-                      : filteredMessages.length) / itemsPerPage
-                  )
-                }
-                className="page-nav"
-              >
+                onClick={() => paginate(Math.min(Math.ceil((activeTab === 1 ? filteredUsers.length : filteredMessages.length) / itemsPerPage), currentPage + 1))}
+                disabled={currentPage === Math.ceil((activeTab === 1 ? filteredUsers.length : filteredMessages.length) / itemsPerPage)}
+                className="page-nav">
                 Next
               </button>
             </div>
           </div>
         </div>
 
-        {selectedMessage && (
-          <MessageModal
-            message={selectedMessage}
-            onClose={() => setSelectedMessage(null)}
-            onStatusChange={handleStatusChange}
-          />
-        )}
+        {selectedMessage && <MessageModal message={selectedMessage} onClose={() => setSelectedMessage(null)} onStatusChange={handleStatusChange} />}
       </div>
     </div>
   );
 };
 
-const SupportList = ({
-  messages,
-  onStatusChange,
-  onMessageClick,
-  selectedMessages,
-  setSelectedMessages,
-  handleBulkStatusChange,
-}) => {
+const SupportList = ({ messages, onStatusChange, onMessageClick, selectedMessages, setSelectedMessages, handleBulkStatusChange }) => {
   const handleSelectMessage = (messageId) => {
     if (selectedMessages.includes(messageId)) {
       setSelectedMessages(selectedMessages.filter((id) => id !== messageId));
@@ -855,16 +607,10 @@ const SupportList = ({
     <div className="table-container">
       {selectedMessages.length > 0 && (
         <div className="table-actions">
-          <button
-            onClick={() => handleBulkStatusChange("opened")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkStatusChange("opened")} className="action-button">
             Mark as Opened
           </button>
-          <button
-            onClick={() => handleBulkStatusChange("responded")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkStatusChange("responded")} className="action-button">
             Mark as Responded
           </button>
         </div>
@@ -874,14 +620,7 @@ const SupportList = ({
         <thead>
           <tr>
             <th>
-              <input
-                type="checkbox"
-                checked={
-                  selectedMessages.length === messages.length &&
-                  messages.length > 0
-                }
-                onChange={handleSelectAll}
-              />
+              <input type="checkbox" checked={selectedMessages.length === messages.length && messages.length > 0} onChange={handleSelectAll} />
             </th>
             <th>Subject</th>
             <th>From</th>
@@ -901,11 +640,7 @@ const SupportList = ({
             messages.map((msg) => (
               <tr key={msg.id} className={`status-${msg.status}`}>
                 <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedMessages.includes(msg.id)}
-                    onChange={() => handleSelectMessage(msg.id)}
-                  />
+                  <input type="checkbox" checked={selectedMessages.includes(msg.id)} onChange={() => handleSelectMessage(msg.id)} />
                 </td>
                 <td onClick={() => onMessageClick(msg)} className="clickable">
                   {msg.subject}
@@ -913,18 +648,10 @@ const SupportList = ({
                 <td>{msg.email}</td>
                 <td>{msg.createdAt?.toDate().toLocaleDateString()}</td>
                 <td>
-                  <span className={`status-badge ${msg.status}`}>
-                    {msg.status}
-                  </span>
+                  <span className={`status-badge ${msg.status}`}>{msg.status}</span>
                 </td>
                 <td>
-                  <select
-                    onChange={(e) =>
-                      onStatusChange(msg.profileId, msg.id, e.target.value)
-                    }
-                    value={msg.status}
-                    className="status-select"
-                  >
+                  <select onChange={(e) => onStatusChange(msg.profileId, msg.id, e.target.value)} value={msg.status} className="status-select">
                     <option value="unopened">Unopened</option>
                     <option value="opened">Opened</option>
                     <option value="responded">Responded</option>
@@ -965,37 +692,18 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
               <strong>From:</strong> {message.email}
             </div>
             <div>
-              <strong>Date:</strong>{" "}
-              {message.createdAt?.toDate().toLocaleString()}
+              <strong>Date:</strong> {message.createdAt?.toDate().toLocaleString()}
             </div>
-            <div className={`status-badge ${message.status}`}>
-              {message.status}
-            </div>
+            <div className={`status-badge ${message.status}`}>{message.status}</div>
           </div>
           <div className="message-content">{message.description}</div>
         </div>
         <div className="modal-footer">
-          <button
-            onClick={handleMarkAsOpened}
-            disabled={message.status === "opened"}
-            className={`action-button ${
-              message.status === "opened" ? "disabled" : ""
-            }`}
-          >
-            <FiCheck />{" "}
-            {message.status === "opened" ? "Already Opened" : "Mark as Opened"}
+          <button onClick={handleMarkAsOpened} disabled={message.status === "opened"} className={`action-button ${message.status === "opened" ? "disabled" : ""}`}>
+            <FiCheck /> {message.status === "opened" ? "Already Opened" : "Mark as Opened"}
           </button>
-          <button
-            onClick={handleMarkAsResponded}
-            disabled={message.status === "responded"}
-            className={`action-button ${
-              message.status === "responded" ? "disabled" : ""
-            }`}
-          >
-            <FiCheck />{" "}
-            {message.status === "responded"
-              ? "Already Responded"
-              : "Mark as Responded"}
+          <button onClick={handleMarkAsResponded} disabled={message.status === "responded"} className={`action-button ${message.status === "responded" ? "disabled" : ""}`}>
+            <FiCheck /> {message.status === "responded" ? "Already Responded" : "Mark as Responded"}
           </button>
         </div>
       </div>
@@ -1003,13 +711,7 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
   );
 };
 
-const UserList = ({
-  users,
-  onRoleChange,
-  selectedUsers,
-  setSelectedUsers,
-  handleBulkRoleChange,
-}) => {
+const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handleBulkRoleChange }) => {
   const handleSelectUser = (userId) => {
     if (selectedUsers.includes(userId)) {
       setSelectedUsers(selectedUsers.filter((id) => id !== userId));
@@ -1031,22 +733,13 @@ const UserList = ({
     <div className="table-container">
       {selectedUsers.length > 0 && (
         <div className="table-actions">
-          <button
-            onClick={() => handleBulkRoleChange("admin")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkRoleChange("admin")} className="action-button">
             Make Admin
           </button>
-          <button
-            onClick={() => handleBulkRoleChange("moderator")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkRoleChange("moderator")} className="action-button">
             Make Moderator
           </button>
-          <button
-            onClick={() => handleBulkRoleChange("user")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkRoleChange("user")} className="action-button">
             Make Regular User
           </button>
         </div>
@@ -1056,13 +749,7 @@ const UserList = ({
         <thead>
           <tr>
             <th>
-              <input
-                type="checkbox"
-                checked={
-                  selectedUsers.length === users.length && users.length > 0
-                }
-                onChange={handleSelectAll}
-              />
+              <input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={handleSelectAll} />
             </th>
             <th>Email</th>
             <th>Current Role</th>
@@ -1080,24 +767,14 @@ const UserList = ({
             users.map((user) => (
               <tr key={user.id}>
                 <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedUsers.includes(user.id)}
-                    onChange={() => handleSelectUser(user.id)}
-                  />
+                  <input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => handleSelectUser(user.id)} />
                 </td>
                 <td>{user.email}</td>
                 <td>
                   <span className={`role-badge ${user.role}`}>{user.role}</span>
                 </td>
                 <td>
-                  <select
-                    onChange={(e) =>
-                      onRoleChange(user.id, e.target.value, user.email)
-                    }
-                    value={user.role}
-                    className="role-select"
-                  >
+                  <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role} className="role-select">
                     <option value="admin">Admin</option>
                     <option value="moderator">Moderator</option>
                     <option value="user">User</option>
@@ -1157,10 +834,7 @@ const AdminManager = () => {
         addedBy: currentUser?.email || "unknown",
         createdAt: new Date(),
       });
-      setAdmins([
-        ...admins,
-        { id: email, addedBy: currentUser?.email, createdAt: new Date() },
-      ]);
+      setAdmins([...admins, { id: email, addedBy: currentUser?.email, createdAt: new Date() }]);
       setNewAdminEmail("");
       setLogMessage(`Admin ${email} added successfully.`);
       setLogType("success");
@@ -1195,24 +869,14 @@ const AdminManager = () => {
   return (
     <div className="admin-manager">
       <h3>Admin Manager</h3>
-      <input
-        placeholder="Enter admin email"
-        value={newAdminEmail}
-        onChange={(e) => setNewAdminEmail(e.target.value)}
-      />
+      <input placeholder="Enter admin email" value={newAdminEmail} onChange={(e) => setNewAdminEmail(e.target.value)} />
       <button onClick={addAdmin}>Add Admin</button>
       {logMessage && (
         <div
           style={{
             marginTop: "10px",
-            color:
-              logType === "success"
-                ? "green"
-                : logType === "error"
-                ? "red"
-                : "black",
-          }}
-        >
+            color: logType === "success" ? "green" : logType === "error" ? "red" : "black",
+          }}>
           {logMessage}
         </div>
       )}
@@ -1220,10 +884,7 @@ const AdminManager = () => {
         {admins.map((admin) => (
           <li key={admin.id}>
             {admin.id}
-            <button
-              style={{ marginLeft: "10px" }}
-              onClick={() => removeAdmin(admin.id)}
-            >
+            <button style={{ marginLeft: "10px" }} onClick={() => removeAdmin(admin.id)}>
               Remove
             </button>
           </li>

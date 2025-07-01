@@ -19,8 +19,7 @@ function Footer() {
               <h6 className="mt-30 mb-15">
                 <a
                   href="mail:info@shammarianas.com
-"
-                >
+">
                   info@shammarianas.com
                 </a>
               </h6>
@@ -80,8 +79,7 @@ function Footer() {
                   <a
                     href="https://www.facebook.com/shammarianas"
                     // className="hover-anim"
-                    target="_blank"
-                  >
+                    target="_blank">
                     <i className="fab fa-facebook-f"></i>
                   </a>
                 </li>
@@ -103,10 +101,7 @@ function Footer() {
                   </a>
                 </li>
                 <li className="hover-this cursor-pointer ml-10">
-                  <a
-                    href="https://www.instagram.com/sham_marianas"
-                    className="hover-anim"
-                  >
+                  <a href="https://www.instagram.com/sham_marianas" className="hover-anim">
                     <i className="fab fa-instagram"></i>
                   </a>
                 </li>
