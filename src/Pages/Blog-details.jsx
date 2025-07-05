@@ -89,17 +89,17 @@ function BlogDetails() {
     loadBackgroudImages();
   }, [id]);
 
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
-    if (!confirmDelete) return;
+  // const handleDelete = async () => {
+  //   const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
+  //   if (!confirmDelete) return;
 
-    try {
-      await deleteDoc(doc(db, "blogs", id));
-      navigate("/blogs");
-    } catch (error) {
-      console.error("Error deleting blog:", error);
-    }
-  };
+  //   try {
+  //     await deleteDoc(doc(db, "blogs", id));
+  //     navigate("/blogs");
+  //   } catch (error) {
+  //     console.error("Error deleting blog:", error);
+  //   }
+  // };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -157,7 +157,7 @@ function BlogDetails() {
                     <span className="pe-7s-comment fz-18 mr-10"></span>
                     <span className="opacity-7">{blog.commentsCount || 0} Comments</span>
                   </div>
-                  {isAdmin && (
+                  {/* {isAdmin && (
                     <button
                       onClick={handleDelete}
                       className="btn btn-sm btn-danger"
@@ -171,7 +171,7 @@ function BlogDetails() {
                       }}>
                       Delete
                     </button>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
