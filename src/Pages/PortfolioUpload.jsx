@@ -12,8 +12,6 @@ const ProjectModal = ({ isOpen, onClose }) => {
     designer: "",
     challengeTitle: "The Challenge",
     challengeDescription: "",
-    solutionTitle: "The Solution",
-    solutionDescription: "",
     description: "",
     images: [],
     imageUrls: [],
@@ -70,8 +68,6 @@ const ProjectModal = ({ isOpen, onClose }) => {
         designer: projectData.designer,
         challengeTitle: projectData.challengeTitle,
         challengeDescription: projectData.challengeDescription,
-        solutionTitle: projectData.solutionTitle,
-        solutionDescription: projectData.solutionDescription,
         description: projectData.description,
         imageUrls: imageUrls,
         createdAt: new Date(),
@@ -86,7 +82,6 @@ const ProjectModal = ({ isOpen, onClose }) => {
         designer: "",
         challengeTitle: "The Challenge",
         challengeDescription: "",
-        solutionTitle: "The Solution",
         solutionDescription: "",
         description: "",
         images: [],
@@ -299,35 +294,6 @@ const ProjectModal = ({ isOpen, onClose }) => {
                 placeholder="Enter challenge description"
                 rows="4"
               />
-            </div>
-
-            <div className="project-form-group">
-              <label className="project-form-label">
-                Solution Title <span className="project-form-required">*</span>
-              </label>
-              <input type="text" name="solutionTitle" value={projectData.solutionTitle} onChange={handleInputChange} required className="project-form-input" placeholder="Enter solution title" />
-            </div>
-
-            <div className="project-form-group">
-              <label className="project-form-label">
-                Solution Description <span className="project-form-required">*</span>
-              </label>
-              <textarea
-                name="solutionDescription"
-                value={projectData.solutionDescription}
-                onChange={handleInputChange}
-                required
-                className="project-form-textarea"
-                placeholder="Enter solution description"
-                rows="4"
-              />
-            </div>
-
-            <div className="project-form-group">
-              <label className="project-form-label">
-                Project Description <span className="project-form-required">*</span>
-              </label>
-              <textarea name="description" value={projectData.description} onChange={handleInputChange} required className="project-form-textarea" placeholder="Enter project description" rows="4" />
             </div>
 
             <div className="project-form-group">

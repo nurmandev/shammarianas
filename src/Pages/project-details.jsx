@@ -49,15 +49,7 @@ export default function ProjectDetails() {
         <ProgressScroll />
         {/* <Header /> */}
 
-        <header
-          className=" header-project bg-img d-flex align-items-end"
-          data-background={
-            project.imageUrls?.length > 0
-              ? project.imageUrls[0]
-              : project.imageUrl
-          }
-          data-overlay-dark="9"
-        >
+        <header className=" header-project bg-img d-flex align-items-end" data-background={project.imageUrls?.length > 0 ? project.imageUrls[0] : project.imageUrl} data-overlay-dark="9">
           <div className="container">
             <div className="row">
               <div className="col-12">
@@ -81,14 +73,17 @@ export default function ProjectDetails() {
                     <h6> {project.category}</h6>
                   </div>
                 </div>
+
+                <div className="col-md-6 col-lg-3">
+                  <div className="item mb-30">
+                    <span className="opacity-8 mb-5">Client :</span>
+                    <h6>{project.client}</h6>
+                  </div>
+                </div>
                 <div className="col-md-6 col-lg-3">
                   <div className="item mb-30">
                     <span className="opacity-8 mb-5">Start Date :</span>
-                    <h6>
-                      {new Date(
-                        project.createdAt?.toDate()
-                      ).toLocaleDateString()}
-                    </h6>
+                    <h6>{new Date(project.createdAt?.toDate()).toLocaleDateString()}</h6>
                   </div>
                 </div>
               </div>
