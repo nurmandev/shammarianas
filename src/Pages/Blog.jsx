@@ -57,17 +57,17 @@ function Blogs() {
     loadBackgroudImages();
   }, []);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
-    if (!confirmDelete) return;
+  // const handleDelete = async (id) => {
+  //   const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
+  //   if (!confirmDelete) return;
 
-    try {
-      await deleteDoc(doc(db, "blogs", id));
-      setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== id));
-    } catch (error) {
-      console.error("Error deleting blog:", error);
-    }
-  };
+  //   try {
+  //     await deleteDoc(doc(db, "blogs", id));
+  //     setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== id));
+  //   } catch (error) {
+  //     console.error("Error deleting blog:", error);
+  //   }
+  // };
 
   const handleFilterChange = (filterValue) => {
     setFilter(filterValue);
@@ -128,7 +128,7 @@ function Blogs() {
                         <Link to={`/blog-details/${blog.id}`} className="d-flex align-items-center main-color mt-40">
                           <span className="text mr-15">Read More</span>
                           <span className="ti-arrow-top-right"></span>
-                          {isAdmin && (
+                          {/* {isAdmin && (
                             <button
                               onClick={() => handleDelete(blog.id)}
                               className="btn btn-sm btn-danger ml-auto"
@@ -142,7 +142,7 @@ function Blogs() {
                               }}>
                               Delete
                             </button>
-                          )}
+                          )} */}
                         </Link>
                       </div>
                     </div>

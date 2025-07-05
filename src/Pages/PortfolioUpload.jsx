@@ -12,10 +12,10 @@ const ProjectModal = ({ isOpen, onClose }) => {
     designer: "",
     challengeTitle: "The Challenge",
     challengeDescription: "",
-    solutionTitle: "The Solution",
-    solutionDescription: "",
     description: "",
     images: [],
+    image: "",
+    backgroundImageUrl: "",
     imageUrls: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,6 +45,21 @@ const ProjectModal = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleSingleImgChange = (e) => {
+    if (e.target.files) {
+      const file = e.target.files?.[0];
+      if (file.size > 1250000) {
+        alert(`Image ${file.name} must be smaller than 1.25MB`);
+        return;
+      }
+
+      setProjectData((prev) => ({
+        ...prev,
+        image: file,
+      }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -62,6 +77,17 @@ const ProjectModal = ({ isOpen, onClose }) => {
         imageUrls = await Promise.all(uploadPromises);
       }
 
+      let bgImgUrl = "";
+
+      if (projectData.image) {
+        const image = projectData.image;
+        const storageRef = ref(storage, `projects/${image.name}-${Date.now()}`);
+        await uploadBytes(storageRef, image);
+        await getDownloadURL(storageRef);
+
+        bgImgUrl = await getDownloadURL(storageRef);
+      }
+
       const docRef = await addDoc(collection(db, "projects"), {
         title: projectData.title,
         category: projectData.category,
@@ -70,10 +96,9 @@ const ProjectModal = ({ isOpen, onClose }) => {
         designer: projectData.designer,
         challengeTitle: projectData.challengeTitle,
         challengeDescription: projectData.challengeDescription,
-        solutionTitle: projectData.solutionTitle,
-        solutionDescription: projectData.solutionDescription,
         description: projectData.description,
         imageUrls: imageUrls,
+        backgroundImageUrl: bgImgUrl,
         createdAt: new Date(),
       });
 
@@ -86,10 +111,11 @@ const ProjectModal = ({ isOpen, onClose }) => {
         designer: "",
         challengeTitle: "The Challenge",
         challengeDescription: "",
-        solutionTitle: "The Solution",
         solutionDescription: "",
         description: "",
         images: [],
+        image: "",
+        backgroundImageUrl: "",
         imageUrls: [],
       });
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -303,33 +329,14 @@ const ProjectModal = ({ isOpen, onClose }) => {
 
             <div className="project-form-group">
               <label className="project-form-label">
-                Solution Title <span className="project-form-required">*</span>
+                Project Image <span className="project-form-required">*</span>
               </label>
-              <input type="text" name="solutionTitle" value={projectData.solutionTitle} onChange={handleInputChange} required className="project-form-input" placeholder="Enter solution title" />
-            </div>
+              <input type="file" ref={fileInputRef} onChange={handleSingleImgChange} accept="image/*" required className="project-form-file" />
 
-            <div className="project-form-group">
-              <label className="project-form-label">
-                Solution Description <span className="project-form-required">*</span>
-              </label>
-              <textarea
-                name="solutionDescription"
-                value={projectData.solutionDescription}
-                onChange={handleInputChange}
-                required
-                className="project-form-textarea"
-                placeholder="Enter solution description"
-                rows="4"
-              />
-            </div>
+              <p className="project-form-hint">* Only images below 1.25MB can be uploaded.</p>
 
-            <div className="project-form-group">
-              <label className="project-form-label">
-                Project Description <span className="project-form-required">*</span>
-              </label>
-              <textarea name="description" value={projectData.description} onChange={handleInputChange} required className="project-form-textarea" placeholder="Enter project description" rows="4" />
+              {projectData.image && <p className="mt-2 text-sm text-gray-600">Selected file: {projectData.image.name}</p>}
             </div>
-
             <div className="project-form-group">
               <label className="project-form-label">
                 Project Images (Multiple) <span className="project-form-required">*</span>
