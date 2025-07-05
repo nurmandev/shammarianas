@@ -14,6 +14,8 @@ const ProjectModal = ({ isOpen, onClose }) => {
     challengeDescription: "",
     description: "",
     images: [],
+    image: "",
+    backgroundImageUrl: "",
     imageUrls: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,6 +45,21 @@ const ProjectModal = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleSingleImgChange = (e) => {
+    if (e.target.files) {
+      const file = e.target.files?.[0];
+      if (file.size > 1250000) {
+        alert(`Image ${file.name} must be smaller than 1.25MB`);
+        return;
+      }
+
+      setProjectData((prev) => ({
+        ...prev,
+        image: file,
+      }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -60,6 +77,17 @@ const ProjectModal = ({ isOpen, onClose }) => {
         imageUrls = await Promise.all(uploadPromises);
       }
 
+      let bgImgUrl = "";
+
+      if (projectData.image) {
+        const image = projectData.image;
+        const storageRef = ref(storage, `projects/${image.name}-${Date.now()}`);
+        await uploadBytes(storageRef, image);
+        await getDownloadURL(storageRef);
+
+        bgImgUrl = await getDownloadURL(storageRef);
+      }
+
       const docRef = await addDoc(collection(db, "projects"), {
         title: projectData.title,
         category: projectData.category,
@@ -70,6 +98,7 @@ const ProjectModal = ({ isOpen, onClose }) => {
         challengeDescription: projectData.challengeDescription,
         description: projectData.description,
         imageUrls: imageUrls,
+        backgroundImageUrl: bgImgUrl,
         createdAt: new Date(),
       });
 
@@ -85,6 +114,8 @@ const ProjectModal = ({ isOpen, onClose }) => {
         solutionDescription: "",
         description: "",
         images: [],
+        image: "",
+        backgroundImageUrl: "",
         imageUrls: [],
       });
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -296,6 +327,16 @@ const ProjectModal = ({ isOpen, onClose }) => {
               />
             </div>
 
+            <div className="project-form-group">
+              <label className="project-form-label">
+                Project Image <span className="project-form-required">*</span>
+              </label>
+              <input type="file" ref={fileInputRef} onChange={handleSingleImgChange} accept="image/*" required className="project-form-file" />
+
+              <p className="project-form-hint">* Only images below 1.25MB can be uploaded.</p>
+
+              {projectData.image && <p className="mt-2 text-sm text-gray-600">Selected file: {projectData.image.name}</p>}
+            </div>
             <div className="project-form-group">
               <label className="project-form-label">
                 Project Images (Multiple) <span className="project-form-required">*</span>

@@ -49,7 +49,7 @@ export default function ProjectDetails() {
         <ProgressScroll />
         {/* <Header /> */}
 
-        <header className=" header-project bg-img d-flex align-items-end" data-background={project.imageUrls?.length > 0 ? project.imageUrls[0] : project.imageUrl} data-overlay-dark="9">
+        <header className=" header-project bg-img d-flex align-items-end" data-background={project.backgroundImageUrl} data-overlay-dark="9">
           <div className="container">
             <div className="row">
               <div className="col-12">
@@ -60,6 +60,8 @@ export default function ProjectDetails() {
             </div>
           </div>
         </header>
+
+        {console.log("project", project)}
 
         {/* <h1>{project.description}</h1> */}
 
