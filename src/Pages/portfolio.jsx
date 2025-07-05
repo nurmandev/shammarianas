@@ -70,17 +70,17 @@ function Header() {
     loadBackgroudImages();
   }, []);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this project?");
-    if (!confirmDelete) return;
+  // const handleDelete = async (id) => {
+  //   const confirmDelete = window.confirm("Are you sure you want to delete this project?");
+  //   if (!confirmDelete) return;
 
-    try {
-      await deleteDoc(doc(db, "projects", id));
-      setProjects((prevProjects) => prevProjects.filter((project) => project.id !== id));
-    } catch (error) {
-      console.error("Error deleting project:", error);
-    }
-  };
+  //   try {
+  //     await deleteDoc(doc(db, "projects", id));
+  //     setProjects((prevProjects) => prevProjects.filter((project) => project.id !== id));
+  //   } catch (error) {
+  //     console.error("Error deleting project:", error);
+  //   }
+  // };
 
   const handleFilterChange = (filterValue) => {
     setFilter(filterValue);
@@ -166,7 +166,7 @@ function Header() {
                         <h6>{project.title}</h6>
                       </div>
                       <div className="ml-auto d-flex align-items-center">
-                        {isAdmin && (
+                        {/* {isAdmin && (
                           <button
                             onClick={() => handleDelete(project.id)}
                             className="btn btn-sm btn-danger mr-2"
@@ -180,7 +180,7 @@ function Header() {
                             }}>
                             Delete
                           </button>
-                        )}
+                        )} */}
                         <Link to={`/project-details/${project.id}`}>
                           <span className="ti-arrow-top-right"></span>
                         </Link>

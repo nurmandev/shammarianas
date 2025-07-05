@@ -1,6 +1,6 @@
-'use client';
-import loadBackgroudImages from '../../common/loadBackgroudImages';
-import React, { useEffect } from 'react';
+"use client";
+import loadBackgroudImages from "../../common/loadBackgroudImages";
+import React, { useEffect } from "react";
 
 function Next() {
   useEffect(() => {
@@ -11,10 +11,7 @@ function Next() {
       <div className="container-fluid rest">
         <div className="row">
           <div className="col-md-6 rest">
-            <div
-              className="text-left box bg-img"
-              data-background="/assets/imgs/works/3/1.jpg"
-            >
+            <div className="text-left box bg-img" data-background="/assets/imgs/works/3/1.jpg">
               <div className="cont d-flex align-items-center">
                 <div>
                   <span className="mr-30 fz-30 ti-arrow-left"></span>
@@ -29,10 +26,7 @@ function Next() {
             </div>
           </div>
           <div className="col-md-6 rest">
-            <div
-              className="text-right d-flex box bg-img"
-              data-background="/assets/imgs/works/3/2.jpg"
-            >
+            <div className="text-right d-flex box bg-img" data-background="/assets/imgs/works/3/2.jpg">
               <div className="ml-auto">
                 <div className="cont d-flex align-items-center">
                   <div>
