@@ -1,34 +1,47 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { db, auth, storage } from "../../firebase";
-import { collection, addDoc, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db, auth } from "../../firebase";
+import { collection, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
 import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
 import { Link } from "react-router-dom";
 import loadBackgroudImages from "../common/loadBackgroudImages";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Marq2 from "../Components/marq2";
 
+const Slideshow = ({ imageUrls, title }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Auto-slide effect
+  useEffect(() => {
+    if (!imageUrls || imageUrls.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex === imageUrls.length - 1 ? 0 : prevIndex + 1));
+    }, 3000); // Change image every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [imageUrls]);
+
+  return (
+    <div className="img-gallery relative">
+      {imageUrls && imageUrls.length > 0 ? (
+        <img
+          src={imageUrls[currentImageIndex] || "/assets/imgs/works/2/1.jpg"}
+          alt={`${title} ${currentImageIndex + 1}`}
+          className="gallery-image w-full h-[200px] object-cover rounded-lg transition-opacity duration-500"
+        />
+      ) : (
+        <img src="/assets/imgs/works/2/1.jpg" alt={title} className="gallery-image w-full h-[200px] object-cover rounded-lg" />
+      )}
+    </div>
+  );
+};
+
 function Header() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [filter, setFilter] = useState("*"); // State to track active filter
-  const [projectData, setProjectData] = useState({
-    title: "",
-    category: "design",
-    client: "",
-    startDate: "",
-    designer: "",
-    challengeTitle: "The Challenge",
-    challengeDescription: "",
-    solutionTitle: "The Solution",
-    solutionDescription: "",
-    description: "",
-    images: [],
-    imageUrls: [],
-  });
+  const [_, setIsAdmin] = useState(false);
+  const [filter, setFilter] = useState("*");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -70,23 +83,10 @@ function Header() {
     loadBackgroudImages();
   }, []);
 
-  // const handleDelete = async (id) => {
-  //   const confirmDelete = window.confirm("Are you sure you want to delete this project?");
-  //   if (!confirmDelete) return;
-
-  //   try {
-  //     await deleteDoc(doc(db, "projects", id));
-  //     setProjects((prevProjects) => prevProjects.filter((project) => project.id !== id));
-  //   } catch (error) {
-  //     console.error("Error deleting project:", error);
-  //   }
-  // };
-
   const handleFilterChange = (filterValue) => {
     setFilter(filterValue);
   };
 
-  // Filter projects based on the selected filter
   const filteredProjects = filter === "*" ? projects : projects.filter((project) => project.category === filter.slice(1));
 
   return (
@@ -157,30 +157,13 @@ function Header() {
               filteredProjects.map((project) => (
                 <div key={project.id} className={`col-lg-4 col-md-6 items ${project.category}`}>
                   <div className="item mb-50">
-                    <div className="img">
-                      <img src={project.imageUrls?.[0] || "/assets/imgs/works/2/1.jpg"} alt={project.title} />
-                    </div>
+                    <Slideshow imageUrls={project.imageUrls} title={project.title} />
                     <div className="cont d-flex align-items-end mt-30">
                       <div>
                         <span className="p-color mb-5 sub-title">{project.category.charAt(0).toUpperCase() + project.category.slice(1)}</span>
                         <h6>{project.title}</h6>
                       </div>
                       <div className="ml-auto d-flex align-items-center">
-                        {/* {isAdmin && (
-                          <button
-                            onClick={() => handleDelete(project.id)}
-                            className="btn btn-sm btn-danger mr-2"
-                            style={{
-                              background: "#ff4d4f",
-                              color: "white",
-                              border: "none",
-                              padding: "5px 10px",
-                              borderRadius: "4px",
-                              cursor: "pointer",
-                            }}>
-                            Delete
-                          </button>
-                        )} */}
                         <Link to={`/project-details/${project.id}`}>
                           <span className="ti-arrow-top-right"></span>
                         </Link>

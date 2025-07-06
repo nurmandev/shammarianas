@@ -4,6 +4,7 @@ import { doc, getDoc, deleteDoc, getDocs, collection } from "firebase/firestore"
 import { db, auth } from "../../firebase";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import Marq2 from "../Components/marq2";
+import sanitizeHtml from "sanitize-html"; // Import sanitize-html
 
 function BlogDetails() {
   const { id } = useParams();
@@ -27,8 +28,23 @@ function BlogDetails() {
         const docRef = doc(db, "blogs", id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setBlog({ id: docSnap.id, ...docSnap.data() });
-          console.log({ id: docSnap.id, ...docSnap.data() });
+          const blogData = { id: docSnap.id, ...docSnap.data() };
+          // Sanitize the blog content
+          blogData.content = sanitizeHtml(blogData.content, {
+            allowedTags: ["p", "h1", "h2", "h3", "h4", "h5", "h6", "strong", "em", "ul", "ol", "li", "a", "img", "div", "span", "br"],
+            allowedAttributes: {
+              a: ["href", "target", "rel"],
+              img: ["src", "alt", "width", "height"],
+              div: ["class"],
+              span: ["class"],
+            },
+            allowedClasses: {
+              div: ["prose", "prose-blue", "max-w-none"],
+              span: [],
+            },
+          });
+          setBlog(blogData);
+          console.log(blogData);
         } else {
           console.log("No such blog!");
         }
@@ -89,18 +105,6 @@ function BlogDetails() {
     loadBackgroudImages();
   }, [id]);
 
-  // const handleDelete = async () => {
-  //   const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
-  //   if (!confirmDelete) return;
-
-  //   try {
-  //     await deleteDoc(doc(db, "blogs", id));
-  //     navigate("/blogs");
-  //   } catch (error) {
-  //     console.error("Error deleting blog:", error);
-  //   }
-  // };
-
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
@@ -157,21 +161,6 @@ function BlogDetails() {
                     <span className="pe-7s-comment fz-18 mr-10"></span>
                     <span className="opacity-7">{blog.commentsCount || 0} Comments</span>
                   </div>
-                  {/* {isAdmin && (
-                    <button
-                      onClick={handleDelete}
-                      className="btn btn-sm btn-danger"
-                      style={{
-                        background: "#ff4d4f",
-                        color: "white",
-                        border: "none",
-                        padding: "5px 10px",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}>
-                      Delete
-                    </button>
-                  )} */}
                 </div>
               </div>
             </div>
@@ -291,7 +280,6 @@ function BlogDetails() {
                   <h6 className="title-widget">Search Here</h6>
                   <form onSubmit={handleSearch} className="search-box">
                     <input type="text" name="search-post" placeholder="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-
                     <span className="icon pe-7s-search"></span>
                   </form>
                 </div>
