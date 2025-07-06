@@ -13,13 +13,14 @@ const ProjectModal = ({ isOpen, onClose }) => {
     challengeTitle: "The Challenge",
     challengeDescription: "",
     description: "",
-    images: [],
-    image: "",
+    images: [], // Array of { file, preview } objects for multiple images
+    image: null, // Single File object for background image
     backgroundImageUrl: "",
     imageUrls: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const fileInputRef = useRef(null);
+  const bgImageInputRef = useRef(null); // Ref for background image input
+  const multiImageInputRef = useRef(null); // Ref for multiple images input
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,34 +30,86 @@ const ProjectModal = ({ isOpen, onClose }) => {
     }));
   };
 
+  const handleSingleImgChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+      if (!validImageTypes.includes(file.type)) {
+        alert(`Image ${file.name} is not a valid image type. Only JPEG, PNG, GIF, and WebP are allowed.`);
+        return;
+      }
+      // Validate file size (1.25MB = 1,250,000 bytes)
+      if (file.size > 1250000) {
+        alert(`Image ${file.name} must be smaller than 1.25MB`);
+        return;
+      }
+      setProjectData((prev) => ({
+        ...prev,
+        image: file,
+        backgroundImageUrl: URL.createObjectURL(file), // Create preview for background image
+      }));
+    }
+  };
+
   const handleImageChange = (e) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files).filter((file) => {
+        // Validate file type
+        const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+        if (!validImageTypes.includes(file.type)) {
+          alert(`Image ${file.name} is not a valid image type. Only JPEG, PNG, GIF, and WebP are allowed.`);
+          return false;
+        }
+        // Validate file size
         if (file.size > 1250000) {
           alert(`Image ${file.name} must be smaller than 1.25MB`);
           return false;
         }
         return true;
       });
+
+      // Create preview URLs for valid images
+      const imagePreviews = filesArray.map((file) => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+
       setProjectData((prev) => ({
         ...prev,
-        images: filesArray,
+        images: [...prev.images, ...imagePreviews],
       }));
     }
   };
 
-  const handleSingleImgChange = (e) => {
-    if (e.target.files) {
-      const file = e.target.files?.[0];
-      if (file.size > 1250000) {
-        alert(`Image ${file.name} must be smaller than 1.25MB`);
-        return;
-      }
+  const removeMultiImage = (index) => {
+    setProjectData((prev) => {
+      const newImages = [...prev.images];
+      URL.revokeObjectURL(newImages[index].preview); // Prevent memory leaks
+      newImages.splice(index, 1);
+      return { ...prev, images: newImages };
+    });
+  };
 
-      setProjectData((prev) => ({
-        ...prev,
-        image: file,
-      }));
+  const clearMultiImages = () => {
+    setProjectData((prev) => {
+      prev.images.forEach((image) => URL.revokeObjectURL(image.preview)); // Prevent memory leaks
+      return { ...prev, images: [] };
+    });
+    if (multiImageInputRef.current) {
+      multiImageInputRef.current.value = "";
+    }
+  };
+
+  const clearBgImage = () => {
+    setProjectData((prev) => {
+      if (prev.backgroundImageUrl) {
+        URL.revokeObjectURL(prev.backgroundImageUrl); // Prevent memory leaks
+      }
+      return { ...prev, image: null, backgroundImageUrl: "" };
+    });
+    if (bgImageInputRef.current) {
+      bgImageInputRef.current.value = "";
     }
   };
 
@@ -66,25 +119,19 @@ const ProjectModal = ({ isOpen, onClose }) => {
 
     try {
       let imageUrls = [];
-
       if (projectData.images.length > 0) {
         const uploadPromises = projectData.images.map(async (image) => {
-          const storageRef = ref(storage, `projects/${image.name}-${Date.now()}`);
-          await uploadBytes(storageRef, image);
+          const storageRef = ref(storage, `projects/${image.file.name}-${Date.now()}`);
+          await uploadBytes(storageRef, image.file);
           return await getDownloadURL(storageRef);
         });
-
         imageUrls = await Promise.all(uploadPromises);
       }
 
       let bgImgUrl = "";
-
       if (projectData.image) {
-        const image = projectData.image;
-        const storageRef = ref(storage, `projects/${image.name}-${Date.now()}`);
-        await uploadBytes(storageRef, image);
-        await getDownloadURL(storageRef);
-
+        const storageRef = ref(storage, `projects/${projectData.image.name}-${Date.now()}`);
+        await uploadBytes(storageRef, projectData.image);
         bgImgUrl = await getDownloadURL(storageRef);
       }
 
@@ -97,12 +144,13 @@ const ProjectModal = ({ isOpen, onClose }) => {
         challengeTitle: projectData.challengeTitle,
         challengeDescription: projectData.challengeDescription,
         description: projectData.description,
-        imageUrls: imageUrls,
+        imageUrls,
         backgroundImageUrl: bgImgUrl,
         createdAt: new Date(),
       });
 
       console.log("Document written with ID: ", docRef.id);
+      // Reset form
       setProjectData({
         title: "",
         category: "design",
@@ -111,16 +159,15 @@ const ProjectModal = ({ isOpen, onClose }) => {
         designer: "",
         challengeTitle: "The Challenge",
         challengeDescription: "",
-        solutionDescription: "",
         description: "",
         images: [],
-        image: "",
+        image: null,
         backgroundImageUrl: "",
         imageUrls: [],
       });
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      clearMultiImages();
+      clearBgImage();
       onClose();
-      window.location.reload();
     } catch (error) {
       console.error("Error adding document: ", error);
       alert("Error saving project: " + error.message);
@@ -253,6 +300,52 @@ const ProjectModal = ({ isOpen, onClose }) => {
           opacity: 0.6;
           cursor: not-allowed;
         }
+        .image-preview-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 1rem;
+          margin-top: 0.5rem;
+        }
+        .image-preview {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 4/3;
+        }
+        .image-preview img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 0.5rem;
+        }
+        .remove-image-btn {
+          position: absolute;
+          top: 0.25rem;
+          right: 0.25rem;
+          background: #e53e3e;
+          color: #fff;
+          border: none;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+        .image-preview:hover .remove-image-btn {
+          opacity: 1;
+        }
+        .image-filename {
+          font-size: 0.85rem;
+          color: #4b5563;
+          text-align: center;
+          margin-top: 0.25rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       `}</style>
       <div className="project-modal-container">
         <div className="project-modal-content">
@@ -329,21 +422,52 @@ const ProjectModal = ({ isOpen, onClose }) => {
 
             <div className="project-form-group">
               <label className="project-form-label">
-                Project Image <span className="project-form-required">*</span>
+                Project Background Image <span className="project-form-required">*</span>
               </label>
-              <input type="file" ref={fileInputRef} onChange={handleSingleImgChange} accept="image/*" required className="project-form-file" />
-
-              <p className="project-form-hint">* Only images below 1.25MB can be uploaded.</p>
-
-              {projectData.image && <p className="mt-2 text-sm text-gray-600">Selected file: {projectData.image.name}</p>}
+              <input type="file" ref={bgImageInputRef} onChange={handleSingleImgChange} accept="image/jpeg,image/png,image/gif,image/webp" required className="project-form-file" />
+              <p className="project-form-hint">* Only JPEG, PNG, GIF, or WebP images below 1.25MB can be uploaded.</p>
+              {projectData.image && (
+                <div className="mt-2">
+                  <div className="image-preview-container">
+                    <div className="image-preview">
+                      <img src={projectData.backgroundImageUrl} alt="Background preview" />
+                      <button type="button" onClick={clearBgImage} className="remove-image-btn" title="Remove image">
+                        ×
+                      </button>
+                      <p className="image-filename">{projectData.image.name}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
+
             <div className="project-form-group">
               <label className="project-form-label">
                 Project Images (Multiple) <span className="project-form-required">*</span>
               </label>
-              <input type="file" ref={fileInputRef} onChange={handleImageChange} accept="image/*" multiple required className="project-form-file" />
-              <p className="project-form-hint">* Only images below 1.25MB can be uploaded.</p>
-              {projectData.images.length > 0 && <p className="mt-2 text-sm text-gray-600">Selected files: {projectData.images.length}</p>}
+              <input type="file" ref={multiImageInputRef} onChange={handleImageChange} accept="image/jpeg,image/png,image/gif,image/webp" multiple required className="project-form-file" />
+              <p className="project-form-hint">* Only JPEG, PNG, GIF, or WebP images below 1.25MB can be uploaded.</p>
+              {projectData.images.length > 0 && (
+                <div className="mt-2">
+                  <div className="flex justify-between items-center">
+                    <p className="text-sm text-gray-600">Selected files: {projectData.images.length}</p>
+                    <button type="button" onClick={clearMultiImages} className="text-sm text-red-600 hover:text-red-800">
+                      Clear All
+                    </button>
+                  </div>
+                  <div className="image-preview-container">
+                    {projectData.images.map((image, index) => (
+                      <div key={index} className="image-preview">
+                        <img src={image.preview} alt={`Preview ${index}`} />
+                        <button type="button" onClick={() => removeMultiImage(index)} className="remove-image-btn" title="Remove image">
+                          ×
+                        </button>
+                        <p className="image-filename">{image.file.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="project-form-buttons">
