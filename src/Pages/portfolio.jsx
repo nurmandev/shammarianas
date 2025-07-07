@@ -2,55 +2,35 @@
 
 import { useEffect, useState } from "react";
 import { db, auth } from "../../firebase";
-import { collection, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
 import { Link } from "react-router-dom";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import Marq2 from "../Components/marq2";
 
-const Slideshow = ({ imageUrls, title }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Auto-slide effect
-  useEffect(() => {
-    if (!imageUrls || imageUrls.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex === imageUrls.length - 1 ? 0 : prevIndex + 1));
-    }, 3000); // Change image every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [imageUrls]);
-
+// Renamed component to reflect single image display
+const SingleImage = ({ imageUrls, title }) => {
   return (
     <div className="img-gallery relative">
-      {imageUrls && imageUrls.length > 0 ? (
-        <img
-          src={imageUrls[currentImageIndex] || "/assets/imgs/works/2/1.jpg"}
-          alt={`${title} ${currentImageIndex + 1}`}
-          className="gallery-image w-full h-[200px] object-cover rounded-lg transition-opacity duration-500"
-        />
-      ) : (
-        <img src="/assets/imgs/works/2/1.jpg" alt={title} className="gallery-image w-full h-[200px] object-cover rounded-lg" />
-      )}
+      <img src={imageUrls && imageUrls.length > 0 ? imageUrls[0] : "/assets/imgs/works/2/1.jpg"} alt={title} className="gallery-image w-full h-[200px] object-cover rounded-lg" />
     </div>
   );
 };
 
 function Header() {
   const [projects, setProjects] = useState([]);
-  const [_, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [filter, setFilter] = useState("*");
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "projects"));
-        const projectsData = [];
-        querySnapshot.forEach((doc) => {
-          projectsData.push({ id: doc.id, ...doc.data() });
-        });
+        const projectsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
         setProjects(projectsData);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -63,12 +43,7 @@ function Header() {
         try {
           const userProfileRef = doc(db, "Profiles", currentUser.uid);
           const userDoc = await getDoc(userProfileRef);
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
-            setIsAdmin(userData.role === "admin");
-          } else {
-            setIsAdmin(false);
-          }
+          setIsAdmin(userDoc.exists() && userDoc.data().role === "admin");
         } catch (error) {
           console.error("Error fetching user profile:", error);
           setIsAdmin(false);
@@ -157,7 +132,7 @@ function Header() {
               filteredProjects.map((project) => (
                 <div key={project.id} className={`col-lg-4 col-md-6 items ${project.category}`}>
                   <div className="item mb-50">
-                    <Slideshow imageUrls={project.imageUrls} title={project.title} />
+                    <SingleImage imageUrls={project.imageUrls} title={project.title} />
                     <div className="cont d-flex align-items-end mt-30">
                       <div>
                         <span className="p-color mb-5 sub-title">{project.category.charAt(0).toUpperCase() + project.category.slice(1)}</span>
