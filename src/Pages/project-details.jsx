@@ -52,7 +52,7 @@ export default function ProjectDetails() {
     <>
       <style>{`
         .header-project {
-          min-height: 400px;
+          min-height: 600px;
           background-size: cover;
           background-position: center;
           position: relative;
@@ -89,37 +89,43 @@ export default function ProjectDetails() {
         }
         .project-section .content {
           display: flex;
-          align-items: flex-start;
-          gap: 2rem;
+          flex-direction: column
+          align-items: center;
+          gap: 1rem; 
         }
         .project-section h2 {
           font-size: 2rem;
           font-weight: 700;
           color: #FFFFFF;
-          margin: 0 1rem 1rem 0; /* Spacing between title and description */
-          flex-shrink: 0;
+          margin: 0 0 1rem 0; 
+          text-align: center; 
         }
         .project-description {
           font-size: 1rem;
           line-height: 1.6;
           color: #D1D5DB;
-          max-width: 400px;
+          max-width: 100%; 
           margin: 0 0 2rem 0;
+          text-align: center;
+        }
+        .text-gray-500 {
+          color: #6B7280;
+          font-style: italic;
         }
         .image-gallery {
           display: flex;
-          gap: 1rem;
+          flex-direction: column; 
+          gap: 0; 
           margin-top: 2rem;
-          flex-wrap: wrap; /* Allow wrapping after two images */
           justify-content: center;
+          align-items: center; 
         }
         .image-gallery img {
           width: 40rem;
           height: 40rem;
           object-fit: cover;
-     
-          flex: 0 0 calc(50% - 0.5rem); /* Ensure two images per row, accounting for gap */
-          max-width: calc(50% - 0.5rem); /* Prevent overflow */
+          max-width: 100%; 
+          margin: 0; 
         }
         .image-gallery img.fallback {
           background: #2D2D2D;
@@ -139,27 +145,30 @@ export default function ProjectDetails() {
             padding: 40px 0;
           }
           .project-section .content {
-            flex-direction: column;
+            flex-direction: column; 
             gap: 1rem;
+            align-items: center;
           }
           .project-section h2 {
-            margin: 0 0 1rem 0; /* Spacing between title and description on mobile */
+            margin: 0 0 1rem 0;
+            text-align: center; 
           }
           .project-description {
             max-width: 100%;
-            margin-bottom: 1rem;
+            margin: 0 0 1rem 0; 
+            text-align: center;
           }
           .image-gallery {
-            flex-direction: column;
-            gap: 1rem;
+            flex-direction: column; 
+            gap: 0;
+            justify-content: center;
+            align-items: center;
           }
           .image-gallery img {
-            width: 100%;
-            height: auto;
-            max-width: 400px;
-            margin: 0 auto;
-            flex: auto;
+            width: 20rem;
+            height: 20rem;
             max-width: 100%;
+            margin: 0;
           }
         }
       `}</style>
