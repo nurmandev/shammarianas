@@ -89,43 +89,44 @@ export default function ProjectDetails() {
         }
         .project-section .content {
           display: flex;
-          flex-direction: column
-          align-items: center;
-          gap: 1rem; 
+          flex-direction: column; /* Display content in a column */
+          align-items: center; /* Center items horizontally */
+          gap: 1rem; /* Spacing between title and description */
         }
         .project-section h2 {
           font-size: 2rem;
           font-weight: 700;
           color: #FFFFFF;
-          margin: 0 0 1rem 0; 
-          text-align: center; 
+          margin: 0 0 1rem 0; /* Adjusted margin for column layout */
+          text-align: center; /* Center title */
         }
         .project-description {
           font-size: 1rem;
           line-height: 1.6;
           color: #D1D5DB;
-          max-width: 100%; 
-          margin: 0 0 2rem 0;
-          text-align: center;
+          max-width: 100%; /* Full width for description */
+          margin: 0 0 2rem 0; /* Adjusted margin, no auto for full width */
+          text-align: left; /* Left-align text */
         }
         .text-gray-500 {
-          color: #6B7280;
+          color: #6B7280; /* Define text-gray-500 for fallback case */
           font-style: italic;
+          text-align: left; /* Left-align fallback text */
         }
         .image-gallery {
           display: flex;
-          flex-direction: column; 
-          gap: 0; 
+          flex-direction: column; /* Display images in a column */
+          gap: 0; /* Remove spacing between images */
           margin-top: 2rem;
-          justify-content: center;
-          align-items: center; 
+          justify-content: center; /* Center images horizontally */
+          align-items: center; /* Center images vertically */
         }
         .image-gallery img {
           width: 40rem;
           height: 40rem;
           object-fit: cover;
-          max-width: 100%; 
-          margin: 0; 
+          max-width: 100%; /* Ensure images don't overflow */
+          margin: 0; /* Remove any margin from images */
         }
         .image-gallery img.fallback {
           background: #2D2D2D;
@@ -145,36 +146,39 @@ export default function ProjectDetails() {
             padding: 40px 0;
           }
           .project-section .content {
-            flex-direction: column; 
+            flex-direction: column; /* Keep column layout on mobile */
             gap: 1rem;
             align-items: center;
           }
           .project-section h2 {
             margin: 0 0 1rem 0;
-            text-align: center; 
+            text-align: center; /* Center title on mobile */
           }
           .project-description {
-            max-width: 100%;
-            margin: 0 0 1rem 0; 
-            text-align: center;
+            max-width: 100%; /* Full width on mobile */
+            margin: 0 0 1rem 0; /* Adjusted margin for mobile */
+            text-align: left; /* Left-align text on mobile */
+          }
+          .text-gray-500 {
+            text-align: left; /* Left-align fallback text on mobile */
           }
           .image-gallery {
-            flex-direction: column; 
-            gap: 0;
+            flex-direction: column; /* Keep images in a column on mobile */
+            gap: 0; /* Remove spacing between images */
             justify-content: center;
             align-items: center;
           }
           .image-gallery img {
-            width: 20rem;
+            width: 20rem; /* Reduce image size on mobile */
             height: 20rem;
             max-width: 100%;
-            margin: 0;
+            margin: 0; /* Remove any margin from images */
           }
         }
       `}</style>
       <Cursor />
       <ProgressScroll />
-      <header className="header-project bg-img d-flex align-items-end" data-background={project.backgroundImageUrl || "/assets/imgs/background/bg4.jpg"} data-overlay-dark="9">
+      <header className="header-project bg-img d-flex align-items-end" data-background={project.coverImgUrl || "/assets/imgs/background/bg4.jpg"} data-overlay-dark="9">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -205,7 +209,7 @@ export default function ProjectDetails() {
               <div className="col-md-6 col-lg-3">
                 <div className="item">
                   <span className="opacity-8 mb-5">Start Date:</span>
-                  <h6>{project.createdAt ? new Date(project.createdAt.toDate()).toLocaleDateString() : "N/A"}</h6>
+                  <h6>{project.createdAt && typeof project.createdAt.toDate === "function" ? new Date(project.createdAt.toDate()).toLocaleDateString() : project.createdAt || "N/A"}</h6>
                 </div>
               </div>
               <div className="col-md-6 col-lg-3">
@@ -220,12 +224,23 @@ export default function ProjectDetails() {
           {/* Challenge Section */}
           <div className="project-section">
             <div className="content">
-              <h2>The Challenge</h2>
+              <h2>{project.challengeTitle || "The Challenge"}</h2>
               {project.challengeDescription ? <div className="project-description">{project.challengeDescription}</div> : <p className="text-gray-500 italic">No challenge description provided.</p>}
             </div>
             <div className="image-gallery challenge">
-              {project.imageUrls && project.imageUrls.length > 0 ? (
-                project.imageUrls.map((url, index) => <img key={index} src={url} alt={`${project.title} image ${index + 1}`} className="gallery-image" />)
+              {project.descriptionImgUrls && project.descriptionImgUrls.length > 0 ? (
+                project.descriptionImgUrls.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`${project.title} image ${index + 1}`}
+                    className="gallery-image"
+                    onError={(e) => {
+                      e.target.src = "/assets/imgs/works/2/1.jpg";
+                      e.target.className = "gallery-image fallback";
+                    }}
+                  />
+                ))
               ) : (
                 <img src="/assets/imgs/works/2/1.jpg" alt={`${project.title} fallback`} className="gallery-image fallback" />
               )}

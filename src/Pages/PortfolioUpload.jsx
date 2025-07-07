@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { db, storage } from "../../firebase"; // Ensure Firebase is configured
+import { db, storage } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -13,14 +13,17 @@ const ProjectModal = ({ isOpen, onClose }) => {
     challengeTitle: "The Challenge",
     challengeDescription: "",
     description: "",
-    images: [], // Array of { file, preview } objects for multiple images
-    image: null, // Single File object for background image
-    backgroundImageUrl: "",
-    imageUrls: [],
+    descriptionImages: [],
+    coverImage: null,
+    featureImage: null,
+    coverImgUrl: "",
+    featureImgUrl: "",
+    descriptionImgUrls: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const bgImageInputRef = useRef(null); // Ref for background image input
-  const multiImageInputRef = useRef(null); // Ref for multiple images input
+  const coverImageInputRef = useRef(null);
+  const descriptionImageInputRef = useRef(null);
+  const featureImageInputRef = useRef(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,38 +33,54 @@ const ProjectModal = ({ isOpen, onClose }) => {
     }));
   };
 
-  const handleSingleImgChange = (e) => {
+  const handleCoverImgChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
       const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
       if (!validImageTypes.includes(file.type)) {
         alert(`Image ${file.name} is not a valid image type. Only JPEG, PNG, GIF, and WebP are allowed.`);
         return;
       }
-      // Validate file size (1.25MB = 1,250,000 bytes)
       if (file.size > 1250000) {
         alert(`Image ${file.name} must be smaller than 1.25MB`);
         return;
       }
       setProjectData((prev) => ({
         ...prev,
-        image: file,
-        backgroundImageUrl: URL.createObjectURL(file), // Create preview for background image
+        coverImage: file,
+        coverImgUrl: URL.createObjectURL(file),
       }));
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleFeatureImgChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+      if (!validImageTypes.includes(file.type)) {
+        alert(`Image ${file.name} is not a valid image type. Only JPEG, PNG, GIF, and WebP are allowed.`);
+        return;
+      }
+      if (file.size > 1250000) {
+        alert(`Image ${file.name} must be smaller than 1.25MB`);
+        return;
+      }
+      setProjectData((prev) => ({
+        ...prev,
+        featureImage: file,
+        featureImgUrl: URL.createObjectURL(file),
+      }));
+    }
+  };
+
+  const handleDescriptionImageChange = (e) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files).filter((file) => {
-        // Validate file type
         const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
         if (!validImageTypes.includes(file.type)) {
           alert(`Image ${file.name} is not a valid image type. Only JPEG, PNG, GIF, and WebP are allowed.`);
           return false;
         }
-        // Validate file size
         if (file.size > 1250000) {
           alert(`Image ${file.name} must be smaller than 1.25MB`);
           return false;
@@ -69,7 +88,6 @@ const ProjectModal = ({ isOpen, onClose }) => {
         return true;
       });
 
-      // Create preview URLs for valid images
       const imagePreviews = filesArray.map((file) => ({
         file,
         preview: URL.createObjectURL(file),
@@ -77,39 +95,51 @@ const ProjectModal = ({ isOpen, onClose }) => {
 
       setProjectData((prev) => ({
         ...prev,
-        images: [...prev.images, ...imagePreviews],
+        descriptionImages: [...prev.descriptionImages, ...imagePreviews],
       }));
     }
   };
 
-  const removeMultiImage = (index) => {
+  const removeDescriptionImage = (index) => {
     setProjectData((prev) => {
-      const newImages = [...prev.images];
-      URL.revokeObjectURL(newImages[index].preview); // Prevent memory leaks
+      const newImages = [...prev.descriptionImages];
+      URL.revokeObjectURL(newImages[index].preview);
       newImages.splice(index, 1);
-      return { ...prev, images: newImages };
+      return { ...prev, descriptionImages: newImages };
     });
   };
 
-  const clearMultiImages = () => {
+  const clearDescriptionImages = () => {
     setProjectData((prev) => {
-      prev.images.forEach((image) => URL.revokeObjectURL(image.preview)); // Prevent memory leaks
-      return { ...prev, images: [] };
+      prev.descriptionImages.forEach((image) => URL.revokeObjectURL(image.preview));
+      return { ...prev, descriptionImages: [] };
     });
-    if (multiImageInputRef.current) {
-      multiImageInputRef.current.value = "";
+    if (descriptionImageInputRef.current) {
+      descriptionImageInputRef.current.value = "";
     }
   };
 
-  const clearBgImage = () => {
+  const clearCoverImage = () => {
     setProjectData((prev) => {
-      if (prev.backgroundImageUrl) {
-        URL.revokeObjectURL(prev.backgroundImageUrl); // Prevent memory leaks
+      if (prev.coverImgUrl) {
+        URL.revokeObjectURL(prev.coverImgUrl);
       }
-      return { ...prev, image: null, backgroundImageUrl: "" };
+      return { ...prev, coverImage: null, coverImgUrl: "" };
     });
-    if (bgImageInputRef.current) {
-      bgImageInputRef.current.value = "";
+    if (coverImageInputRef.current) {
+      coverImageInputRef.current.value = "";
+    }
+  };
+
+  const clearFeatureImage = () => {
+    setProjectData((prev) => {
+      if (prev.featureImgUrl) {
+        URL.revokeObjectURL(prev.featureImgUrl);
+      }
+      return { ...prev, featureImage: null, featureImgUrl: "" };
+    });
+    if (featureImageInputRef.current) {
+      featureImageInputRef.current.value = "";
     }
   };
 
@@ -118,21 +148,28 @@ const ProjectModal = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
 
     try {
-      let imageUrls = [];
-      if (projectData.images.length > 0) {
-        const uploadPromises = projectData.images.map(async (image) => {
+      let descriptionImgUrls = [];
+      if (projectData.descriptionImages.length > 0) {
+        const uploadPromises = projectData.descriptionImages.map(async (image) => {
           const storageRef = ref(storage, `projects/${image.file.name}-${Date.now()}`);
           await uploadBytes(storageRef, image.file);
           return await getDownloadURL(storageRef);
         });
-        imageUrls = await Promise.all(uploadPromises);
+        descriptionImgUrls = await Promise.all(uploadPromises);
       }
 
-      let bgImgUrl = "";
-      if (projectData.image) {
-        const storageRef = ref(storage, `projects/${projectData.image.name}-${Date.now()}`);
-        await uploadBytes(storageRef, projectData.image);
-        bgImgUrl = await getDownloadURL(storageRef);
+      let coverImgUrl = "";
+      if (projectData.coverImage) {
+        const storageRef = ref(storage, `projects/${projectData.coverImage.name}-${Date.now()}`);
+        await uploadBytes(storageRef, projectData.coverImage);
+        coverImgUrl = await getDownloadURL(storageRef);
+      }
+
+      let featureImgUrl = "";
+      if (projectData.featureImage) {
+        const storageRef = ref(storage, `projects/${projectData.featureImage.name}-${Date.now()}`);
+        await uploadBytes(storageRef, projectData.featureImage);
+        featureImgUrl = await getDownloadURL(storageRef);
       }
 
       const docRef = await addDoc(collection(db, "projects"), {
@@ -144,13 +181,13 @@ const ProjectModal = ({ isOpen, onClose }) => {
         challengeTitle: projectData.challengeTitle,
         challengeDescription: projectData.challengeDescription,
         description: projectData.description,
-        imageUrls,
-        backgroundImageUrl: bgImgUrl,
+        descriptionImgUrls,
+        coverImgUrl,
+        featureImgUrl,
         createdAt: new Date(),
       });
 
       console.log("Document written with ID: ", docRef.id);
-      // Reset form
       setProjectData({
         title: "",
         category: "design",
@@ -160,13 +197,16 @@ const ProjectModal = ({ isOpen, onClose }) => {
         challengeTitle: "The Challenge",
         challengeDescription: "",
         description: "",
-        images: [],
-        image: null,
-        backgroundImageUrl: "",
-        imageUrls: [],
+        descriptionImages: [],
+        coverImage: null,
+        featureImage: null,
+        coverImgUrl: "",
+        featureImgUrl: "",
+        descriptionImgUrls: [],
       });
-      clearMultiImages();
-      clearBgImage();
+      clearDescriptionImages();
+      clearCoverImage();
+      clearFeatureImage();
       onClose();
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -422,19 +462,19 @@ const ProjectModal = ({ isOpen, onClose }) => {
 
             <div className="project-form-group">
               <label className="project-form-label">
-                Project Background Image <span className="project-form-required">*</span>
+                Project Cover Image <span className="project-form-required">*</span>
               </label>
-              <input type="file" ref={bgImageInputRef} onChange={handleSingleImgChange} accept="image/jpeg,image/png,image/gif,image/webp" required className="project-form-file" />
+              <input type="file" ref={coverImageInputRef} onChange={handleCoverImgChange} accept="image/jpeg,image/png,image/gif,image/webp" required className="project-form-file" />
               <p className="project-form-hint">* Only JPEG, PNG, GIF, or WebP images below 1.25MB can be uploaded.</p>
-              {projectData.image && (
+              {projectData.coverImage && (
                 <div className="mt-2">
                   <div className="image-preview-container">
                     <div className="image-preview">
-                      <img src={projectData.backgroundImageUrl} alt="Background preview" />
-                      <button type="button" onClick={clearBgImage} className="remove-image-btn" title="Remove image">
+                      <img src={projectData.coverImgUrl} alt="Cover preview" />
+                      <button type="button" onClick={clearCoverImage} className="remove-image-btn" title="Remove image">
                         ×
                       </button>
-                      <p className="image-filename">{projectData.image.name}</p>
+                      <p className="image-filename">{projectData.coverImage.name}</p>
                     </div>
                   </div>
                 </div>
@@ -443,23 +483,52 @@ const ProjectModal = ({ isOpen, onClose }) => {
 
             <div className="project-form-group">
               <label className="project-form-label">
-                Project Images (Multiple) <span className="project-form-required">*</span>
+                Project Feature Image <span className="project-form-required">*</span>
               </label>
-              <input type="file" ref={multiImageInputRef} onChange={handleImageChange} accept="image/jpeg,image/png,image/gif,image/webp" multiple required className="project-form-file" />
+              <input type="file" ref={featureImageInputRef} onChange={handleFeatureImgChange} accept="image/jpeg,image/png,image/gif,image/webp" required className="project-form-file" />
               <p className="project-form-hint">* Only JPEG, PNG, GIF, or WebP images below 1.25MB can be uploaded.</p>
-              {projectData.images.length > 0 && (
+              {projectData.featureImage && (
+                <div className="mt-2">
+                  <div className="image-preview-container">
+                    <div className="image-preview">
+                      <img src={projectData.featureImgUrl} alt="Feature preview" />
+                      <button type="button" onClick={clearFeatureImage} className="remove-image-btn" title="Remove image">
+                        ×
+                      </button>
+                      <p className="image-filename">{projectData.featureImage.name}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="project-form-group">
+              <label className="project-form-label">
+                Project Description Images (Multiple) <span className="project-form-required">*</span>
+              </label>
+              <input
+                type="file"
+                ref={descriptionImageInputRef}
+                onChange={handleDescriptionImageChange}
+                accept="image/jpeg,image/png,image/gif,image/webp"
+                multiple
+                required
+                className="project-form-file"
+              />
+              <p className="project-form-hint">* Only JPEG, PNG, GIF, or WebP images below 1.25MB can be uploaded.</p>
+              {projectData.descriptionImages.length > 0 && (
                 <div className="mt-2">
                   <div className="flex justify-between items-center">
-                    <p className="text-sm text-gray-600">Selected files: {projectData.images.length}</p>
-                    <button type="button" onClick={clearMultiImages} className="text-sm text-red-600 hover:text-red-800">
+                    <p className="text-sm text-gray-600">Selected files: {projectData.descriptionImages.length}</p>
+                    <button type="button" onClick={clearDescriptionImages} className="text-sm text-red-600 hover:text-red-800">
                       Clear All
                     </button>
                   </div>
                   <div className="image-preview-container">
-                    {projectData.images.map((image, index) => (
+                    {projectData.descriptionImages.map((image, index) => (
                       <div key={index} className="image-preview">
                         <img src={image.preview} alt={`Preview ${index}`} />
-                        <button type="button" onClick={() => removeMultiImage(index)} className="remove-image-btn" title="Remove image">
+                        <button type="button" onClick={() => removeDescriptionImage(index)} className="remove-image-btn" title="Remove image">
                           ×
                         </button>
                         <p className="image-filename">{image.file.name}</p>

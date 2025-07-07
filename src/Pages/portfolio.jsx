@@ -6,14 +6,13 @@ import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
 import { Link } from "react-router-dom";
-import loadBackgroudImages from "../common/loadBackgroudImages";
+import loadBackgroundImages from "../common/loadBackgroudImages"; // Corrected import
 import Marq2 from "../Components/marq2";
 
-// Renamed component to reflect single image display
-const SingleImage = ({ imageUrls, title }) => {
+const SingleImage = ({ coverImgUrl, title }) => {
   return (
     <div className="img-gallery relative">
-      <img src={imageUrls && imageUrls.length > 0 ? imageUrls[0] : "/assets/imgs/works/2/1.jpg"} alt={title} className="gallery-image w-full h-[200px] object-cover rounded-lg" />
+      <img src={coverImgUrl || "/assets/imgs/works/2/1.jpg"} alt={title} className="gallery-image w-full h-[200px] object-cover rounded-lg" />
     </div>
   );
 };
@@ -55,7 +54,7 @@ function Header() {
 
     fetchProjects();
     checkAdminStatus();
-    loadBackgroudImages();
+    loadBackgroundImages(); // Corrected function name
   }, []);
 
   const handleFilterChange = (filterValue) => {
@@ -132,7 +131,7 @@ function Header() {
               filteredProjects.map((project) => (
                 <div key={project.id} className={`col-lg-4 col-md-6 items ${project.category}`}>
                   <div className="item mb-50">
-                    <SingleImage imageUrls={project.imageUrls} title={project.title} />
+                    <SingleImage coverImgUrl={project.featureImgUrl} title={project.title} />
                     <div className="cont d-flex align-items-end mt-30">
                       <div>
                         <span className="p-color mb-5 sub-title">{project.category.charAt(0).toUpperCase() + project.category.slice(1)}</span>
