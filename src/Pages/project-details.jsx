@@ -122,11 +122,11 @@ export default function ProjectDetails() {
           align-items: center; /* Center images vertically */
         }
         .image-gallery img {
-          width: 60rem;
-          height: 60rem;
+          width: 80rem;
+          height: 80rem;
           object-fit: cover;
           max-width: 100%; /* Ensure images don't overflow */
-          margin: 0; /* Remove any margin from images */
+          margin: 0; 
         }
         .image-gallery img.fallback {
           background: #2D2D2D;
