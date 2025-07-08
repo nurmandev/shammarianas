@@ -122,8 +122,8 @@ export default function ProjectDetails() {
           align-items: center; /* Center images vertically */
         }
         .image-gallery img {
-          width: 40rem;
-          height: 40rem;
+          width: 60rem;
+          height: 60rem;
           object-fit: cover;
           max-width: 100%; /* Ensure images don't overflow */
           margin: 0; /* Remove any margin from images */
