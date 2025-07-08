@@ -89,43 +89,42 @@ export default function ProjectDetails() {
         }
         .project-section .content {
           display: flex;
-          flex-direction: column; /* Display content in a column */
-          align-items: center; /* Center items horizontally */
-          gap: 1rem; /* Spacing between title and description */
+          flex-direction: column;
+          align-items: center; 
+          gap: 1rem;
         }
         .project-section h2 {
           font-size: 2rem;
           font-weight: 700;
           color: #FFFFFF;
-          margin: 0 0 1rem 0; /* Adjusted margin for column layout */
-          text-align: center; /* Center title */
+          margin: 0 0 1rem 0; 
+          text-align: center; 
         }
         .project-description {
           font-size: 1rem;
           line-height: 1.6;
           color: #D1D5DB;
-          max-width: 100%; /* Full width for description */
-          margin: 0 0 2rem 0; /* Adjusted margin, no auto for full width */
-          text-align: left; /* Left-align text */
+          max-width: 100%; 
+          margin: 0 0 2rem 0; 
+          text-align: left; 
         }
         .text-gray-500 {
-          color: #6B7280; /* Define text-gray-500 for fallback case */
+          color: #6B7280; 
           font-style: italic;
-          text-align: left; /* Left-align fallback text */
+          text-align: left; 
         }
         .image-gallery {
           display: flex;
-          flex-direction: column; /* Display images in a column */
-          gap: 0; /* Remove spacing between images */
+          flex-direction: column; 
+          gap: 0; 
           margin-top: 2rem;
-          justify-content: center; /* Center images horizontally */
-          align-items: center; /* Center images vertically */
+          justify-content: center; 
+          align-items: center; 
         }
         .image-gallery img {
-          width: 80rem;
-          height: 80rem;
+          width: 80rem;    
           object-fit: cover;
-          max-width: 100%; /* Ensure images don't overflow */
+          max-width: 100%; 
           margin: 0; 
         }
         .image-gallery img.fallback {
@@ -146,33 +145,33 @@ export default function ProjectDetails() {
             padding: 40px 0;
           }
           .project-section .content {
-            flex-direction: column; /* Keep column layout on mobile */
+            flex-direction: column; 
             gap: 1rem;
             align-items: center;
           }
           .project-section h2 {
             margin: 0 0 1rem 0;
-            text-align: center; /* Center title on mobile */
+            text-align: center; 
           }
           .project-description {
-            max-width: 100%; /* Full width on mobile */
-            margin: 0 0 1rem 0; /* Adjusted margin for mobile */
-            text-align: left; /* Left-align text on mobile */
+            max-width: 100%;
+            margin: 0 0 1rem 0;
+            text-align: left; 
           }
           .text-gray-500 {
-            text-align: left; /* Left-align fallback text on mobile */
+            text-align: left; 
           }
           .image-gallery {
-            flex-direction: column; /* Keep images in a column on mobile */
-            gap: 0; /* Remove spacing between images */
+            flex-direction: column; 
+            gap: 0; 
             justify-content: center;
             align-items: center;
           }
           .image-gallery img {
-            width: 20rem; /* Reduce image size on mobile */
+            width: 20rem; 
             height: 20rem;
             max-width: 100%;
-            margin: 0; /* Remove any margin from images */
+            margin: 0; 
           }
         }
       `}</style>
