@@ -4,7 +4,9 @@ import { doc, getDoc, deleteDoc, getDocs, collection } from "firebase/firestore"
 import { db, auth } from "../../firebase";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import Marq2 from "../Components/marq2";
+
 import sanitizeHtml from "sanitize-html"; // Import sanitize-html
+import BlogNext from "../Components/blog-classic/BlogNext";
 
 function BlogDetails() {
   const { id } = useParams();
@@ -408,7 +410,7 @@ function BlogDetails() {
           </div>
         </div>
       </section>
-
+      <BlogNext />
       <Marq2 />
     </>
   );
