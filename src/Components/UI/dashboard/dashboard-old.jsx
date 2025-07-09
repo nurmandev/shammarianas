@@ -1489,31 +1489,50 @@ const AdminManager = ({ setError }) => {
   };
 
   return (
-    <div className="admin-manager">
-      <h3>Admin Manager</h3>
-      <input
-        placeholder="Enter admin email"
-        value={newAdminEmail}
-        onChange={(e) => setNewAdminEmail(e.target.value)}
-      />
-      <button onClick={addAdmin}>Add Admin</button>
+    <div className="admin-manager p-4 sm:p-6 bg-white rounded-xl shadow-md w-full max-w-xl mx-auto">
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        Admin Manager
+      </h3>
+
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <input
+          type="email"
+          placeholder="Enter admin email"
+          value={newAdminEmail}
+          onChange={(e) => setNewAdminEmail(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <button
+          onClick={addAdmin}
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all w-full sm:w-auto"
+        >
+          Add Admin
+        </button>
+      </div>
+
       {logMessage && (
         <div
-          style={{
-            marginTop: "10px",
-            color: logType === "success" ? "green" : "red",
-          }}
+          className={`text-sm mt-2 ${
+            logType === "success" ? "text-green-600" : "text-red-600"
+          }`}
         >
           {logMessage}
         </div>
       )}
-      <ul style={{ marginTop: "20px" }}>
+
+      <ul className="mt-6 space-y-3">
         {admins.map((admin) => (
-          <li key={admin.id}>
-            {admin.id}
+          <li
+            key={admin.id}
+            className="flex items-center justify-between border-b pb-2"
+          >
+            <span className="text-gray-700 text-sm break-words">
+              {admin.id}
+            </span>
             <button
-              style={{ marginLeft: "10px" }}
               onClick={() => removeAdmin(admin.id)}
+              className="text-red-600 hover:text-red-800 text-sm"
             >
               Remove
             </button>
