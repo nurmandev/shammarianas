@@ -1,16 +1,9 @@
 import "../../public/assets/css/style.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Components/Footer";
 import Marq2 from "../Components/marq2";
 import { db, auth } from "../../firebase";
-import {
-  collection,
-  getDocs,
-  deleteDoc,
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import Cursor from "../common/cusor";
 import ProgressScroll from "../common/ProgressScroll";
@@ -65,18 +58,6 @@ function Blogs() {
     loadBackgroudImages();
   }, []);
 
-  // const handleDelete = async (id) => {
-  //   const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
-  //   if (!confirmDelete) return;
-
-  //   try {
-  //     await deleteDoc(doc(db, "blogs", id));
-  //     setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== id));
-  //   } catch (error) {
-  //     console.error("Error deleting blog:", error);
-  //   }
-  // };
-
   const handleFilterChange = (filterValue) => {
     setFilter(filterValue);
   };
@@ -98,7 +79,7 @@ function Blogs() {
       <div className="main-bgs">
         <header
           className="page-header bg-img section-padding valign"
-          data-background="/assets/imgs/background/bg4.jpg"
+          style={{ backgroundImage: "url('/assets/imgs/background/bg4.jpg')" }}
           data-overlay-dark="8"
         >
           <div className="container pt-80">
@@ -285,91 +266,6 @@ function Blogs() {
                       </li>
                     </ul>
                   </div>
-                  {/* <div className="widget last-post-thum">
-                    <h6 className="title-widget">Latest Posts</h6>
-                    <div className="item d-flex align-items-center">
-                      <div>
-                        <div className="img">
-                          <a href="/blog-grid-sidebar">
-                            <img src="/assets/imgs/blog/c1.jpg" alt="" />
-                            <span className="date">
-                              <span>
-                                14 / <br /> Sep
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="cont">
-                        <span className="tag">
-                          <a href="/blog-grid-sidebar">Web Design</a>
-                        </span>
-                        <h6>
-                          <a href="/blog-grid-sidebar">
-                            Ways to quickly increase traffic to your website
-                          </a>
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="item d-flex align-items-center">
-                      <div>
-                        <div className="img">
-                          <a href="/blog-grid-sidebar">
-                            <img src="/assets/imgs/blog/c2.jpg" alt="" />
-                            <span className="date">
-                              <span>
-                                14 / <br /> Sep
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="cont">
-                        <span className="tag">
-                          <a href="/blog-grid-sidebar">Web Design</a>
-                        </span>
-                        <h6>
-                          <a href="/blog-grid-sidebar">
-                            Breaking the rules: Using SQLite to demo web
-                          </a>
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="item d-flex align-items-center">
-                      <div>
-                        <div className="img">
-                          <a href="/blog-grid-sidebar">
-                            <img src="/assets/imgs/blog/c3.jpg" alt="" />
-                            <span className="date">
-                              <span>
-                                14 / <br /> Sep
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="cont">
-                        <span className="tag">
-                          <a href="/blog-grid-sidebar">Web Design</a>
-                        </span>
-                        <h6>
-                          <a href="/blog-grid-sidebar">
-                            Building better UI designs with layout grids
-                          </a>
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="widget tags">
-                    <h6 className="title-widget">Tags</h6>
-                    <div>
-                      <a href="/blog-grid-sidebar">Creative</a>
-                      <a href="/blog-grid-sidebar">Design</a>
-                      <a href="/blog-grid-sidebar">Dark & Light</a>
-                      <a href="/blog-grid-sidebar">Minimal</a>
-                      <a href="/blog-grid-sidebar">Infolio</a>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>
