@@ -5,7 +5,7 @@ import { db, auth } from "../../firebase";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import BlogNext from "../Components/blog-classic/BlogNext";
 import Marq2 from "../Components/marq2";
-import sanitizeHtml from "sanitize-html"; // Import sanitize-html
+import sanitizeHtml from "sanitize-html";
 
 function BlogDetails() {
   const { id } = useParams();
@@ -22,6 +22,7 @@ function BlogDetails() {
     wordpress: 0,
     design: 0,
   });
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -45,7 +46,16 @@ function BlogDetails() {
             },
           });
           setBlog(blogData);
-          console.log(blogData);
+          console.log(blogData); // Debug: Check blog.imageUrl
+          // Preload the background image
+          if (blogData.imageUrl) {
+            const img = new Image();
+            img.src = blogData.imageUrl;
+            img.onload = () => setImageLoaded(true);
+            img.onerror = () => setImageLoaded(true); // Fallback even if image fails
+          } else {
+            setImageLoaded(true); // No imageUrl, use fallback
+          }
         } else {
           console.log("No such blog!");
         }
@@ -117,51 +127,52 @@ function BlogDetails() {
     navigate(`/blogs?category=${encodeURIComponent(category)}`);
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-lg text-gray-600">Loading blog...</div>;
+  if (loading || !imageLoaded) {
+    return <div className="min-h-screen flex items-center justify-center text-lg text-gray-600">Loading blog...</div>;
+  }
 
-  if (!blog) return <div className="min-h-screen flex items-center justify-center text-lg text-red-500">Blog not found</div>;
+  if (!blog) {
+    return <div className="min-h-screen flex items-center justify-center text-lg text-red-500">Blog not found</div>;
+  }
 
   return (
     <>
-      <div className="header blog-header section-padding">
-        <div className="container mt-30">
-          <div className="row justify-content-center">
-            <div className="col-lg-11">
-              <div className="caption">
-                <div className="sub-title fz-12 text-left">
-                  <div>{blog.category ? blog.category.charAt(0).toUpperCase() + blog.category.slice(1) : "Uncategorized"}</div>
-                </div>
-                <h1 className="fz-55 mt-30 text-left" style={{ maxWidth: "70%" }}>
-                  {blog.title}
-                </h1>
-              </div>
-              <div className="info d-flex mt-40 align-items-center">
-                <div className="left-info">
-                  <div className="d-flex align-items-center">
-                    <div className="date ml-20">
-                      <a href="#0">
-                        <span className="opacity-7">Published</span>
-                        <h6 className="fz-16">{new Date(blog.createdAt?.toDate()).toDateString()}</h6>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="right-info ml-auto d-flex align-items-center">
-                  <div className="mr-20">
-                    <span className="pe-7s-comment fz-18 mr-10"></span>
-                    <span className="opacity-7">{blog.commentsCount || 0} Comments</span>
-                  </div>
-                </div>
-              </div>
+      <header
+        className="page-header items-center"
+        style={{
+          backgroundImage: `url(${blog.imageUrl || "/assets/imgs/background/bg4.jpg"})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+        }}>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for readability
+            zIndex: 1,
+          }}></div>
+        <div className="px-4 sm:px-6" style={{ position: "relative", zIndex: 2 }}>
+          <div className="sub-title fz-12 text-left mb-4">
+            <div className="text-white">{blog.category ? blog.category.charAt(0).toUpperCase() + blog.category.slice(1) : "Uncategorized"}</div>
+          </div>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-wider text-white">{blog.title}</h1>
+          <div className="info d-flex mt-6 align-items-center">
+            <div className="text-left mb-4 pl-4 sm:pl-6">
+              <div className="text-white">Published</div>
+              <div className="text-white fz-20">{new Date(blog.createdAt?.toDate()).toDateString()}</div>
             </div>
           </div>
         </div>
-      </div>
-      {blog.imageUrl && (
-        <div className="mb-6">
-          <img src={blog.imageUrl} alt={blog.title} className="w-full rounded-xl object-cover max-h-[500px]" />
-        </div>
-      )}
+      </header>
 
       <section className="blog section-padding">
         <div className="container">

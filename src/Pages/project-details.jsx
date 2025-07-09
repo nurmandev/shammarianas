@@ -11,6 +11,7 @@ export default function ProjectDetails() {
   const { id } = useParams();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -18,7 +19,18 @@ export default function ProjectDetails() {
         const docRef = doc(db, "projects", id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setProject({ id: docSnap.id, ...docSnap.data() });
+          const projectData = { id: docSnap.id, ...docSnap.data() };
+          setProject(projectData);
+          console.log(projectData); // Debug: Check project.imageUrl
+          // Preload the background image
+          if (projectData.imageUrl) {
+            const img = new Image();
+            img.src = projectData.imageUrl;
+            img.onload = () => setImageLoaded(true);
+            img.onerror = () => setImageLoaded(true); // Fallback even if image fails
+          } else {
+            setImageLoaded(true); // No imageUrl, use fallback
+          }
         } else {
           console.log("No such project!");
         }
@@ -32,7 +44,7 @@ export default function ProjectDetails() {
     fetchPortfolio();
   }, [id]);
 
-  if (loading) {
+  if (loading || !imageLoaded) {
     return (
       <div className="loading-container text-center py-20">
         <p className="text-lg text-white">Loading...</p>
@@ -52,10 +64,14 @@ export default function ProjectDetails() {
     <>
       <style>{`
         .header-project {
-          min-height: 600px;
+          width: 100vw;
+          height: 100vh;
           background-size: cover;
           background-position: center;
           position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .header-project .caption {
           padding-bottom: 2rem;
@@ -74,14 +90,11 @@ export default function ProjectDetails() {
         .info .item {
           margin-bottom: 1.5rem;
         }
-        .info .item span.opacity-8 {
-          opacity: 0.8;
-          color: #D1D5DB;
-          font-size: 0.9rem;
+        .sub-title.fz-12 {
+          font-size: 0.75rem; /* 12px */
+          line-height: 1.5;
         }
-        .info .item h6 {
-          font-size: 1.1rem;
-          margin: 0.5rem 0 0;
+        .info .item .sub-title {
           color: #FFFFFF;
         }
         .project-section {
@@ -90,42 +103,42 @@ export default function ProjectDetails() {
         .project-section .content {
           display: flex;
           flex-direction: column;
-          align-items: center; 
+          align-items: center;
           gap: 1rem;
         }
         .project-section h2 {
           font-size: 2rem;
           font-weight: 700;
           color: #FFFFFF;
-          margin: 0 0 1rem 0; 
-          text-align: center; 
+          margin: 0 0 1rem 0;
+          text-align: center;
         }
         .project-description {
           font-size: 1rem;
           line-height: 1.6;
           color: #D1D5DB;
-          max-width: 100%; 
-          margin: 0 0 2rem 0; 
-          text-align: left; 
+          max-width: 100%;
+          margin: 0 0 2rem 0;
+          text-align: left;
         }
         .text-gray-500 {
-          color: #6B7280; 
+          color: #6B7280;
           font-style: italic;
-          text-align: left; 
+          text-align: left;
         }
         .image-gallery {
           display: flex;
-          flex-direction: column; 
-          gap: 0; 
+          flex-direction: column;
+          gap: 0;
           margin-top: 2rem;
-          justify-content: center; 
-          align-items: center; 
+          justify-content: center;
+          align-items: center;
         }
         .image-gallery img {
           width: 80rem;
           object-fit: cover;
-          max-width: 100%; 
-          margin: 0; 
+          max-width: 100%;
+          margin: 0;
         }
         .image-gallery img.fallback {
           background: #2D2D2D;
@@ -136,7 +149,7 @@ export default function ProjectDetails() {
         }
         @media (max-width: 768px) {
           .header-project {
-            min-height: 200px;
+            height: 50vh;
           }
           .header-project h1 {
             font-size: 1.5rem;
@@ -145,46 +158,56 @@ export default function ProjectDetails() {
             padding: 40px 0;
           }
           .project-section .content {
-            flex-direction: column; 
+            flex-direction: column;
             gap: 1rem;
             align-items: center;
           }
           .project-section h2 {
             margin: 0 0 1rem 0;
-            text-align: center; 
+            text-align: center;
           }
           .project-description {
             max-width: 100%;
             margin: 0 0 1rem 0;
-            text-align: left; 
+            text-align: left;
           }
           .text-gray-500 {
-            text-align: left; 
+            text-align: left;
           }
           .image-gallery {
-            flex-direction: column; 
-            gap: 0; 
+            flex-direction: column;
+            gap: 0;
             justify-content: center;
             align-items: center;
           }
           .image-gallery img {
-            width: 20rem; 
+            width: 20rem;
             height: 20rem;
             max-width: 100%;
-            margin: 0; 
+            margin: 0;
           }
         }
       `}</style>
       <Cursor />
       <ProgressScroll />
-      <header className="header-project bg-img d-flex align-items-end" data-background="/assets/imgs/background/bg4.jpg" data-overlay-dark="9">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="caption">
-                <h1>{project.title}</h1>
-              </div>
-            </div>
+      <header
+        className="header-project"
+        style={{
+          backgroundImage: `url(${project.coverImgUrl || "/assets/imgs/background/bg2.jpg"})`,
+        }}>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for readability
+            zIndex: 1,
+          }}></div>
+        <div className="container px-4 sm:px-6" style={{ position: "relative", zIndex: 2 }}>
+          <div className="caption">
+            <h1>{project.title}</h1>
           </div>
         </div>
       </header>
@@ -194,27 +217,29 @@ export default function ProjectDetails() {
           <div className="info mb-80 pb-20 bord-thin-bottom">
             <div className="row">
               <div className="col-md-6 col-lg-3">
-                <div className="item">
-                  <span className="opacity-8 mb-5">Category:</span>
-                  <h6>{project.category.charAt(0).toUpperCase() + project.category.slice(1)}</h6>
+                <div className="item sub-title fz-12 text-left mb-4 pl-4 sm:pl-6">
+                  <div className="text-white">Category</div>
+                  <div className="text-white">{project.category.charAt(0).toUpperCase() + project.category.slice(1)}</div>
                 </div>
               </div>
               <div className="col-md-6 col-lg-3">
-                <div className="item">
-                  <span className="opacity-8 mb-5">Client:</span>
-                  <h6>{project.client}</h6>
+                <div className="item sub-title fz-12 text-left mb-4 pl-4 sm:pl-6">
+                  <div className="text-white">Client</div>
+                  <div className="text-white">{project.client}</div>
                 </div>
               </div>
               <div className="col-md-6 col-lg-3">
-                <div className="item">
-                  <span className="opacity-8 mb-5">Start Date:</span>
-                  <h6>{project.createdAt && typeof project.createdAt.toDate === "function" ? new Date(project.createdAt.toDate()).toLocaleDateString() : project.createdAt || "N/A"}</h6>
+                <div className="item sub-title fz-12 text-left mb-4 pl-4 sm:pl-6">
+                  <div className="text-white">Start Date</div>
+                  <div className="text-white">
+                    {project.createdAt && typeof project.createdAt.toDate === "function" ? new Date(project.createdAt.toDate()).toLocaleDateString() : project.createdAt || "N/A"}
+                  </div>
                 </div>
               </div>
               <div className="col-md-6 col-lg-3">
-                <div className="item">
-                  <span className="opacity-8 mb-5">Designer:</span>
-                  <h6>{project.designer || "N/A"}</h6>
+                <div className="item sub-title fz-12 text-left mb-4 pl-4 sm:pl-6">
+                  <div className="text-white">Designer</div>
+                  <div className="text-white">{project.designer || "N/A"}</div>
                 </div>
               </div>
             </div>
