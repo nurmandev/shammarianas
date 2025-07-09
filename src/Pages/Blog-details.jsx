@@ -216,11 +216,8 @@ function BlogDetails() {
         <div className="container">
           <div className="row xlg-marg">
             <div className="col-lg-8">
-              <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
-                <article
-                  className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md mb-50 fw-300 align-text"
-                  style={{ fontSize: "24px" }}
-                >
+              <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-poppins  align-text">
+                <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md align-text">
                   <div
                     className="prose prose-blue max-w-none"
                     dangerouslySetInnerHTML={{ __html: blog.content }}
