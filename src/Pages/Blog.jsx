@@ -285,7 +285,7 @@ function Blogs() {
                       </li>
                     </ul>
                   </div>
-                  <div className="widget last-post-thum">
+                  {/* <div className="widget last-post-thum">
                     <h6 className="title-widget">Latest Posts</h6>
                     <div className="item d-flex align-items-center">
                       <div>
@@ -369,7 +369,7 @@ function Blogs() {
                       <a href="/blog-grid-sidebar">Minimal</a>
                       <a href="/blog-grid-sidebar">Infolio</a>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
