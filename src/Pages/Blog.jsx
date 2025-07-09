@@ -88,14 +88,14 @@ function Blogs() {
     )
     .filter((blog) => filter === "*" || blog.category === filter);
 
-  if (loading) return <div className="main-bg">Loading...</div>;
+  if (loading) return <div className="main-bgs">Loading...</div>;
 
   return (
     <>
       <Cursor />
       <ProgressScroll />
 
-      <div className="main-bg">
+      <div className="main-bgs">
         <header
           className="page-header bg-img section-padding valign"
           data-background="/assets/imgs/background/bg4.jpg"
