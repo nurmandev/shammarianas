@@ -175,21 +175,6 @@ function BlogDetails() {
                   <span className="ti-arrow-left"></span>
                 </Link>
 
-                <div className="author-area bg-black-500 p-5 mt-50 bord-thin-bottom">
-                  <div className="flex">
-                    <div className="author-img mr-30">
-                      <div className="img">
-                        <img src="/assets/imgs/blog/author.png" alt="" className="circle-img" />
-                      </div>
-                    </div>
-                    <div className="cont valign">
-                      <div className="full-width">
-                        <h6 className="fw-600 mb-10">Chris Smith</h6>
-                        <p>Nulla eleifend, lectus eu gravida facilisis, ipsum metus faucibus eros, vitae vulputate nibh libero ac metus.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div className="comments-from mt-80">
                   <div className="mb-60">
                     <h3>Leave a comment</h3>
