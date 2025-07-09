@@ -12,6 +12,8 @@ import {
   getDoc,
 } from "firebase/firestore";
 import loadBackgroudImages from "../common/loadBackgroudImages";
+import Cursor from "../common/cusor";
+import ProgressScroll from "../common/ProgressScroll";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -89,7 +91,11 @@ function Blogs() {
   if (loading) return <div className="main-bg">Loading...</div>;
 
   return (
-    <div className="main-bg">
+    <>
+      <Cursor />
+      <ProgressScroll />
+
+      {/* <div className="main-bg"> */}
       <header
         className="page-header bg-img section-padding valign"
         data-background="/assets/imgs/background/bg4.jpg"
@@ -359,7 +365,8 @@ function Blogs() {
       </section>
 
       <Marq2 />
-    </div>
+      {/* </div> */}
+    </>
   );
 }
 
