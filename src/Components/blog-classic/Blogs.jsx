@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { db } from "../../../firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import loadBackgroudImages from "../../common/loadBackgroudImages";
-// import BlogEditorModal from "./BlogEditor";
 import BlogEditorModal from "../../Pages/BlogEditor";
 
 function Blogs() {
@@ -33,9 +32,7 @@ function Blogs() {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this blog?"
-    );
+    const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
     if (!confirmDelete) return;
 
     try {
@@ -46,9 +43,7 @@ function Blogs() {
     }
   };
 
-  const filteredBlogs = blogs.filter((blog) =>
-    blog.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredBlogs = blogs.filter((blog) => blog.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
   if (loading) return <div className="blog-loading-screen">Loading...</div>;
 
@@ -58,17 +53,11 @@ function Blogs() {
         <div className="row lg-marg justify-content-around">
           <div className="col-lg-8">
             <div className="md-mb80">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="blog-create-button"
-              >
+              <button onClick={() => setIsModalOpen(true)} className="blog-create-button">
                 Create New Blog Post
               </button>
 
-              <BlogEditorModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              />
+              <BlogEditorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
               {filteredBlogs.length > 0 ? (
                 filteredBlogs.map((blog) => (
@@ -80,39 +69,25 @@ function Blogs() {
                     )}
                     <div className="content">
                       <div className="d-flex align-items-center mb-15">
-                        <div className="post-date">
-                          {new Date(
-                            blog.createdAt?.toDate()
-                          ).toLocaleDateString()}
-                        </div>
+                        <div className="post-date">{new Date(blog.createdAt?.toDate()).toLocaleDateString()}</div>
                         <div className="commt opacity-7 fz-13">
                           <span className="ti-comment-alt mr-10"></span>
                           {blog.commentsCount || 0} Comments
                         </div>
                       </div>
-                      <button
-                        onClick={() => handleDelete(blog.id)}
-                        className="blog-delete-button"
-                      >
+                      <button onClick={() => handleDelete(blog.id)} className="blog-delete-button">
                         Delete
                       </button>
                       <h3 className="mb-15">
-                        <Link to={`/blog-details/${blog.id}`}>
-                          {blog.title}
-                        </Link>
+                        <Link to={`/blog-details/${blog.id}`}>{blog.title}</Link>
                       </h3>
                       <div
                         className="blog-post-excerpt"
                         dangerouslySetInnerHTML={{
-                          __html:
-                            blog.excerpt ||
-                            blog.content?.substring(0, 200) + "...",
+                          __html: blog.excerpt || blog.content?.substring(0, 200) + "...",
                         }}
                       />
-                      <Link
-                        to={`/blog-details/${blog.id}`}
-                        className="d-flex align-items-center main-color mt-40"
-                      >
+                      <Link to={`/blog-details/${blog.id}`} className="d-flex align-items-center main-color mt-40">
                         <span className="text mr-15">Read More</span>
                         <span className="ti-arrow-top-right"></span>
                       </Link>
@@ -129,12 +104,7 @@ function Blogs() {
               <div className="widget">
                 <h6 className="title-widget">Search Here</h6>
                 <div className="search-box">
-                  <input
-                    type="text"
-                    placeholder="Search by title..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+                  <input type="text" placeholder="Search by title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                   <span className="icon pe-7s-search"></span>
                 </div>
               </div>
@@ -199,9 +169,7 @@ function Blogs() {
                       <a href="/blog-grid-sidebar">Web Design</a>
                     </span>
                     <h6>
-                      <a href="/blog-grid-sidebar">
-                        ways to quickly increase traffic to your website
-                      </a>
+                      <a href="/blog-grid-sidebar">ways to quickly increase traffic to your website</a>
                     </h6>
                   </div>
                 </div>
@@ -223,9 +191,7 @@ function Blogs() {
                       <a href="/blog-grid-sidebar">Web Design</a>
                     </span>
                     <h6>
-                      <a href="/blog-grid-sidebar">
-                        breaking the rules: using sqlite to demo web
-                      </a>
+                      <a href="/blog-grid-sidebar">breaking the rules: using sqlite to demo web</a>
                     </h6>
                   </div>
                 </div>
@@ -247,9 +213,7 @@ function Blogs() {
                       <a href="/blog-grid-sidebar">Web Design</a>
                     </span>
                     <h6>
-                      <a href="/blog-grid-sidebar">
-                        building better ui designs with layout grids
-                      </a>
+                      <a href="/blog-grid-sidebar">building better ui designs with layout grids</a>
                     </h6>
                   </div>
                 </div>

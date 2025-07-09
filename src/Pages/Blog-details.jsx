@@ -3,10 +3,9 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { doc, getDoc, deleteDoc, getDocs, collection } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import loadBackgroudImages from "../common/loadBackgroudImages";
-import Marq2 from "../Components/marq2";
-
-import sanitizeHtml from "sanitize-html"; // Import sanitize-html
 import BlogNext from "../Components/blog-classic/BlogNext";
+import Marq2 from "../Components/marq2";
+import sanitizeHtml from "sanitize-html"; // Import sanitize-html
 
 function BlogDetails() {
   const { id } = useParams();
@@ -139,17 +138,6 @@ function BlogDetails() {
               <div className="info d-flex mt-40 align-items-center">
                 <div className="left-info">
                   <div className="d-flex align-items-center">
-                    <div className="author-info">
-                      <div className="d-flex align-items-center">
-                        <a href="#0" className="circle-60">
-                          <img src="/assets/imgs/blog/author.png" alt="" className="circle-img" />
-                        </a>
-                        <a href="#0" className="ml-20">
-                          <span className="opacity-7">Author</span>
-                          <h6 className="fz-16">UiCamp</h6>
-                        </a>
-                      </div>
-                    </div>
                     <div className="date ml-20">
                       <a href="#0">
                         <span className="opacity-7">Published</span>
@@ -188,56 +176,6 @@ function BlogDetails() {
                   <span className="ti-arrow-left"></span>
                 </Link>
 
-                <div className="info-area flex mt-50 pt-50 bord-thin-top">
-                  <div>
-                    <div className="flex">
-                      <div className="align">
-                        <span className="text-grey-100">Tags :</span>
-                      </div>
-                      <div className="flex">
-                        <a className="ml-10 text-grey-500" href="/blog-classic">
-                          Tech
-                        </a>
-                        <a className="ml-10" href="/blog-classic">
-                          UiCamp
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="ml-auto">
-                    <div className="share-icon flex">
-                      <div className="valign">
-                        <span>Share :</span>
-                      </div>
-                      <div>
-                        <a className="ml-10" href="https://www.facebook.com/">
-                          <i className="fab fa-facebook-f"></i>
-                        </a>
-                        <a className="ml-10" href="https://www.twitter.com/">
-                          <i className="fab fa-twitter"></i>
-                        </a>
-                        <a className="ml-10" href="https://www.youtube.com/">
-                          <i className="fab fa-youtube"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="author-area bg-black-500 p-5 mt-50 bord-thin-bottom">
-                  <div className="flex">
-                    <div className="author-img mr-30">
-                      <div className="img">
-                        <img src="/assets/imgs/blog/author.png" alt="" className="circle-img" />
-                      </div>
-                    </div>
-                    <div className="cont valign">
-                      <div className="full-width">
-                        <h6 className="fw-600 mb-10">Chris Smith</h6>
-                        <p>Nulla eleifend, lectus eu gravida facilisis, ipsum metus faucibus eros, vitae vulputate nibh libero ac metus.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div className="comments-from mt-80">
                   <div className="mb-60">
                     <h3>Leave a comment</h3>

@@ -122,7 +122,7 @@ export default function ProjectDetails() {
           align-items: center; 
         }
         .image-gallery img {
-          width: 80rem;    
+          width: 80rem;
           object-fit: cover;
           max-width: 100%; 
           margin: 0; 
@@ -177,7 +177,7 @@ export default function ProjectDetails() {
       `}</style>
       <Cursor />
       <ProgressScroll />
-      <header className="header-project bg-img d-flex align-items-end" data-background={project.coverImgUrl || "/assets/imgs/background/bg4.jpg"} data-overlay-dark="9">
+      <header className="header-project bg-img d-flex align-items-end" data-background="/assets/imgs/background/bg4.jpg" data-overlay-dark="9">
         <div className="container">
           <div className="row">
             <div className="col-12">
