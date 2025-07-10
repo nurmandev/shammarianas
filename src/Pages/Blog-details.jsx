@@ -227,7 +227,7 @@ function BlogDetails() {
                 <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md align-text">
                   <div className="prose prose-blue max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
                 </article>
-                <Link to="/blogs" className="d-flex align-items-center main-color mt-40">
+                <Link to="#blog" className="d-flex align-items-center main-color mt-40">
                   <span className="text mr-15">Back to Blogs</span>
                   <span className="ti-arrow-left"></span>
                 </Link>
@@ -317,85 +317,7 @@ function BlogDetails() {
                     </li>
                   </ul>
                 </div>
-                <div className="widget last-post-thum">
-                  <h6 className="title-widget">Latest Posts</h6>
-                  <div className="item d-flex align-items-center">
-                    <div>
-                      <div className="img">
-                        <Link to="/blogs">
-                          <img src="/assets/imgs/blog/c1.jpg" alt="" />
-                          <span className="date">
-                            <span>
-                              14 / <br /> Sep
-                            </span>
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="cont">
-                      <span className="tag">
-                        <Link to="/blogs">Web Design</Link>
-                      </span>
-                      <h6>
-                        <Link to="/blogs">Ways to quickly increase traffic to your website</Link>
-                      </h6>
-                    </div>
-                  </div>
-                  <div className="item d-flex align-items-center">
-                    <div>
-                      <div className="img">
-                        <Link to="/blogs">
-                          <img src="/assets/imgs/blog/c2.jpg" alt="" />
-                          <span className="date">
-                            <span>
-                              14 / <br /> Sep
-                            </span>
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="cont">
-                      <span className="tag">
-                        <Link to="/blogs">Web Design</Link>
-                      </span>
-                      <h6>
-                        <Link to="/blogs">Breaking the rules: Using SQLite to demo web</Link>
-                      </h6>
-                    </div>
-                  </div>
-                  <div className="item d-flex align-items-center">
-                    <div>
-                      <div className="img">
-                        <Link to="/blogs">
-                          <img src="/assets/imgs/blog/c3.jpg" alt="" />
-                          <span className="date">
-                            <span>
-                              14 / <br /> Sep
-                            </span>
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="cont">
-                      <span className="tag">
-                        <Link to="/blogs">Web Design</Link>
-                      </span>
-                      <h6>
-                        <Link to="/blogs">Building better UI designs with layout grids</Link>
-                      </h6>
-                    </div>
-                  </div>
-                </div>
-                <div className="widget tags">
-                  <h6 className="title-widget">Tags</h6>
-                  <div>
-                    <Link to="/blogs">Creative</Link>
-                    <Link to="/blogs">Design</Link>
-                    <Link to="/blogs">Dark & Light</Link>
-                    <Link to="/blogs">Minimal</Link>
-                    <Link to="/blogs">Infolio</Link>
-                  </div>
-                </div>
+          
               </div>
             </div>
           </div>
