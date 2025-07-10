@@ -227,10 +227,10 @@ function BlogDetails() {
                 <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md align-text">
                   <div className="prose prose-blue max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
                 </article>
-                <Link to="#blog" className="d-flex align-items-center main-color mt-40">
+                <a href="#blog" className="d-flex align-items-center main-color mt-40">
                   <span className="text mr-15">Back to Blogs</span>
                   <span className="ti-arrow-left"></span>
-                </Link>
+                </a>
 
                 <div className="comments-from mt-80">
                   <div className="mb-60">
