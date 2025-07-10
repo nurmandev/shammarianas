@@ -60,12 +60,17 @@ function BlogEditorModal({ isOpen, onClose }) {
     category: "business",
     excerpt: "",
     status: "DRAFT",
-    image: null,
-    imageUrl: "",
+    featuredImage: null,
+    featuredImageUrl: "",
+    coverImage: null,
+    coverImageUrl: "",
     content: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const fileInputRef = useRef(null);
+  const [featuredImagePreview, setFeaturedImagePreview] = useState(null);
+  const [coverImagePreview, setCoverImagePreview] = useState(null);
+  const featuredImageInputRef = useRef(null);
+  const coverImageInputRef = useRef(null);
 
   // Custom image handler for Quill
   React.useEffect(() => {
@@ -85,12 +90,9 @@ function BlogEditorModal({ isOpen, onClose }) {
               return;
             }
             try {
-              // Upload image to Firebase Storage
               const storageRef = ref(storage, `blogs/editor-images/${Date.now()}_${file.name}`);
               await uploadBytes(storageRef, file);
               const imageUrl = await getDownloadURL(storageRef);
-
-              // Insert the image URL into the Quill editor
               const range = quill.getSelection();
               if (range) {
                 quill.insertEmbed(range.index, "image", imageUrl);
@@ -110,13 +112,35 @@ function BlogEditorModal({ isOpen, onClose }) {
     setBlogData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      if (e.target.files[0].size > 1250000) {
-        alert("Image must be smaller than 1.25MB");
+  const handleFeaturedImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 1250000) {
+        alert("Featured image must be smaller than 1.25MB");
         return;
       }
-      setBlogData((prev) => ({ ...prev, image: e.target.files[0] }));
+      setBlogData((prev) => ({ ...prev, featuredImage: file }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFeaturedImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCoverImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 1250000) {
+        alert("Cover image must be smaller than 1.25MB");
+        return;
+      }
+      setBlogData((prev) => ({ ...prev, coverImage: file }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCoverImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -135,11 +159,18 @@ function BlogEditorModal({ isOpen, onClose }) {
     try {
       const slug = generateSlug(blogData.title);
 
-      let imageUrl = "";
-      if (blogData.image) {
-        const storageRef = ref(storage, `blogs/${Date.now()}_${blogData.image.name}`);
-        await uploadBytes(storageRef, blogData.image);
-        imageUrl = await getDownloadURL(storageRef);
+      let featuredImageUrl = "";
+      if (blogData.featuredImage) {
+        const storageRef = ref(storage, `blogs/featured-images/${Date.now()}_${blogData.featuredImage.name}`);
+        await uploadBytes(storageRef, blogData.featuredImage);
+        featuredImageUrl = await getDownloadURL(storageRef);
+      }
+
+      let coverImageUrl = "";
+      if (blogData.coverImage) {
+        const storageRef = ref(storage, `blogs/cover-images/${Date.now()}_${blogData.coverImage.name}`);
+        await uploadBytes(storageRef, blogData.coverImage);
+        coverImageUrl = await getDownloadURL(storageRef);
       }
 
       const docRef = await addDoc(collection(db, "blogs"), {
@@ -148,7 +179,8 @@ function BlogEditorModal({ isOpen, onClose }) {
         category: blogData.category,
         excerpt: blogData.excerpt || blogData.content.substring(0, 160) + "...",
         content: content,
-        imageUrl: imageUrl,
+        featuredImageUrl: featuredImageUrl,
+        coverImageUrl: coverImageUrl,
         status: blogData.status,
         author: "Admin",
         publishedAt: serverTimestamp(),
@@ -165,12 +197,17 @@ function BlogEditorModal({ isOpen, onClose }) {
         category: "business",
         excerpt: "",
         status: "DRAFT",
-        image: null,
-        imageUrl: "",
+        featuredImage: null,
+        featuredImageUrl: "",
+        coverImage: null,
+        coverImageUrl: "",
         content: "",
       });
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      if (quill) quill.setText(""); // Clear Quill editor
+      setFeaturedImagePreview(null);
+      setCoverImagePreview(null);
+      if (featuredImageInputRef.current) featuredImageInputRef.current.value = "";
+      if (coverImageInputRef.current) coverImageInputRef.current.value = "";
+      if (quill) quill.setText("");
       onClose();
     } catch (error) {
       console.error("Error publishing blog:", error);
@@ -310,6 +347,14 @@ function BlogEditorModal({ isOpen, onClose }) {
           border-radius: 0.5rem;
           border: 1px solid #d1d5db;
         }
+        .blog-image-preview {
+          margin-top: 0.5rem;
+          max-width: 200px;
+          max-height: 200px;
+          object-fit: cover;
+          border-radius: 0.5rem;
+          border: 1px solid #d1d5db;
+        }
       `}</style>
       <div className="blog-modal-container">
         <div className="blog-modal-content">
@@ -342,8 +387,19 @@ function BlogEditorModal({ isOpen, onClose }) {
               <label className="blog-form-label">
                 Featured Image <span className="blog-form-required">*</span>
               </label>
-              <input type="file" ref={fileInputRef} onChange={handleImageChange} accept="image/*" required className="blog-form-file" />
+              <input type="file" ref={featuredImageInputRef} onChange={handleFeaturedImageChange} accept="image/*" required className="blog-form-file" />
               <p className="blog-form-hint">* Only images below 1.25MB can be uploaded.</p>
+              {featuredImagePreview && <img src={featuredImagePreview} alt="Featured preview" className="blog-image-preview" />}
+            </div>
+
+            {/* Cover Image */}
+            <div className="blog-form-group">
+              <label className="blog-form-label">
+                Cover Image <span className="blog-form-required">*</span>
+              </label>
+              <input type="file" ref={coverImageInputRef} onChange={handleCoverImageChange} accept="image/*" required className="blog-form-file" />
+              <p className="blog-form-hint">* Only images below 1.25MB can be uploaded.</p>
+              {coverImagePreview && <img src={coverImagePreview} alt="Cover preview" className="blog-image-preview" />}
             </div>
 
             {/* Category */}

@@ -63,11 +63,7 @@ function Blogs() {
   };
 
   // Filter blogs based on search term and category
-  const filteredBlogs = blogs
-    .filter((blog) =>
-      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((blog) => filter === "*" || blog.category === filter);
+  const filteredBlogs = blogs.filter((blog) => blog.title.toLowerCase().includes(searchTerm.toLowerCase())).filter((blog) => filter === "*" || blog.category === filter);
 
   if (loading) return <div className="main-bgs">Loading...</div>;
 
@@ -77,11 +73,7 @@ function Blogs() {
       <ProgressScroll />
 
       <div className="main-bgs">
-        <header
-          className="page-header bg-img section-padding valign"
-          style={{ backgroundImage: "url('/assets/imgs/background/bg4.jpg')" }}
-          data-overlay-dark="8"
-        >
+        <header className="page-header bg-img section-padding valign" style={{ backgroundImage: "url('/assets/imgs/background/bg4.jpg')" }} data-overlay-dark="8">
           <div className="container pt-80">
             <div className="row">
               <div className="col-12">
@@ -103,18 +95,14 @@ function Blogs() {
                   {filteredBlogs.length > 0 ? (
                     filteredBlogs.map((blog) => (
                       <div className="item mb-80" key={blog.id}>
-                        {blog.imageUrl && (
+                        {blog.featuredImageUrl && (
                           <div className="img">
-                            <img src={blog.imageUrl} alt={blog.title} />
+                            <img src={blog.featuredImageUrl} alt={blog.title} />
                           </div>
                         )}
                         <div className="content">
                           <div className="d-flex align-items-center mb-15">
-                            <div className="post-date">
-                              {new Date(
-                                blog.createdAt?.toDate()
-                              ).toLocaleDateString()}
-                            </div>
+                            <div className="post-date">{new Date(blog.createdAt?.toDate()).toLocaleDateString()}</div>
                             <div className="commt opacity-7 fz-13">
                               <span className="ti-comment-alt mr-10"></span>
                               {blog.commentsCount || 0} Comments
@@ -122,22 +110,15 @@ function Blogs() {
                           </div>
 
                           <h3 className="mb-15">
-                            <Link to={`/blog-details/${blog.id}`}>
-                              {blog.title}
-                            </Link>
+                            <Link to={`/blog-details/${blog.id}`}>{blog.title}</Link>
                           </h3>
                           <div
                             className="blog-excerpt"
                             dangerouslySetInnerHTML={{
-                              __html:
-                                blog.excerpt ||
-                                blog.content?.substring(0, 200) + "...",
+                              __html: blog.excerpt || blog.content?.substring(0, 200) + "...",
                             }}
                           />
-                          <Link
-                            to={`/blog-details/${blog.id}`}
-                            className="d-flex align-items-center main-color mt-40"
-                          >
+                          <Link to={`/blog-details/${blog.id}`} className="d-flex align-items-center main-color mt-40">
                             <span className="text mr-15">Read More</span>
                             <span className="ti-arrow-top-right"></span>
                             {/* {isAdmin && (
@@ -169,12 +150,7 @@ function Blogs() {
                   <div className="widget">
                     <h6 className="title-widget">Search Here</h6>
                     <div className="search-box">
-                      <input
-                        type="text"
-                        placeholder="Search by title..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
+                      <input type="text" placeholder="Search by title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                       <span className="icon pe-7s-search"></span>
                     </div>
                   </div>
@@ -183,86 +159,40 @@ function Blogs() {
                     <h6 className="title-widget">Categories</h6>
                     <ul className="rest">
                       <li>
-                        <span
-                          onClick={() => handleFilterChange("*")}
-                          className={filter === "*" ? "active" : ""}
-                          style={{ cursor: "pointer" }}
-                        >
+                        <span onClick={() => handleFilterChange("*")} className={filter === "*" ? "active" : ""} style={{ cursor: "pointer" }}>
                           All
                         </span>
                         <span className="ml-auto">{blogs.length}</span>
                       </li>
                       <li>
-                        <span
-                          onClick={() => handleFilterChange("business")}
-                          className={filter === "business" ? "active" : ""}
-                          style={{ cursor: "pointer" }}
-                        >
+                        <span onClick={() => handleFilterChange("business")} className={filter === "business" ? "active" : ""} style={{ cursor: "pointer" }}>
                           Business
                         </span>
-                        <span className="ml-auto">
-                          {
-                            blogs.filter((b) => b.category === "business")
-                              .length
-                          }
-                        </span>
+                        <span className="ml-auto">{blogs.filter((b) => b.category === "business").length}</span>
                       </li>
                       <li>
-                        <span
-                          onClick={() => handleFilterChange("lifestyle")}
-                          className={filter === "lifestyle" ? "active" : ""}
-                          style={{ cursor: "pointer" }}
-                        >
+                        <span onClick={() => handleFilterChange("lifestyle")} className={filter === "lifestyle" ? "active" : ""} style={{ cursor: "pointer" }}>
                           Lifestyle
                         </span>
-                        <span className="ml-auto">
-                          {
-                            blogs.filter((b) => b.category === "lifestyle")
-                              .length
-                          }
-                        </span>
+                        <span className="ml-auto">{blogs.filter((b) => b.category === "lifestyle").length}</span>
                       </li>
                       <li>
-                        <span
-                          onClick={() => handleFilterChange("creative")}
-                          className={filter === "creative" ? "active" : ""}
-                          style={{ cursor: "pointer" }}
-                        >
+                        <span onClick={() => handleFilterChange("creative")} className={filter === "creative" ? "active" : ""} style={{ cursor: "pointer" }}>
                           Creative
                         </span>
-                        <span className="ml-auto">
-                          {
-                            blogs.filter((b) => b.category === "creative")
-                              .length
-                          }
-                        </span>
+                        <span className="ml-auto">{blogs.filter((b) => b.category === "creative").length}</span>
                       </li>
                       <li>
-                        <span
-                          onClick={() => handleFilterChange("wordpress")}
-                          className={filter === "wordpress" ? "active" : ""}
-                          style={{ cursor: "pointer" }}
-                        >
+                        <span onClick={() => handleFilterChange("wordpress")} className={filter === "wordpress" ? "active" : ""} style={{ cursor: "pointer" }}>
                           WordPress
                         </span>
-                        <span className="ml-auto">
-                          {
-                            blogs.filter((b) => b.category === "wordpress")
-                              .length
-                          }
-                        </span>
+                        <span className="ml-auto">{blogs.filter((b) => b.category === "wordpress").length}</span>
                       </li>
                       <li>
-                        <span
-                          onClick={() => handleFilterChange("design")}
-                          className={filter === "design" ? "active" : ""}
-                          style={{ cursor: "pointer" }}
-                        >
+                        <span onClick={() => handleFilterChange("design")} className={filter === "design" ? "active" : ""} style={{ cursor: "pointer" }}>
                           Design
                         </span>
-                        <span className="ml-auto">
-                          {blogs.filter((b) => b.category === "design").length}
-                        </span>
+                        <span className="ml-auto">{blogs.filter((b) => b.category === "design").length}</span>
                       </li>
                     </ul>
                   </div>

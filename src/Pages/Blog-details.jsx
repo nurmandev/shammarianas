@@ -188,7 +188,7 @@ function BlogDetails() {
       `}</style>
       <Cursor />
       <ProgressScroll />
-      <header className="header-blog bg-img" data-background={blog.imageUrl || "/assets/imgs/background/bg4.jpg"} data-overlay-dark="9">
+      <header className="header-blog bg-img" data-background={blog.coverImageUrl || "/assets/imgs/background/bg4.jpg"} data-overlay-dark="9">
         <div className="container">
           <div className="row">
             <div className="col-12">
