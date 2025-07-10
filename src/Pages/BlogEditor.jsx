@@ -6,22 +6,27 @@ import { useQuill } from "react-quilljs";
 import "react-quill/dist/quill.snow.css";
 
 const modules = {
-  toolbar: [
-    ["bold", "italic", "underline", "strike"],
-    ["blockquote", "code-block"],
-    [{ header: 1 }, { header: 2 }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ script: "sub" }, { script: "super" }],
-    [{ indent: "-1" }, { indent: "+1" }],
-    [{ direction: "rtl" }],
-    [{ size: ["small", false, "large", "huge"] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ color: [] }, { background: [] }],
-    [{ font: [] }],
-    [{ align: [] }],
-    ["clean"],
-    ["link", "image", "video"],
-  ],
+  toolbar: {
+    container: [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote", "code-block"],
+      [{ header: 1 }, { header: 2 }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ direction: "rtl" }],
+      [{ size: ["small", false, "large", "huge"] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }],
+      [{ font: [] }],
+      [{ align: [] }],
+      ["clean"],
+      ["link", "image", "video"],
+    ],
+    handlers: {
+      image: null, // Will be set in the component
+    },
+  },
 };
 
 const formats = [
@@ -48,8 +53,7 @@ const formats = [
 ];
 
 function BlogEditorModal({ isOpen, onClose }) {
-  const { quillRef } = useQuill({});
-
+  const { quill, quillRef } = useQuill({ modules, formats });
   const [blogData, setBlogData] = useState({
     title: "",
     slug: "",
@@ -60,9 +64,46 @@ function BlogEditorModal({ isOpen, onClose }) {
     imageUrl: "",
     content: "",
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Custom image handler for Quill
+  React.useEffect(() => {
+    if (quill) {
+      const toolbar = quill.getModule("toolbar");
+      toolbar.addHandler("image", () => {
+        const input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.setAttribute("accept", "image/*");
+        input.click();
+
+        input.onchange = async () => {
+          const file = input.files[0];
+          if (file) {
+            if (file.size > 1250000) {
+              alert("Image must be smaller than 1.25MB");
+              return;
+            }
+            try {
+              // Upload image to Firebase Storage
+              const storageRef = ref(storage, `blogs/editor-images/${Date.now()}_${file.name}`);
+              await uploadBytes(storageRef, file);
+              const imageUrl = await getDownloadURL(storageRef);
+
+              // Insert the image URL into the Quill editor
+              const range = quill.getSelection();
+              if (range) {
+                quill.insertEmbed(range.index, "image", imageUrl);
+              }
+            } catch (error) {
+              console.error("Error uploading image:", error);
+              alert("Failed to upload image: " + error.message);
+            }
+          }
+        };
+      });
+    }
+  }, [quill]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -90,7 +131,7 @@ function BlogEditorModal({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const content = quillRef?.current?.innerHTML || "";
+    const content = quillRef.current?.innerHTML || "";
     try {
       const slug = generateSlug(blogData.title);
 
@@ -129,6 +170,7 @@ function BlogEditorModal({ isOpen, onClose }) {
         content: "",
       });
       if (fileInputRef.current) fileInputRef.current.value = "";
+      if (quill) quill.setText(""); // Clear Quill editor
       onClose();
     } catch (error) {
       console.error("Error publishing blog:", error);
@@ -262,12 +304,11 @@ function BlogEditorModal({ isOpen, onClose }) {
           opacity: 0.6;
           cursor: not-allowed;
         }
-        .blog-quill-editor {
+        .blog-quill-editor .ql-container {
           min-height: 24rem;
           background: #fff;
           border-radius: 0.5rem;
           border: 1px solid #d1d5db;
-          margin-bottom: 0.5rem;
         }
       `}</style>
       <div className="blog-modal-container">
@@ -336,15 +377,7 @@ function BlogEditorModal({ isOpen, onClose }) {
               <label className="blog-form-label">
                 Content <span className="blog-form-required">*</span>
               </label>
-              <div
-                value={blogData.content}
-                onChange={(value) => setBlogData((prev) => ({ ...prev, content: value }))}
-                modules={modules}
-                ref={quillRef}
-                formats={formats}
-                className="blog-quill-editor"
-                theme="snow"
-              />
+              <div ref={quillRef} className="blog-quill-editor" />
             </div>
 
             {/* Buttons */}
