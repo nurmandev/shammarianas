@@ -319,7 +319,7 @@ const Navbar = () => {
             <span className="icon ti-arrow-top-right"></span>
           </div>
         </Link>
-        {/* <Search /> */}
+        <Search />
         <div className="right">
           <div className="nav_buttons">
             <Link to="/Cart">
