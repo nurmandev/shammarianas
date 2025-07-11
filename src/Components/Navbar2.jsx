@@ -319,7 +319,7 @@ const Navbar = () => {
             <span className="icon ti-arrow-top-right"></span>
           </div>
         </Link>
-        <Search />
+        {/* <Search /> */}
         <div className="right">
           <div className="nav_buttons">
             <Link to="/Cart">
@@ -362,9 +362,7 @@ const Navbar = () => {
                   <li>
                     <Link to="/Trade">Trade</Link>
                   </li>
-                  <li>
-                    <Link to="/Upload">Upload</Link>
-                  </li>
+
                   <li>
                     <Link to="/Support">Support</Link>
                   </li>
@@ -380,7 +378,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
+      {!["/", "/Login", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">
           <div className="links">
             <ul style={{ whiteSpace: "nowrap", alignItems: "center" }}>
