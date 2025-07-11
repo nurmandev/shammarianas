@@ -166,28 +166,28 @@ function Blogs() {
                       </li>
                       <li>
                         <span onClick={() => handleFilterChange("business")} className={filter === "business" ? "active" : ""} style={{ cursor: "pointer" }}>
-                          Business
+                         Artificial Intelligence
                         </span>
                         <span className="ml-auto">{blogs.filter((b) => b.category === "business").length}</span>
                       </li>
                       <li>
                         <span onClick={() => handleFilterChange("lifestyle")} className={filter === "lifestyle" ? "active" : ""} style={{ cursor: "pointer" }}>
-                          Lifestyle
+                         Development
                         </span>
                         <span className="ml-auto">{blogs.filter((b) => b.category === "lifestyle").length}</span>
                       </li>
                       <li>
                         <span onClick={() => handleFilterChange("creative")} className={filter === "creative" ? "active" : ""} style={{ cursor: "pointer" }}>
-                          Creative
+                          Marketing
                         </span>
                         <span className="ml-auto">{blogs.filter((b) => b.category === "creative").length}</span>
                       </li>
-                      <li>
+                      {/* <li>
                         <span onClick={() => handleFilterChange("wordpress")} className={filter === "wordpress" ? "active" : ""} style={{ cursor: "pointer" }}>
                           WordPress
                         </span>
                         <span className="ml-auto">{blogs.filter((b) => b.category === "wordpress").length}</span>
-                      </li>
+                      </li> */}
                       <li>
                         <span onClick={() => handleFilterChange("design")} className={filter === "design" ? "active" : ""} style={{ cursor: "pointer" }}>
                           Design
