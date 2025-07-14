@@ -1667,7 +1667,7 @@ const AdminManager = ({ setError }) => {
 
   return (
     <div className="admin-manager p-4 sm:p-6 bg-white rounded-xl shadow-md w-full max-w-4xl mx-auto overflow-x-auto">
-      <h3 className="text-2xl font-semibold mb-6 text-gray-800">
+      <h3 className="text-2xl font-semibold mb-6 text-black">
         Admin Manager
       </h3>
 
