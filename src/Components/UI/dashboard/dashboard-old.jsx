@@ -1676,7 +1676,7 @@ const AdminManager = ({ setError }) => {
    <div className="admin-manager p-4 sm:p-6 bg-white rounded-xl shadow-md w-full max-w-4xl mx-auto overflow-x-auto">
   <h3 className="text-2xl font-semibold mb-6 text-gray-800">Admin Manager</h3>
 
-  {/* Input Section */}
+  {/* Input and button */}
   <div className="flex flex-col sm:flex-row gap-3 mb-6">
     <input
       type="email"
@@ -1687,36 +1687,36 @@ const AdminManager = ({ setError }) => {
     />
     <button
       onClick={addAdmin}
-      className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-all w-full sm:w-auto font-medium"
+      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all w-full sm:w-auto"
     >
-      + Add Admin
+      Add Admin
     </button>
   </div>
 
-  {/* Log Message */}
+  {/* Log message */}
   {logMessage && (
-    <div className={`text-sm mb-4 ${logType === "success" ? "text-green-600" : "text-red-600"}`}>
+    <div className={`text-sm mt-2 ${logType === "success" ? "text-green-600" : "text-red-600"}`}>
       {logMessage}
     </div>
   )}
 
   {/* Admin Table */}
-  <div className="overflow-x-auto">
-    <table className="min-w-full table-auto border border-gray-200 rounded-md overflow-hidden text-left">
-      <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
+  <div className="overflow-x-auto mt-6">
+    <table className="min-w-full border border-gray-200 rounded-md overflow-hidden">
+      <thead className="bg-gray-100 text-gray-700 text-sm">
         <tr>
-          <th className="px-4 py-3 w-3/4 border-b">Admin Email</th>
-          <th className="px-4 py-3 w-1/4 border-b text-center">Action</th>
+          <th className="text-left px-4 py-2 border-b">Admin Email</th>
+          <th className="text-left px-4 py-2 border-b">Action</th>
         </tr>
       </thead>
       <tbody>
         {admins.map((admin) => (
-          <tr key={admin.id} className="hover:bg-gray-50 border-t">
-            <td className="px-4 py-3 text-sm text-gray-800 break-words max-w-lg">{admin.id}</td>
-            <td className="px-4 py-3 text-center">
+          <tr key={admin.id} className="border-t hover:bg-gray-50">
+            <td className="px-4 py-2 text-sm text-gray-800 break-words max-w-xs">{admin.id}</td>
+            <td className="px-4 py-2">
               <button
                 onClick={() => removeAdmin(admin.id)}
-                className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 transition-all text-sm font-medium"
+                className="text-red-600 hover:text-red-800 text-sm"
               >
                 Remove
               </button>
@@ -1725,7 +1725,7 @@ const AdminManager = ({ setError }) => {
         ))}
         {admins.length === 0 && (
           <tr>
-            <td colSpan={2} className="px-4 py-5 text-center text-sm text-gray-500">
+            <td colSpan={2} className="px-4 py-4 text-center text-sm text-gray-500">
               No admins added yet.
             </td>
           </tr>
