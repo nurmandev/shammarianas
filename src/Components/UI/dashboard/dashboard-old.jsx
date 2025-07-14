@@ -1673,76 +1673,68 @@ const AdminManager = ({ setError }) => {
   };
 
   return (
-    <div className="admin-manager p-4 sm:p-6 bg-white rounded-xl shadow-md w-full max-w-4xl mx-auto overflow-x-auto">
-      <h3 className="text-2xl font-semibold mb-6 text-black">Admin Manager</h3>
+   <div className="admin-manager p-4 sm:p-6 bg-white rounded-xl shadow-md w-full max-w-4xl mx-auto overflow-x-auto">
+  <h3 className="text-2xl font-semibold mb-6 text-gray-800">Admin Manager</h3>
 
-      {/* Input Section */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <input
-          type="email"
-          placeholder="Enter admin email"
-          value={newAdminEmail}
-          onChange={(e) => setNewAdminEmail(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={addAdmin}
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-all w-full sm:w-auto font-medium"
-        >
-          + Add Admin
-        </button>
-      </div>
+  {/* Input Section */}
+  <div className="flex flex-col sm:flex-row gap-3 mb-6">
+    <input
+      type="email"
+      placeholder="Enter admin email"
+      value={newAdminEmail}
+      onChange={(e) => setNewAdminEmail(e.target.value)}
+      className="px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <button
+      onClick={addAdmin}
+      className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-all w-full sm:w-auto font-medium"
+    >
+      + Add Admin
+    </button>
+  </div>
 
-      {/* Log Message */}
-      {logMessage && (
-        <div
-          className={`text-sm mb-4 ${
-            logType === "success" ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {logMessage}
-        </div>
-      )}
-
-      {/* Admin Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border border-gray-200 rounded-md overflow-hidden text-left">
-          <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
-            <tr>
-              <th className="px-4 py-3 w-3/4 border-b">Admin Email</th>
-              <th className="px-4 py-3 w-1/4 border-b text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {admins.map((admin) => (
-              <tr key={admin.id} className="hover:bg-gray-50 border-t">
-                <td className="px-4 py-3 text-sm text-gray-800 break-words max-w-lg">
-                  {admin.id}
-                </td>
-                <td className="px-4 py-3 text-center">
-                  <button
-                    onClick={() => removeAdmin(admin.id)}
-                    className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 transition-all text-sm font-medium"
-                  >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {admins.length === 0 && (
-              <tr>
-                <td
-                  colSpan={2}
-                  className="px-4 py-5 text-center text-sm text-gray-500"
-                >
-                  No admins added yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+  {/* Log Message */}
+  {logMessage && (
+    <div className={`text-sm mb-4 ${logType === "success" ? "text-green-600" : "text-red-600"}`}>
+      {logMessage}
     </div>
+  )}
+
+  {/* Admin Table */}
+  <div className="overflow-x-auto">
+    <table className="min-w-full table-auto border border-gray-200 rounded-md overflow-hidden text-left">
+      <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
+        <tr>
+          <th className="px-4 py-3 w-3/4 border-b">Admin Email</th>
+          <th className="px-4 py-3 w-1/4 border-b text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {admins.map((admin) => (
+          <tr key={admin.id} className="hover:bg-gray-50 border-t">
+            <td className="px-4 py-3 text-sm text-gray-800 break-words max-w-lg">{admin.id}</td>
+            <td className="px-4 py-3 text-center">
+              <button
+                onClick={() => removeAdmin(admin.id)}
+                className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 transition-all text-sm font-medium"
+              >
+                Remove
+              </button>
+            </td>
+          </tr>
+        ))}
+        {admins.length === 0 && (
+          <tr>
+            <td colSpan={2} className="px-4 py-5 text-center text-sm text-gray-500">
+              No admins added yet.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
+
   );
 };
 
