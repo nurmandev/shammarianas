@@ -804,33 +804,40 @@ const AdminDashboard = () => {
                     <option value="moderator">Moderator</option>
                     <option value="user">User</option>
                   </select>
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full">
                     <button
                       onClick={() => handleSort("email")}
-                      className={`sort-button ${
-                        sortConfig.key === "email" ? "active" : ""
-                      } w-full sm:w-auto`}
+                      className={`flex items-center justify-between sm:justify-center px-4 py-2 border rounded-md text-sm font-medium transition-colors w-full sm:w-auto
+      ${
+        sortConfig.key === "email"
+          ? "bg-blue-100 border-blue-500 text-blue-700"
+          : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
+      }`}
                     >
                       Email{" "}
                       {sortConfig.key === "email" &&
                         (sortConfig.direction === "ascending" ? (
-                          <FiChevronUp />
+                          <FiChevronUp className="ml-2" />
                         ) : (
-                          <FiChevronDown />
+                          <FiChevronDown className="ml-2" />
                         ))}
                     </button>
+
                     <button
                       onClick={() => handleSort("role")}
-                      className={`sort-button ${
-                        sortConfig.key === "role" ? "active" : ""
-                      } w-full sm:w-auto`}
+                      className={`flex items-center justify-between sm:justify-center px-4 py-2 border rounded-md text-sm font-medium transition-colors w-full sm:w-auto
+      ${
+        sortConfig.key === "role"
+          ? "bg-blue-100 border-blue-500 text-blue-700"
+          : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
+      }`}
                     >
                       Role{" "}
                       {sortConfig.key === "role" &&
                         (sortConfig.direction === "ascending" ? (
-                          <FiChevronUp />
+                          <FiChevronUp className="ml-2" />
                         ) : (
-                          <FiChevronDown />
+                          <FiChevronDown className="ml-2" />
                         ))}
                     </button>
                   </div>
@@ -1667,9 +1674,7 @@ const AdminManager = ({ setError }) => {
 
   return (
     <div className="admin-manager p-4 sm:p-6 bg-white rounded-xl shadow-md w-full max-w-4xl mx-auto overflow-x-auto">
-      <h3 className="text-2xl font-semibold mb-6 text-black">
-        Admin Manager
-      </h3>
+      <h3 className="text-2xl font-semibold mb-6 text-black">Admin Manager</h3>
 
       {/* Input Section */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
