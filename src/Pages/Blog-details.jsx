@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { doc, getDoc, deleteDoc, getDocs, collection } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import ProgressScroll from "../common/ProgressScroll";
