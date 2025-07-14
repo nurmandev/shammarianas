@@ -1,33 +1,12 @@
 "use client";
-import { auth, db } from "../../../../firebase"; // Ensure firebase.js exports initialized Firebase app
-import { useEffect, useState } from "react";
+import { auth, db } from "../../../../firebase";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  doc,
-  getDoc,
-  getDocs,
-  collection,
-  updateDoc,
-  setDoc,
-  deleteDoc,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, updateDoc, setDoc, deleteDoc, orderBy, query } from "firebase/firestore";
 import Upload from "../../../Pages/Upload";
 import BlogEditorModal from "../../../Pages/BlogEditor";
 import ProjectModal from "../../../Pages/PortfolioUpload";
-import {
-  FiUsers,
-  FiMail,
-  FiUpload,
-  FiFileText,
-  FiSearch,
-  FiChevronDown,
-  FiChevronUp,
-  FiCheck,
-  FiX,
-  FiTrash2,
-} from "react-icons/fi";
+import { FiUsers, FiMail, FiUpload, FiFileText, FiSearch, FiChevronDown, FiChevronUp, FiCheck, FiX, FiTrash2, FiBox } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
 
@@ -43,8 +22,7 @@ const UnauthorizedAccess = ({ error }) => {
         backgroundColor: "#ffe6e6",
         borderRadius: "8px",
         margin: "20px",
-      }}
-    >
+      }}>
       <h3>Access Denied</h3>
       <p>{error || "You do not have permission to access this page."}</p>
     </div>
@@ -57,6 +35,7 @@ const AdminDashboard = () => {
   const [supportMessages, setSupportMessages] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [portfolios, setPortfolios] = useState([]);
+  const [assets, setAssets] = useState([]);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [messageFilter, setMessageFilter] = useState("all");
@@ -92,20 +71,12 @@ const AdminDashboard = () => {
           return;
         }
 
-        const devAdminEmails =
-          process.env.REACT_APP_DEV_ADMIN_EMAILS?.split(",").map((e) =>
-            e.trim().toLowerCase()
-          ) || [];
-        const isDevAdmin =
-          process.env.NODE_ENV === "development" &&
-          devAdminEmails.includes(email);
+        const devAdminEmails = process.env.REACT_APP_DEV_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
+        const isDevAdmin = process.env.NODE_ENV === "development" && devAdminEmails.includes(email);
 
         if (isDevAdmin || (await checkAdminStatus(email))) {
           setIsAdmin(true);
-          await Promise.all([
-            fetchUsers(),
-            fetchSupportMessages(currentUser.uid),
-          ]);
+          await Promise.all([fetchUsers(), fetchSupportMessages(currentUser.uid)]);
           setSelectedProfileId(currentUser.uid);
         } else {
           setError("You do not have admin privileges");
@@ -124,10 +95,7 @@ const AdminDashboard = () => {
 
   const checkAdminStatus = async (email) => {
     if (!email) return false;
-    const superAdminEmails =
-      process.env.REACT_APP_SUPER_ADMIN_EMAILS?.split(",").map((e) =>
-        e.trim().toLowerCase()
-      ) || [];
+    const superAdminEmails = process.env.REACT_APP_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
     if (superAdminEmails.includes(email)) return true;
 
     try {
@@ -173,30 +141,17 @@ const AdminDashboard = () => {
     }
     setLoading(true);
     try {
-      const q = query(
-        collection(db, `Profiles/${profileId}/Support`),
-        orderBy("createdAt", "desc")
-      );
+      const q = query(collection(db, `Profiles/${profileId}/Support`), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const messages = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         profileId,
         ...doc.data(),
       }));
-      console.log(
-        "Fetched support messages for profileId:",
-        profileId,
-        "count:",
-        messages.length
-      );
+      console.log("Fetched support messages for profileId:", profileId, "count:", messages.length);
       setSupportMessages(messages);
     } catch (error) {
-      console.error(
-        "Error fetching support messages for profileId:",
-        profileId,
-        error,
-        { code: error.code, message: error.message }
-      );
+      console.error("Error fetching support messages for profileId:", profileId, error, { code: error.code, message: error.message });
       setError(`Failed to load support messages: ${error.message}`);
     } finally {
       setLoading(false);
@@ -261,16 +216,43 @@ const AdminDashboard = () => {
     }
   }, [activeTab]);
 
+  // Fetch All Assets
+  const fetchAssets = useCallback(async () => {
+    setLoading(true);
+    try {
+      const q = query(collection(db, "Assets"));
+      const querySnapshot = await getDocs(q);
+      const assetsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAssets(assetsData);
+      console.log("Fetched assets:", assetsData.length, assetsData);
+    } catch (error) {
+      console.error("Error fetching assets:", error, {
+        code: error.code,
+        message: error.message,
+      });
+      setError(`Failed to load assets: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Fetch assets when Stock Management tab is selected
+  useEffect(() => {
+    if (activeTab === 6) {
+      console.log("Stock Management tab selected, fetching assets...");
+      fetchAssets();
+    }
+  }, [activeTab, fetchAssets]);
+
   const handleRoleChange = async (userId, newRole, userEmail) => {
     if (!isAdmin) {
       setError("Only admins can change user roles");
       return;
     }
-    if (
-      window.confirm(
-        `Are you sure you want to change this user's role to ${newRole}?`
-      )
-    ) {
+    if (window.confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
       try {
         const lowerCaseEmail = userEmail.toLowerCase();
         await updateDoc(doc(db, "Profiles", userId), { role: newRole });
@@ -282,11 +264,7 @@ const AdminDashboard = () => {
         } else {
           await deleteDoc(doc(db, "adminUsers", lowerCaseEmail));
         }
-        setUsers(
-          users.map((user) =>
-            user.id === userId ? { ...user, role: newRole } : user
-          )
-        );
+        setUsers(users.map((user) => (user.id === userId ? { ...user, role: newRole } : user)));
         console.log(`User ${userEmail} role changed to ${newRole}`);
       } catch (error) {
         console.error("Error updating role for userId:", userId, error, {
@@ -304,11 +282,7 @@ const AdminDashboard = () => {
       return;
     }
     if (selectedUsers.length === 0) return;
-    if (
-      window.confirm(
-        `Are you sure you want to change the role of ${selectedUsers.length} user(s) to "${newRole}"?`
-      )
-    ) {
+    if (window.confirm(`Are you sure you want to change the role of ${selectedUsers.length} user(s) to "${newRole}"?`)) {
       try {
         await Promise.all(
           selectedUsers.map(async (userId) => {
@@ -329,15 +303,9 @@ const AdminDashboard = () => {
             }
           })
         );
-        setUsers(
-          users.map((user) =>
-            selectedUsers.includes(user.id) ? { ...user, role: newRole } : user
-          )
-        );
+        setUsers(users.map((user) => (selectedUsers.includes(user.id) ? { ...user, role: newRole } : user)));
         setSelectedUsers([]);
-        console.log(
-          `Bulk role change to ${newRole} for ${selectedUsers.length} users`
-        );
+        console.log(`Bulk role change to ${newRole} for ${selectedUsers.length} users`);
       } catch (error) {
         console.error("Error updating bulk user roles:", error, {
           code: error.code,
@@ -353,74 +321,37 @@ const AdminDashboard = () => {
       setError("Only admins can change other users' message status");
       return;
     }
-    if (
-      window.confirm("Are you sure you want to change this message's status?")
-    ) {
+    if (window.confirm("Are you sure you want to change this message's status?")) {
       try {
         await updateDoc(doc(db, `Profiles/${profileId}/Support`, messageId), {
           status: newStatus,
         });
-        setSupportMessages(
-          supportMessages.map((msg) =>
-            msg.id === messageId && msg.profileId === profileId
-              ? { ...msg, status: newStatus }
-              : msg
-          )
-        );
+        setSupportMessages(supportMessages.map((msg) => (msg.id === messageId && msg.profileId === profileId ? { ...msg, status: newStatus } : msg)));
         console.log(`Message ${messageId} status changed to ${newStatus}`);
       } catch (error) {
-        console.error(
-          "Error updating message status for messageId:",
-          messageId,
-          error,
-          { code: error.code, message: error.message }
-        );
+        console.error("Error updating message status for messageId:", messageId, error, { code: error.code, message: error.message });
         setError(`Failed to update message status: ${error.message}`);
       }
     }
   };
 
   const handleBulkStatusChange = async (newStatus) => {
-    if (
-      !isAdmin &&
-      selectedMessages.some(
-        (id) =>
-          supportMessages.find((msg) => msg.id === id).profileId !==
-          auth.currentUser?.uid
-      )
-    ) {
-      setError(
-        "Only admins can perform bulk status changes for other users' messages"
-      );
+    if (!isAdmin && selectedMessages.some((id) => supportMessages.find((msg) => msg.id === id).profileId !== auth.currentUser?.uid)) {
+      setError("Only admins can perform bulk status changes for other users' messages");
       return;
     }
     if (selectedMessages.length === 0) return;
-    if (
-      window.confirm(
-        `Change status of ${selectedMessages.length} message(s) to ${newStatus}?`
-      )
-    ) {
+    if (window.confirm(`Change status of ${selectedMessages.length} message(s) to ${newStatus}?`)) {
       try {
         await Promise.all(
           selectedMessages.map((messageId) => {
             const message = supportMessages.find((msg) => msg.id === messageId);
-            return updateDoc(
-              doc(db, `Profiles/${message.profileId}/Support`, messageId),
-              { status: newStatus }
-            );
+            return updateDoc(doc(db, `Profiles/${message.profileId}/Support`, messageId), { status: newStatus });
           })
         );
-        setSupportMessages(
-          supportMessages.map((msg) =>
-            selectedMessages.includes(msg.id)
-              ? { ...msg, status: newStatus }
-              : msg
-          )
-        );
+        setSupportMessages(supportMessages.map((msg) => (selectedMessages.includes(msg.id) ? { ...msg, status: newStatus } : msg)));
         setSelectedMessages([]);
-        console.log(
-          `Bulk status change to ${newStatus} for ${selectedMessages.length} messages`
-        );
+        console.log(`Bulk status change to ${newStatus} for ${selectedMessages.length} messages`);
       } catch (error) {
         console.error("Error updating bulk message statuses:", error, {
           code: error.code,
@@ -458,14 +389,10 @@ const AdminDashboard = () => {
       console.warn("Non-admin attempted to delete portfolio:", portfolioId);
       return;
     }
-    if (
-      window.confirm("Are you sure you want to delete this portfolio item?")
-    ) {
+    if (window.confirm("Are you sure you want to delete this portfolio item?")) {
       try {
         await deleteDoc(doc(db, "projects", portfolioId));
-        setPortfolios(
-          portfolios.filter((portfolio) => portfolio.id !== portfolioId)
-        );
+        setPortfolios(portfolios.filter((portfolio) => portfolio.id !== portfolioId));
         console.log(`Portfolio ${portfolioId} deleted successfully`);
       } catch (error) {
         console.error("Error deleting portfolio:", portfolioId, error, {
@@ -473,6 +400,27 @@ const AdminDashboard = () => {
           message: error.message,
         });
         setError(`Failed to delete portfolio item: ${error.message}`);
+      }
+    }
+  };
+
+  const handleDeleteAsset = async (assetId) => {
+    if (!isAdmin) {
+      setError("Only admins can delete assets");
+      console.warn("Non-admin attempted to delete asset:", assetId);
+      return;
+    }
+    if (window.confirm("Are you sure you want to delete this asset?")) {
+      try {
+        await deleteDoc(doc(db, "Assets", assetId));
+        setAssets(assets.filter((asset) => asset.id !== assetId));
+        console.log(`Asset ${assetId} deleted successfully`);
+      } catch (error) {
+        console.error("Error deleting asset:", assetId, error, {
+          code: error.code,
+          message: error.message,
+        });
+        setError(`Failed to delete asset: ${error.message}`);
       }
     }
   };
@@ -486,104 +434,68 @@ const AdminDashboard = () => {
     console.log("Sorting by", key, direction);
   };
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.email?.toLowerCase().includes(search.toLowerCase()) &&
-      (roleFilter ? user.role === roleFilter : true)
-  );
+  const filteredUsers = users.filter((user) => user.email?.toLowerCase().includes(search.toLowerCase()) && (roleFilter ? user.role === roleFilter : true));
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     if (!sortConfig.key) return 0;
     const aValue = a[sortConfig.key] || "";
     const bValue = b[sortConfig.key] || "";
-    return sortConfig.direction === "ascending"
-      ? aValue < bValue
-        ? -1
-        : 1
-      : aValue > bValue
-      ? -1
-      : 1;
+    return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
   });
 
   const filteredMessages = supportMessages.filter((msg) => {
-    const matchesSearch =
-      msg.subject?.toLowerCase().includes(search.toLowerCase()) ||
-      msg.email?.toLowerCase().includes(search.toLowerCase());
-    return messageFilter === "all"
-      ? matchesSearch
-      : msg.status === messageFilter && matchesSearch;
+    const matchesSearch = msg.subject?.toLowerCase().includes(search.toLowerCase()) || msg.email?.toLowerCase().includes(search.toLowerCase());
+    return messageFilter === "all" ? matchesSearch : msg.status === messageFilter && matchesSearch;
   });
 
   const sortedMessages = [...filteredMessages].sort((a, b) => {
     if (!sortConfig.key) return 0;
     const aValue = a[sortConfig.key] || "";
     const bValue = b[sortConfig.key] || "";
-    return sortConfig.direction === "ascending"
-      ? aValue < bValue
-        ? -1
-        : 1
-      : aValue > bValue
-      ? -1
-      : 1;
+    return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
   });
 
-  const filteredBlogs = blogs.filter(
-    (blog) =>
-      blog.title?.toLowerCase().includes(search.toLowerCase()) || !blog.title
-  );
+  const filteredBlogs = blogs.filter((blog) => blog.title?.toLowerCase().includes(search.toLowerCase()) || !blog.title);
   const sortedBlogs = [...filteredBlogs].sort((a, b) => {
     if (!sortConfig.key) return 0;
     const aValue = a[sortConfig.key] || "";
     const bValue = b[sortConfig.key] || "";
-    return sortConfig.direction === "ascending"
-      ? aValue < bValue
-        ? -1
-        : 1
-      : aValue > bValue
-      ? -1
-      : 1;
+    return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
   });
 
-  const filteredPortfolios = portfolios.filter(
-    (portfolio) =>
-      portfolio.title?.toLowerCase().includes(search.toLowerCase()) ||
-      !portfolio.title
-  );
+  const filteredPortfolios = portfolios.filter((portfolio) => portfolio.title?.toLowerCase().includes(search.toLowerCase()) || !portfolio.title);
   const sortedPortfolios = [...filteredPortfolios].sort((a, b) => {
     if (!sortConfig.key) return 0;
     const aValue = a[sortConfig.key] || "";
     const bValue = b[sortConfig.key] || "";
-    return sortConfig.direction === "ascending"
-      ? aValue < bValue
-        ? -1
-        : 1
-      : aValue > bValue
-      ? -1
-      : 1;
+    return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
+  });
+
+  const filteredAssets = assets.filter((asset) => asset.name?.toLowerCase().includes(search.toLowerCase()) || !asset.name);
+  const sortedAssets = [...filteredAssets].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    const aValue = a[sortConfig.key] || "";
+    const bValue = b[sortConfig.key] || "";
+    return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
   });
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentUsers = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
-  const currentMessages = sortedMessages.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentMessages = sortedMessages.slice(indexOfFirstItem, indexOfLastItem);
   const currentBlogs = sortedBlogs.slice(indexOfFirstItem, indexOfLastItem);
-  const currentPortfolios = sortedPortfolios.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentPortfolios = sortedPortfolios.slice(indexOfFirstItem, indexOfLastItem);
+  const currentAssets = sortedAssets.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const stats = {
     totalUsers: users.length,
     totalAdmins: users.filter((user) => user.role === "admin").length,
-    pendingMessages: supportMessages.filter((msg) => msg.status === "unopened")
-      .length,
+    pendingMessages: supportMessages.filter((msg) => msg.status === "unopened").length,
     totalBlogs: blogs.length,
     totalPortfolios: portfolios.length,
+    totalAssets: assets.length,
   };
 
   if (error && !isAdmin) {
@@ -597,40 +509,25 @@ const AdminDashboard = () => {
           <h2>Admin Panel</h2>
         </div>
         <ul className="sidebar-menu">
-          <li
-            className={`menu-item ${activeTab === 1 ? "active" : ""}`}
-            onClick={() => setActiveTab(1)}
-          >
+          <li className={`menu-item ${activeTab === 1 ? "active" : ""}`} onClick={() => setActiveTab(1)}>
             <FiUsers className="menu-icon" /> Users
           </li>
-          <li
-            className={`menu-item ${activeTab === 2 ? "active" : ""}`}
-            onClick={() => setActiveTab(2)}
-          >
+          <li className={`menu-item ${activeTab === 2 ? "active" : ""}`} onClick={() => setActiveTab(2)}>
             <FiMail className="menu-icon" /> Support
           </li>
-          <li
-            className={`menu-item ${activeTab === 3 ? "active" : ""}`}
-            onClick={() => setActiveTab(3)}
-          >
+          <li className={`menu-item ${activeTab === 3 ? "active" : ""}`} onClick={() => setActiveTab(3)}>
             <FiUpload className="menu-icon" /> Uploads
           </li>
-          <li
-            className={`menu-item ${activeTab === 4 ? "active" : ""}`}
-            onClick={() => setActiveTab(4)}
-          >
+          <li className={`menu-item ${activeTab === 4 ? "active" : ""}`} onClick={() => setActiveTab(4)}>
             <FiFileText className="menu-icon" /> Blog
           </li>
-          <li
-            className={`menu-item ${activeTab === 5 ? "active" : ""}`}
-            onClick={() => setActiveTab(5)}
-          >
+          <li className={`menu-item ${activeTab === 5 ? "active" : ""}`} onClick={() => setActiveTab(5)}>
             <FiFileText className="menu-icon" /> Portfolio
           </li>
-          <li
-            className={`menu-item ${activeTab === 6 ? "active" : ""}`}
-            onClick={() => setActiveTab(6)}
-          >
+          <li className={`menu-item ${activeTab === 6 ? "active" : ""}`} onClick={() => setActiveTab(6)}>
+            <FiBox className="menu-icon" /> Stock Management
+          </li>
+          <li className={`menu-item ${activeTab === 7 ? "active" : ""}`} onClick={() => setActiveTab(7)}>
             <FiUsers className="menu-icon" /> Admin Manager
           </li>
         </ul>
@@ -644,7 +541,8 @@ const AdminDashboard = () => {
             {activeTab === 3 && "File Uploads"}
             {activeTab === 4 && "Blog Editor"}
             {activeTab === 5 && "Portfolio Uploads"}
-            {activeTab === 6 && "Admin Manager"}
+            {activeTab === 6 && "Stock Management"}
+            {activeTab === 7 && "Admin Manager"}
           </h1>
           <div className="search-bar">
             <FiSearch className="search-icon" />
@@ -659,6 +557,10 @@ const AdminDashboard = () => {
                   ? "Search blogs..."
                   : activeTab === 5
                   ? "Search portfolios..."
+                  : activeTab === 6
+                  ? "Search assets..."
+                  : activeTab === 7
+                  ? "Search admins..."
                   : "Search..."
               }
               value={search}
@@ -699,6 +601,10 @@ const AdminDashboard = () => {
             <div className="stat-value">{stats.totalPortfolios}</div>
             <div className="stat-label">Total Portfolios</div>
           </div>
+          <div className="stat-card">
+            <div className="stat-value">{stats.totalAssets}</div>
+            <div className="stat-label">Total Assets</div>
+          </div>
         </div>
 
         <div className="content-card">
@@ -706,45 +612,18 @@ const AdminDashboard = () => {
             <div className="filters">
               {activeTab === 1 && (
                 <>
-                  <select
-                    value={roleFilter}
-                    onChange={(e) => setRoleFilter(e.target.value)}
-                    className="filter-select"
-                  >
+                  <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} className="filter-select">
                     <option value="">All Roles</option>
                     <option value="admin">Admin</option>
                     <option value="moderator">Moderator</option>
                     <option value="user">User</option>
                   </select>
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-                    <button
-                      onClick={() => handleSort("email")}
-                      className={`sort-button ${
-                        sortConfig.key === "email" ? "active" : ""
-                      } w-full sm:w-auto`}
-                    >
-                      Email{" "}
-                      {sortConfig.key === "email" &&
-                        (sortConfig.direction === "ascending" ? (
-                          <FiChevronUp />
-                        ) : (
-                          <FiChevronDown />
-                        ))}
+                    <button onClick={() => handleSort("email")} className={`sort-button ${sortConfig.key === "email" ? "active" : ""} w-full sm:w-auto`}>
+                      Email {sortConfig.key === "email" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                     </button>
-
-                    <button
-                      onClick={() => handleSort("role")}
-                      className={`sort-button ${
-                        sortConfig.key === "role" ? "active" : ""
-                      } w-full sm:w-auto`}
-                    >
-                      Role{" "}
-                      {sortConfig.key === "role" &&
-                        (sortConfig.direction === "ascending" ? (
-                          <FiChevronUp />
-                        ) : (
-                          <FiChevronDown />
-                        ))}
+                    <button onClick={() => handleSort("role")} className={`sort-button ${sortConfig.key === "role" ? "active" : ""} w-full sm:w-auto`}>
+                      Role {sortConfig.key === "role" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                     </button>
                   </div>
                 </>
@@ -758,8 +637,7 @@ const AdminDashboard = () => {
                         setSelectedProfileId(e.target.value);
                         fetchSupportMessages(e.target.value);
                       }}
-                      className="filter-select"
-                    >
+                      className="filter-select">
                       <option value="" disabled>
                         Select User
                       </option>
@@ -770,107 +648,47 @@ const AdminDashboard = () => {
                       ))}
                     </select>
                   )}
-                  <select
-                    value={messageFilter}
-                    onChange={(e) => setMessageFilter(e.target.value)}
-                    className="filter-select"
-                  >
+                  <select value={messageFilter} onChange={(e) => setMessageFilter(e.target.value)} className="filter-select">
                     <option value="all">All Messages</option>
                     <option value="unopened">Unopened</option>
                     <option value="opened">Opened</option>
                     <option value="responded">Responded</option>
                   </select>
-                  <button
-                    onClick={() => handleSort("createdAt")}
-                    className={`sort-button ${
-                      sortConfig.key === "createdAt" ? "active" : ""
-                    }`}
-                  >
-                    Date{" "}
-                    {sortConfig.key === "createdAt" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("createdAt")} className={`sort-button ${sortConfig.key === "createdAt" ? "active" : ""}`}>
+                    Date {sortConfig.key === "createdAt" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
-                  <button
-                    onClick={() => handleSort("subject")}
-                    className={`sort-button ${
-                      sortConfig.key === "subject" ? "active" : ""
-                    }`}
-                  >
-                    Subject{" "}
-                    {sortConfig.key === "subject" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("subject")} className={`sort-button ${sortConfig.key === "subject" ? "active" : ""}`}>
+                    Subject {sortConfig.key === "subject" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
                 </>
               )}
               {activeTab === 4 && (
                 <>
-                  <button
-                    onClick={() => handleSort("title")}
-                    className={`sort-button ${
-                      sortConfig.key === "title" ? "active" : ""
-                    }`}
-                  >
-                    Title{" "}
-                    {sortConfig.key === "title" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("title")} className={`sort-button ${sortConfig.key === "title" ? "active" : ""}`}>
+                    Title {sortConfig.key === "title" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
-                  <button
-                    onClick={() => handleSort("createdAt")}
-                    className={`sort-button ${
-                      sortConfig.key === "createdAt" ? "active" : ""
-                    }`}
-                  >
-                    Date{" "}
-                    {sortConfig.key === "createdAt" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("createdAt")} className={`sort-button ${sortConfig.key === "createdAt" ? "active" : ""}`}>
+                    Date {sortConfig.key === "createdAt" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
                 </>
               )}
               {activeTab === 5 && (
                 <>
-                  <button
-                    onClick={() => handleSort("title")}
-                    className={`sort-button ${
-                      sortConfig.key === "title" ? "active" : ""
-                    }`}
-                  >
-                    Title{" "}
-                    {sortConfig.key === "title" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("title")} className={`sort-button ${sortConfig.key === "title" ? "active" : ""}`}>
+                    Title {sortConfig.key === "title" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
-                  <button
-                    onClick={() => handleSort("createdAt")}
-                    className={`sort-button ${
-                      sortConfig.key === "createdAt" ? "active" : ""
-                    }`}
-                  >
-                    Date{" "}
-                    {sortConfig.key === "createdAt" &&
-                      (sortConfig.direction === "ascending" ? (
-                        <FiChevronUp />
-                      ) : (
-                        <FiChevronDown />
-                      ))}
+                  <button onClick={() => handleSort("createdAt")} className={`sort-button ${sortConfig.key === "createdAt" ? "active" : ""}`}>
+                    Date {sortConfig.key === "createdAt" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
+                  </button>
+                </>
+              )}
+              {activeTab === 6 && (
+                <>
+                  <button onClick={() => handleSort("name")} className={`sort-button ${sortConfig.key === "name" ? "active" : ""}`}>
+                    Name {sortConfig.key === "name" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
+                  </button>
+                  <button onClick={() => handleSort("createdAt")} className={`sort-button ${sortConfig.key === "createdAt" ? "active" : ""}`}>
+                    Date {sortConfig.key === "createdAt" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                   </button>
                 </>
               )}
@@ -879,13 +697,7 @@ const AdminDashboard = () => {
 
           <div className="card-body">
             {activeTab === 1 && (
-              <UserList
-                users={currentUsers}
-                onRoleChange={handleRoleChange}
-                selectedUsers={selectedUsers}
-                setSelectedUsers={setSelectedUsers}
-                handleBulkRoleChange={handleBulkRoleChange}
-              />
+              <UserList users={currentUsers} onRoleChange={handleRoleChange} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} handleBulkRoleChange={handleBulkRoleChange} />
             )}
             {activeTab === 2 && (
               <SupportList
@@ -918,16 +730,13 @@ const AdminDashboard = () => {
                 }}
               />
             )}
-            {activeTab === 6 && <AdminManager setError={setError} />}
+            {activeTab === 6 && <AssetList assets={currentAssets} onDelete={handleDeleteAsset} />}
+            {activeTab === 7 && <AdminManager setError={setError} />}
           </div>
 
           <div className="card-footer">
             <div className="pagination">
-              <button
-                onClick={() => paginate(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="page-nav"
-              >
+              <button onClick={() => paginate(Math.max(1, currentPage - 1))} disabled={currentPage === 1} className="page-nav">
                 Previous
               </button>
               {Array.from(
@@ -941,17 +750,13 @@ const AdminDashboard = () => {
                       ? filteredBlogs.length
                       : activeTab === 5
                       ? filteredPortfolios.length
+                      : activeTab === 6
+                      ? filteredAssets.length
                       : 1) / itemsPerPage
                   ),
                 },
                 (_, i) => (
-                  <button
-                    key={i + 1}
-                    onClick={() => paginate(i + 1)}
-                    className={`page-item ${
-                      currentPage === i + 1 ? "active" : ""
-                    }`}
-                  >
+                  <button key={i + 1} onClick={() => paginate(i + 1)} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
                     {i + 1}
                   </button>
                 )
@@ -969,6 +774,8 @@ const AdminDashboard = () => {
                           ? filteredBlogs.length
                           : activeTab === 5
                           ? filteredPortfolios.length
+                          : activeTab === 6
+                          ? filteredAssets.length
                           : 1) / itemsPerPage
                       ),
                       currentPage + 1
@@ -986,24 +793,19 @@ const AdminDashboard = () => {
                       ? filteredBlogs.length
                       : activeTab === 5
                       ? filteredPortfolios.length
+                      : activeTab === 6
+                      ? filteredAssets.length
                       : 1) / itemsPerPage
                   )
                 }
-                className="page-nav"
-              >
+                className="page-nav">
                 Next
               </button>
             </div>
           </div>
         </div>
 
-        {selectedMessage && (
-          <MessageModal
-            message={selectedMessage}
-            onClose={() => setSelectedMessage(null)}
-            onStatusChange={handleStatusChange}
-          />
-        )}
+        {selectedMessage && <MessageModal message={selectedMessage} onClose={() => setSelectedMessage(null)} onStatusChange={handleStatusChange} />}
         {isBlogModalOpen && (
           <BlogEditorModal
             isOpen={isBlogModalOpen}
@@ -1031,44 +833,23 @@ const AdminDashboard = () => {
   );
 };
 
-const SupportList = ({
-  messages,
-  onStatusChange,
-  onMessageClick,
-  selectedMessages,
-  setSelectedMessages,
-  handleBulkStatusChange,
-}) => {
+const SupportList = ({ messages, onStatusChange, onMessageClick, selectedMessages, setSelectedMessages, handleBulkStatusChange }) => {
   const handleSelectMessage = (messageId) => {
-    setSelectedMessages(
-      selectedMessages.includes(messageId)
-        ? selectedMessages.filter((id) => id !== messageId)
-        : [...selectedMessages, messageId]
-    );
+    setSelectedMessages(selectedMessages.includes(messageId) ? selectedMessages.filter((id) => id !== messageId) : [...selectedMessages, messageId]);
   };
 
   const handleSelectAll = () => {
-    setSelectedMessages(
-      selectedMessages.length === messages.length
-        ? []
-        : messages.map((msg) => msg.id)
-    );
+    setSelectedMessages(selectedMessages.length === messages.length ? [] : messages.map((msg) => msg.id));
   };
 
   return (
     <div className="table-container">
       {selectedMessages.length > 0 && (
         <div className="table-actions">
-          <button
-            onClick={() => handleBulkStatusChange("opened")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkStatusChange("opened")} className="action-button">
             Mark as Opened
           </button>
-          <button
-            onClick={() => handleBulkStatusChange("responded")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkStatusChange("responded")} className="action-button">
             Mark as Responded
           </button>
         </div>
@@ -1077,14 +858,7 @@ const SupportList = ({
         <thead>
           <tr>
             <th>
-              <input
-                type="checkbox"
-                checked={
-                  selectedMessages.length === messages.length &&
-                  messages.length > 0
-                }
-                onChange={handleSelectAll}
-              />
+              <input type="checkbox" checked={selectedMessages.length === messages.length && messages.length > 0} onChange={handleSelectAll} />
             </th>
             <th>Subject</th>
             <th>From</th>
@@ -1104,11 +878,7 @@ const SupportList = ({
             messages.map((msg) => (
               <tr key={msg.id} className={`status-${msg.status}`}>
                 <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedMessages.includes(msg.id)}
-                    onChange={() => handleSelectMessage(msg.id)}
-                  />
+                  <input type="checkbox" checked={selectedMessages.includes(msg.id)} onChange={() => handleSelectMessage(msg.id)} />
                 </td>
                 <td onClick={() => onMessageClick(msg)} className="clickable">
                   {msg.subject || "No Subject"}
@@ -1116,18 +886,10 @@ const SupportList = ({
                 <td>{msg.email || "Unknown"}</td>
                 <td>{msg.createdAt?.toDate().toLocaleDateString() || "N/A"}</td>
                 <td>
-                  <span className={`status-badge ${msg.status}`}>
-                    {msg.status || "Unknown"}
-                  </span>
+                  <span className={`status-badge ${msg.status}`}>{msg.status || "Unknown"}</span>
                 </td>
                 <td>
-                  <select
-                    onChange={(e) =>
-                      onStatusChange(msg.profileId, msg.id, e.target.value)
-                    }
-                    value={msg.status || "unopened"}
-                    className="status-select"
-                  >
+                  <select onChange={(e) => onStatusChange(msg.profileId, msg.id, e.target.value)} value={msg.status || "unopened"} className="status-select">
                     <option value="unopened">Unopened</option>
                     <option value="opened">Opened</option>
                     <option value="responded">Responded</option>
@@ -1171,14 +933,9 @@ const BlogList = ({ blogs, onDelete, onCreate }) => {
               <tr key={blog.id}>
                 <td>{blog.title || "Untitled"}</td>
                 <td>{blog.author || "Unknown"}</td>
+                <td>{blog.createdAt?.toDate().toLocaleDateString() || "N/A"}</td>
                 <td>
-                  {blog.createdAt?.toDate().toLocaleDateString() || "N/A"}
-                </td>
-                <td>
-                  <button
-                    onClick={() => onDelete(blog.id)}
-                    className="action-button delete-button"
-                  >
+                  <button onClick={() => onDelete(blog.id)} className="action-button delete-button">
                     <FiTrash2 /> Delete
                   </button>
                 </td>
@@ -1220,14 +977,53 @@ const PortfolioList = ({ portfolios, onDelete, onCreate }) => {
               <tr key={portfolio.id}>
                 <td>{portfolio.title || "Untitled"}</td>
                 <td>{portfolio.owner || "Unknown"}</td>
+                <td>{portfolio.createdAt?.toDate().toLocaleDateString() || "N/A"}</td>
                 <td>
-                  {portfolio.createdAt?.toDate().toLocaleDateString() || "N/A"}
+                  <button onClick={() => onDelete(portfolio.id)} className="action-button delete-button">
+                    <FiTrash2 /> Delete
+                  </button>
                 </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const AssetList = ({ assets, onDelete }) => {
+  return (
+    <div className="table-container">
+      {/* <div className="table-actions">
+        <button onClick={() => console.log("Create New Asset")} className="action-button">
+          Create New Asset
+        </button>
+      </div> */}
+      <table className="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {assets.length === 0 ? (
+            <tr>
+              <td colSpan="4" className="no-data">
+                No assets found
+              </td>
+            </tr>
+          ) : (
+            assets.map((asset) => (
+              <tr key={asset.id}>
+                <td>{asset.name || "Unnamed"}</td>
+                <td>{asset.type || "Unknown"}</td>
+                <td>{asset.createdAt?.toDate().toLocaleDateString() || "N/A"}</td>
                 <td>
-                  <button
-                    onClick={() => onDelete(portfolio.id)}
-                    className="action-button delete-button"
-                  >
+                  <button onClick={() => onDelete(asset.id)} className="action-button delete-button">
                     <FiTrash2 /> Delete
                   </button>
                 </td>
@@ -1266,39 +1062,18 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
               <strong>From:</strong> {message.email || "Unknown"}
             </div>
             <div>
-              <strong>Date:</strong>{" "}
-              {message.createdAt?.toDate().toLocaleString() || "N/A"}
+              <strong>Date:</strong> {message.createdAt?.toDate().toLocaleString() || "N/A"}
             </div>
-            <div className={`status-badge ${message.status}`}>
-              {message.status || "Unknown"}
-            </div>
+            <div className={`status-badge ${message.status}`}>{message.status || "Unknown"}</div>
           </div>
-          <div className="message-content">
-            {message.description || "No content"}
-          </div>
+          <div className="message-content">{message.description || "No content"}</div>
         </div>
         <div className="modal-footer">
-          <button
-            onClick={handleMarkAsOpened}
-            disabled={message.status === "opened"}
-            className={`action-button ${
-              message.status === "opened" ? "disabled" : ""
-            }`}
-          >
-            <FiCheck />{" "}
-            {message.status === "opened" ? "Already Opened" : "Mark as Opened"}
+          <button onClick={handleMarkAsOpened} disabled={message.status === "opened"} className={`action-button ${message.status === "opened" ? "disabled" : ""}`}>
+            <FiCheck /> {message.status === "opened" ? "Already Opened" : "Mark as Opened"}
           </button>
-          <button
-            onClick={handleMarkAsResponded}
-            disabled={message.status === "responded"}
-            className={`action-button ${
-              message.status === "responded" ? "disabled" : ""
-            }`}
-          >
-            <FiCheck />{" "}
-            {message.status === "responded"
-              ? "Already Responded"
-              : "Mark as Responded"}
+          <button onClick={handleMarkAsResponded} disabled={message.status === "responded"} className={`action-button ${message.status === "responded" ? "disabled" : ""}`}>
+            <FiCheck /> {message.status === "responded" ? "Already Responded" : "Mark as Responded"}
           </button>
         </div>
       </div>
@@ -1306,47 +1081,26 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
   );
 };
 
-const UserList = ({
-  users,
-  onRoleChange,
-  selectedUsers,
-  setSelectedUsers,
-  handleBulkRoleChange,
-}) => {
+const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handleBulkRoleChange }) => {
   const handleSelectUser = (userId) => {
-    setSelectedUsers(
-      selectedUsers.includes(userId)
-        ? selectedUsers.filter((id) => id !== userId)
-        : [...selectedUsers, userId]
-    );
+    setSelectedUsers(selectedUsers.includes(userId) ? selectedUsers.filter((id) => id !== userId) : [...selectedUsers, userId]);
   };
 
   const handleSelectAll = () => {
-    setSelectedUsers(
-      selectedUsers.length === users.length ? [] : users.map((user) => user.id)
-    );
+    setSelectedUsers(selectedUsers.length === users.length ? [] : users.map((user) => user.id));
   };
 
   return (
     <div className="table-container">
       {selectedUsers.length > 0 && (
         <div className="table-actions">
-          <button
-            onClick={() => handleBulkRoleChange("admin")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkRoleChange("admin")} className="action-button">
             Make Admin
           </button>
-          <button
-            onClick={() => handleBulkRoleChange("moderator")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkRoleChange("moderator")} className="action-button">
             Make Moderator
           </button>
-          <button
-            onClick={() => handleBulkRoleChange("user")}
-            className="action-button"
-          >
+          <button onClick={() => handleBulkRoleChange("user")} className="action-button">
             Make Regular User
           </button>
         </div>
@@ -1355,13 +1109,7 @@ const UserList = ({
         <thead>
           <tr>
             <th>
-              <input
-                type="checkbox"
-                checked={
-                  selectedUsers.length === users.length && users.length > 0
-                }
-                onChange={handleSelectAll}
-              />
+              <input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={handleSelectAll} />
             </th>
             <th>Email</th>
             <th>Current Role</th>
@@ -1379,26 +1127,14 @@ const UserList = ({
             users.map((user) => (
               <tr key={user.id}>
                 <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedUsers.includes(user.id)}
-                    onChange={() => handleSelectUser(user.id)}
-                  />
+                  <input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => handleSelectUser(user.id)} />
                 </td>
                 <td>{user.email || "Unknown"}</td>
                 <td>
-                  <span className={`role-badge ${user.role}`}>
-                    {user.role || "Unknown"}
-                  </span>
+                  <span className={`role-badge ${user.role}`}>{user.role || "Unknown"}</span>
                 </td>
                 <td>
-                  <select
-                    onChange={(e) =>
-                      onRoleChange(user.id, e.target.value, user.email)
-                    }
-                    value={user.role || "user"}
-                    className="role-select"
-                  >
+                  <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role || "user"} className="role-select">
                     <option value="admin">Admin</option>
                     <option value="moderator">Moderator</option>
                     <option value="user">User</option>
@@ -1452,10 +1188,7 @@ const AdminManager = ({ setError }) => {
         addedBy: auth.currentUser?.email || "unknown",
         createdAt: serverTimestamp(),
       });
-      setAdmins([
-        ...admins,
-        { id: email, addedBy: auth.currentUser?.email, createdAt: new Date() },
-      ]);
+      setAdmins([...admins, { id: email, addedBy: auth.currentUser?.email, createdAt: new Date() }]);
       setNewAdminEmail("");
       setLogMessage(`Admin ${email} added successfully.`);
       setLogType("success");
@@ -1490,9 +1223,7 @@ const AdminManager = ({ setError }) => {
 
   return (
     <div className="admin-manager p-4 sm:p-6 bg-white rounded-xl shadow-md w-full max-w-xl mx-auto">
-      <h3 className="text-xl font-semibold mb-4 text-gray-800">
-        Admin Manager
-      </h3>
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">Admin Manager</h3>
 
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <input
@@ -1502,38 +1233,18 @@ const AdminManager = ({ setError }) => {
           onChange={(e) => setNewAdminEmail(e.target.value)}
           className="px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-
-        <button
-          onClick={addAdmin}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all w-full sm:w-auto"
-        >
+        <button onClick={addAdmin} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all w-full sm:w-auto">
           Add Admin
         </button>
       </div>
 
-      {logMessage && (
-        <div
-          className={`text-sm mt-2 ${
-            logType === "success" ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {logMessage}
-        </div>
-      )}
+      {logMessage && <div className={`text-sm mt-2 ${logType === "success" ? "text-green-600" : "text-red-600"}`}>{logMessage}</div>}
 
       <ul className="mt-6 space-y-3">
         {admins.map((admin) => (
-          <li
-            key={admin.id}
-            className="flex items-center justify-between border-b pb-2"
-          >
-            <span className="text-gray-700 text-sm break-words">
-              {admin.id}
-            </span>
-            <button
-              onClick={() => removeAdmin(admin.id)}
-              className="text-red-600 hover:text-red-800 text-sm"
-            >
+          <li key={admin.id} className="flex items-center justify-between border-b pb-2">
+            <span className="text-gray-700 text-sm break-words">{admin.id}</span>
+            <button onClick={() => removeAdmin(admin.id)} className="text-red-600 hover:text-red-800 text-sm">
               Remove
             </button>
           </li>
