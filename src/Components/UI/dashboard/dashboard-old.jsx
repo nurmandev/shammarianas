@@ -804,43 +804,24 @@ const AdminDashboard = () => {
                     <option value="moderator">Moderator</option>
                     <option value="user">User</option>
                   </select>
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full">
-                    <button
-                      onClick={() => handleSort("email")}
-                      className={`flex items-center justify-between sm:justify-center px-4 py-2 border rounded-md text-sm font-medium transition-colors w-full sm:w-auto
-      ${
-        sortConfig.key === "email"
-          ? "bg-blue-100 border-blue-500 text-blue-700"
-          : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
-      }`}
-                    >
-                      Email{" "}
-                      {sortConfig.key === "email" &&
-                        (sortConfig.direction === "ascending" ? (
-                          <FiChevronUp className="ml-2" />
-                        ) : (
-                          <FiChevronDown className="ml-2" />
-                        ))}
-                    </button>
 
-                    <button
-                      onClick={() => handleSort("role")}
-                      className={`flex items-center justify-between sm:justify-center px-4 py-2 border rounded-md text-sm font-medium transition-colors w-full sm:w-auto
-      ${
-        sortConfig.key === "role"
-          ? "bg-blue-100 border-blue-500 text-blue-700"
-          : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
-      }`}
-                    >
-                      Role{" "}
-                      {sortConfig.key === "role" &&
-                        (sortConfig.direction === "ascending" ? (
-                          <FiChevronUp className="ml-2" />
-                        ) : (
-                          <FiChevronDown className="ml-2" />
-                        ))}
-                    </button>
-                  </div>
+                  {/* from here */}
+                  <button
+                    onClick={() => handleSort('email')}
+                    className={`sort-button ${sortConfig.key === 'email' ? 'active' : ''}`}
+                  >
+                    Email {sortConfig.key === 'email' && (
+                      sortConfig.direction === 'ascending' ? <FiChevronUp /> : <FiChevronDown />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => handleSort('role')}
+                    className={`sort-button ${sortConfig.key === 'role' ? 'active' : ''}`}
+                  >
+                    Role {sortConfig.key === 'role' && (
+                      sortConfig.direction === 'ascending' ? <FiChevronUp /> : <FiChevronDown />
+                    )}
+                  </button>
                 </>
               )}
               {activeTab === 2 && (
