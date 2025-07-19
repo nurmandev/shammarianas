@@ -4,10 +4,12 @@ import { useFilters } from "../Context/FilterContext";
 import checkmark from "../assets/Icons/check_mark.png";
 
 // Define filterData
+
+
 const filterData = {
   Videos: {
     categories: {
-      label: "Categories",
+      label: "Categories.",
       options: [
         "Buildings",
         "Business, Corporate",
