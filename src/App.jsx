@@ -156,8 +156,9 @@ function App() {
       <HashRouter>
         <ScrollToTop />
         {/* <Navbar /> */}
-        <Navbar2 />
         <FilterProvider>
+          <Navbar2 />
+
           <AppRoutes />
         </FilterProvider>
         <Footer />

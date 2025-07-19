@@ -1,26 +1,33 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useMemo } from "react";
 
-const FilterContext = createContext();
-
-export const useFilters = () => useContext(FilterContext);
+export const FilterContext = createContext();
 
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     categories: [],
-    price: 50,
-    software: [],
+    aiGenerated: [],
+    resolution: [],
+    frameRate: [],
+    properties: [],
+    applicationsSupported: [],
   });
 
-  const updateFilters = useCallback((filterType, value) => {
+  const updateFilters = (filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: value,
     }));
-  }, []);
+  };
 
-  return (
-    <FilterContext.Provider value={{ filters, updateFilters }}>
-      {children}
-    </FilterContext.Provider>
-  );
+  const value = useMemo(() => ({ filters, updateFilters }), [filters]);
+
+  return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>;
+};
+
+export const useFilters = () => {
+  const context = useContext(FilterContext);
+  if (!context) {
+    throw new Error("useFilters must be used within a FilterProvider");
+  }
+  return context;
 };

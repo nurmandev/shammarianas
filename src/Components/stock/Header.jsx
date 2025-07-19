@@ -38,11 +38,7 @@ const HeroSection = () => {
       id: doc.id,
       ...doc.data(),
     }));
-    const newResults = allResults
-      .filter((result) =>
-        result.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .slice(0, 7);
+    const newResults = allResults.filter((result) => result.title.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, 7);
     setSearchResults(newResults);
     setLoading(false);
     setDisplayResults(searchTerm !== "");
@@ -98,9 +94,7 @@ const HeroSection = () => {
     console.log({ searchResults });
   }, [searchResults]);
 
-  const sortedResults = searchResults.sort((a, b) =>
-    a.type.localeCompare(b.type)
-  );
+  const sortedResults = searchResults.sort((a, b) => a.type.localeCompare(b.type));
 
   const groupedResults = sortedResults.reduce((acc, item) => {
     if (!acc[item.type]) {
@@ -120,8 +114,7 @@ const HeroSection = () => {
             const overlay = document.querySelector(".search_overlay");
             overlay.classList.add("fade");
             setTimeout(() => setOverlay(false), 190);
-          }}
-        ></div>
+          }}></div>
       )}
 
       {/* Hero Section */}
@@ -131,10 +124,7 @@ const HeroSection = () => {
         <div className="hero-background"></div>
         <div className="hero-content">
           <h1 className="hero-title">Smarter creativity, faster designs</h1>
-          <p className="hero-subtitle">
-            Everything you need, from stock images and videos to AI-powered
-            design tools.
-          </p>
+          <p className="hero-subtitle">Everything you need, from stock images and videos to AI-powered design tools.</p>
 
           {/* Search Component */}
           <div className="search-container">
@@ -203,11 +193,7 @@ const HeroSection = () => {
                   <div className="listing_section">
                     <div className="item_listing">
                       {groupedResults[type].map((item) => (
-                        <ListedItemCard
-                          key={item.id}
-                          id={item.id}
-                          data={item}
-                        />
+                        <ListedItemCard key={item.id} id={item.id} data={item} />
                       ))}
                     </div>
                   </div>
@@ -275,8 +261,7 @@ const HeroSection = () => {
                     display: "flex",
                     width: "100%",
                     justifyContent: "space-between",
-                  }}
-                >
+                  }}>
                   <PageTitle title={title} />
                   <Link
                     to={`/${category}`}
@@ -285,8 +270,7 @@ const HeroSection = () => {
                       display: "flex",
                       flexWrap: "nowrap",
                       alignSelf: "center",
-                    }}
-                  >
+                    }}>
                     See All
                   </Link>
                 </div>
