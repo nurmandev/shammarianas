@@ -9,7 +9,7 @@ import checkmark from "../assets/Icons/check_mark.png";
 const filterData = {
   Videos: {
     categories: {
-      label: "Categories.",
+      label: "Categories",
       options: [
         "Buildings",
         "Business, Corporate",
