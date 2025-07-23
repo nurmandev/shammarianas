@@ -9,7 +9,6 @@ import { Helmet } from "react-helmet";
 import plus_icon from "../assets/Icons/plus.png";
 import DescriptionBox from "../Components/DescriptionBox";
 
-// Define filterData (unchanged from provided code)
 const filterData = {
   Videos: {
     categories: {
@@ -282,7 +281,6 @@ const filterData = {
   },
 };
 
-// Map asset types to filterData keys, aligned with formData.type values
 const assetTypeToFilterData = {
   videos: "Videos",
   "video-templates": "VideoTemplates",
@@ -317,6 +315,7 @@ const Upload = () => {
       })
       .replace(/ /g, ", "),
     category: "",
+    type: "",
     model: "",
     images: "",
     video: "",
@@ -355,6 +354,23 @@ const Upload = () => {
     rigged: false,
     animated: false,
     vrArLowPoly: false,
+    aiGenerated: "",
+    frameRate: "",
+    properties: [],
+    applicationsSupported: [],
+    orientation: "",
+    licenseType: "",
+    surfaceMaterial: "",
+    style: "",
+    environmentType: "",
+    lightingCondition: "",
+    scriptType: "",
+    programmingLanguage: "",
+    framework: "",
+    integrationReady: [],
+    colorSpace: "",
+    objectType: "",
+    fileFormat: "",
   });
 
   const [tags, setTags] = useState([]);
@@ -417,24 +433,39 @@ const Upload = () => {
 
   const handleChange = (event) => {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
+    let value = target.type === "checkbox" ? target.checked : target.value;
 
     if (target.type === "file") {
-      const file = target.files[0];
-      if (file) {
+      if (name === "images" || name === "icons") {
+        const files = target.files;
         setFormData({
           ...formData,
-          [name]: file,
-          [`${name}Size`]: file.size,
+          [name]: files,
+          [`${name}Size`]: Array.from(files).map((file) => file.size),
         });
       } else {
-        setFormData({
-          ...formData,
-          [name]: "",
-          [`${name}Size`]: "",
-        });
+        const file = target.files[0];
+        if (file) {
+          setFormData({
+            ...formData,
+            [name]: file,
+            [`${name}Size`]: file.size,
+          });
+        } else {
+          setFormData({
+            ...formData,
+            [name]: "",
+            [`${name}Size`]: "",
+          });
+        }
       }
+    } else if (["properties", "applicationsSupported", "integrationReady"].includes(name)) {
+      const options = Array.from(target.selectedOptions).map((option) => option.value);
+      setFormData({
+        ...formData,
+        [name]: options,
+      });
     } else {
       setFormData({
         ...formData,
@@ -460,6 +491,24 @@ const Upload = () => {
         tags: tags,
         date: new Date(formData.date),
         userId: currentUser?.uid ?? "anonymous",
+        aiGenerated: formData.aiGenerated,
+        resolution: formData.resolution,
+        frameRate: formData.frameRate,
+        properties: formData.properties,
+        applicationsSupported: formData.applicationsSupported,
+        orientation: formData.orientation,
+        licenseType: formData.licenseType,
+        surfaceMaterial: formData.surfaceMaterial,
+        style: formData.style,
+        environmentType: formData.environmentType,
+        lightingCondition: formData.lightingCondition,
+        scriptType: formData.scriptType,
+        programmingLanguage: formData.programmingLanguage,
+        framework: formData.framework,
+        integrationReady: formData.integrationReady,
+        colorSpace: formData.colorSpace,
+        objectType: formData.objectType,
+        fileFormat: formData.fileFormat,
       };
 
       if (formData.type === "models") {
@@ -562,6 +611,23 @@ const Upload = () => {
         };
       }
 
+      if (formData.type === "textures") {
+        const maps = ["ambientOcclusion", "baseColor", "displacement", "normal", "roughness", "metallic", "bump", "idmap"];
+        const texturePromises = maps.map(async (map) => {
+          if (formData[map]) {
+            const url = await uploadFile(formData[map], map);
+            return { [map]: url, [`${map}Name`]: formData[map]?.name };
+          }
+          return {};
+        });
+        const textureResults = await Promise.all(texturePromises);
+        const textureResultsObject = textureResults.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+        docData = {
+          ...docData,
+          maps: textureResultsObject,
+        };
+      }
+
       if (formData.type === "sounds") {
         docData = {
           ...docData,
@@ -580,26 +646,8 @@ const Upload = () => {
         };
       }
 
-      if (formData.type === "textures") {
-        const maps = ["ambientOcclusion", "baseColor", "displacement", "normal", "roughness", "metallic", "bump", "idmap"];
-        const texturePromises = maps.map(async (map) => {
-          if (formData[map]) {
-            const url = await uploadFile(formData[map], map);
-            return { [map]: url, [`${map}Name`]: formData[map]?.name };
-          }
-          return {};
-        });
-        const textureResults = await Promise.all(texturePromises);
-        const textureResultsObject = textureResults.reduce((acc, curr) => ({ ...acc, ...curr }), {});
-        docData = {
-          ...docData,
-          maps: textureResultsObject,
-        };
-      }
-
       docData = Object.fromEntries(Object.entries(docData).filter(([_, v]) => v !== undefined && v !== ""));
 
-      console.log("Data to be added:", docData);
       await addDoc(collection(db, "Assets"), docData);
       setLoadingState("success");
     } catch (error) {
@@ -613,7 +661,44 @@ const Upload = () => {
     if (filterKey && filterData[filterKey]?.categories?.options) {
       return filterData[filterKey].categories.options;
     }
-    return [null];
+    return [];
+  };
+
+  const getFilterOptions = (filterKey) => {
+    const filterKeyMapped = assetTypeToFilterData[formData.type];
+    if (filterKeyMapped && filterData[filterKeyMapped]?.[filterKey]?.options) {
+      return filterData[filterKeyMapped][filterKey].options;
+    }
+    return [];
+  };
+
+  const renderFilterSelect = (filterKey, label, name, isMulti = false) => {
+    const options = getFilterOptions(filterKey);
+    if (options.length === 0) return null;
+    return (
+      <div className="select-wrapper">
+        <label htmlFor={`${name}_select`}>{label}</label>
+        <select
+          name={name}
+          id={`${name}_select`}
+          className="filter-select"
+          onChange={handleChange}
+          multiple={isMulti}
+          value={isMulti ? formData[name] || [] : formData[name] || ""}
+          required={!isMulti}>
+          {!isMulti && (
+            <option value="" disabled>
+              Select {label}
+            </option>
+          )}
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
   };
 
   return (
@@ -625,6 +710,44 @@ const Upload = () => {
         <meta property="og:title" content="Upload | Shammarianas" />
         <meta property="og:description" content="Upload your assets to Shammarianas" />
       </Helmet>
+
+      <style>
+        {`
+          .select-wrapper {
+            margin-bottom: 1rem;
+          }
+          .select-wrapper label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+          }
+          .filter-select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+          }
+          .filter-select[multiple] {
+            height: 100px;
+            padding: 0.5rem;
+          }
+          .filter-select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+          }
+          .filter-select option {
+            padding: 0.5rem;
+          }
+        `}
+      </style>
 
       {currentUser ? (
         <div className="page_content">
@@ -661,34 +784,58 @@ const Upload = () => {
 
                 <div className="right">
                   <DescriptionBox name="description" value={formData.description} onChange={handleChange} />
-                  <select name="type" onChange={handleChange} required>
-                    <option value="" disabled selected>
-                      Select Asset Type
-                    </option>
-                    <option value="models">3D Model</option>
-                    <option value="textures">Texture</option>
-                    <option value="sounds">Sound</option>
-                    <option value="scripts">Script</option>
-                    <option value="images">Image</option>
-                    <option value="graphics">Graphics Templates</option>
-                    <option value="mockups">Mockups</option>
-                    <option value="fonts">Fonts</option>
-                    <option value="videos">Video</option>
-                    <option value="video-templates">Video Templates</option>
-                    <option value="icons">Icons</option>
-                    <option value="hdris">HDRIs</option>
-                    <option value="other">Other</option>
-                  </select>
-                  <select name="category" onChange={handleChange} required value={formData.category}>
-                    <option value="" disabled>
-                      Select Category
-                    </option>
-                    {getCategoryOptions().map((category) => (
-                      <option key={category} value={category}>
-                        {category}
+                  <div className="select-wrapper">
+                    <label htmlFor="type_select">Asset Type</label>
+                    <select name="type" id="type_select" className="filter-select" onChange={handleChange} required>
+                      <option value="" disabled selected>
+                        Select Asset Type
                       </option>
-                    ))}
-                  </select>
+                      <option value="models">3D Model</option>
+                      <option value="textures">Texture</option>
+                      <option value="sounds">Sound</option>
+                      <option value="scripts">Script</option>
+                      <option value="images">Image</option>
+                      <option value="graphics">Graphics Templates</option>
+                      <option value="mockups">Mockups</option>
+                      <option value="fonts">Fonts</option>
+                      <option value="videos">Video</option>
+                      <option value="video-templates">Video Templates</option>
+                      <option value="icons">Icons</option>
+                      <option value="hdris">HDRIs</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div className="select-wrapper">
+                    <label htmlFor="category_select">Category</label>
+                    <select name="category" id="category_select" className="filter-select" onChange={handleChange} required value={formData.category}>
+                      <option value="" disabled>
+                        Select Category
+                      </option>
+                      {getCategoryOptions().map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {renderFilterSelect("aiGenerated", "AI-Generated", "aiGenerated")}
+                  {renderFilterSelect("resolution", "Resolution", "resolution")}
+                  {renderFilterSelect("frameRate", "Frame Rate", "frameRate")}
+                  {renderFilterSelect("properties", "Properties", "properties")}
+                  {renderFilterSelect("applicationsSupported", "Applications Supported", "applicationsSupported", true)}
+                  {renderFilterSelect("orientation", "Orientation", "orientation")}
+                  {renderFilterSelect("licenseType", "License Type", "licenseType")}
+                  {renderFilterSelect("surfaceMaterial", "Surface Material", "surfaceMaterial")}
+                  {renderFilterSelect("style", "Style", "style")}
+                  {renderFilterSelect("environmentType", "Environment Type", "environmentType")}
+                  {renderFilterSelect("lightingCondition", "Lighting Condition", "lightingCondition")}
+                  {renderFilterSelect("scriptType", "Script Type", "scriptType")}
+                  {renderFilterSelect("programmingLanguage", "Programming Language", "programmingLanguage")}
+                  {renderFilterSelect("framework", "Framework", "framework")}
+                  {renderFilterSelect("integrationReady", "Integration Ready", "integrationReady")}
+                  {renderFilterSelect("colorSpace", "Color Space", "colorSpace")}
+                  {renderFilterSelect("objectType", "Object Type", "objectType")}
+                  {renderFilterSelect("fileFormat", "File Format", "fileFormat")}
                   <input name="price" value={formData.price} onChange={handleChange} placeholder="Price" type="number" maxLength={3} max={999} required />
                   {formData.price && formData.price > 0 && <input name="discount" value={formData.discount} onChange={handleChange} placeholder="Discount" type="number" required />}
                   <div className="tags_input">
@@ -722,7 +869,6 @@ const Upload = () => {
                       </label>
                       <input name="vertices" type="number" placeholder="Vertices" onChange={handleChange} required />
                       <input name="physicalSize" type="text" placeholder="Physical Size" onChange={handleChange} required />
-                      <input name="resolution" type="text" placeholder="Resolution" onChange={handleChange} required />
                       <input name="lods" type="number" placeholder="LODs" onChange={handleChange} required />
                       <div className="checkboxes">
                         {["textures", "materials", "rigged", "animated", "uvMapping", "vrArLowPoly"].map((prop) => (
