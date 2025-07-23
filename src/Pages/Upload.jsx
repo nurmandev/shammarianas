@@ -684,13 +684,12 @@ const Upload = () => {
           className="filter-select"
           onChange={handleChange}
           multiple={isMulti}
-          value={isMulti ? formData[name] || [] : formData[name] || ""}
-          required={!isMulti}>
-          {!isMulti && (
-            <option value="" disabled>
-              Select {label}
-            </option>
-          )}
+          value={isMulti ? formData[name] : formData[name] || ""}
+          required={!isMulti} // Multi-select fields are optional
+        >
+          <option value="" disabled>
+            Select {label}
+          </option>
           {options.map((option) => (
             <option key={option} value={option}>
               {option}
@@ -822,7 +821,7 @@ const Upload = () => {
                   {renderFilterSelect("resolution", "Resolution", "resolution")}
                   {renderFilterSelect("frameRate", "Frame Rate", "frameRate")}
                   {renderFilterSelect("properties", "Properties", "properties")}
-                  {renderFilterSelect("applicationsSupported", "Applications Supported", "applicationsSupported", true)}
+                  {renderFilterSelect("applicationsSupported", "Applications Supported", "applicationsSupported")}
                   {renderFilterSelect("orientation", "Orientation", "orientation")}
                   {renderFilterSelect("licenseType", "License Type", "licenseType")}
                   {renderFilterSelect("surfaceMaterial", "Surface Material", "surfaceMaterial")}
