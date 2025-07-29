@@ -4,108 +4,117 @@ import { doc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
 import { useNavigate } from "react-router-dom";
 
-const useSaveToDownloads = (assetId, assetData = null) => {
+const useSaveToDownloads = (assetId) => {
   const navigate = useNavigate();
   const { currentUser } = useUser();
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  // Check if the asset is already downloaded
+  // Check download status
   useEffect(() => {
     if (!currentUser || !assetId) return;
 
-    const checkIfDownloaded = async () => {
+    const checkDownloadStatus = async () => {
       try {
-        const downloadDocRef = doc(
+        const downloadRef = doc(
           db,
           `Profiles/${currentUser.uid}/downloads/${assetId}`
         );
-        const downloadDoc = await getDoc(downloadDocRef);
-        setIsDownloaded(downloadDoc.exists());
+        const downloadSnap = await getDoc(downloadRef);
+        setIsDownloaded(downloadSnap.exists());
       } catch (err) {
-        console.error("Error checking download status:", err);
+        console.error("Download check error:", err);
+        setError("Failed to check download status");
       }
     };
 
-    checkIfDownloaded();
+    checkDownloadStatus();
   }, [currentUser, assetId]);
 
-  const addToDownloads = useCallback(
-    async (itemData = null) => {
-      if (!currentUser) {
-        navigate("/login");
-        setError("User not logged in.");
-        return;
-      }
+  const addToDownloads = useCallback(async () => {
+    if (!currentUser) {
+      navigate("/login", { state: { from: window.location.pathname } });
+      return false;
+    }
 
-      setIsSaving(true);
-      setError(null);
-
-      try {
-        const downloadDocRef = doc(
-          db,
-          `Profiles/${currentUser.uid}/downloads/${assetId}`
-        );
-        let dataToStore = itemData || assetData;
-
-        if (!dataToStore) {
-          const assetDocRef = doc(db, "Assets", assetId);
-          const assetDoc = await getDoc(assetDocRef);
-          if (!assetDoc.exists()) throw new Error("Asset not found");
-          dataToStore = assetDoc.data();
-        }
-
-        const cleanData = Object.fromEntries(
-          Object.entries(dataToStore).filter(
-            ([_, value]) =>
-              value !== null &&
-              value !== undefined &&
-              typeof value !== "function" &&
-              !(
-                typeof value === "object" &&
-                !(value instanceof Date || Array.isArray(value))
-              )
-          )
-        );
-
-        await setDoc(downloadDocRef, {
-          ...cleanData,
-          downloaded_at: new Date(),
-        });
-        setIsDownloaded(true);
-      } catch (error) {
-        console.error("Error saving to downloads:", error);
-        setError(error.message || "Failed to save download.");
-      } finally {
-        setIsSaving(false);
-      }
-    },
-    [currentUser, assetId, assetData, navigate]
-  );
-
-  const removeFromDownloads = useCallback(async () => {
-    if (!currentUser) return;
+    if (!assetId) {
+      setError("Missing asset ID");
+      return false;
+    }
 
     setIsSaving(true);
     setError(null);
 
     try {
-      const downloadDocRef = doc(
+      // Verify asset exists
+      const assetRef = doc(db, "Assets", assetId);
+      const assetSnap = await getDoc(assetRef);
+      
+      if (!assetSnap.exists()) {
+        throw new Error("Asset not found");
+      }
+
+      // Create download reference
+      const downloadRef = doc(
         db,
         `Profiles/${currentUser.uid}/downloads/${assetId}`
       );
-      await deleteDoc(downloadDocRef);
+
+      // Store minimal download data
+      await setDoc(downloadRef, {
+        assetId,
+        downloadedAt: new Date(),
+        userId: currentUser.uid
+      });
+
+      // Update asset download count
+      await setDoc(assetRef, {
+        downloadCount: (assetSnap.data().downloadCount || 0) + 1
+      }, { merge: true });
+
+      setIsDownloaded(true);
+      return true;
+    } catch (err) {
+      console.error("Download save error:", err);
+      setError(err.message || "Failed to save download");
+      return false;
+    } finally {
+      setIsSaving(false);
+    }
+  }, [currentUser, assetId, navigate]);
+
+  const removeFromDownloads = useCallback(async () => {
+    if (!currentUser || !assetId) return false;
+
+    setIsSaving(true);
+    setError(null);
+
+    try {
+      const downloadRef = doc(
+        db,
+        `Profiles/${currentUser.uid}/downloads/${assetId}`
+      );
+      
+      await deleteDoc(downloadRef);
       setIsDownloaded(false);
-    } catch (error) {
-      console.error("Error removing from downloads:", error);
-      setError(error.message || "Failed to remove download.");
+      return true;
+    } catch (err) {
+      console.error("Download removal error:", err);
+      setError(err.message || "Failed to remove download");
+      return false;
     } finally {
       setIsSaving(false);
     }
   }, [currentUser, assetId]);
 
-  return { isDownloaded, addToDownloads, removeFromDownloads, isSaving, error };
+  return { 
+    isDownloaded, 
+    addToDownloads, 
+    removeFromDownloads, 
+    isSaving, 
+    error 
+  };
 };
 
 export default useSaveToDownloads;
