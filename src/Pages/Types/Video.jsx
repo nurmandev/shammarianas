@@ -8,21 +8,28 @@ const Video = () => {
   return (
     <>
       <Helmet>
-        <title>Video's | Shammarianas</title>
-        <meta name="description" content="Browse through a wide range of 3D Images on Shammarianas." />
+        <title>Stock Videos | Shammarianas</title>
+        <meta 
+          name="description" 
+          content="Download premium stock footage in HD, 4K, and slow motion. Find videos for business, nature, technology, and more." 
+        />
 
-        <meta property="og:title" content="Video's | Shammarianas" />
-        <meta property="og:description" content="Browse through a wide range of Video's on Shammarianas." />
-
+        <meta property="og:title" content="Stock Video Library | Shammarianas" />
+        <meta 
+          property="og:description" 
+          content="Browse our collection of royalty-free stock videos for your creative projects" 
+        />
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Video's | Shammarianas" />
-        <meta name="twitter:description" content="Browse through a wide range of 3D Images on Shammarianas." />
-
+        <meta name="twitter:title" content="Stock Videos | Shammarianas" />
+        <meta 
+          name="twitter:description" 
+          content="Find HD and 4K stock footage for commercials, presentations, and social media" 
+        />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       <div className="page_content">
-        <PageTitle title="Video" />
+        <PageTitle title="Stock Videos" />
         <div className="listing_section">
           <ListingSidebar />
           <ItemsListing category="videos" />
