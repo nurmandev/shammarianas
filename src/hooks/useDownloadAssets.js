@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { db } from "../../firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-// import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, setDoc, updateDoc, increment } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
 
 const useSaveDownloadAsset = () => {
@@ -9,72 +8,40 @@ const useSaveDownloadAsset = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  const saveDownloadDetails = async (assetId, assetData = null) => {
+  const saveDownloadDetails = async (assetId) => {
     if (!currentUser) {
       setError("User not logged in.");
-      return;
+      return false;
+    }
+
+    if (!assetId) {
+      setError("Invalid asset ID");
+      return false;
     }
 
     setIsSaving(true);
     setError(null);
 
     try {
-      const downloadDocRef = doc(db, `Profiles/${currentUser.uid}/downloads/${assetId}`);
-      
-      // Check if assetData looks like an event object
-      let dataToStore = null;
-      
-      // If assetData is provided but looks like an event object, ignore it
-      if (assetData && (assetData.nativeEvent || assetData.target || assetData.currentTarget)) {
-        console.log("Event object detected, not using it as asset data");
-        dataToStore = null;
-      } else {
-        dataToStore = assetData;
-      }
-      
-      if (!dataToStore) {
-        // If no valid data was provided, fetch it from the Assets collection
-        const assetDocRef = doc(db, "Assets", assetId);
-        const assetDoc = await getDoc(assetDocRef);
-        
-        if (!assetDoc.exists()) {
-          throw new Error("Asset not found");
-        }
-        
-        dataToStore = assetDoc.data();
-      }
-      
-      // Clean any non-serializable fields before storing
-      const cleanData = {};
-      
-      // Only keep serializable data types that Firestore supports
-      Object.keys(dataToStore).forEach(key => {
-        const value = dataToStore[key];
-        const type = typeof value;
-        
-        // Skip functions, complex objects, and null values
-        if (
-          value === null || 
-          value === undefined || 
-          type === 'function' || 
-          (type === 'object' && value.constructor !== Array && value.constructor !== Object && !(value instanceof Date))
-        ) {
-          return;
-        }
-        
-        cleanData[key] = value;
-      });
-      
-      // Store the asset data in the downloads subcollection
-      await setDoc(downloadDocRef, {
-        ...cleanData,
-        downloaded_at: new Date()
+      // 1. Create download record
+      const downloadRef = doc(db, `Profiles/${currentUser.uid}/downloads/${assetId}`);
+      await setDoc(downloadRef, {
+        assetId,
+        downloadedAt: new Date(),
+        userId: currentUser.uid
       });
 
-      console.log("Download details saved successfully:", assetId);
+      // 2. Update asset download count
+      const assetRef = doc(db, "Assets", assetId);
+      await updateDoc(assetRef, {
+        downloadCount: increment(1)
+      });
+
+      return true;
     } catch (error) {
       console.error("Error saving download details:", error);
       setError("Failed to save download details. Please try again.");
+      return false;
     } finally {
       setIsSaving(false);
     }
@@ -84,4 +51,3 @@ const useSaveDownloadAsset = () => {
 };
 
 export default useSaveDownloadAsset;
-

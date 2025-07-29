@@ -1,166 +1,289 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
   updateDoc,
   where,
+  QueryConstraint,
+  startAfter,
+  limit as firestoreLimit
 } from "firebase/firestore";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { db } from "../../firebase";
 
 export default function useFirestore() {
   const getAllDocuments = (
     collectionName,
-    _q = null,
-    search = null,
-    field = "created_at",
-    order = "desc"
+    filters = [],
+    sortOptions = { field: "created_at", order: "desc" },
+    pagination = { limit: 10, startAfter: null }
   ) => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const lastDocRef = useRef(null);
+    const isInitialLoad = useRef(true);
 
-    const qRef = useRef(_q).current;
-
-    useEffect(() => {
+    const fetchData = useCallback(async () => {
       setLoading(true);
-      let ref = collection(db, collectionName);
-      let queries = [];
-
-      if (qRef) {
-        queries.push(where(...qRef));
+      setError(null);
+      
+      try {
+        let ref = collection(db, collectionName);
+        let queryConstraints = [];
+        
+        // Apply filters
+        filters.forEach(filter => {
+          if (Array.isArray(filter) && filter.length === 3) {
+            queryConstraints.push(where(...filter));
+          }
+        });
+        
+        // Apply sorting
+        if (sortOptions.field) {
+          queryConstraints.push(orderBy(sortOptions.field, sortOptions.order || "desc"));
+        }
+        
+        // Apply pagination
+        if (pagination.limit) {
+          queryConstraints.push(firestoreLimit(pagination.limit));
+        }
+        if (pagination.startAfter) {
+          queryConstraints.push(startAfter(pagination.startAfter));
+        }
+        
+        const q = query(ref, ...queryConstraints);
+        const querySnapshot = await getDocs(q);
+        
+        if (querySnapshot.empty) {
+          setData([]);
+          setHasMore(false);
+          return;
+        }
+        
+        const documents = [];
+        querySnapshot.forEach(doc => {
+          documents.push({ id: doc.id, ...doc.data() });
+        });
+        
+        // Update last document reference for pagination
+        lastDocRef.current = querySnapshot.docs[querySnapshot.docs.length - 1];
+        setHasMore(querySnapshot.docs.length === pagination.limit);
+        
+        setData(prev => isInitialLoad.current ? 
+          documents : 
+          [...prev, ...documents]
+        );
+        
+        isInitialLoad.current = false;
+      } catch (err) {
+        console.error("Error fetching documents:", err);
+        setError(err.message || "Failed to fetch documents");
+      } finally {
+        setLoading(false);
       }
-      queries.push(orderBy(field, order));
-      let q = query(ref, ...queries);
+    }, [collectionName, filters, sortOptions, pagination]);
 
+    const loadMore = useCallback(() => {
+      if (lastDocRef.current && hasMore) {
+        fetchData({ 
+          ...pagination, 
+          startAfter: lastDocRef.current 
+        });
+      }
+    }, [fetchData, hasMore, pagination]);
+
+    // Real-time updates
+    useEffect(() => {
+      if (isInitialLoad.current) {
+        fetchData();
+        return;
+      }
+      
+      let ref = collection(db, collectionName);
+      let queryConstraints = [];
+      
+      // Apply filters for real-time
+      filters.forEach(filter => {
+        if (Array.isArray(filter) && filter.length === 3) {
+          queryConstraints.push(where(...filter));
+        }
+      });
+      
+      // Apply sorting for real-time
+      if (sortOptions.field) {
+        queryConstraints.push(orderBy(sortOptions.field, sortOptions.order || "desc"));
+      }
+      
+      const q = query(ref, ...queryConstraints);
+      
       const unsubscribe = onSnapshot(
         q,
-        (snapShot) => {
-          if (snapShot.empty) {
-            setData([]);
-            setLoading(false);
-            if (collectionName === "books") setError("No Blogs(s) Found.");
-            if (collectionName === "comments")
-              setError("No Comment(s) Found. Be the first to comment.");
-            if (collectionName === "notifications")
-              setError("You have no notifications.");
-            return;
-          }
-
-          let collectionDatas = [];
-          snapShot.forEach((doc) => {
-            let document = { ...doc.data(), id: doc.id };
-            doc.data().created_at && collectionDatas.push(document);
+        (snapshot) => {
+          const updatedDocs = [];
+          snapshot.docChanges().forEach(change => {
+            if (change.type === "added" || change.type === "modified") {
+              updatedDocs.push({ id: change.doc.id, ...change.doc.data() });
+            } else if (change.type === "removed") {
+              setData(prev => prev.filter(doc => doc.id !== change.doc.id));
+            }
           });
-
-          //$ Apply search filter
-          let filteredData = collectionDatas;
-          if (search?.field && search?.value) {
-            const searchNormalized = search.value
-              .replace(/\s+/g, "")
-              .toLowerCase();
-            filteredData = filteredData.filter((doc) => {
-              const titleNormalized = doc[search.field]
-                .replace(/\s+/g, "")
-                .toLowerCase();
-              const userNameNormalized = doc["userName"]
-                .replace(/\s+/g, "")
-                .toLowerCase();
-
-              return (
-                titleNormalized.includes(searchNormalized) ||
-                userNameNormalized.includes(searchNormalized)
-              );
+          
+          if (updatedDocs.length > 0) {
+            setData(prev => {
+              // Merge updates with existing data
+              const merged = [...prev];
+              updatedDocs.forEach(updatedDoc => {
+                const index = merged.findIndex(doc => doc.id === updatedDoc.id);
+                if (index >= 0) {
+                  merged[index] = updatedDoc;
+                } else {
+                  merged.push(updatedDoc);
+                }
+              });
+              return merged;
             });
           }
-
-          // Apply category filter
-          if (search?.filter && search.filter !== "All") {
-            // console.log("Filtering with:", search.filter);
-            filteredData = filteredData.filter((doc) =>
-              doc?.categories.includes(search.filter)
-            );
-          }
-
-          setData(filteredData);
-          setLoading(false);
-          setError(null);
         },
-        (error) => {
-          setLoading(false);
-          setError(error.message);
+        (err) => {
+          setError(err.message || "Real-time update error");
         }
       );
+      
+      return unsubscribe;
+    }, [collectionName, filters, sortOptions]);
 
-      return () => unsubscribe();
-    }, [
-      collectionName,
-      qRef,
-      search?.field,
-      search?.value,
-      search?.filter,
-      field,
-      order,
-    ]);
-
-    return { data, error, loading };
+    return { 
+      data, 
+      error, 
+      loading, 
+      hasMore, 
+      loadMore,
+      refetch: fetchData
+    };
   };
 
   const getDocumentById = (collectionName, id) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [subscribers, setSubscribers] = useState([]);
 
-    useEffect(() => {
+    const fetchDocument = useCallback(async () => {
       setLoading(true);
-      let ref = doc(db, collectionName, id);
+      setError(null);
+      
+      try {
+        const docRef = doc(db, collectionName, id);
+        const docSnap = await getDocs(docRef);
+        
+        if (docSnap.exists()) {
+          setData({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          setError("Document not found");
+        }
+      } catch (err) {
+        console.error("Error fetching document:", err);
+        setError(err.message || "Failed to fetch document");
+      } finally {
+        setLoading(false);
+      }
+    }, [collectionName, id]);
+
+    // Real-time subscription
+    useEffect(() => {
+      if (!id) return;
+      
+      const docRef = doc(db, collectionName, id);
       const unsubscribe = onSnapshot(
-        ref,
+        docRef,
         (doc) => {
           if (doc.exists()) {
-            let document = { ...doc.data(), id: doc.id };
-            setData(document);
-            setLoading(false);
-            setError(null);
+            setData({ id: doc.id, ...doc.data() });
           } else {
-            setData(null);
-            setLoading(false);
-            setError("Something went wrong.!");
+            setError("Document has been deleted");
           }
         },
-        (error) => {
-          setLoading(false);
-          setError(error.message);
+        (err) => {
+          setError(err.message || "Real-time update error");
         }
       );
-
+      
+      setSubscribers(prev => [...prev, unsubscribe]);
+      
       return () => unsubscribe();
     }, [collectionName, id]);
 
-    return { data, setData, error, loading };
+    // Cleanup all subscriptions
+    useEffect(() => {
+      return () => {
+        subscribers.forEach(unsub => unsub());
+      };
+    }, [subscribers]);
+
+    return { 
+      data, 
+      error, 
+      loading, 
+      refetch: fetchDocument,
+      updateDocument: async (newData) => {
+        try {
+          const docRef = doc(db, collectionName, id);
+          await updateDoc(docRef, newData);
+          return true;
+        } catch (err) {
+          setError(err.message || "Failed to update document");
+          return false;
+        }
+      }
+    };
   };
 
-  const addDocument = (collectionName, data) => {
-    data.created_at = serverTimestamp();
-    let ref = collection(db, collectionName);
-    return addDoc(ref, data);
+  const addDocument = async (collectionName, data) => {
+    try {
+      const ref = collection(db, collectionName);
+      const docRef = await addDoc(ref, {
+        ...data,
+        created_at: serverTimestamp(),
+        updated_at: serverTimestamp()
+      });
+      return { id: docRef.id, success: true };
+    } catch (err) {
+      console.error("Error adding document:", err);
+      return { error: err.message, success: false };
+    }
   };
 
-  const updateDocument = (collectionName, id, data, updateDate = true) => {
-    if (updateDate) data.created_at = serverTimestamp();
-    let ref = doc(db, collectionName, id);
-    return updateDoc(ref, data);
+  const updateDocument = async (collectionName, id, data) => {
+    try {
+      const ref = doc(db, collectionName, id);
+      await updateDoc(ref, {
+        ...data,
+        updated_at: serverTimestamp()
+      });
+      return { success: true };
+    } catch (err) {
+      console.error("Error updating document:", err);
+      return { error: err.message, success: false };
+    }
   };
 
   const deleteDocument = async (collectionName, id) => {
-    let ref = doc(db, collectionName, id);
-    await deleteDoc(ref);
+    try {
+      const ref = doc(db, collectionName, id);
+      await deleteDoc(ref);
+      return { success: true };
+    } catch (err) {
+      console.error("Error deleting document:", err);
+      return { error: err.message, success: false };
+    }
   };
 
   return {
