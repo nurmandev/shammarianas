@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   orderBy,
@@ -10,9 +11,9 @@ import {
   serverTimestamp,
   updateDoc,
   where,
-  QueryConstraint,
+  limit,
   startAfter,
-  limit as firestoreLimit
+  writeBatch
 } from "firebase/firestore";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { db } from "../../firebase";
@@ -22,113 +23,103 @@ export default function useFirestore() {
     collectionName,
     filters = [],
     sortOptions = { field: "created_at", order: "desc" },
-    pagination = { limit: 10, startAfter: null }
+    pagination = { limit: 10 }
   ) => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const lastDocRef = useRef(null);
-    const isInitialLoad = useRef(true);
+    const isMounted = useRef(true);
+    const unsubscribeRef = useRef(null);
 
+    // Create query constraints
+    const buildQuery = useCallback((startAfterDoc = null) => {
+      const constraints = [];
+      
+      // Apply filters
+      filters.forEach(filter => {
+        if (Array.isArray(filter) && filter.length === 3) {
+          constraints.push(where(...filter));
+        }
+      });
+      
+      // Apply sorting
+      if (sortOptions.field) {
+        constraints.push(orderBy(sortOptions.field, sortOptions.order || "desc"));
+      }
+      
+      // Apply pagination
+      if (pagination.limit) {
+        constraints.push(limit(pagination.limit));
+      }
+      
+      if (startAfterDoc) {
+        constraints.push(startAfter(startAfterDoc));
+      }
+      
+      return query(collection(db, collectionName), ...constraints);
+    }, [collectionName, filters, sortOptions, pagination.limit]);
+
+    // Fetch documents
     const fetchData = useCallback(async () => {
+      if (!isMounted.current) return;
+      
       setLoading(true);
       setError(null);
       
       try {
-        let ref = collection(db, collectionName);
-        let queryConstraints = [];
-        
-        // Apply filters
-        filters.forEach(filter => {
-          if (Array.isArray(filter) && filter.length === 3) {
-            queryConstraints.push(where(...filter));
-          }
-        });
-        
-        // Apply sorting
-        if (sortOptions.field) {
-          queryConstraints.push(orderBy(sortOptions.field, sortOptions.order || "desc"));
-        }
-        
-        // Apply pagination
-        if (pagination.limit) {
-          queryConstraints.push(firestoreLimit(pagination.limit));
-        }
-        if (pagination.startAfter) {
-          queryConstraints.push(startAfter(pagination.startAfter));
-        }
-        
-        const q = query(ref, ...queryConstraints);
+        const q = buildQuery(lastDocRef.current);
         const querySnapshot = await getDocs(q);
         
         if (querySnapshot.empty) {
-          setData([]);
           setHasMore(false);
+          if (data.length === 0) setData([]);
           return;
         }
         
-        const documents = [];
+        const newDocuments = [];
         querySnapshot.forEach(doc => {
-          documents.push({ id: doc.id, ...doc.data() });
+          newDocuments.push({ id: doc.id, ...doc.data() });
         });
         
-        // Update last document reference for pagination
+        // Update last document reference
         lastDocRef.current = querySnapshot.docs[querySnapshot.docs.length - 1];
-        setHasMore(querySnapshot.docs.length === pagination.limit);
+        setHasMore(newDocuments.length === pagination.limit);
         
-        setData(prev => isInitialLoad.current ? 
-          documents : 
-          [...prev, ...documents]
+        setData(prev => 
+          lastDocRef.current && prev.length > 0 
+            ? [...prev, ...newDocuments] 
+            : newDocuments
         );
-        
-        isInitialLoad.current = false;
       } catch (err) {
-        console.error("Error fetching documents:", err);
         setError(err.message || "Failed to fetch documents");
       } finally {
         setLoading(false);
       }
-    }, [collectionName, filters, sortOptions, pagination]);
-
-    const loadMore = useCallback(() => {
-      if (lastDocRef.current && hasMore) {
-        fetchData({ 
-          ...pagination, 
-          startAfter: lastDocRef.current 
-        });
-      }
-    }, [fetchData, hasMore, pagination]);
+    }, [buildQuery, pagination.limit, data.length]);
 
     // Real-time updates
     useEffect(() => {
-      if (isInitialLoad.current) {
-        fetchData();
-        return;
-      }
+      if (!isMounted.current) return;
       
-      let ref = collection(db, collectionName);
-      let queryConstraints = [];
-      
-      // Apply filters for real-time
-      filters.forEach(filter => {
-        if (Array.isArray(filter) && filter.length === 3) {
-          queryConstraints.push(where(...filter));
-        }
-      });
-      
-      // Apply sorting for real-time
-      if (sortOptions.field) {
-        queryConstraints.push(orderBy(sortOptions.field, sortOptions.order || "desc"));
-      }
-      
-      const q = query(ref, ...queryConstraints);
-      
-      const unsubscribe = onSnapshot(
+      const q = buildQuery();
+      unsubscribeRef.current = onSnapshot(
         q,
         (snapshot) => {
+          if (!isMounted.current) return;
+          
           const updatedDocs = [];
           snapshot.docChanges().forEach(change => {
+            // Only process changes for the first page
+            if (change.type === "added" && lastDocRef.current) {
+              // Skip if document comes after our last fetched doc
+              if (change.doc.data().created_at.toMillis() < 
+                  lastDocRef.current.data().created_at.toMillis()) {
+                return;
+              }
+            }
+            
             if (change.type === "added" || change.type === "modified") {
               updatedDocs.push({ id: change.doc.id, ...change.doc.data() });
             } else if (change.type === "removed") {
@@ -144,8 +135,9 @@ export default function useFirestore() {
                 const index = merged.findIndex(doc => doc.id === updatedDoc.id);
                 if (index >= 0) {
                   merged[index] = updatedDoc;
-                } else {
-                  merged.push(updatedDoc);
+                } else if (!lastDocRef.current || lastDocRef.current === null) {
+                  // Only add to beginning if we're on first page
+                  merged.unshift(updatedDoc);
                 }
               });
               return merged;
@@ -157,8 +149,46 @@ export default function useFirestore() {
         }
       );
       
-      return unsubscribe;
-    }, [collectionName, filters, sortOptions]);
+      // Initial fetch
+      fetchData();
+      
+      return () => {
+        if (unsubscribeRef.current) {
+          unsubscribeRef.current();
+        }
+      };
+    }, [buildQuery, fetchData]);
+
+    // Load more function
+    const loadMore = useCallback(() => {
+      if (hasMore && !loading) {
+        fetchData();
+      }
+    }, [hasMore, loading, fetchData]);
+
+    // Reset when dependencies change
+    useEffect(() => {
+      lastDocRef.current = null;
+      setData([]);
+      setHasMore(true);
+      fetchData();
+      
+      return () => {
+        if (unsubscribeRef.current) {
+          unsubscribeRef.current();
+        }
+      };
+    }, [collectionName, JSON.stringify(filters), sortOptions.field, sortOptions.order]);
+
+    // Cleanup on unmount
+    useEffect(() => {
+      return () => {
+        isMounted.current = false;
+        if (unsubscribeRef.current) {
+          unsubscribeRef.current();
+        }
+      };
+    }, []);
 
     return { 
       data, 
@@ -174,15 +204,18 @@ export default function useFirestore() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [subscribers, setSubscribers] = useState([]);
+    const unsubscribeRef = useRef(null);
+    const isMounted = useRef(true);
 
     const fetchDocument = useCallback(async () => {
+      if (!isMounted.current) return;
+      
       setLoading(true);
       setError(null);
       
       try {
         const docRef = doc(db, collectionName, id);
-        const docSnap = await getDocs(docRef);
+        const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
           setData({ id: docSnap.id, ...docSnap.data() });
@@ -190,7 +223,6 @@ export default function useFirestore() {
           setError("Document not found");
         }
       } catch (err) {
-        console.error("Error fetching document:", err);
         setError(err.message || "Failed to fetch document");
       } finally {
         setLoading(false);
@@ -202,7 +234,7 @@ export default function useFirestore() {
       if (!id) return;
       
       const docRef = doc(db, collectionName, id);
-      const unsubscribe = onSnapshot(
+      unsubscribeRef.current = onSnapshot(
         docRef,
         (doc) => {
           if (doc.exists()) {
@@ -216,17 +248,25 @@ export default function useFirestore() {
         }
       );
       
-      setSubscribers(prev => [...prev, unsubscribe]);
+      // Initial fetch
+      fetchDocument();
       
-      return () => unsubscribe();
-    }, [collectionName, id]);
+      return () => {
+        if (unsubscribeRef.current) {
+          unsubscribeRef.current();
+        }
+      };
+    }, [collectionName, id, fetchDocument]);
 
-    // Cleanup all subscriptions
+    // Cleanup
     useEffect(() => {
       return () => {
-        subscribers.forEach(unsub => unsub());
+        isMounted.current = false;
+        if (unsubscribeRef.current) {
+          unsubscribeRef.current();
+        }
       };
-    }, [subscribers]);
+    }, []);
 
     return { 
       data, 
@@ -236,7 +276,10 @@ export default function useFirestore() {
       updateDocument: async (newData) => {
         try {
           const docRef = doc(db, collectionName, id);
-          await updateDoc(docRef, newData);
+          await updateDoc(docRef, {
+            ...newData,
+            updated_at: serverTimestamp()
+          });
           return true;
         } catch (err) {
           setError(err.message || "Failed to update document");
@@ -256,7 +299,6 @@ export default function useFirestore() {
       });
       return { id: docRef.id, success: true };
     } catch (err) {
-      console.error("Error adding document:", err);
       return { error: err.message, success: false };
     }
   };
@@ -270,7 +312,6 @@ export default function useFirestore() {
       });
       return { success: true };
     } catch (err) {
-      console.error("Error updating document:", err);
       return { error: err.message, success: false };
     }
   };
@@ -281,7 +322,34 @@ export default function useFirestore() {
       await deleteDoc(ref);
       return { success: true };
     } catch (err) {
-      console.error("Error deleting document:", err);
+      return { error: err.message, success: false };
+    }
+  };
+
+  const batchUpdate = async (operations) => {
+    try {
+      const batch = writeBatch(db);
+      
+      operations.forEach(op => {
+        if (op.type === 'update') {
+          const ref = doc(db, op.collection, op.id);
+          batch.update(ref, op.data);
+        } else if (op.type === 'delete') {
+          const ref = doc(db, op.collection, op.id);
+          batch.delete(ref);
+        } else if (op.type === 'create') {
+          const ref = doc(collection(db, op.collection));
+          batch.set(ref, {
+            ...op.data,
+            created_at: serverTimestamp(),
+            updated_at: serverTimestamp()
+          });
+        }
+      });
+      
+      await batch.commit();
+      return { success: true };
+    } catch (err) {
       return { error: err.message, success: false };
     }
   };
@@ -292,5 +360,6 @@ export default function useFirestore() {
     addDocument,
     updateDocument,
     deleteDocument,
+    batchUpdate
   };
 }
