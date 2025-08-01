@@ -1,31 +1,117 @@
-import React, { useState } from "react";
-import { db } from "../../firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { storage } from "../../firebase";
-import PageTitle from "../Components/UI/PageTitle";
+import React, { useState, useEffect } from "react";
+import { db, storage } from "../../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useUser } from "../Context/UserProvider";
 import { Helmet } from "react-helmet";
-import plus_icon from "../assets/Icons/plus.png";
+import PageTitle from "../Components/UI/PageTitle";
 import DescriptionBox from "../Components/DescriptionBox";
+import TagInput from "../Components/TagInput";
+import FileUpload from "../Components/FileUpload";
+import AssetTypeSelector from "../Components/AssetTypeSelector";
+import AssetTypeFields from "../Components/AssetTypeFields";
+import LoadingOverlay from "../Components/LoadingOverlay";
+import "./Upload.css";
 
-// filterData remains unchanged
-
-const assetTypeToFilterData = {
-  videos: "Videos",
-  "video-templates": "VideoTemplates",
-  images: "Pictures",
-  graphics: "GraphicTemplates",
-  mockups: "Mockups",
-  fonts: "Fonts",
-  models: "3DModels",
-  icons: "Icons",
-  textures: "Textures",
-  hdris: "HDRIs",
-  scripts: "Scripts",
-  sounds: null,
-  other: null,
+// Asset configuration
+const ASSET_CONFIG = {
+  models: {
+    label: "3D Model",
+    requiredFiles: ["model"],
+    fileTypes: [".glb", ".gltf", ".obj", ".fbx", ".blend"],
+    fields: ["vertices", "physicalSize", "lods"],
+    checkboxes: ["textures", "materials", "uvMapping", "rigged", "animated", "vrArLowPoly"]
+  },
+  textures: {
+    label: "Texture",
+    maps: ["ambientOcclusion", "baseColor", "displacement", "normal", "roughness", "metallic", "bump", "idmap"],
+    fileTypes: [".png", ".jpg", ".jpeg"]
+  },
+  sounds: {
+    label: "Sound",
+    requiredFiles: ["sound"],
+    fileTypes: [".mp3", ".wav"]
+  },
+  scripts: {
+    label: "Script",
+    requiredFiles: ["script"],
+    fileTypes: [".js", ".py", ".ts"]
+  },
+  images: {
+    label: "Image",
+    requiredFiles: ["images"],
+    fileTypes: [".png", ".jpg", ".jpeg", ".webp"],
+    isMulti: true
+  },
+  graphics: {
+    label: "Graphics Template",
+    requiredFiles: ["graphicsTemplate"],
+    fileTypes: [".psd", ".ai", ".fig"]
+  },
+  mockups: {
+    label: "Mockup",
+    requiredFiles: ["mockupFile"],
+    fileTypes: [".psd", ".xd"]
+  },
+  fonts: {
+    label: "Font",
+    requiredFiles: ["fontFile"],
+    fileTypes: [".ttf", ".otf", ".woff"]
+  },
+  videos: {
+    label: "Video",
+    requiredFiles: ["video"],
+    fileTypes: [".mp4", ".mov"]
+  },
+  "video-templates": {
+    label: "Video Template",
+    requiredFiles: ["videoTemplateFile"],
+    fileTypes: [".aep", ".prproj"]
+  },
+  icons: {
+    label: "Icons",
+    requiredFiles: ["icons"],
+    fileTypes: [".svg", ".png"],
+    isMulti: true
+  },
+  hdris: {
+    label: "HDRI",
+    requiredFiles: ["hdri"],
+    fileTypes: [".hdr", ".exr"]
+  },
+  other: {
+    label: "Other",
+    requiredFiles: ["other"],
+    fileTypes: ["*"]
+  }
 };
+
+// Filter options (simplified for example)
+const FILTER_OPTIONS = {
+  aiGenerated: ["Yes", "No", "Partially"],
+  resolution: ["4K", "1080p", "720p", "Custom"],
+  frameRate: ["24fps", "30fps", "60fps", "120fps"],
+  properties: ["PBR", "Low-poly", "High-poly", "Animated"],
+  applicationsSupported: ["Blender", "Maya", "Unity", "Unreal Engine"],
+  orientation: ["Landscape", "Portrait", "Square"],
+  licenseType: ["CC0", "Royalty Free", "Commercial"],
+  surfaceMaterial: ["Metal", "Wood", "Fabric", "Plastic"],
+  style: ["Realistic", "Cartoon", "Minimalist"],
+  environmentType: ["Indoor", "Outdoor", "Studio"],
+  lightingCondition: ["Daylight", "Night", "Studio"],
+  scriptType: ["Utility", "Plugin", "Game Mechanic"],
+  programmingLanguage: ["JavaScript", "Python", "C#"],
+  framework: ["React", "Vue", "Angular"],
+  integrationReady: ["Web", "Mobile", "Desktop"],
+  colorSpace: ["sRGB", "Linear", "ACES"],
+  objectType: ["Character", "Vehicle", "Environment"],
+  fileFormat: [".fbx", ".obj", ".gltf"]
+};
+
+const CATEGORIES = [
+  "Architecture", "Characters", "Vehicles", "Nature", 
+  "Furniture", "Electronics", "Weapons", "Food"
+];
 
 const Upload = () => {
   const { currentUser } = useUser();
@@ -33,52 +119,16 @@ const Upload = () => {
     title: "",
     thumbnail: null,
     description: "",
-    is3d: false,
+    type: "",
+    category: "",
+    tags: [],
     price: "",
     discount: "",
-    tags: "",
-    date: new Date(), // Store as Date object
-    category: "",
-    type: "",
-    model: null,
-    images: [],
-    video: null,
-    icons: [],
-    script: null,
-    scriptSize: "",
-    hdri: null,
-    hdriSize: "",
-    graphicsTemplate: null,
-    graphicsTemplateSize: "",
-    mockupFile: null,
-    mockupFileSize: "",
-    fontFile: null,
-    fontFileSize: "",
-    videoTemplateFile: null,
-    videoTemplateFileSize: "",
-    sound: null,
-    soundSize: "",
-    other: null,
-    otherSize: "",
-    ambientOcclusion: null,
-    baseColor: null,
-    displacement: null,
-    normal: null,
-    roughness: null,
-    metallic: null,
-    bump: null,
-    idmap: null,
-    resolution: "",
-    physicalSize: "",
-    lods: "",
-    vertices: "",
-    textures: false, // Initialize as boolean
-    materials: false, // Initialize as boolean
-    uvMapping: false,
-    rigged: false,
-    animated: false,
-    vrArLowPoly: false,
+    date: new Date(),
+    userId: currentUser?.uid || "",
+    // Common metadata fields
     aiGenerated: "",
+    resolution: "",
     frameRate: "",
     properties: [],
     applicationsSupported: [],
@@ -95,124 +145,179 @@ const Upload = () => {
     colorSpace: "",
     objectType: "",
     fileFormat: "",
+    // Asset type specific fields
+    model: null,
+    images: [],
+    video: null,
+    icons: [],
+    script: null,
+    hdri: null,
+    graphicsTemplate: null,
+    mockupFile: null,
+    fontFile: null,
+    videoTemplateFile: null,
+    sound: null,
+    other: null,
+    ambientOcclusion: null,
+    baseColor: null,
+    displacement: null,
+    normal: null,
+    roughness: null,
+    metallic: null,
+    bump: null,
+    idmap: null,
+    vertices: "",
+    physicalSize: "",
+    lods: "",
+    textures: false,
+    materials: false,
+    uvMapping: false,
+    rigged: false,
+    animated: false,
+    vrArLowPoly: false
   });
 
-  const [tags, setTags] = useState([]);
-  const [loadingState, setLoadingState] = useState(false);
+  const [loadingState, setLoadingState] = useState({
+    isLoading: false,
+    message: "",
+    progress: 0
+  });
+  const [errors, setErrors] = useState({});
 
-  const handleTagInputChange = (e) => {
-    const value = e.target.value;
-    if (value === "" && tags.length > 0) {
-      setTags(tags.slice(0, -1));
-      return;
-    }
-    if (value.endsWith(" ")) {
-      const newTag = value.slice(0, -1).trim();
-      if (newTag && !tags.includes(newTag)) {
-        setTags([...tags, newTag]);
-      }
-      setFormData({ ...formData, tags: "" });
-    } else {
-      setFormData({ ...formData, tags: value });
-    }
-  };
-
-  const uploadFile = async (file, fileType) => {
-    if (!file) return null;
-    try {
-      setLoadingState(`Uploading ${fileType} ${file.name}`);
-      const storageRef = ref(storage, `assets/${fileType}/${file.name}`);
-      const uploadSnapshot = await uploadBytes(storageRef, file);
-      return await getDownloadURL(uploadSnapshot.ref);
-    } catch (error) {
-      console.error(`Error uploading ${fileType}:`, error);
-      return null;
-    }
-  };
-
-  const uploadThumbnail = async (file) => {
-    if (!file) return null;
-    try {
-      setLoadingState(`Uploading thumbnail`);
-      const storageRef = ref(storage, `thumbnails/${file.name}`);
-      const uploadSnapshot = await uploadBytes(storageRef, file);
-      return await getDownloadURL(uploadSnapshot.ref);
-    } catch (error) {
-      console.error("Error uploading thumbnail:", error);
-      alert("Error uploading thumbnail");
-      return null;
-    }
-  };
-
-  const uploadImages = async (files, fileType) => {
-    if (!files || files.length === 0) return [];
-    try {
-      setLoadingState(`Uploading ${fileType} (${files.length} files)`);
-      const urls = await Promise.all(files.map((file) => uploadFile(file, fileType)));
-      return urls.filter(url => url !== null);
-    } catch (error) {
-      console.error(`Error uploading ${fileType}:`, error);
-      return [];
-    }
-  };
-
-  const handleChange = (event) => {
-    const target = event.target;
-    const name = target.name;
-    let value = target.type === "checkbox" ? target.checked : target.value;
-
-    if (target.type === "file") {
-      if (name === "images" || name === "icons") {
-        const files = Array.from(target.files);
-        setFormData({
-          ...formData,
-          [name]: files,
-          [`${name}Size`]: files.map((file) => file.size),
-        });
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+    
+    setFormData(prev => {
+      let newValue;
+      
+      if (type === "checkbox") {
+        newValue = checked;
+      } else if (type === "file") {
+        // Handle multi-file inputs
+        if (name === "images" || name === "icons") {
+          newValue = Array.from(files);
+        } else {
+          newValue = files[0] || null;
+        }
+      } else if (type === "select-multiple") {
+        newValue = Array.from(e.target.selectedOptions, option => option.value);
       } else {
-        const file = target.files[0] || null;
-        setFormData({
-          ...formData,
-          [name]: file,
-          [`${name}Size`]: file ? file.size : "",
-        });
+        newValue = value;
       }
-    } else if (["properties", "applicationsSupported", "integrationReady"].includes(name)) {
-      const options = Array.from(target.selectedOptions).map((option) => option.value);
-      setFormData({
-        ...formData,
-        [name]: options,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      
+      return { ...prev, [name]: newValue };
+    });
+
+    // Clear error when field is changed
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (tags.length === 0) {
-      alert("Please add at least one tag");
-      return;
+  // Upload a file to Firebase Storage
+  const uploadFile = async (file, path) => {
+    if (!file) return null;
+    
+    try {
+      const storageRef = ref(storage, `${path}/${Date.now()}_${file.name}`);
+      const uploadTask = uploadBytes(storageRef, file);
+      
+      // Track upload progress
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setLoadingState(prev => ({
+            ...prev,
+            progress,
+            message: `Uploading ${file.name}...`
+          }));
+        }
+      );
+      
+      await uploadTask;
+      return await getDownloadURL(storageRef);
+    } catch (error) {
+      console.error(`Error uploading file: ${file.name}`, error);
+      throw new Error(`Failed to upload ${file.name}: ${error.message}`);
+    }
+  };
+
+  // Validate form before submission
+  const validateForm = () => {
+    const newErrors = {};
+    const assetConfig = ASSET_CONFIG[formData.type] || {};
+    
+    // Basic validation
+    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.thumbnail) newErrors.thumbnail = "Thumbnail is required";
+    if (!formData.type) newErrors.type = "Asset type is required";
+    if (!formData.category) newErrors.category = "Category is required";
+    if (formData.tags.length === 0) newErrors.tags = "At least one tag is required";
+    
+    // Asset-specific validation
+    if (assetConfig.requiredFiles) {
+      assetConfig.requiredFiles.forEach(field => {
+        if (assetConfig.isMulti) {
+          if (!formData[field] || formData[field].length === 0) {
+            newErrors[field] = `${assetConfig.label} files are required`;
+          }
+        } else {
+          if (!formData[field]) {
+            newErrors[field] = `${assetConfig.label} file is required`;
+          }
+        }
+      });
     }
     
-    setLoadingState("Uploading asset...");
+    // Price validation
+    if (formData.price && parseFloat(formData.price) < 0) {
+      newErrors.price = "Price must be positive";
+    }
+    
+    // Discount validation
+    if (formData.discount) {
+      const discount = parseFloat(formData.discount);
+      if (discount < 0 || discount > 100) {
+        newErrors.discount = "Discount must be between 0-100%";
+      }
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) return;
+    
     try {
+      setLoadingState({
+        isLoading: true,
+        message: "Starting upload...",
+        progress: 0
+      });
+      
+      // Upload thumbnail
+      setLoadingState({ ...loadingState, message: "Uploading thumbnail..." });
+      const thumbnailUrl = await uploadFile(formData.thumbnail, "thumbnails");
+      
+      // Prepare base document data
       let docData = {
         title: formData.title,
-        thumbnail: await uploadThumbnail(formData.thumbnail),
+        thumbnail: thumbnailUrl,
         description: formData.description,
-        is3d: formData.is3d,
-        price: formData.price,
-        discount: formData.discount,
-        category: formData.category,
         type: formData.type,
-        tags: tags,
-        date: formData.date, // Already a Date object
-        userId: currentUser?.uid ?? "anonymous",
+        category: formData.category,
+        tags: formData.tags,
+        date: serverTimestamp(),
+        userId: currentUser?.uid || "anonymous",
+        price: formData.price ? parseFloat(formData.price) : 0,
+        discount: formData.discount ? parseFloat(formData.discount) : 0,
+        // Metadata
         aiGenerated: formData.aiGenerated,
         resolution: formData.resolution,
         frameRate: formData.frameRate,
@@ -231,465 +336,309 @@ const Upload = () => {
         colorSpace: formData.colorSpace,
         objectType: formData.objectType,
         fileFormat: formData.fileFormat,
+        // 3D model specific
+        vertices: formData.vertices,
+        physicalSize: formData.physicalSize,
+        lods: formData.lods,
+        textures: formData.textures,
+        materials: formData.materials,
+        uvMapping: formData.uvMapping,
+        rigged: formData.rigged,
+        animated: formData.animated,
+        vrArLowPoly: formData.vrArLowPoly
       };
-
-      // Handle each asset type specifically
-      if (formData.type === "models") {
-        docData = {
-          ...docData,
-          model: await uploadFile(formData.model, "model"),
-          modelName: formData.model?.name,
-          modelSize: formData.model?.size,
-          resolution: formData.resolution,
-          physicalSize: formData.physicalSize,
-          lods: formData.lods,
-          vertices: formData.vertices,
-          textures: formData.textures,
-          materials: formData.materials,
-          uvMapping: formData.uvMapping,
-          rigged: formData.rigged,
-          animated: formData.animated,
-          vrArLowPoly: formData.vrArLowPoly,
-        };
-      }
-
-      if (formData.type === "scripts") {
-        docData = {
-          ...docData,
-          script: await uploadFile(formData.script, "script"),
-          scriptName: formData.script?.name,
-          scriptSize: formData.script?.size,
-        };
-      }
-
-      if (formData.type === "hdris") {
-        docData = {
-          ...docData,
-          hdri: await uploadFile(formData.hdri, "hdri"),
-          hdriName: formData.hdri?.name,
-          hdriSize: formData.hdri?.size,
-        };
-      }
-
-      if (formData.type === "graphics") {
-        docData = {
-          ...docData,
-          graphicsTemplate: await uploadFile(formData.graphicsTemplate, "graphicsTemplate"),
-          graphicsTemplateName: formData.graphicsTemplate?.name,
-          graphicsTemplateSize: formData.graphicsTemplate?.size,
-        };
-      }
-
-      if (formData.type === "mockups") {
-        docData = {
-          ...docData,
-          mockupFile: await uploadFile(formData.mockupFile, "mockup"),
-          mockupFileName: formData.mockupFile?.name,
-          mockupFileSize: formData.mockupFile?.size,
-        };
-      }
-
-      if (formData.type === "fonts") {
-        docData = {
-          ...docData,
-          fontFile: await uploadFile(formData.fontFile, "font"),
-          fontFileName: formData.fontFile?.name,
-          fontFileSize: formData.fontFile?.size,
-        };
-      }
-
-      if (formData.type === "video-templates") {
-        docData = {
-          ...docData,
-          videoTemplateFile: await uploadFile(formData.videoTemplateFile, "videoTemplate"),
-          videoTemplateFileName: formData.videoTemplateFile?.name,
-          videoTemplateFileSize: formData.videoTemplateFile?.size,
-        };
-      }
-
-      if (formData.type === "videos") {
-        docData = {
-          ...docData,
-          video: await uploadFile(formData.video, "video"),
-          videoName: formData.video?.name,
-          videoSize: formData.video?.size,
-        };
-      }
-
-      if (formData.type === "icons") {
-        const uploadedIcons = await uploadImages(formData.icons, "icon");
-        docData = {
-          ...docData,
-          icons: uploadedIcons,
-          iconNames: formData.icons.map((icon) => icon.name),
-          iconSizes: formData.icons.map((icon) => icon.size),
-        };
-      }
-
-      if (formData.type === "images") {
-        const uploadedImages = await uploadImages(formData.images, "image");
-        docData = {
-          ...docData,
-          images: uploadedImages,
-          imageNames: formData.images.map((image) => image.name),
-          imageSizes: formData.images.map((image) => image.size),
-        };
-      }
-
-      if (formData.type === "textures") {
-        const maps = ["ambientOcclusion", "baseColor", "displacement", "normal", "roughness", "metallic", "bump", "idmap"];
-        const textureResults = {};
-        
-        for (const map of maps) {
-          if (formData[map]) {
-            const url = await uploadFile(formData[map], map);
-            if (url) {
-              textureResults[map] = url;
-              textureResults[`${map}Name`] = formData[map].name;
-            }
+      
+      // Upload asset-specific files
+      const assetConfig = ASSET_CONFIG[formData.type] || {};
+      
+      // Handle multi-file uploads
+      if (assetConfig.isMulti) {
+        const field = assetConfig.requiredFiles[0];
+        if (formData[field] && formData[field].length > 0) {
+          setLoadingState({ ...loadingState, message: `Uploading ${formData[field].length} files...` });
+          const urls = await Promise.all(
+            formData[field].map(file => uploadFile(file, `assets/${formData.type}`))
+          );
+          docData[field] = urls;
+          docData[`${field}Names`] = formData[field].map(file => file.name);
+        }
+      } 
+      // Handle single file uploads
+      else if (assetConfig.requiredFiles) {
+        for (const field of assetConfig.requiredFiles) {
+          if (formData[field]) {
+            setLoadingState({ ...loadingState, message: `Uploading ${field}...` });
+            docData[field] = await uploadFile(formData[field], `assets/${formData.type}`);
+            docData[`${field}Name`] = formData[field].name;
+            docData[`${field}Size`] = formData[field].size;
           }
         }
-        
-        docData = {
-          ...docData,
-          ...textureResults
-        };
       }
-
-      if (formData.type === "sounds") {
-        docData = {
-          ...docData,
-          sound: await uploadFile(formData.sound, "sound"),
-          soundName: formData.sound?.name,
-          soundSize: formData.sound?.size,
-        };
+      
+      // Handle texture maps
+      if (formData.type === "textures" && assetConfig.maps) {
+        const textureData = {};
+        for (const map of assetConfig.maps) {
+          if (formData[map]) {
+            setLoadingState({ ...loadingState, message: `Uploading ${map}...` });
+            textureData[map] = await uploadFile(formData[map], `assets/textures`);
+            textureData[`${map}Name`] = formData[map].name;
+          }
+        }
+        docData = { ...docData, ...textureData };
       }
-
-      if (formData.type === "other") {
-        docData = {
-          ...docData,
-          other: await uploadFile(formData.other, "other"),
-          otherName: formData.other?.name,
-          otherSize: formData.other?.size,
-        };
-      }
-
-      // Remove empty fields
-      docData = Object.fromEntries(Object.entries(docData).filter(([_, v]) => 
-        v !== undefined && v !== "" && v !== null && !(Array.isArray(v) && v.length === 0)
-      ));
-
+      
+      // Save to Firestore
+      setLoadingState({ ...loadingState, message: "Saving to database..." });
       await addDoc(collection(db, "Assets"), docData);
-      setLoadingState("success");
+      
+      // Success
+      setLoadingState({
+        isLoading: false,
+        message: "Upload successful!",
+        progress: 100
+      });
+      
+      // Reset form after successful upload
+      setTimeout(() => {
+        setFormData({
+          ...formData,
+          title: "",
+          thumbnail: null,
+          description: "",
+          tags: [],
+          price: "",
+          discount: "",
+          // Reset files
+          model: null,
+          images: [],
+          video: null,
+          icons: [],
+          script: null,
+          hdri: null,
+          graphicsTemplate: null,
+          mockupFile: null,
+          fontFile: null,
+          videoTemplateFile: null,
+          sound: null,
+          other: null,
+          // Reset texture maps
+          ambientOcclusion: null,
+          baseColor: null,
+          displacement: null,
+          normal: null,
+          roughness: null,
+          metallic: null,
+          bump: null,
+          idmap: null
+        });
+        setErrors({});
+      }, 2000);
+      
     } catch (error) {
-      console.error("Error adding document: ", error);
-      setLoadingState("Error uploading asset");
+      console.error("Upload failed:", error);
+      setLoadingState({
+        isLoading: false,
+        message: `Error: ${error.message}`,
+        progress: 0
+      });
     }
   };
 
-  // getCategoryOptions and getFilterOptions remain unchanged
+  // Reset loading state after 5 seconds
+  useEffect(() => {
+    if (loadingState.message.includes("successful") || loadingState.message.includes("Error")) {
+      const timer = setTimeout(() => {
+        setLoadingState({ isLoading: false, message: "", progress: 0 });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [loadingState]);
 
-  const renderFilterSelect = (filterKey, label, name, isMulti = false) => {
-    const options = getFilterOptions(filterKey);
-    if (options.length === 0) return null;
+  if (!currentUser) {
     return (
-      <div className="select-wrapper">
-        <label htmlFor={`${name}_select`}>{label}</label>
-        <select
-          name={name}
-          id={`${name}_select`}
-          className="filter-select"
-          onChange={handleChange}
-          multiple={isMulti}
-          value={isMulti ? formData[name] : formData[name] || ""}
-          required={!isMulti}
-        >
-          <option value="" disabled>
-            Select {label}
-          </option>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+      <div className="page_content">
+        <div className="not_logged_in">
+          <h2>Log in to upload assets</h2>
+        </div>
       </div>
     );
-  };
+  }
 
   return (
     <>
       <Helmet>
-        <title>Upload | Shammarianas</title>
-        <meta name="description" content="Upload your assets to Shammarianas" />
+        <title>Upload | YourSite</title>
+        <meta name="description" content="Upload your assets to our platform" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Upload | Shammarianas" />
-        <meta property="og:description" content="Upload your assets to Shammarianas" />
+        <meta property="og:title" content="Upload | YourSite" />
+        <meta property="og:description" content="Upload your assets to our platform" />
       </Helmet>
 
-      {/* CSS styles remain unchanged */}
+      <div className="page_content">
+        <div className="upload_section">
+          {loadingState.isLoading && (
+            <LoadingOverlay 
+              message={loadingState.message} 
+              progress={loadingState.progress} 
+            />
+          )}
+          
+          <form onSubmit={handleSubmit}>
+            <PageTitle title="Upload Asset">Upload</PageTitle>
 
-      {currentUser ? (
-        <div className="page_content">
-          <div className="upload_section">
-            {loadingState && (
-              <div className="uploading_overlay">
-                <div className={`spinner ${loadingState === "success" ? "success" : ""}`}>
-                  {loadingState === "success" && <i className="icon fas fa-check"></i>}
+            <div className="content">
+              <div className="left">
+                {/* Thumbnail Upload */}
+                <FileUpload 
+                  label="Thumbnail*"
+                  name="thumbnail"
+                  accept="image/*"
+                  file={formData.thumbnail}
+                  onChange={handleChange}
+                  error={errors.thumbnail}
+                />
+                
+                {/* Title */}
+                <div className="form-group">
+                  <label htmlFor="title">Title*</label>
+                  <input 
+                    id="title"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    placeholder="Asset title"
+                    className={errors.title ? "error" : ""}
+                  />
+                  {errors.title && <div className="error-message">{errors.title}</div>}
                 </div>
-                <span>{loadingState}</span>
               </div>
-            )}
-            <form onSubmit={handleSubmit}>
-              <PageTitle title="Upload Asset">Upload</PageTitle>
 
-              <div className="content">
-                <div className="left">
-                  <label htmlFor="thumbnail_input">Thumbnail</label>
-                  <input 
-                    type="file" 
-                    required 
-                    name="thumbnail" 
-                    id="thumbnail_input" 
-                    accept="image/*" 
-                    onChange={handleChange} 
-                  />
-                  <label htmlFor="thumbnail_input" className="thumbnail_input_label">
-                    {formData.thumbnail ? (
-                      <div className="thumbnail_preview">
-                        <img className="image" src={URL.createObjectURL(formData.thumbnail)} alt="thumbnail" />
-                        <span className="file_name">{formData.thumbnail.name}</span>
-                      </div>
-                    ) : (
-                      <>
-                        <img className="upload_icon" src={plus_icon} alt="Add Thumbnail" />
-                        <span className="placeholder">Choose Thumbnail</span>
-                      </>
-                    )}
-                  </label>
-
-                  <input 
-                    name="title" 
-                    value={formData.title} 
-                    onChange={handleChange} 
-                    placeholder="Title" 
-                    required 
-                  />
-                </div>
-
-                <div className="right">
+              <div className="right">
+                {/* Description */}
+                <div className="form-group">
+                  <label>Description</label>
                   <DescriptionBox 
                     name="description" 
                     value={formData.description} 
-                    onChange={handleChange} 
+                    onChange={(value) => setFormData(prev => ({ ...prev, description: value }))} 
                   />
-                  
-                  <div className="select-wrapper">
-                    <label htmlFor="type_select">Asset Type</label>
-                    <select 
-                      name="type" 
-                      id="type_select" 
-                      className="filter-select" 
-                      onChange={handleChange} 
-                      required
-                      value={formData.type}
-                    >
-                      <option value="" disabled>Select Asset Type</option>
-                      <option value="models">3D Model</option>
-                      <option value="textures">Texture</option>
-                      <option value="sounds">Sound</option>
-                      <option value="scripts">Script</option>
-                      <option value="images">Image</option>
-                      <option value="graphics">Graphics Templates</option>
-                      <option value="mockups">Mockups</option>
-                      <option value="fonts">Fonts</option>
-                      <option value="videos">Video</option>
-                      <option value="video-templates">Video Templates</option>
-                      <option value="icons">Icons</option>
-                      <option value="hdris">HDRIs</option>
-                      <option value="other">Other</option>
-                    </select>
+                </div>
+                
+                {/* Asset Type */}
+                <AssetTypeSelector
+                  value={formData.type}
+                  onChange={handleChange}
+                  error={errors.type}
+                  options={Object.entries(ASSET_CONFIG).map(([key, config]) => ({
+                    value: key,
+                    label: config.label
+                  }))}
+                />
+                
+                {/* Category */}
+                <div className="form-group">
+                  <label htmlFor="category">Category*</label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className={errors.category ? "error" : ""}
+                  >
+                    <option value="">Select Category</option>
+                    {CATEGORIES.map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                  {errors.category && <div className="error-message">{errors.category}</div>}
+                </div>
+                
+                {/* Metadata Filters */}
+                <div className="metadata-filters">
+                  {Object.entries(FILTER_OPTIONS).map(([name, options]) => (
+                    <div key={name} className="form-group">
+                      <label htmlFor={name}>{name.replace(/([A-Z])/g, ' $1').trim()}</label>
+                      <select
+                        id={name}
+                        name={name}
+                        value={Array.isArray(formData[name]) ? undefined : formData[name]}
+                        onChange={handleChange}
+                        multiple={Array.isArray(formData[name])}
+                      >
+                        <option value="">Select {name}</option>
+                        {options.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Pricing */}
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="price">Price ($)</label>
+                    <input
+                      id="price"
+                      name="price"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={formData.price}
+                      onChange={handleChange}
+                      placeholder="0.00"
+                      className={errors.price ? "error" : ""}
+                    />
+                    {errors.price && <div className="error-message">{errors.price}</div>}
                   </div>
-                  
-                  <div className="select-wrapper">
-                    <label htmlFor="category_select">Category</label>
-                    <select 
-                      name="category" 
-                      id="category_select" 
-                      className="filter-select" 
-                      onChange={handleChange} 
-                      required 
-                      value={formData.category}
-                    >
-                      <option value="" disabled>Select Category</option>
-                      {getCategoryOptions().map((category) => (
-                        <option key={category} value={category}>{category}</option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  {/* Render filter selects */}
-                  {renderFilterSelect("aiGenerated", "AI-Generated", "aiGenerated")}
-                  {renderFilterSelect("resolution", "Resolution", "resolution")}
-                  {renderFilterSelect("frameRate", "Frame Rate", "frameRate")}
-                  {renderFilterSelect("properties", "Properties", "properties", true)}
-                  {renderFilterSelect("applicationsSupported", "Applications Supported", "applicationsSupported", true)}
-                  {renderFilterSelect("orientation", "Orientation", "orientation")}
-                  {renderFilterSelect("licenseType", "License Type", "licenseType")}
-                  {renderFilterSelect("surfaceMaterial", "Surface Material", "surfaceMaterial")}
-                  {renderFilterSelect("style", "Style", "style")}
-                  {renderFilterSelect("environmentType", "Environment Type", "environmentType")}
-                  {renderFilterSelect("lightingCondition", "Lighting Condition", "lightingCondition")}
-                  {renderFilterSelect("scriptType", "Script Type", "scriptType")}
-                  {renderFilterSelect("programmingLanguage", "Programming Language", "programmingLanguage")}
-                  {renderFilterSelect("framework", "Framework", "framework")}
-                  {renderFilterSelect("integrationReady", "Integration Ready", "integrationReady", true)}
-                  {renderFilterSelect("colorSpace", "Color Space", "colorSpace")}
-                  {renderFilterSelect("objectType", "Object Type", "objectType")}
-                  {renderFilterSelect("fileFormat", "File Format", "fileFormat")}
-                  
-                  <input 
-                    name="price" 
-                    value={formData.price} 
-                    onChange={handleChange} 
-                    placeholder="Price" 
-                    type="number" 
-                    min="0" 
-                    max="999" 
-                    required 
-                  />
                   
                   {formData.price && parseFloat(formData.price) > 0 && (
-                    <input 
-                      name="discount" 
-                      value={formData.discount} 
-                      onChange={handleChange} 
-                      placeholder="Discount" 
-                      type="number" 
-                      min="0" 
-                      max="100" 
-                    />
-                  )}
-                  
-                  <div className="tags_input">
-                    {tags.map((tag) => (
-                      <span key={tag} className="tag">{tag}</span>
-                    ))}
-                    <input 
-                      name="tags" 
-                      value={formData.tags} 
-                      onChange={handleTagInputChange} 
-                      placeholder="Tags (space-separated)" 
-                    />
-                  </div>
-                  
-                  {/* Asset type specific fields */}
-                  {formData.type === "models" && (
-                    <>
-                      <label>Is 3D</label>
-                      <label>
-                        <input name="is3d" type="checkbox" checked={true} disabled />
-                        Is 3D
-                      </label>
-                      
-                      <label htmlFor="model_input">Model File</label>
-                      <input 
-                        name="model" 
-                        id="model_input" 
-                        type="file" 
-                        accept=".glb,.gltf,.stl,.obj,.fbx,.blend" 
-                        onChange={handleChange} 
-                        required 
+                    <div className="form-group">
+                      <label htmlFor="discount">Discount (%)</label>
+                      <input
+                        id="discount"
+                        name="discount"
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={formData.discount}
+                        onChange={handleChange}
+                        placeholder="0"
+                        className={errors.discount ? "error" : ""}
                       />
-                      
-                      <label htmlFor="model_input" className="custom-file-input">
-                        {formData.model ? (
-                          <div className="file_preview">
-                            <span className="file_name">{formData.model.name}</span>
-                          </div>
-                        ) : (
-                          <>
-                            <img className="upload_icon" src={plus_icon} alt="Add Model" />
-                            <span className="placeholder">Choose Model File</span>
-                          </>
-                        )}
-                      </label>
-                      
-                      <input name="vertices" type="number" placeholder="Vertices" onChange={handleChange} required />
-                      <input name="physicalSize" type="text" placeholder="Physical Size" onChange={handleChange} required />
-                      <input name="lods" type="number" placeholder="LODs" onChange={handleChange} required />
-                      
-                      <div className="checkboxes">
-                        {["textures", "materials", "rigged", "animated", "uvMapping", "vrArLowPoly"].map((prop) => (
-                          <label key={prop}>
-                            <input 
-                              type="checkbox" 
-                              name={prop} 
-                              checked={formData[prop]} 
-                              onChange={handleChange} 
-                            />
-                            {prop
-                              .split(/(?=[A-Z])/)
-                              .join(" ")
-                              .replace(/\b\w/g, (c) => c.toUpperCase())}
-                          </label>
-                        ))}
-                      </div>
-                    </>
+                      {errors.discount && <div className="error-message">{errors.discount}</div>}
+                    </div>
                   )}
-                  
-                  {formData.type === "textures" && (
-                    <>
-                      {["ambientOcclusion", "baseColor", "displacement", "normal", "roughness", "metallic", "bump", "idmap"].map((map) => (
-                        <div key={map}>
-                          <label htmlFor={`${map}_input`}>
-                            {map
-                              .split(/(?=[A-Z])/)
-                              .join(" ")
-                              .replace(/\b\w/g, (c) => c.toUpperCase())}
-                          </label>
-                          <input 
-                            type="file" 
-                            name={map} 
-                            id={`${map}_input`} 
-                            accept=".png,.jpg,.jpeg" 
-                            onChange={handleChange} 
-                          />
-                          <label htmlFor={`${map}_input`} className="custom-file-input">
-                            {formData[map] ? (
-                              <div className="file_preview">
-                                <img className="image" src={URL.createObjectURL(formData[map])} alt={map} />
-                                <span className="file_name">{formData[map].name}</span>
-                              </div>
-                            ) : (
-                              <>
-                                <img className="upload_icon" src={plus_icon} alt={`Add ${map}`} />
-                                <span className="placeholder">
-                                  Choose {map.split(/(?=[A-Z])/).join(" ").replace(/\b\w/g, c => c.toUpperCase())} File
-                                </span>
-                              </>
-                            )}
-                          </label>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                  
-                  {/* Other asset type sections remain similar with null checks */}
-                  
-                  <button type="submit">Upload</button>
                 </div>
+                
+                {/* Tags */}
+                <div className="form-group">
+                  <label>Tags*</label>
+                  <TagInput
+                    tags={formData.tags}
+                    onChange={(tags) => setFormData(prev => ({ ...prev, tags }))}
+                    error={errors.tags}
+                  />
+                </div>
+                
+                {/* Asset Type Specific Fields */}
+                <AssetTypeFields
+                  type={formData.type}
+                  formData={formData}
+                  onChange={handleChange}
+                  assetConfig={ASSET_CONFIG}
+                  errors={errors}
+                />
+                
+                <button type="submit" className="submit-button">
+                  Upload Asset
+                </button>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-      ) : (
-        <div className="page_content">
-          <div className="not_logged_in">
-            <h2>Log in to upload assets</h2>
-          </div>
-        </div>
-      )}
+      </div>
     </>
   );
 };

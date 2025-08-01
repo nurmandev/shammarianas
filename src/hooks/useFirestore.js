@@ -33,125 +33,126 @@ export default function useFirestore() {
     const isMounted = useRef(true);
     const unsubscribeRef = useRef(null);
 
-    // Create query constraints
     const buildQuery = useCallback((startAfterDoc = null) => {
-      const constraints = [];
-      
+      let queryConstraints = [];
+
       // Apply filters
       filters.forEach(filter => {
         if (Array.isArray(filter) && filter.length === 3) {
-          constraints.push(where(...filter));
+          queryConstraints.push(where(...filter));
         }
       });
-      
-      // Apply sorting
-      if (sortOptions.field) {
-        constraints.push(orderBy(sortOptions.field, sortOptions.order || "desc"));
-      }
-      
-      // Apply pagination
-      if (pagination.limit) {
-        constraints.push(limit(pagination.limit));
-      }
-      
-      if (startAfterDoc) {
-        constraints.push(startAfter(startAfterDoc));
-      }
-      
-      return query(collection(db, collectionName), ...constraints);
-    }, [collectionName, filters, sortOptions, pagination.limit]);
 
-    // Fetch documents
-    const fetchData = useCallback(async () => {
+      // Apply sorting
+      if (sortOptions?.field) {
+        queryConstraints.push(
+          orderBy(sortOptions.field, sortOptions.order || "desc")
+        );
+      }
+
+      // Apply pagination
+      if (pagination?.limit) {
+        queryConstraints.push(limit(pagination.limit));
+      }
+
+      if (startAfterDoc) {
+        queryConstraints.push(startAfter(startAfterDoc));
+      }
+
+      return query(collection(db, collectionName), ...queryConstraints);
+    }, [collectionName, JSON.stringify(filters), JSON.stringify(sortOptions), pagination?.limit]);
+
+    const fetchData = useCallback(async (isInitialLoad = false) => {
       if (!isMounted.current) return;
-      
+
       setLoading(true);
       setError(null);
-      
+
       try {
-        const q = buildQuery(lastDocRef.current);
+        const q = buildQuery(isInitialLoad ? null : lastDocRef.current);
         const querySnapshot = await getDocs(q);
-        
+
         if (querySnapshot.empty) {
           setHasMore(false);
-          if (data.length === 0) setData([]);
+          if (isInitialLoad) setData([]);
           return;
         }
-        
-        const newDocuments = [];
-        querySnapshot.forEach(doc => {
-          newDocuments.push({ id: doc.id, ...doc.data() });
-        });
-        
-        // Update last document reference
+
+        const newDocuments = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
         lastDocRef.current = querySnapshot.docs[querySnapshot.docs.length - 1];
         setHasMore(newDocuments.length === pagination.limit);
-        
-        setData(prev => 
-          lastDocRef.current && prev.length > 0 
-            ? [...prev, ...newDocuments] 
-            : newDocuments
-        );
-      } catch (err) {
-        setError(err.message || "Failed to fetch documents");
-      } finally {
-        setLoading(false);
-      }
-    }, [buildQuery, pagination.limit, data.length]);
 
-    // Real-time updates
+        setData(prev => {
+          if (isInitialLoad) return newDocuments;
+          
+          // Merge new documents with existing data
+          const merged = [...prev];
+          newDocuments.forEach(newDoc => {
+            if (!merged.some(doc => doc.id === newDoc.id)) {
+              merged.push(newDoc);
+            }
+          });
+          return merged;
+        });
+      } catch (err) {
+        if (isMounted.current) {
+          setError(err.message || "Failed to fetch documents");
+        }
+      } finally {
+        if (isMounted.current) {
+          setLoading(false);
+        }
+      }
+    }, [buildQuery, pagination.limit]);
+
     useEffect(() => {
       if (!isMounted.current) return;
-      
+
       const q = buildQuery();
       unsubscribeRef.current = onSnapshot(
         q,
         (snapshot) => {
           if (!isMounted.current) return;
-          
-          const updatedDocs = [];
+
           snapshot.docChanges().forEach(change => {
-            // Only process changes for the first page
-            if (change.type === "added" && lastDocRef.current) {
-              // Skip if document comes after our last fetched doc
-              if (change.doc.data().created_at.toMillis() < 
-                  lastDocRef.current.data().created_at.toMillis()) {
-                return;
-              }
-            }
-            
-            if (change.type === "added" || change.type === "modified") {
-              updatedDocs.push({ id: change.doc.id, ...change.doc.data() });
-            } else if (change.type === "removed") {
-              setData(prev => prev.filter(doc => doc.id !== change.doc.id));
-            }
-          });
-          
-          if (updatedDocs.length > 0) {
+            const changedDoc = { id: change.doc.id, ...change.doc.data() };
+
             setData(prev => {
-              // Merge updates with existing data
-              const merged = [...prev];
-              updatedDocs.forEach(updatedDoc => {
-                const index = merged.findIndex(doc => doc.id === updatedDoc.id);
-                if (index >= 0) {
-                  merged[index] = updatedDoc;
-                } else if (!lastDocRef.current || lastDocRef.current === null) {
-                  // Only add to beginning if we're on first page
-                  merged.unshift(updatedDoc);
-                }
-              });
-              return merged;
+              // Handle document changes
+              switch (change.type) {
+                case "added":
+                  // Only add if not already present and matches current filters
+                  if (!prev.some(doc => doc.id === changedDoc.id)) {
+                    return [changedDoc, ...prev];
+                  }
+                  break;
+                case "modified":
+                  return prev.map(doc => 
+                    doc.id === changedDoc.id ? changedDoc : doc
+                  );
+                case "removed":
+                  return prev.filter(doc => doc.id !== changedDoc.id);
+                default:
+                  break;
+              }
+              return prev;
             });
-          }
+          });
         },
         (err) => {
-          setError(err.message || "Real-time update error");
+          if (isMounted.current) {
+            setError(err.message || "Real-time update error");
+          }
         }
       );
-      
+
       // Initial fetch
-      fetchData();
-      
+      fetchData(true);
+
       return () => {
         if (unsubscribeRef.current) {
           unsubscribeRef.current();
@@ -159,28 +160,19 @@ export default function useFirestore() {
       };
     }, [buildQuery, fetchData]);
 
-    // Load more function
     const loadMore = useCallback(() => {
       if (hasMore && !loading) {
         fetchData();
       }
     }, [hasMore, loading, fetchData]);
 
-    // Reset when dependencies change
-    useEffect(() => {
+    const reset = useCallback(() => {
       lastDocRef.current = null;
       setData([]);
       setHasMore(true);
-      fetchData();
-      
-      return () => {
-        if (unsubscribeRef.current) {
-          unsubscribeRef.current();
-        }
-      };
-    }, [collectionName, JSON.stringify(filters), sortOptions.field, sortOptions.order]);
+      fetchData(true);
+    }, [fetchData]);
 
-    // Cleanup on unmount
     useEffect(() => {
       return () => {
         isMounted.current = false;
@@ -196,7 +188,8 @@ export default function useFirestore() {
       loading, 
       hasMore, 
       loadMore,
-      refetch: fetchData
+      reset,
+      refetch: () => fetchData(true)
     };
   };
 
@@ -208,49 +201,59 @@ export default function useFirestore() {
     const isMounted = useRef(true);
 
     const fetchDocument = useCallback(async () => {
-      if (!isMounted.current) return;
-      
+      if (!isMounted.current || !id) return;
+
       setLoading(true);
       setError(null);
-      
+
       try {
         const docRef = doc(db, collectionName, id);
         const docSnap = await getDoc(docRef);
-        
+
         if (docSnap.exists()) {
           setData({ id: docSnap.id, ...docSnap.data() });
         } else {
           setError("Document not found");
+          setData(null);
         }
       } catch (err) {
-        setError(err.message || "Failed to fetch document");
+        if (isMounted.current) {
+          setError(err.message || "Failed to fetch document");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted.current) {
+          setLoading(false);
+        }
       }
     }, [collectionName, id]);
 
-    // Real-time subscription
     useEffect(() => {
       if (!id) return;
-      
+
       const docRef = doc(db, collectionName, id);
       unsubscribeRef.current = onSnapshot(
         docRef,
         (doc) => {
+          if (!isMounted.current) return;
+
           if (doc.exists()) {
             setData({ id: doc.id, ...doc.data() });
+            setError(null);
           } else {
             setError("Document has been deleted");
+            setData(null);
           }
         },
         (err) => {
-          setError(err.message || "Real-time update error");
+          if (isMounted.current) {
+            setError(err.message || "Real-time update error");
+          }
         }
       );
-      
+
       // Initial fetch
       fetchDocument();
-      
+
       return () => {
         if (unsubscribeRef.current) {
           unsubscribeRef.current();
@@ -258,7 +261,6 @@ export default function useFirestore() {
       };
     }, [collectionName, id, fetchDocument]);
 
-    // Cleanup
     useEffect(() => {
       return () => {
         isMounted.current = false;
@@ -282,7 +284,9 @@ export default function useFirestore() {
           });
           return true;
         } catch (err) {
-          setError(err.message || "Failed to update document");
+          if (isMounted.current) {
+            setError(err.message || "Failed to update document");
+          }
           return false;
         }
       }
@@ -305,8 +309,8 @@ export default function useFirestore() {
 
   const updateDocument = async (collectionName, id, data) => {
     try {
-      const ref = doc(db, collectionName, id);
-      await updateDoc(ref, {
+      const docRef = doc(db, collectionName, id);
+      await updateDoc(docRef, {
         ...data,
         updated_at: serverTimestamp()
       });
@@ -318,8 +322,8 @@ export default function useFirestore() {
 
   const deleteDocument = async (collectionName, id) => {
     try {
-      const ref = doc(db, collectionName, id);
-      await deleteDoc(ref);
+      const docRef = doc(db, collectionName, id);
+      await deleteDoc(docRef);
       return { success: true };
     } catch (err) {
       return { error: err.message, success: false };
@@ -333,7 +337,10 @@ export default function useFirestore() {
       operations.forEach(op => {
         if (op.type === 'update') {
           const ref = doc(db, op.collection, op.id);
-          batch.update(ref, op.data);
+          batch.update(ref, {
+            ...op.data,
+            updated_at: serverTimestamp()
+          });
         } else if (op.type === 'delete') {
           const ref = doc(db, op.collection, op.id);
           batch.delete(ref);
