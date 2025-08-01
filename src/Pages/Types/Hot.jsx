@@ -1,36 +1,42 @@
 import React from "react";
 import PageTitle from "../../Components/UI/PageTitle";
+import CategoryGrid from "../../Components/CategoryGrid";
 import ItemsListing from "../../Components/ItemsListing";
-import ListingSidebar from "../../Components/ListingSidebar";
 import { Helmet } from "react-helmet";
 
 const Hot = () => {
-  const pageTitle = "Trending Assets";
-  const pageDescription = "Discover the most popular and trending digital assets on Shammarianas. Find what other creators are downloading right now!";
-
+  
   return (
     <>
       <Helmet>
-        <title>{pageTitle} | Shammarianas</title>
-        <meta name="description" content={pageDescription} />
+        <title>Hot | Shammarianas</title>
+        <meta
+          name="description"
+          content="Browse through a wide range of hot items on Shammarianas."
+        />
 
-        <meta property="og:title" content={`${pageTitle} | Shammarianas`} />
-        <meta property="og:description" content={pageDescription} />
+        <meta property="og:title" content="Hot | Shammarianas" />
+        <meta
+          property="og:description"
+          content="Browse through a wide range of hot items on Shammarianas."
+        />
+
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content={`${pageTitle} | Shammarianas`} />
-        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:title" content="Hot | Shammarianas" />
+        <meta
+          name="twitter:description"
+          content="Browse through a wide range of hot items on Shammarianas."
+        />
+
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
-
       <div className="page_content">
-        <PageTitle title={pageTitle} />
+        <PageTitle title="Hot" />
+        {/* <CategoryGrid /> */}
         <div className="listing_section">
-          <ListingSidebar />
-          <ItemsListing 
-            sort="trending" 
-            showCategoryFilter={true}
-          />
+          {/* <ListingSidebar /> */}
+          <ItemsListing />
         </div>
       </div>
     </>

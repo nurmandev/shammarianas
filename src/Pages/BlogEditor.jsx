@@ -90,10 +90,7 @@ function BlogEditorModal({ isOpen, onClose }) {
               return;
             }
             try {
-              const storageRef = ref(
-                storage,
-                `blogs/editor-images/${Date.now()}_${file.name}`
-              );
+              const storageRef = ref(storage, `blogs/editor-images/${Date.now()}_${file.name}`);
               await uploadBytes(storageRef, file);
               const imageUrl = await getDownloadURL(storageRef);
               const range = quill.getSelection();
@@ -164,20 +161,14 @@ function BlogEditorModal({ isOpen, onClose }) {
 
       let featuredImageUrl = "";
       if (blogData.featuredImage) {
-        const storageRef = ref(
-          storage,
-          `blogs/featured-images/${Date.now()}_${blogData.featuredImage.name}`
-        );
+        const storageRef = ref(storage, `blogs/featured-images/${Date.now()}_${blogData.featuredImage.name}`);
         await uploadBytes(storageRef, blogData.featuredImage);
         featuredImageUrl = await getDownloadURL(storageRef);
       }
 
       let coverImageUrl = "";
       if (blogData.coverImage) {
-        const storageRef = ref(
-          storage,
-          `blogs/cover-images/${Date.now()}_${blogData.coverImage.name}`
-        );
+        const storageRef = ref(storage, `blogs/cover-images/${Date.now()}_${blogData.coverImage.name}`);
         await uploadBytes(storageRef, blogData.coverImage);
         coverImageUrl = await getDownloadURL(storageRef);
       }
@@ -214,8 +205,7 @@ function BlogEditorModal({ isOpen, onClose }) {
       });
       setFeaturedImagePreview(null);
       setCoverImagePreview(null);
-      if (featuredImageInputRef.current)
-        featuredImageInputRef.current.value = "";
+      if (featuredImageInputRef.current) featuredImageInputRef.current.value = "";
       if (coverImageInputRef.current) coverImageInputRef.current.value = "";
       if (quill) quill.setText("");
       onClose();
@@ -370,24 +360,9 @@ function BlogEditorModal({ isOpen, onClose }) {
         <div className="blog-modal-content">
           <div className="blog-modal-header">
             <h1 className="blog-modal-title">Create a New Blog Post</h1>
-            <button
-              onClick={onClose}
-              className="blog-modal-close"
-              aria-label="Close"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ height: 24, width: 24 }}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+            <button onClick={onClose} className="blog-modal-close" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" style={{ height: 24, width: 24 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
@@ -398,28 +373,13 @@ function BlogEditorModal({ isOpen, onClose }) {
               <label className="blog-form-label">
                 Title <span className="blog-form-required">*</span>
               </label>
-              <input
-                type="text"
-                name="title"
-                value={blogData.title}
-                onChange={handleInputChange}
-                required
-                className="blog-form-input"
-                placeholder="Enter blog title"
-              />
+              <input type="text" name="title" value={blogData.title} onChange={handleInputChange} required className="blog-form-input" placeholder="Enter blog title" />
             </div>
 
             {/* Excerpt */}
             <div className="blog-form-group">
               <label className="blog-form-label">Excerpt (Optional)</label>
-              <textarea
-                name="excerpt"
-                value={blogData.excerpt}
-                onChange={handleInputChange}
-                className="blog-form-textarea"
-                placeholder="Short description for preview"
-                rows="3"
-              />
+              <textarea name="excerpt" value={blogData.excerpt} onChange={handleInputChange} className="blog-form-textarea" placeholder="Short description for preview" rows="3" />
             </div>
 
             {/* Featured Image */}
@@ -427,24 +387,9 @@ function BlogEditorModal({ isOpen, onClose }) {
               <label className="blog-form-label">
                 Featured Image <span className="blog-form-required">*</span>
               </label>
-              <input
-                type="file"
-                ref={featuredImageInputRef}
-                onChange={handleFeaturedImageChange}
-                accept="image/*"
-                required
-                className="blog-form-file"
-              />
-              <p className="blog-form-hint">
-                * Only images below 1.25MB can be uploaded.
-              </p>
-              {featuredImagePreview && (
-                <img
-                  src={featuredImagePreview}
-                  alt="Featured preview"
-                  className="blog-image-preview"
-                />
-              )}
+              <input type="file" ref={featuredImageInputRef} onChange={handleFeaturedImageChange} accept="image/*" required className="blog-form-file" />
+              <p className="blog-form-hint">* Only images below 1.25MB can be uploaded.</p>
+              {featuredImagePreview && <img src={featuredImagePreview} alt="Featured preview" className="blog-image-preview" />}
             </div>
 
             {/* Cover Image */}
@@ -452,24 +397,9 @@ function BlogEditorModal({ isOpen, onClose }) {
               <label className="blog-form-label">
                 Cover Image <span className="blog-form-required">*</span>
               </label>
-              <input
-                type="file"
-                ref={coverImageInputRef}
-                onChange={handleCoverImageChange}
-                accept="image/*"
-                required
-                className="blog-form-file"
-              />
-              <p className="blog-form-hint">
-                * Only images below 1.25MB can be uploaded.
-              </p>
-              {coverImagePreview && (
-                <img
-                  src={coverImagePreview}
-                  alt="Cover preview"
-                  className="blog-image-preview"
-                />
-              )}
+              <input type="file" ref={coverImageInputRef} onChange={handleCoverImageChange} accept="image/*" required className="blog-form-file" />
+              <p className="blog-form-hint">* Only images below 1.25MB can be uploaded.</p>
+              {coverImagePreview && <img src={coverImagePreview} alt="Cover preview" className="blog-image-preview" />}
             </div>
 
             {/* Category */}
@@ -477,17 +407,11 @@ function BlogEditorModal({ isOpen, onClose }) {
               <label className="blog-form-label">
                 Category <span className="blog-form-required">*</span>
               </label>
-              <select
-                name="category"
-                value={blogData.category}
-                onChange={handleInputChange}
-                required
-                className="blog-form-select"
-              >
-                <option value="business"> Artificial Intelligence</option>
+              <select name="category" value={blogData.category} onChange={handleInputChange} required className="blog-form-select">
+                <option value="business">Business</option>
                 <option value="technology">Technology</option>
                 <option value="design">Design</option>
-                <option value="lifestyle"> Development</option>
+                <option value="lifestyle">Lifestyle</option>
                 <option value="marketing">Marketing</option>
               </select>
             </div>
@@ -497,13 +421,7 @@ function BlogEditorModal({ isOpen, onClose }) {
               <label className="blog-form-label">
                 Status <span className="blog-form-required">*</span>
               </label>
-              <select
-                name="status"
-                value={blogData.status}
-                onChange={handleInputChange}
-                required
-                className="blog-form-select"
-              >
+              <select name="status" value={blogData.status} onChange={handleInputChange} required className="blog-form-select">
                 <option value="DRAFT">Draft</option>
                 <option value="PUBLISHED">Published</option>
                 <option value="ARCHIVED">Archived</option>
@@ -520,18 +438,10 @@ function BlogEditorModal({ isOpen, onClose }) {
 
             {/* Buttons */}
             <div className="blog-form-buttons">
-              <button
-                type="button"
-                onClick={onClose}
-                className="blog-btn blog-btn-cancel"
-              >
+              <button type="button" onClick={onClose} className="blog-btn blog-btn-cancel">
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="blog-btn blog-btn-submit"
-              >
+              <button type="submit" disabled={isSubmitting} className="blog-btn blog-btn-submit">
                 {isSubmitting ? "Publishing..." : "Publish Blog"}
               </button>
             </div>

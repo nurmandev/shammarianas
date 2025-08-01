@@ -37,3 +37,30 @@ const useSaveDownloadAsset = () => {
 };
 
 export default useSaveDownloadAsset;
+
+// example usage
+// import React from "react";
+// import useSaveDownloadAsset from "../hooks/useSaveDownloadAsset";
+
+// const DownloadButton = ({ assetId }) => {
+//   const { saveDownloadDetails, isSaving, error } = useSaveDownloadAsset();
+
+//   const handleDownload = async () => {
+//     // Trigger the actual download logic here (assumed to be already implemented)
+//     console.log("Downloading asset:", assetId);
+
+//     // Save the download details to Firestore
+//     await saveDownloadDetails(assetId);
+//   };
+
+//   return (
+//     <div>
+//       <button onClick={handleDownload} disabled={isSaving}>
+//         {isSaving ? "Saving..." : "Download"}
+//       </button>
+//       {error && <p style={{ color: "red" }}>{error}</p>}
+//     </div>
+//   );
+// };
+
+// export default DownloadButton;

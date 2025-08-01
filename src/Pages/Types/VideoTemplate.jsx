@@ -8,31 +8,33 @@ const VideoTemplate = () => {
   return (
     <>
       <Helmet>
-        <title>Video Templates | Shammarianas</title>
+        <title>Video Template | Shammarianas</title>
         <meta
           name="description"
-          content="Browse professional video templates for After Effects, Premiere Pro, and other editing software on Shammarianas."
+          content="Browse through a wide range of Video Template on Shammarianas."
         />
 
-        <meta property="og:title" content="Video Templates | Shammarianas" />
+        <meta property="og:title" content="Video's | Shammarianas" />
         <meta
           property="og:description"
-          content="Download premium video templates for your projects"
+          content="Browse through a wide range of Video Template on Shammarianas."
         />
+
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Video Templates | Shammarianas" />
+        <meta name="twitter:title" content="Video Template | Shammarianas" />
         <meta
           name="twitter:description"
-          content="Browse our collection of video templates for broadcast packages, openers, and more"
+          content="Browse through a wide range of Video Template on Shammarianas."
         />
+
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       <div className="page_content">
         <PageTitle title="Video Templates" />
         <div className="listing_section">
           <ListingSidebar />
-          <ItemsListing category="video-templates" />
+          <ItemsListing category="templates" />
         </div>
       </div>
     </>

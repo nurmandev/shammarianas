@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import {
-  doc,
-  getDoc,
-  deleteDoc,
-  getDocs,
-  collection,
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import loadBackgroudImages from "../common/loadBackgroudImages";
 import ProgressScroll from "../common/ProgressScroll";
@@ -39,25 +33,7 @@ function BlogDetails() {
         if (docSnap.exists()) {
           const blogData = { id: docSnap.id, ...docSnap.data() };
           blogData.content = sanitizeHtml(blogData.content, {
-            allowedTags: [
-              "p",
-              "h1",
-              "h2",
-              "h3",
-              "h4",
-              "h5",
-              "h6",
-              "strong",
-              "em",
-              "ul",
-              "ol",
-              "li",
-              "a",
-              "img",
-              "div",
-              "span",
-              "br",
-            ],
+            allowedTags: ["p", "h1", "h2", "h3", "h4", "h5", "h6", "strong", "em", "ul", "ol", "li", "a", "img", "div", "span", "br"],
             allowedAttributes: {
               a: ["href", "target", "rel"],
               img: ["src", "alt", "width", "height"],
@@ -142,19 +118,9 @@ function BlogDetails() {
     navigate(`/blogs?category=${encodeURIComponent(category)}`);
   };
 
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-lg text-gray-600">
-        Loading blog...
-      </div>
-    );
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-lg text-gray-600">Loading blog...</div>;
 
-  if (!blog)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-lg text-red-500">
-        Blog not found
-      </div>
-    );
+  if (!blog) return <div className="min-h-screen flex items-center justify-center text-lg text-red-500">Blog not found</div>;
 
   return (
     <>
@@ -222,23 +188,12 @@ function BlogDetails() {
       `}</style>
       <Cursor />
       <ProgressScroll />
-      <header
-        className="header-blog bg-img"
-        data-background={
-          blog.coverImageUrl || "/assets/imgs/background/bg4.jpg"
-        }
-        data-overlay-dark="9"
-      >
+      <header className="header-blog bg-img" data-background={blog.coverImageUrl || "/assets/imgs/background/bg4.jpg"} data-overlay-dark="9">
         <div className="container">
           <div className="row">
             <div className="col-12">
               <div className="caption">
-                <div className="sub-title fz-12">
-                  {blog.category
-                    ? blog.category.charAt(0).toUpperCase() +
-                      blog.category.slice(1)
-                    : "Uncategorized"}
-                </div>
+                <div className="sub-title fz-12">{blog.category ? blog.category.charAt(0).toUpperCase() + blog.category.slice(1) : "Uncategorized"}</div>
                 <h1 className="fz-55">{blog.title}</h1>
                 <div className="info d-flex mt-40 align-items-center">
                   <div className="left-info">
@@ -246,9 +201,7 @@ function BlogDetails() {
                       <div className="date">
                         <a href="#0">
                           <span className="opacity-7">Published</span>
-                          <h6 className="fz-16">
-                            {new Date(blog.createdAt?.toDate()).toDateString()}
-                          </h6>
+                          <h6 className="fz-16">{new Date(blog.createdAt?.toDate()).toDateString()}</h6>
                         </a>
                       </div>
                     </div>
@@ -256,9 +209,7 @@ function BlogDetails() {
                   <div className="right-info ml-auto d-flex align-items-center">
                     <div className="mr-20">
                       <span className="pe-7s-comment fz-18 mr-10"></span>
-                      <span className="opacity-7">
-                        {blog.commentsCount || 0} Comments
-                      </span>
+                      <span className="opacity-7">{blog.commentsCount || 0} Comments</span>
                     </div>
                   </div>
                 </div>
@@ -274,18 +225,12 @@ function BlogDetails() {
             <div className="col-lg-8">
               <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-poppins align-text">
                 <article className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-md align-text">
-                  <div
-                    className="prose prose-blue max-w-none"
-                    dangerouslySetInnerHTML={{ __html: blog.content }}
-                  />
+                  <div className="prose prose-blue max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
                 </article>
-                <a
-                  href="#blog"
-                  className="d-flex align-items-center main-color mt-40"
-                >
+                <Link to="/blogs" className="d-flex align-items-center main-color mt-40">
                   <span className="text mr-15">Back to Blogs</span>
                   <span className="ti-arrow-left"></span>
-                </a>
+                </Link>
 
                 <div className="comments-from mt-80">
                   <div className="mb-60">
@@ -296,35 +241,17 @@ function BlogDetails() {
                     <div className="controls row">
                       <div className="col-lg-6">
                         <div className="form-group mb-30">
-                          <input
-                            id="form_name"
-                            type="text"
-                            name="name"
-                            placeholder="Name"
-                            required="required"
-                          />
+                          <input id="form_name" type="text" name="name" placeholder="Name" required="required" />
                         </div>
                       </div>
                       <div className="col-lg-6">
                         <div className="form-group mb-30">
-                          <input
-                            id="form_email"
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            required="required"
-                          />
+                          <input id="form_email" type="email" name="email" placeholder="Email" required="required" />
                         </div>
                       </div>
                       <div className="col-12">
                         <div className="form-group">
-                          <textarea
-                            id="form_message"
-                            name="message"
-                            placeholder="Message"
-                            rows="4"
-                            required="required"
-                          ></textarea>
+                          <textarea id="form_message" name="message" placeholder="Message" rows="4" required="required"></textarea>
                         </div>
                         <div className="text-center">
                           <div className="mt-30">
@@ -345,13 +272,7 @@ function BlogDetails() {
                 <div className="widget">
                   <h6 className="title-widget">Search Here</h6>
                   <form onSubmit={handleSearch} className="search-box">
-                    <input
-                      type="text"
-                      name="search-post"
-                      placeholder="Search"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                    <input type="text" name="search-post" placeholder="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     <span className="icon pe-7s-search"></span>
                   </form>
                 </div>
@@ -359,95 +280,121 @@ function BlogDetails() {
                   <h6 className="title-widget">Categories</h6>
                   <ul className="rest">
                     <li>
-                      <span
-                        onClick={() => handleCategoryClick("all")}
-                        className={
-                          searchTerm === "" &&
-                          !window.location.search.includes("category")
-                            ? "active"
-                            : ""
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
+                      <span onClick={() => handleCategoryClick("all")} className={searchTerm === "" && !window.location.search.includes("category") ? "active" : ""} style={{ cursor: "pointer" }}>
                         All
                       </span>
                       <span className="ml-auto">{categoryCounts.all}</span>
                     </li>
                     <li>
-                      <span
-                        onClick={() => handleCategoryClick("business")}
-                        className={
-                          window.location.search.includes("category=business")
-                            ? "active"
-                            : ""
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
-                        Artificial Intelligence
+                      <span onClick={() => handleCategoryClick("business")} className={window.location.search.includes("category=business") ? "active" : ""} style={{ cursor: "pointer" }}>
+                        Business
                       </span>
                       <span className="ml-auto">{categoryCounts.business}</span>
                     </li>
                     <li>
-                      <span
-                        onClick={() => handleCategoryClick("lifestyle")}
-                        className={
-                          window.location.search.includes("category=lifestyle")
-                            ? "active"
-                            : ""
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
-                        Development
+                      <span onClick={() => handleCategoryClick("lifestyle")} className={window.location.search.includes("category=lifestyle") ? "active" : ""} style={{ cursor: "pointer" }}>
+                        Lifestyle
                       </span>
-                      <span className="ml-auto">
-                        {categoryCounts.lifestyle}
-                      </span>
+                      <span className="ml-auto">{categoryCounts.lifestyle}</span>
                     </li>
                     <li>
-                      <span
-                        onClick={() => handleCategoryClick("creative")}
-                        className={
-                          window.location.search.includes("category=creative")
-                            ? "active"
-                            : ""
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
-                        Marketing
+                      <span onClick={() => handleCategoryClick("creative")} className={window.location.search.includes("category=creative") ? "active" : ""} style={{ cursor: "pointer" }}>
+                        Creative
                       </span>
                       <span className="ml-auto">{categoryCounts.creative}</span>
                     </li>
-                    {/* <li>
-                      <span
-                        onClick={() => handleCategoryClick("wordpress")}
-                        className={
-                          window.location.search.includes("category=wordpress")
-                            ? "active"
-                            : ""
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
+                    <li>
+                      <span onClick={() => handleCategoryClick("wordpress")} className={window.location.search.includes("category=wordpress") ? "active" : ""} style={{ cursor: "pointer" }}>
                         WordPress
                       </span>
-                      <span className="ml-auto">
-                        {categoryCounts.wordpress}
-                      </span>
-                    </li> */}
+                      <span className="ml-auto">{categoryCounts.wordpress}</span>
+                    </li>
                     <li>
-                      <span
-                        onClick={() => handleCategoryClick("design")}
-                        className={
-                          window.location.search.includes("category=design")
-                            ? "active"
-                            : ""
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
+                      <span onClick={() => handleCategoryClick("design")} className={window.location.search.includes("category=design") ? "active" : ""} style={{ cursor: "pointer" }}>
                         Design
                       </span>
                       <span className="ml-auto">{categoryCounts.design}</span>
                     </li>
                   </ul>
+                </div>
+                <div className="widget last-post-thum">
+                  <h6 className="title-widget">Latest Posts</h6>
+                  <div className="item d-flex align-items-center">
+                    <div>
+                      <div className="img">
+                        <Link to="/blogs">
+                          <img src="/assets/imgs/blog/c1.jpg" alt="" />
+                          <span className="date">
+                            <span>
+                              14 / <br /> Sep
+                            </span>
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="cont">
+                      <span className="tag">
+                        <Link to="/blogs">Web Design</Link>
+                      </span>
+                      <h6>
+                        <Link to="/blogs">Ways to quickly increase traffic to your website</Link>
+                      </h6>
+                    </div>
+                  </div>
+                  <div className="item d-flex align-items-center">
+                    <div>
+                      <div className="img">
+                        <Link to="/blogs">
+                          <img src="/assets/imgs/blog/c2.jpg" alt="" />
+                          <span className="date">
+                            <span>
+                              14 / <br /> Sep
+                            </span>
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="cont">
+                      <span className="tag">
+                        <Link to="/blogs">Web Design</Link>
+                      </span>
+                      <h6>
+                        <Link to="/blogs">Breaking the rules: Using SQLite to demo web</Link>
+                      </h6>
+                    </div>
+                  </div>
+                  <div className="item d-flex align-items-center">
+                    <div>
+                      <div className="img">
+                        <Link to="/blogs">
+                          <img src="/assets/imgs/blog/c3.jpg" alt="" />
+                          <span className="date">
+                            <span>
+                              14 / <br /> Sep
+                            </span>
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="cont">
+                      <span className="tag">
+                        <Link to="/blogs">Web Design</Link>
+                      </span>
+                      <h6>
+                        <Link to="/blogs">Building better UI designs with layout grids</Link>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+                <div className="widget tags">
+                  <h6 className="title-widget">Tags</h6>
+                  <div>
+                    <Link to="/blogs">Creative</Link>
+                    <Link to="/blogs">Design</Link>
+                    <Link to="/blogs">Dark & Light</Link>
+                    <Link to="/blogs">Minimal</Link>
+                    <Link to="/blogs">Infolio</Link>
+                  </div>
                 </div>
               </div>
             </div>
