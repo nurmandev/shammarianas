@@ -32,13 +32,13 @@ const Profile = () => {
   });
 
   const followUser = async () => {
-    if (!user) return;
+    if (!user || !currentUser) return;
 
     const userRef = doc(db, "Profiles", id);
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      const followers = userData.followers || [];
+      const followers = userData.followers ? [...userData.followers] : [];
 
       if (followers.includes(currentUser.uid)) {
         followers.splice(followers.indexOf(currentUser.uid), 1);
@@ -53,6 +53,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    if (!id) return;
     const userRef = doc(db, "Profiles", id);
 
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
@@ -82,19 +83,23 @@ const Profile = () => {
   }, [id, currentUser]);
 
   useEffect(() => {
+    if (!id) return;
     const fetchItems = async () => {
       const itemsQuery = query(
         collection(db, "Assets"),
         where("userId", "==", id)
       );
       const snapshot = await getDocs(itemsQuery);
-      const itemsData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
+      const itemsData = snapshot.docs.map((docItem) => ({
+        id: docItem.id,
+        ...docItem.data(),
       }));
       setItems(itemsData);
-      itemsData && setLoading(false);
-      itemsData.length === 0 && setLoading("no_item");
+      if (itemsData.length === 0) {
+        setLoading("no_item");
+      } else {
+        setLoading(false);
+      }
     };
 
     fetchItems();
@@ -159,7 +164,7 @@ const Profile = () => {
         <meta
           property="og:image"
           content={
-            user
+            user && user.profilePic
               ? user.profilePic
               : "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account"
           }
@@ -181,7 +186,7 @@ const Profile = () => {
         <meta
           name="twitter:image"
           content={
-            user
+            user && user.profilePic
               ? user.profilePic
               : "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account"
           }
@@ -208,7 +213,7 @@ const Profile = () => {
                 <div className="profile_image">
                   <img
                     src={
-                      user && user.profilePic !== null
+                      user && user.profilePic
                         ? user.profilePic
                         : `https://avatar.iran.liara.run/username?username=${
                             user ? user.username : "User"
@@ -280,7 +285,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Account Settings Form */}
           {currentUser && currentUser.uid === id && (
             <div className="account_settings">
               <h2>Account Details</h2>
@@ -340,9 +344,9 @@ const Profile = () => {
                   </h2>
                 </div>
                 <div className="item_listing">
-                  {groupedItems[category].map((item, index) => (
-                    <Link to={`/View/${item.id}`} key={index}>
-                      <div className="item_card" key={index}>
+                  {groupedItems[category].map((item) => (
+                    <Link to={`/View/${item.id}`} key={item.id}>
+                      <div className="item_card">
                         <div
                           className="card_image"
                           style={{
