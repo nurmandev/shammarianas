@@ -237,10 +237,12 @@ figure {
   margin: 0;
 }
 
+/* PROFILE PAGE */
+
+
 .account_settings {
-  margin-top: 2rem;
+  margin: 2rem auto;
   padding: 2rem;
-  border-top: 1px solid #e5e7eb;
   max-width: 500px;
 }
 
@@ -418,36 +420,10 @@ figure {
   bottom: -5px;
   left: 0;
   width: 100%;
-  background: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    from(#0f0f0f),
-    color-stop(rgba(255, 255, 255, 0)),
-    color-stop(rgba(255, 255, 255, 0)),
-    to(#0f0f0f)
-  );
-  background: -webkit-linear-gradient(
-    bottom,
-    #0f0f0f,
-    rgba(255, 255, 255, 0) calc(100% - 80%),
-    rgba(255, 255, 255, 0) calc(100% - 80%),
-    #0f0f0f
-  );
-  background: -o-linear-gradient(
-    bottom,
-    #0f0f0f,
-    rgba(255, 255, 255, 0) calc(100% - 80%),
-    rgba(255, 255, 255, 0) calc(100% - 80%),
-    #0f0f0f
-  );
-  background: linear-gradient(
-    to top,
-    #0f0f0f,
-    rgba(255, 255, 255, 0) calc(100% - 80%),
-    rgba(255, 255, 255, 0) calc(100% - 80%),
-    #0f0f0f
-  );
+  background: -webkit-gradient(linear, left bottom, left top, from(#0f0f0f), color-stop(rgba(255, 255, 255, 0)), color-stop(rgba(255, 255, 255, 0)), to(#0f0f0f));
+  background: -webkit-linear-gradient(bottom, #0f0f0f, rgba(255, 255, 255, 0) calc(100% - 80%), rgba(255, 255, 255, 0) calc(100% - 80%), #0f0f0f);
+  background: -o-linear-gradient(bottom, #0f0f0f, rgba(255, 255, 255, 0) calc(100% - 80%), rgba(255, 255, 255, 0) calc(100% - 80%), #0f0f0f);
+  background: linear-gradient(to top, #0f0f0f, rgba(255, 255, 255, 0) calc(100% - 80%), rgba(255, 255, 255, 0) calc(100% - 80%), #0f0f0f);
 }
 
 .in-box {
@@ -506,14 +482,7 @@ figure {
   position: absolute;
   top: 0;
   left: 0;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    from(transparent),
-    color-stop(#fff),
-    to(transparent)
-  );
+  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(#fff), to(transparent));
   background: -webkit-linear-gradient(left, transparent, #fff, transparent);
   background: -o-linear-gradient(left, transparent, #fff, transparent);
   background: linear-gradient(to right, transparent, #fff, transparent);
@@ -531,14 +500,7 @@ figure {
   position: absolute;
   bottom: 0;
   left: 0;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    from(transparent),
-    color-stop(#fff),
-    to(transparent)
-  );
+  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(#fff), to(transparent));
   background: -webkit-linear-gradient(left, transparent, #fff, transparent);
   background: -o-linear-gradient(left, transparent, #fff, transparent);
   background: linear-gradient(to right, transparent, #fff, transparent);
@@ -1057,8 +1019,7 @@ figure {
   transition: opacity 0.4s ease, -webkit-transform 0.3s ease;
   -o-transition: transform 0.3s ease, opacity 0.4s ease;
   transition: transform 0.3s ease, opacity 0.4s ease;
-  transition: transform 0.3s ease, opacity 0.4s ease,
-    -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.4s ease, -webkit-transform 0.3s ease;
   z-index: 99999;
 }
 
@@ -1098,8 +1059,7 @@ figure {
   transition: -webkit-transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
   -o-transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
   transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1),
-    -webkit-transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1), -webkit-transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 .letter:nth-child(1) {
@@ -1386,27 +1346,9 @@ figure {
   left: -30px;
   right: -30px;
   pointer-events: none;
-  background: -webkit-linear-gradient(
-    right,
-    #0f0f0f,
-    rgba(255, 255, 255, 0) 280px,
-    rgba(255, 255, 255, 0) calc(100% - 280px),
-    #0f0f0f
-  );
-  background: -o-linear-gradient(
-    right,
-    #0f0f0f,
-    rgba(255, 255, 255, 0) 280px,
-    rgba(255, 255, 255, 0) calc(100% - 280px),
-    #0f0f0f
-  );
-  background: linear-gradient(
-    to left,
-    #0f0f0f,
-    rgba(255, 255, 255, 0) 280px,
-    rgba(255, 255, 255, 0) calc(100% - 280px),
-    #0f0f0f
-  );
+  background: -webkit-linear-gradient(right, #0f0f0f, rgba(255, 255, 255, 0) 280px, rgba(255, 255, 255, 0) calc(100% - 280px), #0f0f0f);
+  background: -o-linear-gradient(right, #0f0f0f, rgba(255, 255, 255, 0) 280px, rgba(255, 255, 255, 0) calc(100% - 280px), #0f0f0f);
+  background: linear-gradient(to left, #0f0f0f, rgba(255, 255, 255, 0) 280px, rgba(255, 255, 255, 0) calc(100% - 280px), #0f0f0f);
 }
 
 .main-marq.shadow-off:after {
@@ -1618,27 +1560,9 @@ figure {
   height: 100%;
   left: 0;
   top: 0;
-  background: -webkit-linear-gradient(
-    bottom,
-    #121212,
-    rgba(255, 255, 255, 0) 80px,
-    rgba(255, 255, 255, 0) calc(100% - 80px),
-    #121212
-  );
-  background: -o-linear-gradient(
-    bottom,
-    #121212,
-    rgba(255, 255, 255, 0) 80px,
-    rgba(255, 255, 255, 0) calc(100% - 80px),
-    #121212
-  );
-  background: linear-gradient(
-    to top,
-    #121212,
-    rgba(255, 255, 255, 0) 80px,
-    rgba(255, 255, 255, 0) calc(100% - 80px),
-    #121212
-  );
+  background: -webkit-linear-gradient(bottom, #121212, rgba(255, 255, 255, 0) 80px, rgba(255, 255, 255, 0) calc(100% - 80px), #121212);
+  background: -o-linear-gradient(bottom, #121212, rgba(255, 255, 255, 0) 80px, rgba(255, 255, 255, 0) calc(100% - 80px), #121212);
+  background: linear-gradient(to top, #121212, rgba(255, 255, 255, 0) 80px, rgba(255, 255, 255, 0) calc(100% - 80px), #121212);
   pointer-events: none;
 }
 
@@ -1690,19 +1614,11 @@ figure {
   transform: scale(1.2);
   -webkit-filter: blur(5px);
   filter: blur(5px);
-  -webkit-transition: -webkit-clip-path 0.8s ease-in-out 0.3s,
-    -webkit-transform 0.8s ease-in-out 1.1s,
-    -webkit-filter 0.5s ease-in-out 1.1s;
-  transition: -webkit-clip-path 0.8s ease-in-out 0.3s,
-    -webkit-transform 0.8s ease-in-out 1.1s,
-    -webkit-filter 0.5s ease-in-out 1.1s;
-  -o-transition: clip-path 0.8s ease-in-out 0.3s,
-    transform 0.8s ease-in-out 1.1s, filter 0.5s ease-in-out 1.1s;
-  transition: clip-path 0.8s ease-in-out 0.3s, transform 0.8s ease-in-out 1.1s,
-    filter 0.5s ease-in-out 1.1s;
-  transition: clip-path 0.8s ease-in-out 0.3s, transform 0.8s ease-in-out 1.1s,
-    filter 0.5s ease-in-out 1.1s, -webkit-clip-path 0.8s ease-in-out 0.3s,
-    -webkit-transform 0.8s ease-in-out 1.1s,
+  -webkit-transition: -webkit-clip-path 0.8s ease-in-out 0.3s, -webkit-transform 0.8s ease-in-out 1.1s, -webkit-filter 0.5s ease-in-out 1.1s;
+  transition: -webkit-clip-path 0.8s ease-in-out 0.3s, -webkit-transform 0.8s ease-in-out 1.1s, -webkit-filter 0.5s ease-in-out 1.1s;
+  -o-transition: clip-path 0.8s ease-in-out 0.3s, transform 0.8s ease-in-out 1.1s, filter 0.5s ease-in-out 1.1s;
+  transition: clip-path 0.8s ease-in-out 0.3s, transform 0.8s ease-in-out 1.1s, filter 0.5s ease-in-out 1.1s;
+  transition: clip-path 0.8s ease-in-out 0.3s, transform 0.8s ease-in-out 1.1s, filter 0.5s ease-in-out 1.1s, -webkit-clip-path 0.8s ease-in-out 0.3s, -webkit-transform 0.8s ease-in-out 1.1s,
     -webkit-filter 0.5s ease-in-out 1.1s;
   position: relative;
 }
@@ -4937,18 +4853,8 @@ footer.clean-footer.crev {
 
 footer.clean-footer.crev:after {
   content: "";
-  background: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    from(rgba(82, 177, 181, 0.15)),
-    to(transparent)
-  );
-  background: -webkit-linear-gradient(
-    bottom,
-    rgba(82, 177, 181, 0.15),
-    transparent
-  );
+  background: -webkit-gradient(linear, left bottom, left top, from(rgba(82, 177, 181, 0.15)), to(transparent));
+  background: -webkit-linear-gradient(bottom, rgba(82, 177, 181, 0.15), transparent);
   background: -o-linear-gradient(bottom, rgba(82, 177, 181, 0.15), transparent);
   background: linear-gradient(to top, rgba(82, 177, 181, 0.15), transparent);
   -webkit-backdrop-filter: blur(100px);
@@ -5344,13 +5250,7 @@ footer.clean-footer.crev .circle-blur {
   left: 0;
   width: 100%;
   bottom: -2px;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(transparent),
-    to(#0f0f0f)
-  );
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#0f0f0f));
   background: -webkit-linear-gradient(transparent, #0f0f0f);
   background: -o-linear-gradient(transparent, #0f0f0f);
   background: linear-gradient(transparent, #0f0f0f);
@@ -5362,13 +5262,7 @@ footer.clean-footer.crev .circle-blur {
 }
 
 .header-project:before {
-  background: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    from(#0f0f0f),
-    to(transparent)
-  );
+  background: -webkit-gradient(linear, left bottom, left top, from(#0f0f0f), to(transparent));
   background: -webkit-linear-gradient(bottom, #0f0f0f, transparent);
   background: -o-linear-gradient(bottom, #0f0f0f, transparent);
   background: linear-gradient(to top, #0f0f0f, transparent);
@@ -5835,27 +5729,9 @@ footer.clean-footer.crev .circle-blur {
 }
 
 .work-fade .marq-head .main-marq:after {
-  background: -webkit-linear-gradient(
-    right,
-    #121212,
-    rgba(255, 255, 255, 0) 280px,
-    rgba(255, 255, 255, 0) calc(100% - 280px),
-    #121212
-  );
-  background: -o-linear-gradient(
-    right,
-    #121212,
-    rgba(255, 255, 255, 0) 280px,
-    rgba(255, 255, 255, 0) calc(100% - 280px),
-    #121212
-  );
-  background: linear-gradient(
-    to left,
-    #121212,
-    rgba(255, 255, 255, 0) 280px,
-    rgba(255, 255, 255, 0) calc(100% - 280px),
-    #121212
-  );
+  background: -webkit-linear-gradient(right, #121212, rgba(255, 255, 255, 0) 280px, rgba(255, 255, 255, 0) calc(100% - 280px), #121212);
+  background: -o-linear-gradient(right, #121212, rgba(255, 255, 255, 0) 280px, rgba(255, 255, 255, 0) calc(100% - 280px), #121212);
+  background: linear-gradient(to left, #121212, rgba(255, 255, 255, 0) 280px, rgba(255, 255, 255, 0) calc(100% - 280px), #121212);
 }
 
 .work-fade .marq-head .main-marq .box {
@@ -6512,17 +6388,11 @@ footer.clean-footer.crev .circle-blur {
   font-size: 20px;
   text-indent: 15%;
   opacity: 0;
-  -webkit-transition: opacity 0.1s ease-out, -webkit-transform 0.4s ease-out,
-    -webkit-clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
-  transition: opacity 0.1s ease-out, -webkit-transform 0.4s ease-out,
-    -webkit-clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
-  -o-transition: opacity 0.1s ease-out, transform 0.4s ease-out,
-    clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
-  transition: opacity 0.1s ease-out, transform 0.4s ease-out,
-    clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
-  transition: opacity 0.1s ease-out, transform 0.4s ease-out,
-    clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96),
-    -webkit-transform 0.4s ease-out,
+  -webkit-transition: opacity 0.1s ease-out, -webkit-transform 0.4s ease-out, -webkit-clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
+  transition: opacity 0.1s ease-out, -webkit-transform 0.4s ease-out, -webkit-clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
+  -o-transition: opacity 0.1s ease-out, transform 0.4s ease-out, clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
+  transition: opacity 0.1s ease-out, transform 0.4s ease-out, clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
+  transition: opacity 0.1s ease-out, transform 0.4s ease-out, clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96), -webkit-transform 0.4s ease-out,
     -webkit-clip-path 0.6s cubic-bezier(0.25, 0.59, 0.29, 0.96);
   -webkit-clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
   clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);

@@ -848,11 +848,12 @@ const Upload = () => {
           onChange={handleChange}
           multiple={isMulti}
           value={isMulti ? formData[name] : formData[name] || ""}
-          required={!isMulti} // Multi-select fields are optional
         >
-          <option value="" disabled>
-            Select {label}
-          </option>
+          {!isMulti && (
+            <option value="" disabled>
+              Select {label}
+            </option>
+          )}
           {options.map((option) => (
             <option key={option} value={option}>
               {option}
@@ -996,7 +997,7 @@ const Upload = () => {
                       onChange={handleChange}
                       required
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Select Asset Type
                       </option>
                       <option value="models">3D Model</option>
@@ -1041,11 +1042,17 @@ const Upload = () => {
                   )}
                   {renderFilterSelect("resolution", "Resolution", "resolution")}
                   {renderFilterSelect("frameRate", "Frame Rate", "frameRate")}
-                  {renderFilterSelect("properties", "Properties", "properties")}
+                  {renderFilterSelect(
+                    "properties",
+                    "Properties",
+                    "properties",
+                    true
+                  )}
                   {renderFilterSelect(
                     "applicationsSupported",
                     "Applications Supported",
-                    "applicationsSupported"
+                    "applicationsSupported",
+                    true
                   )}
                   {renderFilterSelect(
                     "orientation",
@@ -1087,7 +1094,8 @@ const Upload = () => {
                   {renderFilterSelect(
                     "integrationReady",
                     "Integration Ready",
-                    "integrationReady"
+                    "integrationReady",
+                    true
                   )}
                   {renderFilterSelect(
                     "colorSpace",
