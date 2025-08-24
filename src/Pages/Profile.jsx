@@ -24,55 +24,45 @@ const Profile = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    username: "",
-  });
-
   const followUser = async () => {
-    if (!user || !currentUser) return;
+    if (!user) {
+      return;
+    }
 
     const userRef = doc(db, "Profiles", id);
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      const followers = userData.followers ? [...userData.followers] : [];
+      const followers = userData.followers || [];
 
       if (followers.includes(currentUser.uid)) {
-        followers.splice(followers.indexOf(currentUser.uid), 1);
+        const index = followers.indexOf(currentUser.uid);
+        followers.splice(index, 1);
         setIsFollowing(false);
       } else {
         followers.push(currentUser.uid);
         setIsFollowing(true);
       }
 
-      await updateDoc(userRef, { followers });
+      await updateDoc(userRef, {
+        followers,
+      });
     }
   };
 
   useEffect(() => {
-    if (!id) return;
     const userRef = doc(db, "Profiles", id);
 
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
-        const data = docSnap.data();
-        setUser(data);
+        setUser(docSnap.data());
 
         if (currentUser && currentUser.uid) {
           setIsFollowing(
-            data.followers && data.followers.includes(currentUser.uid)
+            docSnap.data().followers &&
+              docSnap.data().followers.includes(currentUser.uid)
           );
         }
-
-        setFormData({
-          firstName: data.firstName || "",
-          lastName: data.lastName || "",
-          email: data.email || "",
-          username: data.username || "",
-        });
       } else {
         console.log("No such user!");
         setUser(null);
@@ -83,74 +73,45 @@ const Profile = () => {
   }, [id, currentUser]);
 
   useEffect(() => {
-    if (!id) return;
     const fetchItems = async () => {
-      const itemsQuery = query(
-        collection(db, "Assets"),
-        where("userId", "==", id)
-      );
+      let itemsQuery;
+
+      itemsQuery = query(collection(db, "Assets"), where("userId", "==", id));
+
       const snapshot = await getDocs(itemsQuery);
-      const itemsData = snapshot.docs.map((docItem) => ({
-        id: docItem.id,
-        ...docItem.data(),
+      const itemsData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
       }));
       setItems(itemsData);
-      if (itemsData.length === 0) {
-        setLoading("no_item");
-      } else {
-        setLoading(false);
-      }
+      itemsData && setLoading(false);
+
+      itemsData.length === 0 && setLoading("no_item");
     };
 
     fetchItems();
-  }, [id]);
+  }, []);
 
   const groupedItems = items.reduce((acc, item) => {
-    if (!acc[item.type]) acc[item.type] = [];
+    if (!acc[item.type]) {
+      acc[item.type] = [];
+    }
     acc[item.type].push(item);
     return acc;
   }, {});
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSaveChanges = async () => {
-    try {
-      const userRef = doc(db, "Profiles", id);
-      await updateDoc(userRef, {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        username: formData.username,
-      });
-      alert("Account details updated successfully!");
-    } catch (error) {
-      console.error("Error updating account:", error);
-    }
-  };
-
-  const handleCancel = () => {
-    if (user) {
-      setFormData({
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        email: user.email || "",
-        username: user.username || "",
-      });
-    }
-  };
 
   return (
     <>
       <Helmet>
         <title>{user ? user.username : "User"} | shammarianas</title>
+
         <meta
           name="description"
           content={`View ${
             user ? user.username : "User"
           }'s profile on shammarianas`}
         />
+
         <meta
           property="og:title"
           content={`${user ? user.username : "User"} | shammarianas`}
@@ -164,7 +125,7 @@ const Profile = () => {
         <meta
           property="og:image"
           content={
-            user && user.profilePic
+            user
               ? user.profilePic
               : "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account"
           }
@@ -173,6 +134,7 @@ const Profile = () => {
           property="og:url"
           content={`https://shammarianas.vercel.app/#/profile/${id}`}
         />
+
         <meta
           name="twitter:title"
           content={`${user ? user.username : "User"} | shammarianas`}
@@ -186,18 +148,15 @@ const Profile = () => {
         <meta
           name="twitter:image"
           content={
-            user && user.profilePic
+            user
               ? user.profilePic
               : "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account"
           }
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <link
-          rel="canonical"
-          href={`https://shammarianas.me/#/profile/${id}`}
-        />
-      </Helmet>
 
+        <link rel="canonical" href={`https://shammarianas.me/#/profile/${id}`} />
+      </Helmet>
       <div className="page_content">
         <div className="profile_background">
           <img
@@ -211,9 +170,10 @@ const Profile = () => {
             <div className="top">
               <div className="left">
                 <div className="profile_image">
+                  {}
                   <img
                     src={
-                      user && user.profilePic
+                      user && user.profilePic !== null
                         ? user.profilePic
                         : `https://avatar.iran.liara.run/username?username=${
                             user ? user.username : "User"
@@ -246,6 +206,7 @@ const Profile = () => {
                         ></i>
                       ))}
                     </div>
+
                     <span className="rating_count">
                       {user && typeof user.rating_count === "number"
                         ? user.rating_count
@@ -254,7 +215,6 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-
               <div className="right">
                 <span className="follower_count">
                   {user && user.followers ? user.followers.length : 0} Followers
@@ -262,11 +222,11 @@ const Profile = () => {
 
                 <div className="actions">
                   <button
-                    className={`follow_btn ${
-                      currentUser && currentUser.uid === id ? "disabled" : ""
+                    className={`follow_btn  ${
+                      currentUser && currentUser.uid == id ? "disabled" : ""
                     }`}
                     onClick={
-                      currentUser && currentUser.uid === id
+                      currentUser && currentUser.uid == id
                         ? () => alert("You cannot follow yourself")
                         : currentUser
                         ? followUser
@@ -285,57 +245,8 @@ const Profile = () => {
             </div>
           </div>
 
-          {currentUser && currentUser.uid === id && (
-            <div className="account_settings">
-              <h2>Account Details</h2>
-              <div className="form_group">
-                <label>First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form_group">
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form_group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  readOnly
-                />
-              </div>
-              <div className="form_group">
-                <label>Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form_actions">
-                <button className="save_btn" onClick={handleSaveChanges}>
-                  Save Changes
-                </button>
-                <button className="cancel_btn" onClick={handleCancel}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          )}
-
           <div className="bottom">
+            {" "}
             {Object.keys(groupedItems).map((category) => (
               <div className="section" key={category}>
                 <div className="title">
@@ -344,9 +255,9 @@ const Profile = () => {
                   </h2>
                 </div>
                 <div className="item_listing">
-                  {groupedItems[category].map((item) => (
-                    <Link to={`/View/${item.id}`} key={item.id}>
-                      <div className="item_card">
+                  {groupedItems[category].map((item, index) => (
+                    <Link to={`/View/${item.id}`} key={index}>
+                      <div className="item_card" key={index}>
                         <div
                           className="card_image"
                           style={{
