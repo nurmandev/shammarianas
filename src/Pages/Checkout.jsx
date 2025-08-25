@@ -394,6 +394,7 @@ import { ethers } from "ethers";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { db } from "../../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
 import PropTypes from "prop-types";
 
@@ -495,14 +496,14 @@ const Checkout = () => {
 
       if (result.success) {
         // Update Firebase with purchased items
-        const userRef = db.collection("users").doc(currentUser.uid);
-        const userDoc = await userRef.get();
+        const userRef = doc(db, "users", currentUser.uid);
+        const userDoc = await getDoc(userRef);
 
-        if (userDoc.exists) {
+        if (userDoc.exists()) {
           const userOwnedItems = userDoc.data().ownedItems || [];
           const updatedOwnedItems = [...userOwnedItems, ...cartItems];
 
-          await userRef.update({ ownedItems: updatedOwnedItems });
+          await updateDoc(userRef, { ownedItems: updatedOwnedItems });
         }
 
         // Clear cart
@@ -551,14 +552,14 @@ const Checkout = () => {
       await tx.wait();
 
       // Update Firebase with purchased items
-      const userRef = db.collection("users").doc(currentUser.uid);
-      const userDoc = await userRef.get();
+      const userRef = doc(db, "users", currentUser.uid);
+      const userDoc = await getDoc(userRef);
 
-      if (userDoc.exists) {
+      if (userDoc.exists()) {
         const userOwnedItems = userDoc.data().ownedItems || [];
         const updatedOwnedItems = [...userOwnedItems, ...cartItems];
 
-        await userRef.update({ ownedItems: updatedOwnedItems });
+        await updateDoc(userRef, { ownedItems: updatedOwnedItems });
       }
 
       // Clear cart
