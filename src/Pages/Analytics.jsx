@@ -7,9 +7,7 @@ const Analytics = () => {
   const [assets, setAssets] = useState([]);
 
   const fetchAssets = async () => {
-    const assetsCollection = db.collection("Assets");
-    const assetsSnapshot = await assetsCollection.get();
-
+    const assetsSnapshot = await getDocs(collection(db, "Assets"));
     const assetsList = assetsSnapshot.docs.map((doc) => doc.data());
     setAssets(assetsList);
   };
