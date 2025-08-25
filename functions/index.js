@@ -45,17 +45,17 @@ exports.createOrder = onCall({
 });
 
 
-// Email configuration (replace with your actual email and credentials)
+// Email configuration using environment variables for security
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "your-email@gmail.com", // Replace with your email
-    pass: "your-email-password", // Use environment variables for security
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
-// Project owner's email (Change this to your recipient email)
-const projectOwnerEmail = "owner@example.com";
+// Project owner's email from environment variable
+const projectOwnerEmail = process.env.PROJECT_OWNER_EMAIL;
 
 // Firestore trigger function
 exports.notifyProjectOwner = functions.firestore
