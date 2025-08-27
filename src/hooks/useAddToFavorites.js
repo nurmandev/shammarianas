@@ -48,7 +48,6 @@ const useAddToFavorites = (assetId, assetData = null) => {
         // Remove from favorites by deleting the document
         await deleteDoc(favoriteDocRef);
         setIsFavorited(false);
-        // console.log("Asset removed from favorites:", assetId);
       } else {
         // Add to favorites by creating a document
         // First, make sure we're not trying to save an event object
@@ -56,7 +55,6 @@ const useAddToFavorites = (assetId, assetData = null) => {
         
         // If itemData is provided but looks like an event object, ignore it
         if (itemData && (itemData.nativeEvent || itemData.target || itemData.currentTarget)) {
-          // console.log("Event object detected, not using it as asset data");
           dataToStore = assetData;
         } else {
           dataToStore = itemData || assetData;
@@ -102,7 +100,6 @@ const useAddToFavorites = (assetId, assetData = null) => {
         });
         
         setIsFavorited(true);
-        // console.log("Asset added to favorites:", assetId);
       }
     } catch (error) {
       // console.error("Error toggling favorite:", error);

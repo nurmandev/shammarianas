@@ -82,7 +82,6 @@ const Login = () => {
         email,
         password
       );
-      console.log("login successful with email id", email);
       setSuccess("Login successful!");
 
       setTimeout(() => {
@@ -112,7 +111,6 @@ const Login = () => {
         displayName: username,
       });
 
-      console.log("signup successful with email id", email);
 
       const userProfileRef = doc(db, "Profiles", user.uid);
 
@@ -146,7 +144,6 @@ const Login = () => {
       await sendPasswordResetEmail(auth, email);
       setSuccess("Password reset email sent!");
     } catch (error) {
-      console.log(error);
       setError("Password reset email failed: " + error.message);
     }
   };

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
-// import { doc, getDoc } from "firebase/firestore";
 import PageTitle from "../Components/UI/PageTitle";
 import { useUser } from "../Context/UserProvider";
 import { Link } from "react-router-dom";
@@ -26,10 +25,8 @@ const MyDownloads = () => {
         const downloadsRef = collection(db, `Profiles/${currentUser.uid}/downloads`);
         const downloadsSnapshot = await getDocs(downloadsRef);
 
-        console.log("downloadsSnapshot:", downloadsSnapshot);
         
         if (downloadsSnapshot.empty) {
-          console.log("No downloads found");
           setLoading("no_items");
           return;
         }

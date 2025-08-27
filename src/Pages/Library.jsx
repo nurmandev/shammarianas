@@ -26,7 +26,6 @@ const Library = () => {
         const purchasesSnapshot = await getDocs(purchasesRef);
         
         if (purchasesSnapshot.empty) {
-          console.log("No purchased items found");
           setLoading("no_items");
           return;
         }
@@ -46,7 +45,6 @@ const Library = () => {
           });
         }
         
-        console.log("Fetched purchased assets data:", purchasedAssets);
         setAssets(purchasedAssets);
         setLoading(false);
       } catch (error) {

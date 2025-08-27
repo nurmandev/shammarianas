@@ -47,7 +47,6 @@ function BlogDetails() {
           });
           setBlog(blogData);
         } else {
-          console.log("No such blog!");
         }
       } catch (error) {
         console.error("Error fetching blog:", error);

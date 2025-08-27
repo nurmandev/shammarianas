@@ -187,7 +187,6 @@ const ProjectModal = ({ isOpen, onClose }) => {
         createdAt: new Date(),
       });
 
-      console.log("Document written with ID: ", docRef.id);
       setProjectData({
         title: "",
         category: "design",

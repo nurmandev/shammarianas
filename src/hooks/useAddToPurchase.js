@@ -21,7 +21,6 @@ const useAddToPurchase = () => {
         purchasedAt: new Date(), // Add a timestamp for when the purchase was made
       });
 
-      console.log("Asset added to purchases:", asset);
     } catch (error) {
       console.error("Error adding asset to purchases:", error);
     }

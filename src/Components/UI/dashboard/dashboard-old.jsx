@@ -59,6 +59,31 @@ const AdminDashboard = () => {
   // Check admin status
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      // Development mode bypass - allow access without login
+      if (!currentUser && import.meta.env.DEV) {
+        console.warn("Development mode: bypassing authentication for admin dashboard");
+        setIsAdmin(true);
+        // Set mock data for development
+        setUsers([
+          { id: "1", email: "test@example.com", role: "user" },
+          { id: "2", email: "admin@shammarinanas.com", role: "admin" },
+          { id: "3", email: "wasivoy749@aperiol.com", role: "admin" }
+        ]);
+        setSupportMessages([
+          {
+            id: "1",
+            profileId: "1",
+            subject: "Test Support Message",
+            email: "test@example.com",
+            status: "unopened",
+            createdAt: { toDate: () => new Date() },
+            description: "This is a test support message for development"
+          }
+        ]);
+        setSelectedProfileId("1");
+        return;
+      }
+
       if (!currentUser) {
         setError("Please log in to access the admin dashboard");
         return;
@@ -71,10 +96,13 @@ const AdminDashboard = () => {
           return;
         }
 
-        const devAdminEmails = process.env.REACT_APP_DEV_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
-        const isDevAdmin = process.env.NODE_ENV === "development" && devAdminEmails.includes(email);
+        const devAdminEmails = import.meta.env.VITE_DEV_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
+        const isDevAdmin = import.meta.env.DEV && devAdminEmails.includes(email);
 
-        if (isDevAdmin || (await checkAdminStatus(email))) {
+        // Development mode bypass - allow anyone in dev mode
+        const isDevelopmentBypass = import.meta.env.DEV;
+
+        if (isDevAdmin || isDevelopmentBypass || (await checkAdminStatus(email))) {
           setIsAdmin(true);
           await Promise.all([fetchUsers(), fetchSupportMessages(currentUser.uid)]);
           setSelectedProfileId(currentUser.uid);
@@ -95,10 +123,16 @@ const AdminDashboard = () => {
 
   const checkAdminStatus = async (email) => {
     if (!email) return false;
-    const superAdminEmails = process.env.REACT_APP_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
+    const superAdminEmails = import.meta.env.VITE_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
     if (superAdminEmails.includes(email)) return true;
 
     try {
+      // Test Firebase connection first
+      if (!db) {
+        console.warn("Firebase not initialized properly");
+        return false;
+      }
+
       const adminDoc = await getDoc(doc(db, "adminUsers", email));
       console.log("Admin check for", email, "exists:", adminDoc.exists());
       return adminDoc.exists();
@@ -107,6 +141,13 @@ const AdminDashboard = () => {
         code: error.code,
         message: error.message,
       });
+
+      // Don't show error for Firebase permission issues in dev mode
+      if (import.meta.env.DEV) {
+        console.warn("Firebase admin check failed in dev mode, allowing access");
+        return true;
+      }
+
       setError(`Failed to check admin status: ${error.message}`);
       return false;
     }
@@ -115,6 +156,10 @@ const AdminDashboard = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
+      if (!db) {
+        throw new Error("Firebase not initialized");
+      }
+
       const querySnapshot = await getDocs(collection(db, "Profiles"));
       const userList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -127,7 +172,17 @@ const AdminDashboard = () => {
         code: error.code,
         message: error.message,
       });
-      setError(`Failed to load users: ${error.message}`);
+
+      // In dev mode, set mock data instead of showing error
+      if (import.meta.env.DEV) {
+        console.warn("Using mock user data in dev mode");
+        setUsers([
+          { id: "1", email: "test@example.com", role: "user" },
+          { id: "2", email: "admin@shammarinanas.com", role: "admin" }
+        ]);
+      } else {
+        setError(`Failed to load users: ${error.message}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -141,6 +196,10 @@ const AdminDashboard = () => {
     }
     setLoading(true);
     try {
+      if (!db) {
+        throw new Error("Firebase not initialized");
+      }
+
       const q = query(collection(db, `Profiles/${profileId}/Support`), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const messages = querySnapshot.docs.map((doc) => ({
@@ -152,7 +211,24 @@ const AdminDashboard = () => {
       setSupportMessages(messages);
     } catch (error) {
       console.error("Error fetching support messages for profileId:", profileId, error, { code: error.code, message: error.message });
-      setError(`Failed to load support messages: ${error.message}`);
+
+      // In dev mode, set mock data instead of showing error
+      if (import.meta.env.DEV) {
+        console.warn("Using mock support messages in dev mode");
+        setSupportMessages([
+          {
+            id: "1",
+            profileId,
+            subject: "Test Support Message",
+            email: "test@example.com",
+            status: "unopened",
+            createdAt: { toDate: () => new Date() },
+            description: "This is a test support message"
+          }
+        ]);
+      } else {
+        setError(`Failed to load support messages: ${error.message}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -725,7 +801,6 @@ const AdminDashboard = () => {
                 portfolios={currentPortfolios}
                 onDelete={handleDeletePortfolio}
                 onCreate={() => {
-                  console.log("Opening ProjectModal");
                   setIsPortfolioModalOpen(true);
                 }}
               />
@@ -811,7 +886,6 @@ const AdminDashboard = () => {
             isOpen={isBlogModalOpen}
             onClose={() => setIsBlogModalOpen(false)}
             onSave={() => {
-              console.log("Blog saved, refreshing blogs...");
               setIsBlogModalOpen(false);
               fetchBlogs();
             }}
@@ -822,7 +896,6 @@ const AdminDashboard = () => {
             isOpen={isPortfolioModalOpen}
             onClose={() => setIsPortfolioModalOpen(false)}
             onSave={() => {
-              console.log("Portfolio saved, refreshing portfolios...");
               setIsPortfolioModalOpen(false);
               fetchProjects();
             }}
@@ -995,11 +1068,6 @@ const PortfolioList = ({ portfolios, onDelete, onCreate }) => {
 const AssetList = ({ assets, onDelete }) => {
   return (
     <div className="table-container">
-      {/* <div className="table-actions">
-        <button onClick={() => console.log("Create New Asset")} className="action-button">
-          Create New Asset
-        </button>
-      </div> */}
       <table className="data-table">
         <thead>
           <tr>
@@ -1163,7 +1231,6 @@ const AdminManager = ({ setError }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("Fetched admins:", adminList.length);
         setAdmins(adminList);
       } catch (error) {
         console.error("Error fetching admins:", error, {
@@ -1192,7 +1259,6 @@ const AdminManager = ({ setError }) => {
       setNewAdminEmail("");
       setLogMessage(`Admin ${email} added successfully.`);
       setLogType("success");
-      console.log(`Admin ${email} added`);
     } catch (error) {
       console.error("Error adding admin:", email, error, {
         code: error.code,
@@ -1210,7 +1276,6 @@ const AdminManager = ({ setError }) => {
       setAdmins(admins.filter((a) => a.id !== email));
       setLogMessage(`Admin ${email} removed successfully.`);
       setLogType("success");
-      console.log(`Admin ${email} removed`);
     } catch (error) {
       console.error("Error removing admin:", email, error, {
         code: error.code,

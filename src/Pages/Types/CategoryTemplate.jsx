@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 const CategoryTemplate = () => {
   const { Category } = useParams();
 
-  console.log({ Category });
 
   return (
     <>

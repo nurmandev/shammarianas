@@ -7,8 +7,6 @@ export const loginWithGithub = () => {
   const provider = new GithubAuthProvider();
   signInWithPopup(auth, provider)
     .then(async (result) => {
-      console.log(result);
-      console.log("login successful with email id", result.user.email);
 
       // Check if the user's profile already exists in the Firestore collection
       const userProfileRef = doc(db, "Profiles", result.user.uid);
@@ -26,12 +24,10 @@ export const loginWithGithub = () => {
         { merge: true }
       ); // Use merge option to avoid overwriting existing fields
 
-      console.log("User profile stored in Firestore");
       alert("Login with GitHub successful!");
       window.location.href = "/"; // Redirect to the home page after login
     })
     .catch((error) => {
-      console.log(error);
       alert("Login with GitHub failed: " + error.message);
     });
 };

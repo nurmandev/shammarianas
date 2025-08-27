@@ -6,12 +6,12 @@ import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 
 const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY,
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_FIREBASE_APP_ID,
+  apiKey: "AIzaSyCC_cEqxB99hMW16aowMs6AJ3-k52VasW0",
+  authDomain: "sham-marianas.firebaseapp.com",
+  projectId: "sham-marianas",
+  storageBucket: "sham-marianas.firebasestorage.app",
+  messagingSenderId: "607689609153",
+  appId: "1:607689609153:web:3d76a1c337979a691a6940",
 };
 // Initialize Firebase
 

@@ -25,12 +25,7 @@ export const UserProvider = ({ children }) => {
           if (userProfileSnap.exists()) {
             const profileData = userProfileSnap.data();
             setUserProfile(profileData);
-            // console.log(
-            //   "User profile data fetched from Firestore",
-            //   profileData
-            // );
           } else {
-            console.log("No such document!");
           }
         } else {
           setUserProfile(null); // Clear profile data if no user is logged in

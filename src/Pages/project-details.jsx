@@ -20,7 +20,6 @@ export default function ProjectDetails() {
         if (docSnap.exists()) {
           setProject({ id: docSnap.id, ...docSnap.data() });
         } else {
-          console.log("No such project!");
         }
       } catch (error) {
         console.error("Error fetching project:", error);

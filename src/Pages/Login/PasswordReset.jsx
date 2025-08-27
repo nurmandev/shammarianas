@@ -17,7 +17,6 @@ const PasswordReset = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get("oobCode");
-    console.log("Reset code from URL:", code); // Debugging statement
     if (code) {
       setResetCode(code);
     } else {
@@ -34,7 +33,6 @@ const PasswordReset = () => {
     }
 
     try {
-      console.log("Attempting to reset password with code:", resetCode); // Debugging statement
       await confirmPasswordReset(auth, resetCode, newPassword);
       setSuccess(
         "Password reset successful. You will be redirected to the login page shortly."

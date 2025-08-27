@@ -85,7 +85,6 @@ const View = () => {
 
         setIs3d(itemDocSnap.data().is3d);
       } else {
-        console.log("No such document!");
       }
     };
 
@@ -99,36 +98,6 @@ const View = () => {
   }, [userProfile, item]);
 
   // useEffect(() => {
-  //   const fetchGroup = async () => {
-  //     // Fetch group data from Firestore where the current user is a member
-  //     const groupQuery = query(collection(db, "Groups"));
-  //     const groupSnapshot = await getDocs(groupQuery);
-
-  //     // Filter groups where the current user is a member
-  //     const groupData = groupSnapshot.docs
-  //       .map((doc) => ({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       }))
-  //       .filter((group) =>
-  //         group.users.some((user) => user.email === currentUser.email)
-  //       );
-
-  //     if (groupData.length > 0) {
-  //       setGroup(groupData[0]);
-  //     } else {
-  //       console.log("No group found for the current user.");
-  //     }
-  //   };
-
-  //   if (currentUser) {
-  //     fetchGroup();
-  //   }
-
-  //   return () => {
-  //     setGroup(null);
-  //   };
-  // }, [currentUser]);
 
   // console log the group data
 

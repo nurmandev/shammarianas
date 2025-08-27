@@ -9,12 +9,10 @@ const Logout = () => {
   signOut(auth)
     .then(() => {
       // Sign-out successful.
-      console.log("User signed out");
       navigate("/");
     })
     .catch((error) => {
       // An error happened.
-      console.log(error);
     });
 
   return <div></div>;

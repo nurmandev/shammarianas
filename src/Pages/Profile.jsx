@@ -64,7 +64,6 @@ const Profile = () => {
           );
         }
       } else {
-        console.log("No such user!");
         setUser(null);
       }
     });

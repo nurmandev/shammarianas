@@ -56,7 +56,6 @@ const Group = () => {
   };
 
   const createGroup = async () => {
-    console.log("create group");
     try {
       const users = [
         ...formData.users,
@@ -70,7 +69,6 @@ const Group = () => {
         groupName: formData.groupName,
         users,
       });
-      console.log("Document written with ID: ", docRef.id);
       return docRef.id;
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -79,7 +77,6 @@ const Group = () => {
   };
 
   const fetchRequests = async () => {
-    console.log("fetch requests");
     try {
       const requestsQuery = query(
         collection(db, "Groups")
@@ -102,9 +99,7 @@ const Group = () => {
       setRequests(requestsData);
 
       if (requestsData.length > 0) {
-        console.log("You have group requests");
-      } else {
-        console.log("No group requests found");
+        } else {
       }
 
       return requestsData;
@@ -124,7 +119,6 @@ const Group = () => {
     return <div>Loading...</div>;
   }
   const acceptTrade = async (groupId, userEmail) => {
-    console.log("accept trade");
     try {
       const groupRef = doc(db, "Groups", groupId);
       const groupDoc = await getDoc(groupRef);
@@ -137,7 +131,6 @@ const Group = () => {
         await updateDoc(groupRef, {
           users: groupData.users,
         });
-        console.log("Trade accepted");
         return true;
       } else {
         console.error("User not found in group");

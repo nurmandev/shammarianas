@@ -19,7 +19,6 @@ import TextureViewer from "./Components/TextureViewer";
 import PasswordReset from "./Pages/Login/PasswordReset";
 import Group from "./Pages/Group";
 import Analytics from "./Pages/Analytics";
-// import Trade from "./Pages/Trade";
 import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
@@ -28,7 +27,6 @@ import Blog from "./Pages/Blog";
 import Blogs from "./Pages/Blog-details";
 import Portfolio from "./Pages/portfolio";
 import PortfolioDetails from "./Pages/project-details";
-// import LoadingScreen from "./common/loader";
 import Support from "./Pages/Support";
 import AboutUs from "./Pages/AboutUs";
 import Services from "./Pages/services";
@@ -52,18 +50,6 @@ import DigitalMaketerPage from "./Pages/ServicesDetails/Digital-Marketer";
 import VfxAndAds from "./Pages/ServicesDetails/VfxAndAds";
 import VideoProduction from "./Pages/ServicesDetails/Video-Production";
 import PrintMedia from "./Pages/ServicesDetails/PrintMedia";
-
-// import Video from "./Pages/Types/Video";
-// import VideoTemplate from "./Pages/Types/VideoTemplate";
-// import Models from "./Pages/Types/Models";
-// import Hot from "./Pages/Types/Hot";
-// import Images from "./Pages/Types/Image";
-// import Printables from "./Pages/Types/Printables";
-// import Textures from "./Pages/Types/Textures";
-// import Scripts from "./Pages/Types/Scripts";
-// import Shader from "./Pages/Types/Shaders";
-// import HDRIs from "./Pages/Types/HDRIs";
-// import Plugins from "./Pages/Types/Plugins";
 
 import Success from "./Pages/Success";
 
@@ -92,17 +78,6 @@ export const AppRoutes = () => (
     <Route path="/" element={<Home />} />
     <Route path="/Trade" element={<TradePage />} />
     <Route path="/Cart" element={<Cart />} />
-    {/* <Route path="/Hot" element={<Hot />} />
-    <Route path="/Image" element={<Images />} />
-    <Route path="/videos" element={<Video />} />
-    <Route path="/Models" element={<Models />} />
-    <Route path="/Printable" element={<Printables />} />
-    <Route path="/Textures" element={<Textures />} />
-    <Route path="/Scripts" element={<Scripts />} />
-    <Route path="/Shaders" element={<Shader />} />
-    <Route path="/HDRIs" element={<HDRIs />} />
-    <Route path="/templates" element={<VideoTemplate />} />
-    <Route path="/Plugins" element={<Plugins />} /> */}
     <Route path="/:Category" element={<CategoryTemplate />} />
     <Route path="/View/:id" element={<View />} />
     <Route path="/Groups" element={<Group />} />
@@ -126,8 +101,6 @@ export const AppRoutes = () => (
     <Route path="/stock" element={<StockPage />} />
     <Route path="/services" element={<Services />} />
     <Route path="/success" element={<Success />} />
-    {/* <Route path="/services/:slug" element={<Services />} />
-    <Route path="/page-services-details" element={<ServicesDetails />} /> */}
 
     {/* Static individual service pages */}
     <Route path="/services/branding" element={<BrandingDesignPage />} />
@@ -155,7 +128,6 @@ function App() {
     <>
       <HashRouter>
         <ScrollToTop />
-        {/* <Navbar /> */}
         <FilterProvider>
           <Navbar2 />
 
