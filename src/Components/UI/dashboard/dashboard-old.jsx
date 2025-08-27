@@ -801,7 +801,6 @@ const AdminDashboard = () => {
                 portfolios={currentPortfolios}
                 onDelete={handleDeletePortfolio}
                 onCreate={() => {
-                  console.log("Opening ProjectModal");
                   setIsPortfolioModalOpen(true);
                 }}
               />
@@ -887,7 +886,6 @@ const AdminDashboard = () => {
             isOpen={isBlogModalOpen}
             onClose={() => setIsBlogModalOpen(false)}
             onSave={() => {
-              console.log("Blog saved, refreshing blogs...");
               setIsBlogModalOpen(false);
               fetchBlogs();
             }}
@@ -898,7 +896,6 @@ const AdminDashboard = () => {
             isOpen={isPortfolioModalOpen}
             onClose={() => setIsPortfolioModalOpen(false)}
             onSave={() => {
-              console.log("Portfolio saved, refreshing portfolios...");
               setIsPortfolioModalOpen(false);
               fetchProjects();
             }}
@@ -1239,7 +1236,6 @@ const AdminManager = ({ setError }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("Fetched admins:", adminList.length);
         setAdmins(adminList);
       } catch (error) {
         console.error("Error fetching admins:", error, {
@@ -1268,7 +1264,6 @@ const AdminManager = ({ setError }) => {
       setNewAdminEmail("");
       setLogMessage(`Admin ${email} added successfully.`);
       setLogType("success");
-      console.log(`Admin ${email} added`);
     } catch (error) {
       console.error("Error adding admin:", email, error, {
         code: error.code,
@@ -1286,7 +1281,6 @@ const AdminManager = ({ setError }) => {
       setAdmins(admins.filter((a) => a.id !== email));
       setLogMessage(`Admin ${email} removed successfully.`);
       setLogType("success");
-      console.log(`Admin ${email} removed`);
     } catch (error) {
       console.error("Error removing admin:", email, error, {
         code: error.code,
