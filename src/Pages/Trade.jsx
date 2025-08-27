@@ -107,7 +107,6 @@ const TradePage = () => {
       ownAssetId: ourAsset.id,
     };
 
-    console.log(tradeData);
 
     const tradeRef = doc(
       db,
@@ -117,7 +116,6 @@ const TradePage = () => {
 
     try {
       await setDoc(tradeRef, tradeData);
-      console.log("Trade successfully placed");
       alert("Trade successfully placed");
     } catch (error) {
       console.error("Error placing trade: ", error);
@@ -154,7 +152,6 @@ const TradePage = () => {
         )
       );
 
-      console.log("Trade accepted successfully");
     } catch (error) {
       console.error("Error accepting trade: ", error);
     }
@@ -165,7 +162,6 @@ const TradePage = () => {
 
     try {
       await deleteDoc(tradeRef);
-      console.log("Trade rejected successfully");
       setTradeItems((prevTradeItems) =>
         prevTradeItems.filter((item) => item.id !== tradeId)
       );
