@@ -95,7 +95,7 @@ const AdminDashboard = () => {
 
   const checkAdminStatus = async (email) => {
     if (!email) return false;
-    const superAdminEmails = process.env.REACT_APP_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
+    const superAdminEmails = import.meta.env.VITE_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
     if (superAdminEmails.includes(email)) return true;
 
     try {
