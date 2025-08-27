@@ -1,13 +1,3 @@
-// import React from "react";
-// import { useState } from "react";
-// import { useCallback } from "react";
-// import { ethers } from "ethers";
-// import { Link } from "react-router-dom";
-// import CheckoutForm from "../Components/CheckoutForm";
-// import { useUser } from "../Context/UserProvider";
-// import { parseEther } from "ethers";
-// import { db } from "../../firebase";
-// const Checkout = () => {
 //   const { currentUser } = useUser();
 //   const [formData, setFormData] = useState("");
 
