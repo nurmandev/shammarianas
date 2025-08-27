@@ -51,25 +51,6 @@ const Cart = () => {
       .toFixed(2);
   }, [cartItems]);
 
-  // const handleCheckout = async () => {
-  //   console.log({ cartItems, userId: currentUser?.uid })
-  //   try {
-  //     const response = await fetch("/api/checkout", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ cartItems, userId: currentUser?.uid }),
-  //     });
-  
-  //     const { id } = await response.json();
-  //     if (id) {
-  //       window.location.href = `https://checkout.stripe.com/pay/${id}`;
-  //     }
-  //   } catch (error) {
-  //     console.error("Checkout error:", error);
-  //   }
-  // };
 
   const handleCheckout = async () => {
     try {
