@@ -171,6 +171,10 @@ const AdminDashboard = () => {
     }
     setLoading(true);
     try {
+      if (!db) {
+        throw new Error("Firebase not initialized");
+      }
+
       const q = query(collection(db, `Profiles/${profileId}/Support`), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const messages = querySnapshot.docs.map((doc) => ({
@@ -182,7 +186,24 @@ const AdminDashboard = () => {
       setSupportMessages(messages);
     } catch (error) {
       console.error("Error fetching support messages for profileId:", profileId, error, { code: error.code, message: error.message });
-      setError(`Failed to load support messages: ${error.message}`);
+
+      // In dev mode, set mock data instead of showing error
+      if (import.meta.env.DEV) {
+        console.warn("Using mock support messages in dev mode");
+        setSupportMessages([
+          {
+            id: "1",
+            profileId,
+            subject: "Test Support Message",
+            email: "test@example.com",
+            status: "unopened",
+            createdAt: { toDate: () => new Date() },
+            description: "This is a test support message"
+          }
+        ]);
+      } else {
+        setError(`Failed to load support messages: ${error.message}`);
+      }
     } finally {
       setLoading(false);
     }
