@@ -26,10 +26,8 @@ const MyDownloads = () => {
         const downloadsRef = collection(db, `Profiles/${currentUser.uid}/downloads`);
         const downloadsSnapshot = await getDocs(downloadsRef);
 
-        console.log("downloadsSnapshot:", downloadsSnapshot);
         
         if (downloadsSnapshot.empty) {
-          console.log("No downloads found");
           setLoading("no_items");
           return;
         }
