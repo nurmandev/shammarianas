@@ -12,7 +12,7 @@ const Cart = () => {
   });
 
   useEffect(() => {
-    console.log({cartItems})
+    // Component mounted
   }, [])
 
   useEffect(() => {
@@ -320,4 +320,3 @@ export default Cart;
 // };
 
 // export default Cart;
-
