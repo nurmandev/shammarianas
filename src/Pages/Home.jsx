@@ -3,7 +3,7 @@ import AOS from "aos"; // Import AOS (Animate On Scroll) library
 import "aos/dist/aos.css"; // Import AOS styles
 import FirstPage from "../Components/landing/firstPage";
 import Intro from "../Components/landing/Intro";
-import Marq from "../Components/marq";
+import Marq from "../Components/marq2";
 import Services from "../Components/landing/Services";
 import Team from "../Components/landing/Team";
 import Cursor from "../common/cusor";
