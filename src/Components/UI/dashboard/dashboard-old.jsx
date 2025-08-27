@@ -59,6 +59,31 @@ const AdminDashboard = () => {
   // Check admin status
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      // Development mode bypass - allow access without login
+      if (!currentUser && import.meta.env.DEV) {
+        console.warn("Development mode: bypassing authentication for admin dashboard");
+        setIsAdmin(true);
+        // Set mock data for development
+        setUsers([
+          { id: "1", email: "test@example.com", role: "user" },
+          { id: "2", email: "admin@shammarinanas.com", role: "admin" },
+          { id: "3", email: "wasivoy749@aperiol.com", role: "admin" }
+        ]);
+        setSupportMessages([
+          {
+            id: "1",
+            profileId: "1",
+            subject: "Test Support Message",
+            email: "test@example.com",
+            status: "unopened",
+            createdAt: { toDate: () => new Date() },
+            description: "This is a test support message for development"
+          }
+        ]);
+        setSelectedProfileId("1");
+        return;
+      }
+
       if (!currentUser) {
         setError("Please log in to access the admin dashboard");
         return;
