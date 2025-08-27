@@ -77,7 +77,7 @@ const Support = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({subject, description, issueType}) 
+
     if (!subject || !description || !issueType) {
       alert("All fields are required!");
       return;
