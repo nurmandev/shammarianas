@@ -128,7 +128,6 @@ function App() {
     <>
       <HashRouter>
         <ScrollToTop />
-        {/* <Navbar /> */}
         <FilterProvider>
           <Navbar2 />
 
