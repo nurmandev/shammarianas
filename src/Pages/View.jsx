@@ -85,7 +85,6 @@ const View = () => {
 
         setIs3d(itemDocSnap.data().is3d);
       } else {
-        console.log("No such document!");
       }
     };
 
