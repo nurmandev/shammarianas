@@ -26,7 +26,6 @@ const Favorites = () => {
         const favoritesSnapshot = await getDocs(favoritesRef);
         
         if (favoritesSnapshot.empty) {
-          // console.log("No favorites found");
           setLoading("no_items");
           return;
         }
@@ -46,7 +45,6 @@ const Favorites = () => {
           });
         }
         
-        // console.log("Fetched favorites data:", favoritesData);
         setAssets(favoritesData);
         setLoading(false);
       } catch (error) {
