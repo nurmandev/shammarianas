@@ -1068,11 +1068,6 @@ const PortfolioList = ({ portfolios, onDelete, onCreate }) => {
 const AssetList = ({ assets, onDelete }) => {
   return (
     <div className="table-container">
-      {/* <div className="table-actions">
-        <button onClick={() => console.log("Create New Asset")} className="action-button">
-          Create New Asset
-        </button>
-      </div> */}
       <table className="data-table">
         <thead>
           <tr>
