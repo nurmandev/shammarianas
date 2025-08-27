@@ -74,7 +74,10 @@ const AdminDashboard = () => {
         const devAdminEmails = import.meta.env.VITE_DEV_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
         const isDevAdmin = import.meta.env.DEV && devAdminEmails.includes(email);
 
-        if (isDevAdmin || (await checkAdminStatus(email))) {
+        // Development mode bypass - allow anyone in dev mode
+        const isDevelopmentBypass = import.meta.env.DEV;
+
+        if (isDevAdmin || isDevelopmentBypass || (await checkAdminStatus(email))) {
           setIsAdmin(true);
           await Promise.all([fetchUsers(), fetchSupportMessages(currentUser.uid)]);
           setSelectedProfileId(currentUser.uid);
