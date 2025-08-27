@@ -131,6 +131,10 @@ const AdminDashboard = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
+      if (!db) {
+        throw new Error("Firebase not initialized");
+      }
+
       const querySnapshot = await getDocs(collection(db, "Profiles"));
       const userList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -143,7 +147,17 @@ const AdminDashboard = () => {
         code: error.code,
         message: error.message,
       });
-      setError(`Failed to load users: ${error.message}`);
+
+      // In dev mode, set mock data instead of showing error
+      if (import.meta.env.DEV) {
+        console.warn("Using mock user data in dev mode");
+        setUsers([
+          { id: "1", email: "test@example.com", role: "user" },
+          { id: "2", email: "admin@shammarinanas.com", role: "admin" }
+        ]);
+      } else {
+        setError(`Failed to load users: ${error.message}`);
+      }
     } finally {
       setLoading(false);
     }
