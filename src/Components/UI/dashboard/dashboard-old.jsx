@@ -71,8 +71,8 @@ const AdminDashboard = () => {
           return;
         }
 
-        const devAdminEmails = process.env.REACT_APP_DEV_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
-        const isDevAdmin = process.env.NODE_ENV === "development" && devAdminEmails.includes(email);
+        const devAdminEmails = import.meta.env.VITE_DEV_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
+        const isDevAdmin = import.meta.env.DEV && devAdminEmails.includes(email);
 
         if (isDevAdmin || (await checkAdminStatus(email))) {
           setIsAdmin(true);
