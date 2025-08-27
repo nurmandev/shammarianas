@@ -1,4 +1,3 @@
-import "/assets/css/style.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Marq2 from "../Components/marq2";
