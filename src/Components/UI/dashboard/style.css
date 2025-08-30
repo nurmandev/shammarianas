@@ -261,6 +261,8 @@ admin-container {
 /* Tables */
 .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   border-radius: 8px;
 }
 
