@@ -711,5 +711,8 @@ admin-container {
   .main-content { padding: 1rem; }
   .overview-panels { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .insights-grid { grid-template-columns: 1fr; }
+  .quick-actions { grid-template-columns: repeat(2, 1fr); }
   .user-grid { grid-template-columns: 1fr; }
 }
