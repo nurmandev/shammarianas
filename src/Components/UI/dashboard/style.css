@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
 :root {
   --primary: #4361ee;
   --primary-light: #4895ef;
@@ -28,6 +31,9 @@ admin-container {
   background-color: var(--dark);
   color: var(--text-primary);
 }
+
+/* Apply admin fonts only within dashboard */
+.admin-dashboard { font-family: "Plus Jakarta Sans", "Poppins", "Satoshi", sans-serif; }
 
 /* Admin Dashboard Layout */
 .admin-dashboard {
@@ -648,7 +654,7 @@ admin-container {
 .usage-row { display: grid; grid-template-columns: 1fr auto 48px; gap: 0.6rem; align-items: center; }
 .usage-label { color: var(--text-primary); font-size: 0.9rem; text-transform: capitalize; }
 .progress { width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); }
-.progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
+.progress-bar { height: 100%; width: var(--progress-width, 0%); background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
 .activity-list { list-style: none; display: grid; gap: 0.5rem; }
 .activity-item { display: grid; grid-template-columns: auto 1fr auto; gap: 0.6rem; align-items: center; padding: 0.5rem 0.6rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--gray-dark); }
 .activity-type { color: var(--primary-light); font-weight: 600; font-size: 0.8rem; }
@@ -752,6 +758,7 @@ admin-container {
 .user-table th:nth-child(1), .user-table td:nth-child(1) { width: 44px; }
 .user-table th:nth-child(2), .user-table td:nth-child(2) { width: 70px; }
 .name-cell { font-weight: 600; color: var(--lighter); }
+.email-cell { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .avatar { width: 40px; height: 40px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); }
 .avatar.large { width: 60px; height: 60px; }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -832,4 +839,6 @@ admin-container {
   .actions { flex-wrap: wrap; }
   .icon-action { padding: 0.3rem 0.45rem; font-size: 0.75rem; }
   .name-cell { max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .email-cell { max-width: 140px; }
+  .action-label { display: none; }
 }
