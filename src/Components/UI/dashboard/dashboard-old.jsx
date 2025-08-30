@@ -427,12 +427,33 @@ const AdminDashboard = () => {
     setSortConfig({ key, direction });
   };
 
-  const filteredUsers = users.filter((user) => user.email?.toLowerCase().includes(search.toLowerCase()) && (roleFilter ? user.role === roleFilter : true));
+  const withinDate = (createdAt) => {
+    if (!dateFilter) return true;
+    const days = parseInt(dateFilter, 10);
+    const d = normalizeDate(createdAt);
+    if (!d) return false;
+    const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+    return d.getTime() >= cutoff;
+  };
+
+  const filteredUsers = users.filter((user) => {
+    const matchesText = (user.email || "").toLowerCase().includes(search.toLowerCase()) || (user.name || "").toLowerCase().includes(search.toLowerCase());
+    const matchesRole = roleFilter ? user.role === roleFilter : true;
+    const matchesStatus = statusFilter ? (user.status || "active") === statusFilter : true;
+    const matchesDate = withinDate(user.createdAt);
+    return matchesText && matchesRole && matchesStatus && matchesDate;
+  });
+
+  const valueByKey = (obj, key) => {
+    if (key === "lastActive") return normalizeDate(obj.lastActive)?.getTime() || 0;
+    return (obj[key] || "").toString().toLowerCase();
+  };
+
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     if (!sortConfig.key) return 0;
-    const aValue = a[sortConfig.key] || "";
-    const bValue = b[sortConfig.key] || "";
-    return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
+    const av = valueByKey(a, sortConfig.key);
+    const bv = valueByKey(b, sortConfig.key);
+    return sortConfig.direction === "ascending" ? (av < bv ? -1 : av > bv ? 1 : 0) : av > bv ? -1 : av < bv ? 1 : 0;
   });
 
   const filteredMessages = supportMessages.filter((msg) => {
