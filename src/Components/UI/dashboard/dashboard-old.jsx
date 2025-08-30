@@ -45,6 +45,8 @@ const AdminDashboard = () => {
   const [assets, setAssets] = useState([]);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
   const [messageFilter, setMessageFilter] = useState("all");
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
