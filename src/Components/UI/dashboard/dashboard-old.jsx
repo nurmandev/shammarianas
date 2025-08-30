@@ -1539,4 +1539,104 @@ const QuickActions = ({ onNavigate }) => {
   );
 };
 
+const UserProfileDrawer = ({ user, onClose, onUpdateStatus, onRoleChange }) => {
+  const [tab, setTab] = useState('overview');
+  const name = user.name || user.displayName || user.email?.split('@')[0] || 'Unknown';
+  const status = (user.status || 'active').toLowerCase();
+  return (
+    <div className="drawer-backdrop" onClick={onClose}>
+      <aside className="drawer" onClick={(e) => e.stopPropagation()}>
+        <div className="drawer-header">
+          <div className="avatar large">
+            {user.photoURL ? <img src={user.photoURL} alt={name} className="avatar-img" /> : <div className="avatar-initials">{(name[0] || '').toUpperCase()}</div>}
+          </div>
+          <div className="drawer-title">
+            <div className="name">{name}</div>
+            <div className="meta">{user.email}</div>
+          </div>
+          <button className="close-button" onClick={onClose}><FiX /></button>
+        </div>
+        <div className="tabs">
+          <button className={`tab ${tab==='overview'?'active':''}`} onClick={() => setTab('overview')}>Overview</button>
+          <button className={`tab ${tab==='activity'?'active':''}`} onClick={() => setTab('activity')}>Activity Logs</button>
+          <button className={`tab ${tab==='permissions'?'active':''}`} onClick={() => setTab('permissions')}>Permissions</button>
+          <button className={`tab ${tab==='settings'?'active':''}`} onClick={() => setTab('settings')}>Settings</button>
+        </div>
+        <div className="drawer-body">
+          {tab === 'overview' && (
+            <div className="drawer-section">
+              <div className="info-grid">
+                <div><div className="label">Role</div><div className="value"><span className={`role-badge ${user.role}`}>{user.role || 'user'}</span></div></div>
+                <div><div className="label">Status</div><div className="value"><span className={`status-badge ${status}`}>{status}</span></div></div>
+                <div><div className="label">Last Active</div><div className="value">{normalizeDate(user.lastActive)?.toLocaleString?.() || 'N/A'}</div></div>
+                <div><div className="label">Joined</div><div className="value">{normalizeDate(user.createdAt)?.toLocaleDateString?.() || 'N/A'}</div></div>
+              </div>
+            </div>
+          )}
+          {tab === 'activity' && (
+            <div className="drawer-section">
+              <ul className="activity-list">
+                <li className="activity-item"><span className="activity-type">Login</span><span className="activity-label">Signed in</span><span className="activity-time">—</span></li>
+              </ul>
+            </div>
+          )}
+          {tab === 'permissions' && (
+            <div className="drawer-section">
+              <div className="perm-row">
+                <label>Role</label>
+                <select className="role-select" value={user.role || 'user'} onChange={(e) => onRoleChange(e.target.value)}>
+                  <option value="admin">Admin</option>
+                  <option value="moderator">Moderator</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+              <div className="perm-row">
+                <label>Status</label>
+                <select className="role-select" value={status} onChange={(e) => onUpdateStatus(user.id, e.target.value)}>
+                  <option value="active">Active</option>
+                  <option value="pending">Pending</option>
+                  <option value="banned">Banned</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+              </div>
+            </div>
+          )}
+          {tab === 'settings' && (
+            <div className="drawer-section">
+              <div className="perm-row">
+                <label>Name</label>
+                <input className="admin-input" defaultValue={name} />
+              </div>
+              <div className="perm-row">
+                <label>Email</label>
+                <input className="admin-input" defaultValue={user.email} />
+              </div>
+            </div>
+          )}
+        </div>
+      </aside>
+    </div>
+  );
+};
+
+const ConfirmModal = ({ title, message, onCancel, onConfirm }) => {
+  return (
+    <div className="modal-overlay">
+      <div className="modal">
+        <div className="modal-header">
+          <h3>{title}</h3>
+          <button className="close-button" onClick={onCancel}><FiX /></button>
+        </div>
+        <div className="modal-body">
+          <p>{message}</p>
+        </div>
+        <div className="modal-footer">
+          <button className="action-button" onClick={onCancel}>Cancel</button>
+          <button className="action-button" onClick={onConfirm}>Confirm</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default AdminDashboard;
