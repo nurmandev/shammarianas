@@ -834,6 +834,8 @@ const AdminDashboard = () => {
                   selectedUsers={selectedUsers}
                   setSelectedUsers={setSelectedUsers}
                   handleBulkRoleChange={handleBulkRoleChange}
+                  onUpdateStatus={handleUpdateUserStatus}
+                  onDelete={handleDeleteUser}
                 />
               )}
               {activeTab === 2 && (
