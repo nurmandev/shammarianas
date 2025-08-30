@@ -682,8 +682,11 @@ admin-container {
 
 /* User Management - grid cards */
 .user-management { width: 100%; }
+.user-select-toolbar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.selected-count { color: var(--text-secondary); font-size: 0.85rem; }
 .user-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-.user-card { background: var(--gray-dark); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+.user-card { background: var(--gray-dark); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: transform 0.2s, box-shadow 0.2s; }
+.user-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
 .user-card-body { display: flex; align-items: center; gap: 0.75rem; }
 .user-avatar { width: 44px; height: 44px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: #fff; flex: 0 0 auto; font-size: 1.1rem; }
 .avatar-admin { background: var(--primary); }
