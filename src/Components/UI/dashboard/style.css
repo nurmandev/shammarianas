@@ -819,3 +819,17 @@ admin-container {
   .qa-button { padding: 0.6rem; }
   .search-bar { width: 100%; }
 }
+
+/* User Management responsive table columns */
+@media (max-width: 1024px) {
+  .user-table th:nth-child(7), .user-table td:nth-child(7) { display: none; }
+}
+@media (max-width: 860px) {
+  .user-table th:nth-child(5), .user-table td:nth-child(5) { display: none; }
+}
+@media (max-width: 640px) {
+  .user-table th:nth-child(4), .user-table td:nth-child(4) { display: none; }
+  .actions { flex-wrap: wrap; }
+  .icon-action { padding: 0.3rem 0.45rem; font-size: 0.75rem; }
+  .name-cell { max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
