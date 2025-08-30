@@ -20,7 +20,9 @@ import {
   FiHome,
   FiBell,
   FiSettings,
-  FiUser
+  FiUser,
+  FiShield,
+  FiUserCheck
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
@@ -1170,12 +1172,15 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
         </div>
       )}
 
-      <div className="table-actions" style={{ display: users.length ? "flex" : "none" }}>
-        <label className="user-select-all">
-          <input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={handleSelectAll} />
-          <span>Select all</span>
-        </label>
-      </div>
+      {users.length > 0 && (
+        <div className="user-select-toolbar">
+          <label className="user-select-all">
+            <input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={handleSelectAll} />
+            <span>Select all</span>
+          </label>
+          {selectedUsers.length > 0 && <span className="selected-count">{selectedUsers.length} selected</span>}
+        </div>
+      )}
 
       {users.length === 0 ? (
         <div className="no-data">No users found</div>
@@ -1185,7 +1190,7 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
             <div key={user.id} className="user-card">
               <div className="user-card-body">
                 <div className={`user-avatar ${getAvatarClass(user.role)}`}>
-                  <FiUser />
+                  {user.role === "admin" ? <FiShield /> : user.role === "moderator" ? <FiUserCheck /> : <FiUser />}
                 </div>
                 <div className="user-info">
                   <div className="user-email">{user.email || "Unknown"}</div>
