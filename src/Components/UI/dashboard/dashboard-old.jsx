@@ -1417,7 +1417,7 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
                       </div>
                     </td>
                     <td className="name-cell clickable" onClick={() => setDrawerUser(user)}>{name}</td>
-                    <td>{user.email || "Unknown"}</td>
+                    <td className="email-cell">{user.email || "Unknown"}</td>
                     <td>
                       <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role || "user"} className="role-select">
                         <option value="admin">Admin</option>
@@ -1430,7 +1430,10 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
                     <td>
                       <div className="actions">
                         <button className="icon-action info" title="View" onClick={() => setDrawerUser(user)}><FiUser /></button>
-                        <button className="icon-action warn" title={status === 'suspended' ? 'Activate' : 'Suspend'} onClick={() => setConfirm({ type: status === 'suspended' ? 'activate' : 'suspend', user })}>{status === 'suspended' ? 'Activate' : 'Suspend'}</button>
+                        <button className="icon-action warn" title={status === 'suspended' ? 'Activate' : 'Suspend'} onClick={() => setConfirm({ type: status === 'suspended' ? 'activate' : 'suspend', user })}>
+                          {status === 'suspended' ? <FiUserCheck /> : <FiShield />}
+                          <span className="action-label">{status === 'suspended' ? 'Activate' : 'Suspend'}</span>
+                        </button>
                         <button className="icon-action danger" title="Delete" onClick={() => setConfirm({ type: 'delete', user })}><FiTrash2 /></button>
                       </div>
                     </td>
@@ -1623,7 +1626,7 @@ const UsageDistribution = ({ assets }) => {
           <div className="usage-row" key={type}>
             <div className="usage-label">{type}</div>
             <div className="progress">
-              <div className="progress-bar" style={{ width: `${pct}%` }} />
+              <div className="progress-bar" style={{ "--progress-width": `${pct}%` }} />
             </div>
             <div className="usage-value">{pct}%</div>
           </div>
