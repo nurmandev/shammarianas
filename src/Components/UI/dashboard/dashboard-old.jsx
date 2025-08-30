@@ -1219,7 +1219,7 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
   );
 };
 
-const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handleBulkRoleChange }) => {
+const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handleBulkRoleChange, onUpdateStatus, onDelete }) => {
   const handleSelectUser = (userId) => {
     setSelectedUsers(selectedUsers.includes(userId) ? selectedUsers.filter((id) => id !== userId) : [...selectedUsers, userId]);
   };
@@ -1228,11 +1228,8 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
     setSelectedUsers(selectedUsers.length === users.length ? [] : users.map((user) => user.id));
   };
 
-  const getAvatarClass = (role) => {
-    if (role === "admin") return "avatar-admin";
-    if (role === "moderator") return "avatar-moderator";
-    return "avatar-user";
-  };
+  const [drawerUser, setDrawerUser] = useState(null);
+  const [confirm, setConfirm] = useState(null);
 
   return (
     <div className="user-management">
@@ -1257,31 +1254,76 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
       {users.length === 0 ? (
         <div className="no-data">No users found</div>
       ) : (
-        <div className="user-grid">
-          {users.map((user) => (
-            <div key={user.id} className="user-card">
-              <div className="user-card-body">
-                <div className={`user-avatar ${getAvatarClass(user.role)}`}>
-                  {user.role === "admin" ? <FiShield /> : user.role === "moderator" ? <FiUserCheck /> : <FiUser />}
-                </div>
-                <div className="user-info">
-                  <div className="user-email">{user.email || "Unknown"}</div>
-                  <span className={`role-badge ${user.role}`}>{user.role || "Unknown"}</span>
-                </div>
-                <label className="user-checkbox">
-                  <input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => handleSelectUser(user.id)} />
-                </label>
-              </div>
-              <div className="user-card-footer">
-                <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role || "user"} className="role-select">
-                  <option value="admin">Admin</option>
-                  <option value="moderator">Moderator</option>
-                  <option value="user">User</option>
-                </select>
-              </div>
-            </div>
-          ))}
+        <div className="table-container">
+          <table className="data-table user-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={() => setSelectedUsers(selectedUsers.length === users.length ? [] : users.map((u) => u.id))} /></th>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Last Active</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => {
+                const name = user.name || user.displayName || user.email?.split("@")[0] || "Unknown";
+                const status = (user.status || "active").toLowerCase();
+                const lastActive = normalizeDate(user.lastActive)?.toLocaleDateString?.() || "N/A";
+                return (
+                  <tr key={user.id}>
+                    <td><input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => handleSelectUser(user.id)} /></td>
+                    <td>
+                      <div className="avatar">
+                        {user.photoURL ? (
+                          <img src={user.photoURL} alt={name} className="avatar-img" />
+                        ) : (
+                          <div className="avatar-initials">{(name[0] || "").toUpperCase()}</div>
+                        )}
+                      </div>
+                    </td>
+                    <td className="name-cell clickable" onClick={() => setDrawerUser(user)}>{name}</td>
+                    <td>{user.email || "Unknown"}</td>
+                    <td>
+                      <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role || "user"} className="role-select">
+                        <option value="admin">Admin</option>
+                        <option value="moderator">Moderator</option>
+                        <option value="user">User</option>
+                      </select>
+                    </td>
+                    <td><span className={`status-badge ${status}`}>{status}</span></td>
+                    <td>{lastActive}</td>
+                    <td>
+                      <div className="actions">
+                        <button className="icon-action info" title="View" onClick={() => setDrawerUser(user)}><FiUser /></button>
+                        <button className="icon-action warn" title={status === 'suspended' ? 'Activate' : 'Suspend'} onClick={() => setConfirm({ type: status === 'suspended' ? 'activate' : 'suspend', user })}>{status === 'suspended' ? 'Activate' : 'Suspend'}</button>
+                        <button className="icon-action danger" title="Delete" onClick={() => setConfirm({ type: 'delete', user })}><FiTrash2 /></button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
+      )}
+
+      {drawerUser && <UserProfileDrawer user={drawerUser} onClose={() => setDrawerUser(null)} onUpdateStatus={onUpdateStatus} onRoleChange={(role) => onRoleChange(drawerUser.id, role, drawerUser.email)} />}
+      {confirm && (
+        <ConfirmModal
+          title={confirm.type === 'delete' ? 'Delete User' : confirm.type === 'suspend' ? 'Suspend User' : 'Activate User'}
+          message={confirm.type === 'delete' ? 'This action cannot be undone.' : confirm.type === 'suspend' ? 'User will be suspended.' : 'User will be re-activated.'}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => {
+            if (confirm.type === 'delete') onDelete(confirm.user.id, confirm.user.email);
+            if (confirm.type === 'suspend') onUpdateStatus(confirm.user.id, 'suspended');
+            if (confirm.type === 'activate') onUpdateStatus(confirm.user.id, 'active');
+            setConfirm(null);
+          }}
+        />
       )}
     </div>
   );
