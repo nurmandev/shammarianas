@@ -278,6 +278,36 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleUpdateUserStatus = async (userId, newStatus) => {
+    if (!isAdmin) {
+      setError("Only admins can change user status");
+      return;
+    }
+    try {
+      await updateDoc(doc(db, "Profiles", userId), { status: newStatus });
+      setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, status: newStatus } : u)));
+    } catch (error) {
+      setError(`Failed to update status: ${error.message}`);
+    }
+  };
+
+  const handleDeleteUser = async (userId, email) => {
+    if (!isAdmin) {
+      setError("Only admins can delete users");
+      return;
+    }
+    try {
+      await deleteDoc(doc(db, "Profiles", userId));
+      if (email) {
+        const lower = email.toLowerCase();
+        await deleteDoc(doc(db, "adminUsers", lower));
+      }
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+    } catch (error) {
+      setError(`Failed to delete user: ${error.message}`);
+    }
+  };
+
   const handleBulkRoleChange = async (newRole) => {
     if (!isAdmin) {
       setError("Only admins can perform bulk role changes");
