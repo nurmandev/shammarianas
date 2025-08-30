@@ -1,7 +1,7 @@
-import { auth, db } from "../../../../firebase";
+import { auth, db, storage } from "../../../../firebase";
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, getDocs, collection, updateDoc, setDoc, deleteDoc, orderBy, query } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, updateDoc, setDoc, deleteDoc, orderBy, query, addDoc } from "firebase/firestore";
 import Upload from "../../../Pages/Upload";
 import BlogEditorModal from "../../../Pages/BlogEditor";
 import ProjectModal from "../../../Pages/PortfolioUpload";
@@ -997,64 +997,193 @@ const PreviewGrid = ({ assets }) => {
 };
 
 const SupportList = ({ messages, onStatusChange, onMessageClick, selectedMessages, setSelectedMessages, handleBulkStatusChange }) => {
-  const handleSelectMessage = (messageId) => {
-    setSelectedMessages(selectedMessages.includes(messageId) ? selectedMessages.filter((id) => id !== messageId) : [...selectedMessages, messageId]);
-  };
+  const [selected, setSelected] = useState(null);
+  const [thread, setThread] = useState([]);
+  const [replyText, setReplyText] = useState("");
+  const [attachment, setAttachment] = useState(null);
+  const [viewFilter, setViewFilter] = useState("inbox");
+  const [statusFilterLocal, setStatusFilterLocal] = useState("");
+  const [cannedOpen, setCannedOpen] = useState(false);
+  const [assignee, setAssignee] = useState("");
+  const [admins, setAdmins] = useState([]);
+
+  useEffect(() => {
+    const loadAdmins = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "adminUsers"));
+        setAdmins(snapshot.docs.map((d) => d.id));
+      } catch {}
+    };
+    loadAdmins();
+  }, []);
+
+  useEffect(() => {
+    setSelected(null);
+    setThread([]);
+  }, [viewFilter]);
+
+  const filtered = messages.filter((m) => {
+    const s = (m.status || "").toLowerCase();
+    const inView = viewFilter === "inbox" ? ["unopened", "opened"].includes(s) : viewFilter === "resolved" ? ["responded", "closed", "resolved"].includes(s) : ["archived"].includes(s);
+    const byStatus = statusFilterLocal ? s === statusFilterLocal : true;
+    return inView && byStatus;
+  });
 
   const handleSelectAll = () => {
-    setSelectedMessages(selectedMessages.length === messages.length ? [] : messages.map((msg) => msg.id));
+    setSelectedMessages(selectedMessages.length === filtered.length ? [] : filtered.map((msg) => msg.id));
+  };
+
+  const openMessage = async (msg) => {
+    setSelected(msg);
+    try {
+      const repliesSnap = await getDocs(collection(db, `Profiles/${msg.profileId}/Support/${msg.id}/Replies`));
+      const replies = repliesSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      const base = [{ id: "root", sender: "user", message: msg.description, createdAt: msg.createdAt }];
+      const toTime = (v) => { const d = normalizeDate(v); return d ? d.getTime() : 0; };
+      setThread([...base, ...replies].sort((a, b) => toTime(a.createdAt) - toTime(b.createdAt)));
+    } catch {
+      setThread([{ id: "root", sender: "user", message: msg.description, createdAt: msg.createdAt }]);
+    }
+    if (msg.status === "unopened") onStatusChange(msg.profileId, msg.id, "opened");
+    onMessageClick?.(msg);
   };
 
   return (
-    <div className="table-container">
-      {selectedMessages.length > 0 && (
-        <div className="table-actions">
-          <button onClick={() => handleBulkStatusChange("opened")} className="action-button">Mark as Opened</button>
-          <button onClick={() => handleBulkStatusChange("responded")} className="action-button">Mark as Responded</button>
+    <div className="support-module">
+      <aside className="support-sidebar">
+        <div className="support-sections">
+          <button className={`support-tab ${viewFilter==='inbox'?'active':''}`} onClick={() => setViewFilter('inbox')}>Inbox</button>
+          <button className={`support-tab ${viewFilter==='resolved'?'active':''}`} onClick={() => setViewFilter('resolved')}>Resolved</button>
+          <button className={`support-tab ${viewFilter==='archived'?'active':''}`} onClick={() => setViewFilter('archived')}>Archived</button>
         </div>
-      )}
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th>
-              <input type="checkbox" checked={selectedMessages.length === messages.length && messages.length > 0} onChange={handleSelectAll} />
-            </th>
-            <th>Subject</th>
-            <th>From</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {messages.length === 0 ? (
-            <tr>
-              <td colSpan="6" className="no-data">No messages found</td>
-            </tr>
-          ) : (
-            messages.map((msg) => (
-              <tr key={msg.id} className={`status-${msg.status}`}>
-                <td>
-                  <input type="checkbox" checked={selectedMessages.includes(msg.id)} onChange={() => handleSelectMessage(msg.id)} />
-                </td>
-                <td onClick={() => onMessageClick(msg)} className="clickable">{msg.subject || "No Subject"}</td>
-                <td>{msg.email || "Unknown"}</td>
-                <td>{msg.createdAt?.toDate().toLocaleDateString() || "N/A"}</td>
-                <td>
-                  <span className={`status-badge ${msg.status}`}>{msg.status || "Unknown"}</span>
-                </td>
-                <td>
-                  <select onChange={(e) => onStatusChange(msg.profileId, msg.id, e.target.value)} value={msg.status || "unopened"} className="status-select">
-                    <option value="unopened">Unopened</option>
-                    <option value="opened">Opened</option>
-                    <option value="responded">Responded</option>
-                  </select>
-                </td>
-              </tr>
-            ))
+        <div className="support-filters">
+          <select className="filter-select" value={statusFilterLocal} onChange={(e)=>setStatusFilterLocal(e.target.value)}>
+            <option value="">All Status</option>
+            <option value="unopened">Unopened</option>
+            <option value="opened">Opened</option>
+            <option value="responded">Responded</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div className="inbox-toolbar">
+          {selectedMessages.length > 0 && (
+            <div className="table-actions">
+              <button onClick={() => handleBulkStatusChange('opened')} className="action-button">Mark Opened</button>
+              <button onClick={() => handleBulkStatusChange('responded')} className="action-button">Mark Responded</button>
+            </div>
           )}
-        </tbody>
-      </table>
+        </div>
+        <div className="support-inbox-list">
+          <div className="inbox-head">
+            <label className="user-select-all">
+              <input type="checkbox" checked={selectedMessages.length === filtered.length && filtered.length > 0} onChange={handleSelectAll} />
+              <span>Select all</span>
+            </label>
+          </div>
+          <div className="inbox-items">
+            {filtered.length === 0 && <div className="no-data">No messages</div>}
+            {filtered.map((msg) => {
+              const isActive = selected?.id === msg.id;
+              return (
+                <button key={msg.id} className={`inbox-item ${isActive?'active':''}`} onClick={() => openMessage(msg)}>
+                  <div className="inbox-title">{msg.subject || 'No Subject'}</div>
+                  <div className="inbox-meta">
+                    <span className="inbox-email">{msg.email || 'Unknown'}</span>
+                    <span className={`status-badge ${msg.status}`}>{msg.status || 'Unknown'}</span>
+                    <span className="inbox-time">{msg.createdAt?.toDate?.().toLocaleDateString?.() || 'N/A'}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </aside>
+
+      <section className="support-conversation">
+        {!selected ? (
+          <div className="no-data">Select a message to view conversation</div>
+        ) : (
+          <div className="conversation-wrapper">
+            <div className="conversation-header">
+              <div className="conv-title">{selected.subject || 'No Subject'}</div>
+              <div className="conv-actions">
+                <select className="role-select" value={assignee || selected.assignedTo || ''} onChange={async (e)=>{ const v=e.target.value; try { await updateDoc(doc(db, `Profiles/${selected.profileId}/Support`, selected.id), { assignedTo: v }); setAssignee(v); } catch {} }}>
+                  <option value="">Assign to...</option>
+                  {admins.map((a) => (
+                    <option key={a} value={a}>{a}</option>
+                  ))}
+                </select>
+                <select className="status-select" value={selected.status || 'opened'} onChange={(e)=>onStatusChange(selected.profileId, selected.id, e.target.value)}>
+                  <option value="unopened">Unopened</option>
+                  <option value="opened">Open</option>
+                  <option value="responded">Resolved</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="conversation-body">
+              {thread.map((m) => {
+                const sender = (m.sender || 'user').toLowerCase();
+                const tsDate = normalizeDate(m.createdAt);
+                const ts = tsDate ? tsDate.toLocaleString() : '';
+                return (
+                  <div key={m.id} className={`msg-row ${sender==='admin'?'right':'left'}`}>
+                    <div className={`msg-bubble ${sender==='admin'?'admin':'user'}`}>
+                      {m.message && <div className="msg-text">{m.message}</div>}
+                      {m.attachment && (
+                        <a className="msg-attachment" href={m.attachment} target="_blank" rel="noreferrer">Attachment</a>
+                      )}
+                      <div className="msg-time">{ts}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="reply-box">
+              <div className="reply-tools">
+                <button className="qa-button" onClick={()=>setCannedOpen(!cannedOpen)}>Canned</button>
+                {cannedOpen && (
+                  <div className="canned-menu">
+                    {['Thanks for reaching out! We\\\'re looking into this now.\',\'Can you share more details or a screenshot?\',\'This has been resolved. Please confirm on your side.'].map((c) => (
+                      <button key={c} className="canned-item" onClick={()=>{ setReplyText(c); setCannedOpen(false); }}>{c}</button>
+                    ))}
+                  </div>
+                )}
+                <label className="attach-label">
+                  <input type="file" className="attach-input" onChange={(e)=> setAttachment(e.target.files && e.target.files[0] ? e.target.files[0] : null)} />
+                  Attach
+                </label>
+              </div>
+              <textarea className="reply-input" rows={3} placeholder="Write a reply..." value={replyText} onChange={(e)=>setReplyText(e.target.value)} />
+              <div className="reply-actions">
+                <button className="action-button" onClick={async ()=>{
+                  if (!selected || (!replyText && !attachment)) return;
+                  let attachmentUrl = null;
+                  try {
+                    if (attachment) {
+                      const { ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+                      const path = `support_attachments/${selected.id}/${attachment.name}`;
+                      const storageRef = ref(storage, path);
+                      const up = await uploadBytes(storageRef, attachment);
+                      attachmentUrl = await getDownloadURL(up.ref);
+                    }
+                    await addDoc(collection(db, `Profiles/${selected.profileId}/Support/${selected.id}/Replies`), { sender: 'admin', message: replyText, attachment: attachmentUrl, createdAt: serverTimestamp(), agent: auth.currentUser?.email || 'admin' });
+                    setReplyText('');
+                    setAttachment(null);
+                    const repliesSnap = await getDocs(collection(db, `Profiles/${selected.profileId}/Support/${selected.id}/Replies`));
+                    const replies = repliesSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+                    const base = [{ id: 'root', sender: 'user', message: selected.description, createdAt: selected.createdAt }];
+                    setThread([...base, ...replies]);
+                    onStatusChange(selected.profileId, selected.id, 'responded');
+                  } catch {}
+                }}>Send Reply</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
     </div>
   );
 };
