@@ -729,12 +729,31 @@ const AdminDashboard = () => {
                       <option value="moderator">Moderator</option>
                       <option value="user">User</option>
                     </select>
+                    <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="filter-select">
+                      <option value="">All Status</option>
+                      <option value="active">Active</option>
+                      <option value="pending">Pending</option>
+                      <option value="banned">Banned</option>
+                      <option value="suspended">Suspended</option>
+                    </select>
+                    <select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="filter-select">
+                      <option value="">Any Time</option>
+                      <option value="7">Last 7 days</option>
+                      <option value="30">Last 30 days</option>
+                      <option value="90">Last 90 days</option>
+                    </select>
                     <div className="filter-group-responsive">
+                      <button onClick={() => handleSort("name")} className={`sort-button ${sortConfig.key === "name" ? "active" : ""}`}>
+                        Name {sortConfig.key === "name" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
+                      </button>
                       <button onClick={() => handleSort("email")} className={`sort-button ${sortConfig.key === "email" ? "active" : ""}`}>
                         Email {sortConfig.key === "email" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                       </button>
                       <button onClick={() => handleSort("role")} className={`sort-button ${sortConfig.key === "role" ? "active" : ""}`}>
                         Role {sortConfig.key === "role" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
+                      </button>
+                      <button onClick={() => handleSort("lastActive")} className={`sort-button ${sortConfig.key === "lastActive" ? "active" : ""}`}>
+                        Last Active {sortConfig.key === "lastActive" && (sortConfig.direction === "ascending" ? <FiChevronUp /> : <FiChevronDown />)}
                       </button>
                     </div>
                   </>
