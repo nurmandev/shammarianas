@@ -22,10 +22,14 @@ import {
   FiSettings,
   FiUser,
   FiShield,
-  FiUserCheck
+  FiUserCheck,
+  FiChevronLeft,
+  FiMenu,
+  FiLogOut
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 const UnauthorizedAccess = ({ error }) => {
   return (
@@ -60,6 +64,8 @@ const AdminDashboard = () => {
   const [selectedProfileId, setSelectedProfileId] = useState(null);
   const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
   const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   // Check admin status
@@ -516,41 +522,68 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      <div className="sidebar">
+      <div className={`sidebar ${isSidebarCollapsed ? 'collapsed' : ''} ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <h2>Admin Panel</h2>
+          <div className="sidebar-brand">
+            <div className="logo-full">Admin Panel</div>
+            <div className="logo-compact">AP</div>
+          </div>
+          <button className="sidebar-toggle" onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} title={isSidebarCollapsed ? 'Expand' : 'Collapse'}>
+            <FiChevronLeft className={`toggle-icon ${isSidebarCollapsed ? 'rotated' : ''}`} />
+          </button>
         </div>
         <ul className="sidebar-menu">
-          <li className={`menu-item ${activeTab === 0 ? "active" : ""}`} onClick={() => setActiveTab(0)}>
-            <FiHome className="menu-icon" /> Overview
+          <li className={`menu-item ${activeTab === 0 ? 'active' : ''}`} onClick={() => { setActiveTab(0); setIsSidebarOpen(false); }} title="Dashboard">
+            <FiHome className="menu-icon" />
+            <span className="nav-label">Dashboard</span>
           </li>
-          <li className={`menu-item ${activeTab === 1 ? "active" : ""}`} onClick={() => setActiveTab(1)}>
-            <FiUsers className="menu-icon" /> Users
+          <li className={`menu-item ${activeTab === 1 ? 'active' : ''}`} onClick={() => { setActiveTab(1); setIsSidebarOpen(false); }} title="Users">
+            <FiUsers className="menu-icon" />
+            <span className="nav-label">Users</span>
           </li>
-          <li className={`menu-item ${activeTab === 2 ? "active" : ""}`} onClick={() => setActiveTab(2)}>
-            <FiMail className="menu-icon" /> Support
+          <li className={`menu-item ${activeTab === 2 ? 'active' : ''}`} onClick={() => { setActiveTab(2); setIsSidebarOpen(false); }} title="Support">
+            <FiMail className="menu-icon" />
+            <span className="nav-label">Support</span>
           </li>
-          <li className={`menu-item ${activeTab === 3 ? "active" : ""}`} onClick={() => setActiveTab(3)}>
-            <FiUpload className="menu-icon" /> Uploads
+          <li className={`menu-item ${activeTab === 3 ? 'active' : ''}`} onClick={() => { setActiveTab(3); setIsSidebarOpen(false); }} title="Uploads">
+            <FiUpload className="menu-icon" />
+            <span className="nav-label">Uploads</span>
           </li>
-          <li className={`menu-item ${activeTab === 4 ? "active" : ""}`} onClick={() => setActiveTab(4)}>
-            <FiFileText className="menu-icon" /> Blog
+          <li className={`menu-item ${activeTab === 4 ? 'active' : ''}`} onClick={() => { setActiveTab(4); setIsSidebarOpen(false); }} title="Blog">
+            <FiFileText className="menu-icon" />
+            <span className="nav-label">Blog</span>
           </li>
-          <li className={`menu-item ${activeTab === 5 ? "active" : ""}`} onClick={() => setActiveTab(5)}>
-            <FiFileText className="menu-icon" /> Portfolio
+          <li className={`menu-item ${activeTab === 5 ? 'active' : ''}`} onClick={() => { setActiveTab(5); setIsSidebarOpen(false); }} title="Portfolio">
+            <FiFileText className="menu-icon" />
+            <span className="nav-label">Portfolio</span>
           </li>
-          <li className={`menu-item ${activeTab === 6 ? "active" : ""}`} onClick={() => setActiveTab(6)}>
-            <FiBox className="menu-icon" /> Stock Management
+          <li className={`menu-item ${activeTab === 6 ? 'active' : ''}`} onClick={() => { setActiveTab(6); setIsSidebarOpen(false); }} title="Stock Management">
+            <FiBox className="menu-icon" />
+            <span className="nav-label">Stock Management</span>
           </li>
-          <li className={`menu-item ${activeTab === 7 ? "active" : ""}`} onClick={() => setActiveTab(7)}>
-            <FiUsers className="menu-icon" /> Admin Manager
+          <li className={`menu-item ${activeTab === 7 ? 'active' : ''}`} onClick={() => { setActiveTab(7); setIsSidebarOpen(false); }} title="Admin Manager">
+            <FiShield className="menu-icon" />
+            <span className="nav-label">Admin Manager</span>
           </li>
         </ul>
+        <div className="sidebar-footer">
+          <button className="menu-item compact" title="Settings">
+            <FiSettings className="menu-icon" />
+            <span className="nav-label">Settings</span>
+          </button>
+          <button className="menu-item compact" title="Logout" onClick={async () => { try { await signOut(auth); navigate('/'); } catch {} }}>
+            <FiLogOut className="menu-icon" />
+            <span className="nav-label">Logout</span>
+          </button>
+        </div>
       </div>
 
       <div className="main-content">
         <div className="topbar">
           <div className="topbar-left">
+            <button className="icon-button mobile-only" onClick={() => setIsSidebarOpen(true)} title="Open Menu">
+              <FiMenu />
+            </button>
             <div className="search-bar">
               <FiSearch className="search-icon" />
               <input
