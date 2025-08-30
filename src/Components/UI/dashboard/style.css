@@ -830,6 +830,7 @@ admin-container {
 }
 @media (max-width: 768px) {
   .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 230px; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 100; }
+  .sidebar.open { transform: translateX(0); }
   .main-content { padding: 1rem; }
   .overview-grid { gap: 0.75rem; }
   .overview-panels { grid-template-columns: 1fr; }
@@ -838,7 +839,9 @@ admin-container {
   .conv-actions .role-select, .conv-actions .status-select { width: auto; }
   .quick-actions { grid-template-columns: repeat(2, 1fr); }
   .user-grid { grid-template-columns: 1fr; }
+  .mobile-only { display: inline-flex; }
 }
+.mobile-only { display: none; }
 @media (max-width: 480px) {
   .page-title { font-size: 1.35rem; }
   .kpi-value { font-size: 1.2rem; }
