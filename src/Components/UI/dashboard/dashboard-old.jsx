@@ -1150,8 +1150,14 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
     setSelectedUsers(selectedUsers.length === users.length ? [] : users.map((user) => user.id));
   };
 
+  const getAvatarClass = (role) => {
+    if (role === "admin") return "avatar-admin";
+    if (role === "moderator") return "avatar-moderator";
+    return "avatar-user";
+  };
+
   return (
-    <div className="table-container">
+    <div className="user-management">
       {selectedUsers.length > 0 && (
         <div className="table-actions">
           <button onClick={() => handleBulkRoleChange("admin")} className="action-button">Make Admin</button>
@@ -1159,44 +1165,43 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
           <button onClick={() => handleBulkRoleChange("user")} className="action-button">Make Regular User</button>
         </div>
       )}
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th>
-              <input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={handleSelectAll} />
-            </th>
-            <th>Email</th>
-            <th>Current Role</th>
-            <th>Change Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="4" className="no-data">No users found</td>
-            </tr>
-          ) : (
-            users.map((user) => (
-              <tr key={user.id}>
-                <td>
-                  <input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => handleSelectUser(user.id)} />
-                </td>
-                <td>{user.email || "Unknown"}</td>
-                <td>
+
+      <div className="table-actions" style={{ display: users.length ? "flex" : "none" }}>
+        <label className="user-select-all">
+          <input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={handleSelectAll} />
+          <span>Select all</span>
+        </label>
+      </div>
+
+      {users.length === 0 ? (
+        <div className="no-data">No users found</div>
+      ) : (
+        <div className="user-grid">
+          {users.map((user) => (
+            <div key={user.id} className="user-card">
+              <div className="user-card-body">
+                <div className={`user-avatar ${getAvatarClass(user.role)}`}>
+                  <FiUser />
+                </div>
+                <div className="user-info">
+                  <div className="user-email">{user.email || "Unknown"}</div>
                   <span className={`role-badge ${user.role}`}>{user.role || "Unknown"}</span>
-                </td>
-                <td>
-                  <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role || "user"} className="role-select">
-                    <option value="admin">Admin</option>
-                    <option value="moderator">Moderator</option>
-                    <option value="user">User</option>
-                  </select>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+                </div>
+                <label className="user-checkbox">
+                  <input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => handleSelectUser(user.id)} />
+                </label>
+              </div>
+              <div className="user-card-footer">
+                <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role || "user"} className="role-select">
+                  <option value="admin">Admin</option>
+                  <option value="moderator">Moderator</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
