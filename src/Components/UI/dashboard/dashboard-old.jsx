@@ -559,32 +559,36 @@ const AdminDashboard = () => {
 
         {activeTab === 0 && (
           <div className="overview-grid">
-            <div className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-value">{stats.totalUsers}</div>
-                <div className="stat-label">Total Users</div>
+            <KPICards
+              users={users}
+              admins={users.filter((u) => u.role === "admin").length}
+              messages={supportMessages}
+              blogs={blogs}
+              portfolios={portfolios}
+              assets={assets}
+            />
+
+            <div className="insights-grid">
+              <div className="content-card">
+                <div className="card-header">
+                  <h3 className="panel-title">Usage Distribution</h3>
+                </div>
+                <div className="card-body">
+                  <UsageDistribution assets={assets} />
+                </div>
               </div>
-              <div className="stat-card">
-                <div className="stat-value">{stats.totalAdmins}</div>
-                <div className="stat-label">Admins</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-value">{stats.pendingMessages}</div>
-                <div className="stat-label">Pending Messages</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-value">{stats.totalBlogs}</div>
-                <div className="stat-label">Total Blogs</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-value">{stats.totalPortfolios}</div>
-                <div className="stat-label">Total Portfolios</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-value">{stats.totalAssets}</div>
-                <div className="stat-label">Total Assets</div>
+
+              <div className="content-card">
+                <div className="card-header">
+                  <h3 className="panel-title">Recent Activity</h3>
+                </div>
+                <div className="card-body">
+                  <RecentActivity messages={supportMessages} blogs={blogs} portfolios={portfolios} assets={assets} />
+                </div>
               </div>
             </div>
+
+            <QuickActions onNavigate={(tab) => setActiveTab(tab)} />
 
             <div className="overview-panels">
               <div className="content-card">
@@ -1285,6 +1289,131 @@ const AdminManager = ({ setError }) => {
           </li>
         ))}
       </ul>
+    </div>
+  );
+};
+
+const normalizeDate = (value) => {
+  if (!value) return null;
+  if (value.toDate) {
+    try { return value.toDate(); } catch { return null; }
+  }
+  if (value.seconds) return new Date(value.seconds * 1000);
+  if (typeof value === "number") return new Date(value);
+  if (value instanceof Date) return value;
+  return null;
+};
+
+const countNewInDays = (items, key, days = 7) => {
+  const now = Date.now();
+  const cutoff = now - days * 24 * 60 * 60 * 1000;
+  return items.reduce((acc, it) => {
+    const d = normalizeDate(it[key]);
+    return acc + (d && d.getTime() >= cutoff ? 1 : 0);
+  }, 0);
+};
+
+const KPICards = ({ users, admins, messages, blogs, portfolios, assets }) => {
+  const newUsers = countNewInDays(users, "createdAt");
+  const newMsgs = countNewInDays(messages, "createdAt");
+  const newBlogs = countNewInDays(blogs, "createdAt");
+  const newAssets = countNewInDays(assets, "createdAt");
+  return (
+    <div className="kpi-grid">
+      <div className="kpi-card">
+        <div className="kpi-icon kpi-users"><FiUsers /></div>
+        <div className="kpi-content">
+          <div className="kpi-value">{users.length}</div>
+          <div className="kpi-label">Total Users</div>
+        </div>
+        <div className="delta-badge">+{newUsers} this week</div>
+      </div>
+      <div className="kpi-card">
+        <div className="kpi-icon kpi-admins"><FiUser /></div>
+        <div className="kpi-content">
+          <div className="kpi-value">{admins}</div>
+          <div className="kpi-label">Admins</div>
+        </div>
+        <div className="delta-badge">{admins > 0 ? "Active" : "None"}</div>
+      </div>
+      <div className="kpi-card">
+        <div className="kpi-icon kpi-messages"><FiMail /></div>
+        <div className="kpi-content">
+          <div className="kpi-value">{messages.length}</div>
+          <div className="kpi-label">Support Tickets</div>
+        </div>
+        <div className="delta-badge">+{newMsgs} this week</div>
+      </div>
+      <div className="kpi-card">
+        <div className="kpi-icon kpi-assets"><FiBox /></div>
+        <div className="kpi-content">
+          <div className="kpi-value">{assets.length}</div>
+          <div className="kpi-label">Total Assets</div>
+        </div>
+        <div className="delta-badge">+{newAssets} this week</div>
+      </div>
+    </div>
+  );
+};
+
+const UsageDistribution = ({ assets }) => {
+  const counts = assets.reduce((acc, a) => {
+    const key = (a.type || "other").toLowerCase();
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const total = assets.length || 1;
+  return (
+    <div className="usage-list">
+      {entries.length === 0 && <div className="no-data">No assets yet</div>}
+      {entries.map(([type, cnt]) => {
+        const pct = Math.round((cnt / total) * 100);
+        return (
+          <div className="usage-row" key={type}>
+            <div className="usage-label">{type}</div>
+            <div className="progress">
+              <div className="progress-bar" style={{ width: `${pct}%` }} />
+            </div>
+            <div className="usage-value">{pct}%</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const RecentActivity = ({ messages, blogs, portfolios, assets }) => {
+  const items = [];
+  messages.forEach((m) => items.push({ t: normalizeDate(m.createdAt), type: "Support", label: m.subject || "No Subject" }));
+  blogs.forEach((b) => items.push({ t: normalizeDate(b.createdAt), type: "Blog", label: b.title || "Untitled" }));
+  portfolios.forEach((p) => items.push({ t: normalizeDate(p.createdAt), type: "Portfolio", label: p.title || "Untitled" }));
+  assets.forEach((a) => items.push({ t: normalizeDate(a.createdAt), type: "Asset", label: a.title || a.name || "Untitled" }));
+  const recent = items
+    .filter((i) => i.t)
+    .sort((a, b) => b.t - a.t)
+    .slice(0, 6);
+  return (
+    <ul className="activity-list">
+      {recent.length === 0 && <li className="no-data">No recent activity</li>}
+      {recent.map((i, idx) => (
+        <li key={idx} className="activity-item">
+          <span className="activity-type">{i.type}</span>
+          <span className="activity-label">{i.label}</span>
+          <span className="activity-time">{i.t?.toLocaleDateString?.() || ""}</span>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const QuickActions = ({ onNavigate }) => {
+  return (
+    <div className="quick-actions">
+      <button className="qa-button" onClick={() => onNavigate(1)}><FiUsers /> Manage Users</button>
+      <button className="qa-button" onClick={() => onNavigate(3)}><FiUpload /> Add Upload</button>
+      <button className="qa-button" onClick={() => onNavigate(4)}><FiFileText /> Create Blog</button>
+      <button className="qa-button" onClick={() => onNavigate(5)}><FiFileText /> Add Portfolio</button>
     </div>
   );
 };
