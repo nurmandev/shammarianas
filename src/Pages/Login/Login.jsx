@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore"; // Import Firestore functions
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "../../../firebase";
 import eye_icon from "../../assets/Icons/eye.png";
