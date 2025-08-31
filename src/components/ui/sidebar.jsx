@@ -1,6 +1,7 @@
 import * as React from "react";
+import React from "react";
 import { Slot } from "./slot";
-import { cva, VariantProps } from "../../lib/class-variance-authority";
+import { cva } from "../../lib/class-variance-authority";
 import { PanelLeft } from "lucide-react";
 
 import { useIsMobile } from "../../hooks/use-mobile";
