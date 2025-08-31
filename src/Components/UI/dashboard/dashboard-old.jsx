@@ -1396,39 +1396,185 @@ const PortfolioList = ({ portfolios, onDelete, onCreate }) => {
   );
 };
 
-const AssetList = ({ assets, onDelete }) => {
+const AssetList = ({ assets, onDelete, assetSearchTerm, setAssetSearchTerm, selectedCategory, setSelectedCategory, showAssetDialog, setShowAssetDialog, selectedAsset, setSelectedAsset, showCreateAssetDialog, setShowCreateAssetDialog, formatCurrency, formatDate, handleToggleAssetFeatured, handleToggleAssetTrending, ASSET_CATEGORIES }) => {
   return (
-    <div className="table-container">
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {assets.length === 0 ? (
-            <tr>
-              <td colSpan="4" className="no-data">No assets found</td>
-            </tr>
-          ) : (
-            assets.map((asset) => (
-              <tr key={asset.id}>
-                <td>{asset.name || asset.title || "Unnamed"}</td>
-                <td>{asset.type || "Unknown"}</td>
-                <td>{asset.createdAt?.toDate?.().toLocaleDateString?.() || "N/A"}</td>
-                <td>
-                  <button onClick={() => onDelete(asset.id)} className="action-button delete-button">
-                    <FiTrash2 /> Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+    <div className="asset-management-enhanced">
+      {/* Header */}
+      <div className="asset-header">
+        <div className="header-content">
+          <h2 className="header-title">
+            <FiBox className="header-icon asset-icon" />
+            Asset Management
+          </h2>
+          <p className="header-subtitle">Manage digital assets and content</p>
+        </div>
+        <div className="header-actions">
+          <span className="asset-badge-count">{assets.length} assets</span>
+          <button
+            className="action-button upload-button"
+            onClick={() => setShowCreateAssetDialog(true)}
+          >
+            <FiUpload className="button-icon" />
+            Upload Asset
+          </button>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="content-card filters-card">
+        <div className="card-body">
+          <div className="asset-filters-grid">
+            <div className="search-input-wrapper">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search assets..."
+                value={assetSearchTerm}
+                onChange={(e) => setAssetSearchTerm(e.target.value)}
+                className="search-input"
+              />
+            </div>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="filter-select"
+            >
+              <option value="all">All Categories</option>
+              {ASSET_CATEGORIES.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <div className="filter-result">
+              <FiFilter className="filter-icon" />
+              <span className="filter-text">{assets.length} results</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Assets Grid */}
+      {assets.length === 0 ? (
+        <div className="content-card">
+          <div className="card-body empty-state">
+            <FiBox className="empty-icon" />
+            <h3 className="empty-title">No assets found</h3>
+            <p className="empty-text">
+              {assetSearchTerm ? "No assets match your search criteria." : "No assets are currently available."}
+            </p>
+            <button
+              className="action-button upload-button"
+              onClick={() => setShowCreateAssetDialog(true)}
+            >
+              <FiUpload className="button-icon" />
+              Upload First Asset
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="assets-grid">
+          {assets.map((asset) => (
+            <div key={asset.id} className="asset-card">
+              <div className="asset-image-wrapper">
+                {asset.thumbnail || asset.images?.[0] || asset.icons?.[0] ? (
+                  <img
+                    src={asset.thumbnail || (Array.isArray(asset.images) && asset.images[0]) || (Array.isArray(asset.icons) && asset.icons[0]) || ""}
+                    alt={asset.title || asset.name || "Asset"}
+                    className="asset-image"
+                  />
+                ) : (
+                  <div className="asset-placeholder">
+                    <FiImage className="placeholder-icon" />
+                  </div>
+                )}
+
+                {/* Asset badges */}
+                <div className="asset-badges">
+                  {asset.isFeatured && (
+                    <span className="asset-badge featured">
+                      <FiStar className="badge-icon" />
+                      Featured
+                    </span>
+                  )}
+                  {asset.isTrending && (
+                    <span className="asset-badge trending">
+                      <FiTrendingUp className="badge-icon" />
+                      Trending
+                    </span>
+                  )}
+                </div>
+
+                {/* Price badge */}
+                <div className="asset-price-badge">
+                  <span className={`price-badge ${asset.price > 0 ? 'premium' : 'free'}`}>
+                    {asset.price > 0 ? formatCurrency(asset.price) : "Free"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="asset-content">
+                <div className="asset-header-row">
+                  <h3 className="asset-title">{asset.title || asset.name || "Untitled"}</h3>
+                  <div className="asset-menu">
+                    <button
+                      className="menu-trigger"
+                      onClick={() => {
+                        setSelectedAsset(asset);
+                        setShowAssetDialog(true);
+                      }}
+                    >
+                      <FiMoreHorizontal />
+                    </button>
+                  </div>
+                </div>
+
+                <p className="asset-description">{asset.description || "No description available"}</p>
+
+                <div className="asset-meta">
+                  <span className="meta-item">
+                    <FiTag className="meta-icon" />
+                    {asset.category || asset.type || "Uncategorized"}
+                  </span>
+                  <span className="meta-item">
+                    <FiDownload className="meta-icon" />
+                    {asset.downloads || 0} downloads
+                  </span>
+                </div>
+
+                <div className="asset-footer">
+                  <span className="asset-author">
+                    <FiUser className="author-icon" />
+                    by {asset.authorName || asset.userId || "Unknown"}
+                  </span>
+                  <span className="asset-date">{formatDate(asset.createdAt)}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Asset Details Modal */}
+      {showAssetDialog && selectedAsset && (
+        <AssetDetailsModal
+          asset={selectedAsset}
+          onClose={() => setShowAssetDialog(false)}
+          onDelete={onDelete}
+          onToggleFeatured={handleToggleAssetFeatured}
+          onToggleTrending={handleToggleAssetTrending}
+          formatCurrency={formatCurrency}
+          formatDate={formatDate}
+        />
+      )}
+
+      {/* Create Asset Modal (Upload component) */}
+      {showCreateAssetDialog && (
+        <CreateAssetModal
+          isOpen={showCreateAssetDialog}
+          onClose={() => setShowCreateAssetDialog(false)}
+        />
+      )}
     </div>
   );
 };
