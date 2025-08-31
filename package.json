@@ -13,8 +13,12 @@
   },
   "dependencies": {
     "@google/model-viewer": "^3.5.0",
+    "@stripe/react-stripe-js": "^3.9.2",
+    "@stripe/stripe-js": "^7.9.0",
+    "aos": "^2.3.4",
     "axios": "^1.7.7",
     "buffer": "^6.0.3",
+    "ethers": "^6.15.0",
     "firebase": "^10.14.0",
     "gh-pages": "^6.1.1",
     "lucide-react": "^0.483.0",
