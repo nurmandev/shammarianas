@@ -1403,7 +1403,7 @@ const MessageModal = ({ message, onClose, onStatusChange }) => {
   );
 };
 
-const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handleBulkRoleChange, onUpdateStatus, onDelete }) => {
+const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handleBulkRoleChange, onUpdateStatus, onDelete, userSearchTerm, setUserSearchTerm, selectedUserRole, setSelectedUserRole, selectedUserStatus, setSelectedUserStatus, showUserDialog, setShowUserDialog, selectedUser, setSelectedUser, formatCurrency, formatDate, getRoleColor, handleUserStatusToggle, handleUserRoleChange }) => {
   const handleSelectUser = (userId) => {
     setSelectedUsers(selectedUsers.includes(userId) ? selectedUsers.filter((id) => id !== userId) : [...selectedUsers, userId]);
   };
@@ -1412,11 +1412,67 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
     setSelectedUsers(selectedUsers.length === users.length ? [] : users.map((user) => user.id));
   };
 
-  const [drawerUser, setDrawerUser] = useState(null);
   const [confirm, setConfirm] = useState(null);
 
   return (
-    <div className="user-management">
+    <div className="user-management-enhanced">
+      {/* Header */}
+      <div className="user-header">
+        <div className="header-content">
+          <h2 className="header-title">
+            <FiUsers className="header-icon" />
+            User Management
+          </h2>
+          <p className="header-subtitle">Manage user accounts, roles, and permissions</p>
+        </div>
+        <div className="header-badge">
+          <span className="badge-count">{users.length} users</span>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="content-card filters-card">
+        <div className="card-body">
+          <div className="filters-grid">
+            <div className="search-input-wrapper">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search users..."
+                value={userSearchTerm}
+                onChange={(e) => setUserSearchTerm(e.target.value)}
+                className="search-input"
+              />
+            </div>
+            <select
+              value={selectedUserRole}
+              onChange={(e) => setSelectedUserRole(e.target.value)}
+              className="filter-select"
+            >
+              <option value="all">All Roles</option>
+              <option value="admin">Admin</option>
+              <option value="moderator">Moderator</option>
+              <option value="user">User</option>
+            </select>
+            <select
+              value={selectedUserStatus}
+              onChange={(e) => setSelectedUserStatus(e.target.value)}
+              className="filter-select"
+            >
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="suspended">Suspended</option>
+            </select>
+            <div className="filter-result">
+              <FiFilter className="filter-icon" />
+              <span className="filter-text">{users.length} results</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bulk Actions */}
       {selectedUsers.length > 0 && (
         <div className="table-actions">
           <button onClick={() => handleBulkRoleChange("admin")} className="action-button">Make Admin</button>
@@ -1425,80 +1481,149 @@ const UserList = ({ users, onRoleChange, selectedUsers, setSelectedUsers, handle
         </div>
       )}
 
-      {users.length > 0 && (
-        <div className="user-select-toolbar">
-          <label className="user-select-all">
-            <input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={handleSelectAll} />
-            <span>Select all</span>
-          </label>
-          {selectedUsers.length > 0 && <span className="selected-count">{selectedUsers.length} selected</span>}
-        </div>
-      )}
-
-      {users.length === 0 ? (
-        <div className="no-data">No users found</div>
-      ) : (
-        <div className="table-container">
-          <table className="data-table user-table">
-            <thead>
-              <tr>
-                <th><input type="checkbox" checked={selectedUsers.length === users.length && users.length > 0} onChange={() => setSelectedUsers(selectedUsers.length === users.length ? [] : users.map((u) => u.id))} /></th>
-                <th>Profile</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Last Active</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => {
-                const name = user.name || user.displayName || user.email?.split("@")[0] || "Unknown";
-                const status = (user.status || "active").toLowerCase();
-                const lastActive = normalizeDate(user.lastActive)?.toLocaleDateString?.() || "N/A";
-                return (
-                  <tr key={user.id}>
-                    <td><input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => handleSelectUser(user.id)} /></td>
-                    <td>
-                      <div className="avatar">
-                        {user.photoURL ? (
-                          <img src={user.photoURL} alt={name} className="avatar-img" />
-                        ) : (
-                          <div className="avatar-initials">{(name[0] || "").toUpperCase()}</div>
-                        )}
-                      </div>
-                    </td>
-                    <td className="name-cell clickable" onClick={() => setDrawerUser(user)}>{name}</td>
-                    <td className="email-cell">{user.email || "Unknown"}</td>
-                    <td>
-                      <select onChange={(e) => onRoleChange(user.id, e.target.value, user.email)} value={user.role || "user"} className="role-select">
-                        <option value="admin">Admin</option>
-                        <option value="moderator">Moderator</option>
-                        <option value="user">User</option>
-                      </select>
-                    </td>
-                    <td><span className={`status-badge ${status}`}>{status}</span></td>
-                    <td>{lastActive}</td>
-                    <td>
-                      <div className="actions">
-                        <button className="icon-action info" title="View" onClick={() => setDrawerUser(user)}><FiUser /></button>
-                        <button className="icon-action warn" title={status === 'suspended' ? 'Activate' : 'Suspend'} onClick={() => setConfirm({ type: status === 'suspended' ? 'activate' : 'suspend', user })}>
-                          {status === 'suspended' ? <FiUserCheck /> : <FiShield />}
-                          <span className="action-label">{status === 'suspended' ? 'Activate' : 'Suspend'}</span>
-                        </button>
-                        <button className="icon-action danger" title="Delete" onClick={() => setConfirm({ type: 'delete', user })}><FiTrash2 /></button>
-                      </div>
-                    </td>
+      {/* Users Table */}
+      <div className="content-card">
+        <div className="card-body table-wrapper">
+          {users.length === 0 ? (
+            <div className="empty-state">
+              <FiUsers className="empty-icon" />
+              <h3 className="empty-title">No users found</h3>
+              <p className="empty-text">
+                {userSearchTerm ? "No users match your search criteria." : "No users are currently registered."}
+              </p>
+            </div>
+          ) : (
+            <div className="table-container">
+              <table className="data-table enhanced-user-table">
+                <thead>
+                  <tr>
+                    <th className="checkbox-column">
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.length === users.length && users.length > 0}
+                        onChange={handleSelectAll}
+                      />
+                    </th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Purchases</th>
+                    <th>Total Spent</th>
+                    <th>Downloads</th>
+                    <th>Join Date</th>
+                    <th>Actions</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {users.map((user) => {
+                    const name = user.name || user.displayName || user.email?.split("@")[0] || "Unknown";
+                    const status = (user.status || "active").toLowerCase();
+                    const isActive = status === "active";
+                    return (
+                      <tr key={user.id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={selectedUsers.includes(user.id)}
+                            onChange={() => handleSelectUser(user.id)}
+                          />
+                        </td>
+                        <td className="user-cell">
+                          <div className="user-profile">
+                            <div className="user-avatar">
+                              {user.photoURL ? (
+                                <img src={user.photoURL} alt={name} className="avatar-img" />
+                              ) : (
+                                <div className="avatar-initials">{(name[0] || "").toUpperCase()}</div>
+                              )}
+                            </div>
+                            <div className="user-info">
+                              <div className="user-name">{name}</div>
+                              <div className="user-email">{user.email || "Unknown"}</div>
+                              {user.location && (
+                                <div className="user-location">
+                                  <FiMapPin className="location-icon" />
+                                  <span>{user.location}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span className={`role-badge enhanced ${user.role || 'user'}`}>
+                            {user.role === "admin" && <FiShield className="role-icon" />}
+                            {user.role === "moderator" && <FiShield className="role-icon" />}
+                            {user.role || "user"}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="status-column">
+                            <span className={`status-badge enhanced ${isActive ? 'active' : 'inactive'}`}>
+                              {isActive ? <FiUserCheck className="status-icon" /> : <FiX className="status-icon" />}
+                              {isActive ? "Active" : "Inactive"}
+                            </span>
+                            {user.isEmailVerified && (
+                              <span className="verification-badge">
+                                <FiCheckCircle className="verify-icon" />
+                                Verified
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="metric-value">{user.totalPurchases || 0}</div>
+                        </td>
+                        <td>
+                          <div className="metric-value currency">{formatCurrency(user.totalSpent || 0)}</div>
+                        </td>
+                        <td>
+                          <div className="metric-value downloads">{user.totalDownloads || 0}</div>
+                        </td>
+                        <td>
+                          <div className="date-column">
+                            <div className="join-date">{formatDate(user.createdAt || user.joinDate)}</div>
+                            {user.lastLogin && (
+                              <div className="last-login">Last: {formatDate(user.lastLogin)}</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="action-menu">
+                            <button
+                              className="menu-trigger"
+                              onClick={() => {
+                                setSelectedUser(user);
+                                setShowUserDialog(true);
+                              }}
+                            >
+                              <FiMoreHorizontal />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
+      </div>
+
+      {/* User Details Modal */}
+      {showUserDialog && selectedUser && (
+        <UserDetailsModal
+          user={selectedUser}
+          onClose={() => setShowUserDialog(false)}
+          onStatusToggle={handleUserStatusToggle}
+          onRoleChange={handleUserRoleChange}
+          onDelete={onDelete}
+          formatCurrency={formatCurrency}
+          formatDate={formatDate}
+          getRoleColor={getRoleColor}
+        />
       )}
 
-      {drawerUser && <UserProfileDrawer user={drawerUser} onClose={() => setDrawerUser(null)} onUpdateStatus={onUpdateStatus} onRoleChange={(role) => onRoleChange(drawerUser.id, role, drawerUser.email)} />}
       {confirm && (
         <ConfirmModal
           title={confirm.type === 'delete' ? 'Delete User' : confirm.type === 'suspend' ? 'Suspend User' : 'Activate User'}
