@@ -35,7 +35,11 @@ import {
   FiDollarSign,
   FiDownload,
   FiCheckCircle,
-  FiMoreHorizontal
+  FiMoreHorizontal,
+  FiStar,
+  FiTrendingUp,
+  FiTag,
+  FiImage
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
@@ -67,6 +71,11 @@ const AdminDashboard = () => {
   const [selectedUserStatus, setSelectedUserStatus] = useState("all");
   const [showUserDialog, setShowUserDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [assetSearchTerm, setAssetSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [showAssetDialog, setShowAssetDialog] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [showCreateAssetDialog, setShowCreateAssetDialog] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedMessages, setSelectedMessages] = useState([]);
