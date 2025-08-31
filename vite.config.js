@@ -26,6 +26,7 @@ export default defineConfig({
     alias: {
       buffer: resolve(__dirname, "node_modules/buffer/"),
       aos: resolve(__dirname, "node_modules/aos/dist/aos.js"),
+      "aos/dist/aos.css": resolve(__dirname, "node_modules/aos/dist/aos.css"),
     },
   },
   optimizeDeps: {
