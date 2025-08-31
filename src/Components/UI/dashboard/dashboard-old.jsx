@@ -83,6 +83,43 @@ const AdminDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Helper functions
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount || 0);
+  };
+
+  const formatDate = (date) => {
+    if (!date) return 'N/A';
+    const d = normalizeDate(date);
+    return d ? d.toLocaleDateString() : 'N/A';
+  };
+
+  const getRoleColor = (role) => {
+    switch (role) {
+      case 'admin': return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+      case 'moderator': return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
+      default: return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
+    }
+  };
+
+  const handleUserStatusToggle = async (userId) => {
+    const user = users.find(u => u.id === userId);
+    if (user) {
+      const newStatus = user.status === 'active' ? 'inactive' : 'active';
+      await handleUpdateUserStatus(userId, newStatus);
+    }
+  };
+
+  const handleUserRoleChange = async (userId, newRole) => {
+    const user = users.find(u => u.id === userId);
+    if (user) {
+      await handleRoleChange(userId, newRole, user.email);
+    }
+  };
+
   // Check admin status
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
