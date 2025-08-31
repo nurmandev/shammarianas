@@ -1949,6 +1949,155 @@ const ConfirmModal = ({ title, message, onCancel, onConfirm }) => {
   );
 };
 
+const UserDetailsModal = ({ user, onClose, onStatusToggle, onRoleChange, onDelete, formatCurrency, formatDate, getRoleColor }) => {
+  return (
+    <div className="modal-overlay">
+      <div className="modal enhanced-modal">
+        <div className="modal-header">
+          <h3 className="modal-title">
+            <FiUser className="modal-icon" />
+            User Details
+          </h3>
+          <button onClick={onClose} className="close-button">
+            <FiX />
+          </button>
+        </div>
+        <div className="modal-body enhanced-modal-body">
+          {/* User Profile Header */}
+          <div className="user-profile-header">
+            <div className="profile-avatar">
+              {user.photoURL ? (
+                <img src={user.photoURL} alt={user.name} className="avatar-img large" />
+              ) : (
+                <div className="avatar-initials large">{(user.name?.charAt(0) || "").toUpperCase()}</div>
+              )}
+            </div>
+            <div className="profile-info">
+              <h3 className="profile-name">{user.name || user.displayName || "Unknown"}</h3>
+              <p className="profile-email">{user.email}</p>
+              <div className="profile-badges">
+                <span className={`role-badge enhanced ${user.role || 'user'}`}>
+                  {user.role || "user"}
+                </span>
+                <span className={`status-badge enhanced ${(user.status || 'active') === 'active' ? 'active' : 'inactive'}`}>
+                  {(user.status || 'active') === 'active' ? "Active" : "Inactive"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-value">{user.totalPurchases || 0}</div>
+              <div className="stat-label">
+                <FiShoppingCart className="stat-icon" />
+                Total Purchases
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value currency">{formatCurrency(user.totalSpent || 0)}</div>
+              <div className="stat-label">
+                <FiDollarSign className="stat-icon" />
+                Total Spent
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value downloads">{user.totalDownloads || 0}</div>
+              <div className="stat-label">
+                <FiDownload className="stat-icon" />
+                Downloads
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-value">{user.isEmailVerified ? "Yes" : "No"}</div>
+              <div className="stat-label">
+                <FiCheckCircle className="stat-icon" />
+                Email Verified
+              </div>
+            </div>
+          </div>
+
+          {/* User Details */}
+          <div className="user-details-section">
+            <div className="details-grid">
+              <div className="detail-item">
+                <div className="detail-label">Join Date</div>
+                <div className="detail-value">
+                  <FiCalendar className="detail-icon" />
+                  <span>{formatDate(user.createdAt || user.joinDate)}</span>
+                </div>
+              </div>
+              {user.lastLogin && (
+                <div className="detail-item">
+                  <div className="detail-label">Last Login</div>
+                  <div className="detail-value">
+                    <FiCalendar className="detail-icon" />
+                    <span>{formatDate(user.lastLogin)}</span>
+                  </div>
+                </div>
+              )}
+              {user.location && (
+                <div className="detail-item">
+                  <div className="detail-label">Location</div>
+                  <div className="detail-value">
+                    <FiMapPin className="detail-icon" />
+                    <span>{user.location}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="modal-actions">
+            <button
+              className="action-button secondary"
+              onClick={() => onStatusToggle(user.id || user._id)}
+            >
+              {(user.status || 'active') === 'active' ? (
+                <>
+                  <FiX className="button-icon" />
+                  Deactivate
+                </>
+              ) : (
+                <>
+                  <FiUserCheck className="button-icon" />
+                  Activate
+                </>
+              )}
+            </button>
+
+            {user.role !== "admin" && (
+              <>
+                <button
+                  className="action-button"
+                  onClick={() => onRoleChange(user.id || user._id, "admin")}
+                >
+                  <FiShield className="button-icon" />
+                  Make Admin
+                </button>
+                <button
+                  className="action-button danger"
+                  onClick={() => {
+                    if (window.confirm(`Delete user "${user.name}"? This action cannot be undone.`)) {
+                      onDelete(user.id || user._id, user.email);
+                      onClose();
+                    }
+                  }}
+                >
+                  <FiTrash2 className="button-icon" />
+                  Delete User
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const WelcomeBanner = ({ name, totalUsers, totalAssets }) => {
   return (
     <div className="content-card welcome-banner">
