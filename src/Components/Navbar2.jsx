@@ -35,18 +35,20 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   function handleDropdownMouseMove(event) {
-    event.currentTarget.querySelector(".dropdown-menu").classList.add("show");
+    const menu = event.currentTarget?.querySelector?.(".dropdown-menu");
+    if (!menu) return;
+    menu.classList.add("show");
   }
 
   function handleDropdownMouseLeave(event) {
-    event.currentTarget.querySelector(".dropdown-menu").classList.remove("show");
+    const menu = event.currentTarget?.querySelector?.(".dropdown-menu");
+    if (!menu) return;
+    menu.classList.remove("show");
   }
   function handleToggleNav() {
-    if (document.querySelector(".navbar .navbar-collapse").classList.contains("show")) {
-      document.querySelector(".navbar .navbar-collapse").classList.remove("show");
-    } else if (!document.querySelector(".navbar .navbar-collapse").classList.contains("show")) {
-      document.querySelector(".navbar .navbar-collapse").classList.add("show");
-    }
+    const collapse = document.querySelector(".navbar .navbar-collapse");
+    if (!collapse) return;
+    collapse.classList.toggle("show");
   }
   // If user is NOT logged in
   if (!currentUser) {
