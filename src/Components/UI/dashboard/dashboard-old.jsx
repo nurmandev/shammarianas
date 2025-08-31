@@ -517,7 +517,17 @@ const AdminDashboard = () => {
     return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
   });
 
-  const filteredAssets = assets.filter((asset) => asset.name?.toLowerCase().includes(search.toLowerCase()) || !asset.name);
+  const filteredAssets = assets.filter((asset) => {
+    const searchTerm = activeTab === 6 ? assetSearchTerm : search;
+    const categoryFilter = activeTab === 6 ? selectedCategory : "";
+
+    const matchesText = (asset.name || asset.title || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       (asset.description || "").toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = categoryFilter === "all" || !categoryFilter ? true :
+                           (asset.category || asset.type || "").toLowerCase() === categoryFilter.toLowerCase();
+
+    return matchesText && matchesCategory;
+  });
   const sortedAssets = [...filteredAssets].sort((a, b) => {
     if (!sortConfig.key) return 0;
     const aValue = a[sortConfig.key] || "";
