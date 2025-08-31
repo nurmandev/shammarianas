@@ -28,6 +28,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
+    force: true,
     include: ["buffer", "react-quill", "quill"],
     exclude: ["aos", "ethers", "@stripe/stripe-js", "@stripe/react-stripe-js"],
     // esbuildOptions: {
