@@ -14,7 +14,7 @@ import {
 import { db } from "../../firebase";
 import { useUser } from "../Context/UserProvider";
 import ItemsListing from "../Components/ItemsListing";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const { id } = useParams();
