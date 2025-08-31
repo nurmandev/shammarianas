@@ -54,9 +54,9 @@ const Navbar = () => {
       <>
         <nav className="navbar navbar-expand-lg bord blur">
           <div className="container o-hidden">
-            <a className="logo icon-img-100" href="#">
-              <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
-            </a>
+            <Link to="/" className="logo icon-img-100" aria-label="Home">
+              <img src="/assets/imgs/logo.png" className="logo" alt="Sham Marianas logo" />
+            </Link>
             <button className="navbar-toggler" type="button" onClick={() => document.querySelector(".navbar .navbar-collapse")?.classList.toggle("show")}>
               <span className="icon-bar">
                 <i className="fas fa-bars"></i>
