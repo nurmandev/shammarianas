@@ -135,6 +135,41 @@ const AdminDashboard = () => {
     }
   };
 
+  // Asset management handlers
+  const handleToggleAssetFeatured = async (assetId) => {
+    const asset = assets.find(a => a.id === assetId);
+    if (asset) {
+      try {
+        await updateDoc(doc(db, "Assets", assetId), {
+          isFeatured: !asset.isFeatured,
+          updatedAt: serverTimestamp()
+        });
+        setAssets(prev => prev.map(a =>
+          a.id === assetId ? { ...a, isFeatured: !a.isFeatured } : a
+        ));
+      } catch (error) {
+        setError(`Failed to update asset: ${error.message}`);
+      }
+    }
+  };
+
+  const handleToggleAssetTrending = async (assetId) => {
+    const asset = assets.find(a => a.id === assetId);
+    if (asset) {
+      try {
+        await updateDoc(doc(db, "Assets", assetId), {
+          isTrending: !asset.isTrending,
+          updatedAt: serverTimestamp()
+        });
+        setAssets(prev => prev.map(a =>
+          a.id === assetId ? { ...a, isTrending: !a.isTrending } : a
+        ));
+      } catch (error) {
+        setError(`Failed to update asset: ${error.message}`);
+      }
+    }
+  };
+
   // Check admin status
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
