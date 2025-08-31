@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import AOS from "aos"; // Import AOS (Animate On Scroll) library
-import "aos/dist/aos.css"; // Import AOS styles
 import FirstPage from "../Components/landing/firstPage";
 import Intro from "../Components/landing/Intro";
 import Marq from "../Components/marq2";

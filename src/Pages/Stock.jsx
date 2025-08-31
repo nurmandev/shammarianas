@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import AOS from "aos"; // Import AOS (Animate On Scroll) library
-import "aos/dist/aos.css"; // Import AOS styles
 import image from "../assets/Images/b8.jpg";
 import Lines from "../Components/Lines";
 import ProgressScroll from "../common/ProgressScroll";
