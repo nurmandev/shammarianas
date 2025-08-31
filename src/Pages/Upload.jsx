@@ -5,7 +5,7 @@ import { storage } from "../../firebase";
 import PageTitle from "../Components/UI/PageTitle";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useUser } from "../Context/UserProvider";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import plus_icon from "../assets/Icons/plus.png";
 import DescriptionBox from "../Components/DescriptionBox";
 

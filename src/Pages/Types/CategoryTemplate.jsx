@@ -2,7 +2,7 @@
 import PageTitle from "../../Components/UI/PageTitle";
 import ListingSidebar from "../../Components/ListingSidebar";
 import ItemsListing from "../../Components/ItemsListing";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 
 const CategoryTemplate = () => {

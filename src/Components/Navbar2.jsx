@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
-import logo from "../assets/Icons/logo.png";
 
 const Navbar = () => {
   const { currentUser } = useUser() || "";
@@ -36,18 +35,20 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   function handleDropdownMouseMove(event) {
-    event.currentTarget.querySelector(".dropdown-menu").classList.add("show");
+    const menu = event.currentTarget?.querySelector?.(".dropdown-menu");
+    if (!menu) return;
+    menu.classList.add("show");
   }
 
   function handleDropdownMouseLeave(event) {
-    event.currentTarget.querySelector(".dropdown-menu").classList.remove("show");
+    const menu = event.currentTarget?.querySelector?.(".dropdown-menu");
+    if (!menu) return;
+    menu.classList.remove("show");
   }
   function handleToggleNav() {
-    if (document.querySelector(".navbar .navbar-collapse").classList.contains("show")) {
-      document.querySelector(".navbar .navbar-collapse").classList.remove("show");
-    } else if (!document.querySelector(".navbar .navbar-collapse").classList.contains("show")) {
-      document.querySelector(".navbar .navbar-collapse").classList.add("show");
-    }
+    const collapse = document.querySelector(".navbar .navbar-collapse");
+    if (!collapse) return;
+    collapse.classList.toggle("show");
   }
   // If user is NOT logged in
   if (!currentUser) {
@@ -55,9 +56,9 @@ const Navbar = () => {
       <>
         <nav className="navbar navbar-expand-lg bord blur">
           <div className="container o-hidden">
-            <a className="logo icon-img-100" href="#">
-              <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
-            </a>
+            <Link to="/" className="logo icon-img-100" aria-label="Home">
+              <img src="/assets/imgs/logo.png" className="logo" alt="Sham Marianas logo" />
+            </Link>
             <button className="navbar-toggler" type="button" onClick={() => document.querySelector(".navbar .navbar-collapse")?.classList.toggle("show")}>
               <span className="icon-bar">
                 <i className="fas fa-bars"></i>
@@ -65,6 +66,11 @@ const Navbar = () => {
             </button>
             <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
               <ul className="navbar-nav">
+                <li className="nav-item d-lg-none">
+                  <Link to="/Login" className="nav-link">
+                    <span className="rolling-text">Sign In</span>
+                  </Link>
+                </li>
                 <li onMouseLeave={handleDropdownMouseLeave} onMouseMove={handleDropdownMouseMove} className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <span className="rolling-text">Home</span>
@@ -321,9 +327,9 @@ const Navbar = () => {
       <div className="navbar navbar-expand-lg bord blur">
         {/* <nav className="navbar navbar-expand-lg bord blur"> */}
 
-        <a className="logo icon-img-100" href="#">
-          <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
-        </a>
+        <Link to="/" className="logo icon-img-100" aria-label="Home">
+          <img src="/assets/imgs/logo.png" className="logo" alt="Sham Marianas logo" />
+        </Link>
         <Link to="stock">
           <div className="ml-auto vi-more">
             <a href="#stock" className="butn butn-sm butn-bord radius-30">

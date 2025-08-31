@@ -10,7 +10,7 @@ import Header from "../Components/page-team/Header";
 import Numbers from "../Components/services/Numbers";
 import Marq2 from "../Components/marq2";
 import Team from "../Components/about-us/Team";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export default function PageTeam() {
   const main = useRef();

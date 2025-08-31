@@ -1,12 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
 // import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 // import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), nodePolyfills()],
+  cacheDir: "node_modules/.vite-cache",
+  plugins: [react()],
   assetsInclude: ["**/*.glb", "**/*.gltf", "**/*.jpg", "**/*.png", "**/*.hdr"],
   base: "./",
   build: {
@@ -25,18 +25,14 @@ export default defineConfig({
   resolve: {
     alias: {
       buffer: resolve(__dirname, "node_modules/buffer/"),
+      aos: resolve(__dirname, "node_modules/aos/dist/aos.js"),
+      "aos/dist/aos.css": resolve(__dirname, "node_modules/aos/dist/aos.css"),
     },
   },
   optimizeDeps: {
-    include: ["buffer", 'react-quill', 'quill'],
-    // esbuildOptions: {
-    //   plugins: [
-    //     NodeGlobalsPolyfillPlugin({
-    //       buffer: true,
-    //     }),
-    //     NodeModulesPolyfillPlugin(),
-    //   ],
-    // },
+    force: true,
+    include: ["buffer", "react-quill", "quill", "aos"],
+    exclude: ["ethers", "@stripe/stripe-js", "@stripe/react-stripe-js"],
   },
   // resolve: {
   //   alias: {

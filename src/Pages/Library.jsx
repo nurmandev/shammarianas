@@ -4,7 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import PageTitle from "../Components/UI/PageTitle";
 import { useUser } from "../Context/UserProvider";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Library = () => {
   const { currentUser } = useUser();
