@@ -414,9 +414,14 @@ const AdminDashboard = () => {
   };
 
   const filteredUsers = users.filter((user) => {
-    const matchesText = (user.email || "").toLowerCase().includes(search.toLowerCase()) || (user.name || "").toLowerCase().includes(search.toLowerCase());
-    const matchesRole = roleFilter ? user.role === roleFilter : true;
-    const matchesStatus = statusFilter ? (user.status || "active") === statusFilter : true;
+    const searchTerm = activeTab === 1 ? userSearchTerm : search;
+    const roleFilterValue = activeTab === 1 ? selectedUserRole : roleFilter;
+    const statusFilterValue = activeTab === 1 ? selectedUserStatus : statusFilter;
+
+    const matchesText = (user.email || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       (user.name || user.displayName || "").toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = roleFilterValue === "all" || !roleFilterValue ? true : user.role === roleFilterValue;
+    const matchesStatus = statusFilterValue === "all" || !statusFilterValue ? true : (user.status || "active") === statusFilterValue;
     const matchesDate = withinDate(user.createdAt);
     return matchesText && matchesRole && matchesStatus && matchesDate;
   });
