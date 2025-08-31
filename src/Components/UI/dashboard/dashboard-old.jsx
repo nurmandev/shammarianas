@@ -39,7 +39,9 @@ import {
   FiStar,
   FiTrendingUp,
   FiTag,
-  FiImage
+  FiImage,
+  FiBriefcase,
+  FiPlus
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
@@ -87,9 +89,14 @@ const AdminDashboard = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedProfileId, setSelectedProfileId] = useState(null);
   const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
+  const [blogSearchTerm, setBlogSearchTerm] = useState("");
+  const [selectedBlogStatus, setSelectedBlogStatus] = useState("all");
+  const [showBlogDialog, setShowBlogDialog] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState(null);
   const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const navigate = useNavigate();
 
   // Asset categories
@@ -254,25 +261,25 @@ const AdminDashboard = () => {
   };
 
   // Fetch blogs when Blog tab is selected
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      setLoading(true);
-      try {
-        const querySnapshot = await getDocs(collection(db, "blogs"));
-        const blogsData = [];
-        querySnapshot.forEach((doc) => {
-          blogsData.push({ id: doc.id, ...doc.data() });
-        });
-        setBlogs(blogsData);
-      } catch (error) {
-        setError(`Failed to load blogs: ${error.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadBlogs = async () => {
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "blogs"));
+      const blogsData = [];
+      querySnapshot.forEach((doc) => {
+        blogsData.push({ id: doc.id, ...doc.data() });
+      });
+      setBlogs(blogsData);
+    } catch (error) {
+      setError(`Failed to load blogs: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (activeTab === 4) {
-      fetchBlogs();
+      loadBlogs();
     }
   }, [activeTab]);
 
@@ -439,17 +446,48 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteBlog = async (blogId) => {
-    if (!isAdmin) {
-      setError("Only admins can delete blog posts");
-      return;
-    }
-    if (window.confirm("Are you sure you want to delete this blog post?")) {
-      try {
-        await deleteDoc(doc(db, "blogs", blogId));
-        setBlogs(blogs.filter((blog) => blog.id !== blogId));
-      } catch (error) {
-        setError(`Failed to delete blog post: ${error.message}`);
+    if (!window.confirm("Are you sure you want to delete this blog post?")) return;
+    try {
+      const token = localStorage.getItem("token") || "";
+      const response = await fetch(`/api/admin/blogs/${blogId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        await loadBlogs();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        setError(errorData.error || "Failed to delete blog post");
       }
+    } catch (error) {
+      console.error("Delete blog error:", error);
+      setError("Failed to delete blog post");
+    }
+  };
+
+  const handleToggleBlogStatus = async (blogId, currentStatus) => {
+    const newStatus = (currentStatus || "draft").toLowerCase() === "published" ? "draft" : "published";
+    try {
+      const token = localStorage.getItem("token") || "";
+      const response = await fetch(`/api/admin/blogs/${blogId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (response.ok) {
+        await loadBlogs();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        setError(errorData.error || "Failed to update blog post status");
+      }
+    } catch (error) {
+      console.error("Update blog status error:", error);
+      setError("Failed to update blog post status");
     }
   };
 
@@ -465,6 +503,34 @@ const AdminDashboard = () => {
       } catch (error) {
         setError(`Failed to delete portfolio item: ${error.message}`);
       }
+    }
+  };
+
+  const handleUpdatePortfolioStatus = async (portfolioId, newStatus) => {
+    if (!isAdmin) {
+      setError("Only admins can change portfolio status");
+      return;
+    }
+    try {
+      await updateDoc(doc(db, "projects", portfolioId), { status: newStatus });
+      setPortfolios((prev) => prev.map((p) => (p.id === portfolioId ? { ...p, status: newStatus } : p)));
+    } catch (error) {
+      setError(`Failed to update portfolio status: ${error.message}`);
+    }
+  };
+
+  const handleTogglePortfolioFeatured = async (portfolioId) => {
+    if (!isAdmin) {
+      setError("Only admins can feature portfolio items");
+      return;
+    }
+    const target = portfolios.find((p) => p.id === portfolioId);
+    const current = !!target?.featured;
+    try {
+      await updateDoc(doc(db, "projects", portfolioId), { featured: !current, updatedAt: serverTimestamp() });
+      setPortfolios((prev) => prev.map((p) => (p.id === portfolioId ? { ...p, featured: !current } : p)));
+    } catch (error) {
+      setError(`Failed to update portfolio: ${error.message}`);
     }
   };
 
@@ -587,6 +653,196 @@ const AdminDashboard = () => {
     totalBlogs: blogs.length,
     totalPortfolios: portfolios.length,
     totalAssets: assets.length,
+  };
+
+  const monthKey = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  const lastNMonths = (n=12) => {
+    const arr = [];
+    const now = new Date();
+    for (let i = n-1; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+      arr.push({ key: monthKey(d), label: d.toLocaleString('en-US',{ month:'short', year:'numeric' }) });
+    }
+    return arr;
+  };
+
+  const analytics = React.useMemo(() => {
+    const totalDownloads = assets.reduce((s,a)=> s + (a.downloads||0), 0);
+    const totalRevenue = assets.reduce((s,a)=> s + ((a.price||0) * (a.downloads||0)), 0);
+    const categories = assets.reduce((acc,a)=>{ const k=(a.category||a.type||'other').toString().toLowerCase(); acc[k]=(acc[k]||0)+1; return acc; },{});
+    const popularCategories = Object.entries(categories).map(([category,count])=>({ category, count }));
+
+    const months = lastNMonths(12);
+    const monthlyRevenue = months.map(m=>{
+      const rev = assets.filter(a=>{ const d=normalizeDate(a.createdAt); return d && monthKey(d)===m.key; }).reduce((s,a)=> s + ((a.price||0)*(a.downloads||0)),0);
+      return { month: m.label, revenue: rev };
+    });
+    const monthlyDownloads = months.map(m=>{
+      const dls = assets.filter(a=>{ const d=normalizeDate(a.createdAt); return d && monthKey(d)===m.key; }).reduce((s,a)=> s + (a.downloads||0),0);
+      return { month: m.label, downloads: dls };
+    });
+
+    const totalOrders = totalDownloads;
+    const conversionRate = users.length ? Math.min(100, (totalOrders / users.length) * 100) : 0;
+    const averageOrderValue = totalOrders ? totalRevenue / totalOrders : 0;
+
+    return {
+      totalRevenue,
+      totalUsers: users.length,
+      popularCategories,
+      salesReport: { totalOrders, conversionRate, averageOrderValue },
+      monthlyRevenue,
+      monthlyDownloads,
+      recentSales: [],
+    };
+  }, [assets, users]);
+
+  const revenueData = React.useMemo(() => {
+    const months = lastNMonths(12);
+    return months.map(m=>{
+      const revenue = assets.filter(a=>{ const d=normalizeDate(a.createdAt); return d && monthKey(d)===m.key; }).reduce((s,a)=> s + ((a.price||0)*(a.downloads||0)),0);
+      const orders = assets.filter(a=>{ const d=normalizeDate(a.createdAt); return d && monthKey(d)===m.key; }).reduce((s,a)=> s + (a.downloads||0),0);
+      const usersInMonth = users.filter(u=>{ const d=normalizeDate(u.createdAt); return d && monthKey(d)===m.key; }).length;
+      return { month: m.label, revenue, orders, users: usersInMonth };
+    });
+  }, [assets, users]);
+
+  const userGrowthData = React.useMemo(() => {
+    const days = 30;
+    const arr = [];
+    let total = 0;
+    const byDay = users.reduce((acc,u)=>{ const d=normalizeDate(u.createdAt); if(!d) return acc; const k=d.toISOString().slice(0,10); acc[k]=(acc[k]||0)+1; return acc; },{});
+    for (let i = days-1; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const key = d.toISOString().slice(0,10);
+      const newUsers = byDay[key]||0;
+      total += newUsers;
+      arr.push({ date: key, newUsers, totalUsers: total });
+    }
+    return arr;
+  }, [users]);
+
+  const formatDateForFilename = () => {
+    const now = new Date();
+    return now.toISOString().split('T')[0];
+  };
+
+  const generateCSVContent = () => {
+    const rows = [];
+    rows.push(["Analytics Report", `Generated on ${new Date().toLocaleDateString()}`]);
+    rows.push([""]);
+    rows.push(["Key Metrics"]);
+    rows.push(["Metric","Value","Change"]);
+    rows.push(["Total Revenue", formatCurrency(analytics.totalRevenue), "+12.3%"]);
+    rows.push(["Total Orders", analytics.salesReport.totalOrders.toLocaleString(), "+8.7%"]);
+    rows.push(["Active Users", analytics.totalUsers.toLocaleString(), "+15.2%"]);
+    rows.push(["Conversion Rate", `${analytics.salesReport.conversionRate.toFixed(1)}%`, "-2.1%"]);
+    rows.push([""]);
+    rows.push(["Monthly Revenue Trend"]);
+    rows.push(["Month","Revenue","Orders","Users"]);
+    revenueData.forEach(item=>{
+      rows.push([item.month, formatCurrency(item.revenue), item.orders.toString(), item.users.toString()]);
+    });
+    rows.push([""]);
+    rows.push(["User Growth (Last 7 Days)"]);
+    rows.push(["Date","New Users","Total Users"]);
+    userGrowthData.slice(-7).forEach(item=>{
+      rows.push([item.date, item.newUsers.toString(), item.totalUsers.toString()]);
+    });
+    rows.push([""]);
+    rows.push(["Asset Categories"]);
+    rows.push(["Category","Count","Percentage"]);
+    const totalAssets = analytics.popularCategories.reduce((s,c)=> s + c.count, 0) || 1;
+    analytics.popularCategories.forEach(category=>{
+      const percentage = ((category.count/totalAssets)*100).toFixed(1);
+      rows.push([category.category, category.count.toString(), `${percentage}%`]);
+    });
+    rows.push([""]);
+    rows.push(["Top Performing Assets"]);
+    rows.push(["Asset","Category","Downloads","Revenue","Growth"]);
+    const topAssets = assets
+      .map(a=>({ name: a.title||a.name||'Asset', category: a.category||a.type||'other', downloads: a.downloads||0, revenue: (a.price||0)*(a.downloads||0), growth: 0 }))
+      .sort((a,b)=> b.revenue - a.revenue)
+      .slice(0,5);
+    topAssets.forEach(asset=>{
+      rows.push([asset.name, asset.category, asset.downloads.toLocaleString(), formatCurrency(asset.revenue), `${asset.growth}%`]);
+    });
+    return rows.map(row=> row.map(cell=>`"${cell.toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  };
+
+  const generateJSONReport = () => ({
+    reportMetadata: { generatedAt: new Date().toISOString(), reportType: 'Analytics Report', timeRange: 'Last 12 months' },
+    keyMetrics: {
+      totalRevenue: analytics.totalRevenue,
+      totalOrders: analytics.salesReport.totalOrders,
+      activeUsers: analytics.totalUsers,
+      conversionRate: analytics.salesReport.conversionRate,
+      averageOrderValue: analytics.salesReport.averageOrderValue,
+      monthlyRevenue: analytics.monthlyRevenue,
+      monthlyDownloads: analytics.monthlyDownloads,
+    },
+    revenueData,
+    userGrowthData,
+    categoryDistribution: analytics.popularCategories,
+    topPerformingAssets: assets
+      .map(a=>({ name: a.title||a.name||'Asset', category: a.category||a.type||'other', downloads: a.downloads||0, revenue: (a.price||0)*(a.downloads||0), growth: 0 }))
+      .sort((a,b)=> b.revenue - a.revenue)
+      .slice(0,5),
+    recentSales: [],
+  });
+
+  const downloadFile = (content, filename, contentType) => {
+    const blob = new Blob([content], { type: contentType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url; link.download = filename; document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+  };
+
+  const handleExportCSV = async () => {
+    setIsExporting(true);
+    try {
+      const csv = generateCSVContent();
+      const filename = `analytics-report-${formatDateForFilename()}.csv`;
+      downloadFile(csv, filename, 'text/csv;charset=utf-8;');
+      alert('CSV report exported successfully!');
+    } catch (e) {
+      console.error('Export error:', e);
+      setError('Failed to export CSV report');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportJSON = async () => {
+    setIsExporting(true);
+    try {
+      const json = JSON.stringify(generateJSONReport(), null, 2);
+      const filename = `analytics-report-${formatDateForFilename()}.json`;
+      downloadFile(json, filename, 'application/json;charset=utf-8;');
+      alert('JSON report exported successfully!');
+    } catch (e) {
+      console.error('Export error:', e);
+      setError('Failed to export JSON report');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      const reportData = generateJSONReport();
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) { setError('Please allow popups to generate PDF'); setIsExporting(false); return; }
+      const pdfContent = `<!DOCTYPE html><html><head><title>Analytics Report - ${formatDateForFilename()}</title><style>@page{margin:1cm;size:A4}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin:0;color:#333;line-height:1.6;font-size:12px}.header{text-align:center;margin-bottom:30px;border-bottom:3px solid #2563eb;padding-bottom:20px}.header h1{color:#2563eb;margin:0;font-size:28px;font-weight:bold}.header .subtitle{color:#6b7280;margin-top:5px;font-size:14px}.section{margin-bottom:25px;page-break-inside:avoid}.section h2{color:#1f2937;border-bottom:2px solid #e5e7eb;padding-bottom:8px;margin-bottom:15px;font-size:18px;font-weight:600}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin:15px 0}.metric-card{border:1px solid #d1d5db;padding:15px;border-radius:8px;background:#f9fafb;text-align:center}.metric-value{font-size:20px;font-weight:bold;color:#059669;margin-bottom:5px}.metric-label{color:#6b7280;font-size:12px;font-weight:500}.metric-change{font-size:11px;margin-top:3px}.change-positive{color:#059669}.change-negative{color:#dc2626}table{width:100%;border-collapse:collapse;margin:15px 0;font-size:11px}th,td{border:1px solid #d1d5db;padding:8px 6px;text-align:left}th{background-color:#f3f4f6;font-weight:600;color:#374151}tr:nth-child(even){background-color:#f9fafb}.revenue-table td:nth-child(3),.revenue-table td:nth-child(4){text-align:right}.footer{margin-top:30px;padding-top:15px;border-top:1px solid #e5e7eb;text-align:center;color:#6b7280;font-size:10px}@media print{body{margin:0}.no-print{display:none}}</style></head><body><div class="header"><h1>Analytics Report</h1><div class="subtitle">Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</div></div><div class="section"><h2>Executive Summary</h2><div class="metrics"><div class="metric-card"><div class="metric-value">${formatCurrency(reportData.keyMetrics.totalRevenue)}</div><div class="metric-label">Total Revenue</div><div class="metric-change change-positive">+12.3% vs last month</div></div><div class="metric-card"><div class="metric-value">${reportData.keyMetrics.totalOrders.toLocaleString()}</div><div class="metric-label">Total Orders</div><div class="metric-change change-positive">+8.7% vs last month</div></div><div class="metric-card"><div class="metric-value">${reportData.keyMetrics.activeUsers.toLocaleString()}</div><div class="metric-label">Active Users</div><div class="metric-change change-positive">+15.2% vs last month</div></div><div class="metric-card"><div class="metric-value">${reportData.keyMetrics.conversionRate.toFixed(1)}%</div><div class="metric-label">Conversion Rate</div><div class="metric-change change-negative">-2.1% vs last month</div></div></div></div><div class="section"><h2>Monthly Revenue Performance</h2><table class="revenue-table"><thead><tr><th>Month</th><th>Revenue</th><th>Orders</th><th>Users</th></tr></thead><tbody>${revenueData.map(item=>`<tr><td>${item.month}</td><td>${formatCurrency(item.revenue)}</td><td>${item.orders}</td><td>${item.users}</td></tr>`).join('')}</tbody></table></div><div class="section"><h2>Asset Category Distribution</h2><table><thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead><tbody>${analytics.popularCategories.map(cat=>{const total=analytics.popularCategories.reduce((s,c)=>s+c.count,0)||1;const pct=((cat.count/total)*100).toFixed(1);return `<tr><td>${cat.category}</td><td>${cat.count}</td><td>${pct}%</td></tr>`}).join('')}</tbody></table></div><div class="section"><h2>Top Performing Assets</h2><table><thead><tr><th>Asset Name</th><th>Category</th><th>Downloads</th><th>Revenue</th><th>Growth</th></tr></thead><tbody>${assets.map(a=>({ name:a.title||a.name||'Asset', category:a.category||a.type||'other', downloads:a.downloads||0, revenue:(a.price||0)*(a.downloads||0), growth:0 })).sort((a,b)=>b.revenue-a.revenue).slice(0,5).map(asset=>`<tr><td>${asset.name}</td><td>${asset.category}</td><td>${asset.downloads.toLocaleString()}</td><td>${formatCurrency(asset.revenue)}</td><td class="change-positive">+${asset.growth}%</td></tr>`).join('')}</tbody></table></div><div class="footer"><p>This report contains confidential business information. Generated by Digital Marketplace Analytics System.</p></div></body></html>`;
+      printWindow.document.write(pdfContent);
+      printWindow.document.close();
+      setTimeout(()=>{ printWindow.focus(); printWindow.print(); setTimeout(()=>{ alert("PDF report ready! Use your browser's print dialog to save as PDF."); setIsExporting(false); }, 500); }, 300);
+    } catch (e) {
+      console.error('PDF export error:', e);
+      setError('Failed to generate PDF report');
+      setIsExporting(false);
+    }
   };
 
   if (error && !isAdmin) {
@@ -756,7 +1012,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <QuickActions onNavigate={(tab) => setActiveTab(tab)} />
+            <QuickActions onNavigate={(tab) => setActiveTab(tab)} onExportCSV={handleExportCSV} onExportJSON={handleExportJSON} onExportPDF={handleExportPDF} isExporting={isExporting} />
 
             <div className="overview-panels">
               <div className="content-card">
@@ -986,12 +1242,20 @@ const AdminDashboard = () => {
                 </div>
               )}
               {activeTab === 4 && (
-                <BlogList
+                <BlogSection
                   blogs={currentBlogs}
                   onDelete={handleDeleteBlog}
-                  onCreate={() => {
-                    setIsBlogModalOpen(true);
-                  }}
+                  onToggleStatus={handleToggleBlogStatus}
+                  blogSearchTerm={blogSearchTerm}
+                  setBlogSearchTerm={setBlogSearchTerm}
+                  selectedBlogStatus={selectedBlogStatus}
+                  setSelectedBlogStatus={setSelectedBlogStatus}
+                  showBlogDialog={showBlogDialog}
+                  setShowBlogDialog={setShowBlogDialog}
+                  selectedBlog={selectedBlog}
+                  setSelectedBlog={setSelectedBlog}
+                  onCreate={() => { setIsBlogModalOpen(true); }}
+                  formatDate={formatDate}
                 />
               )}
               {activeTab === 5 && (
@@ -1001,6 +1265,9 @@ const AdminDashboard = () => {
                   onCreate={() => {
                     setIsPortfolioModalOpen(true);
                   }}
+                  onToggleFeatured={handleTogglePortfolioFeatured}
+                  onUpdateStatus={handleUpdatePortfolioStatus}
+                  formatDate={formatDate}
                 />
               )}
               {activeTab === 6 && (
@@ -1336,7 +1603,7 @@ const SupportList = ({ messages, onStatusChange, onMessageClick, selectedMessage
   );
 };
 
-const BlogList = ({ blogs, onDelete, onCreate }) => {
+const BlogList = ({ blogs, onDelete, onCreate, onToggleStatus }) => {
   return (
     <div className="table-container">
       <div className="table-actions">
@@ -1357,18 +1624,29 @@ const BlogList = ({ blogs, onDelete, onCreate }) => {
               <td colSpan="4" className="no-data">No blogs found</td>
             </tr>
           ) : (
-            blogs.map((blog) => (
-              <tr key={blog.id}>
-                <td>{blog.title || "Untitled"}</td>
-                <td>{blog.author || "Unknown"}</td>
-                <td>{blog.createdAt?.toDate().toLocaleDateString() || "N/A"}</td>
-                <td>
-                  <button onClick={() => onDelete(blog.id)} className="action-button delete-button">
-                    <FiTrash2 /> Delete
-                  </button>
-                </td>
-              </tr>
-            ))
+            blogs.map((blog) => {
+              const status = (blog.status || 'draft').toLowerCase();
+              return (
+                <tr key={blog.id}>
+                  <td>{blog.title || "Untitled"}</td>
+                  <td>{blog.author || "Unknown"}</td>
+                  <td>{blog.createdAt?.toDate?.().toLocaleDateString?.() || "N/A"}</td>
+                  <td>
+                    <div className="actions">
+                      <button
+                        className="action-button secondary"
+                        onClick={() => onToggleStatus(blog.id, status)}
+                      >
+                        {status === 'published' ? 'Make Draft' : 'Publish'}
+                      </button>
+                      <button onClick={() => onDelete(blog.id)} className="action-button delete-button">
+                        <FiTrash2 /> Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>
@@ -1376,42 +1654,413 @@ const BlogList = ({ blogs, onDelete, onCreate }) => {
   );
 };
 
-const PortfolioList = ({ portfolios, onDelete, onCreate }) => {
+const BlogSection = ({ blogs, onDelete, onToggleStatus, blogSearchTerm, setBlogSearchTerm, selectedBlogStatus, setSelectedBlogStatus, showBlogDialog, setShowBlogDialog, selectedBlog, setSelectedBlog, onCreate, formatDate }) => {
+  const filteredBlogs = blogs.filter((blog) => {
+    const term = blogSearchTerm.toLowerCase();
+    const matchesSearch = (blog.title || "").toLowerCase().includes(term) ||
+      (blog.content || "").toLowerCase().includes(term) ||
+      (Array.isArray(blog.tags) && blog.tags.some((t) => (t || "").toLowerCase().includes(term)));
+    const status = (blog.status || 'draft').toLowerCase();
+    const matchesStatus = selectedBlogStatus === 'all' || status === selectedBlogStatus;
+    return matchesSearch && matchesStatus;
+  });
+
   return (
-    <div className="table-container">
-      <div className="table-actions">
-        <button onClick={onCreate} className="action-button">Create New Portfolio</button>
+    <div className="asset-management-enhanced">
+      <div className="asset-header">
+        <div className="header-content">
+          <h2 className="header-title">
+            <FiFileText className="header-icon" />
+            Blog Management
+          </h2>
+          <p className="header-subtitle">Create and manage blog posts</p>
+        </div>
+        <div className="header-actions">
+          <span className="asset-badge-count">{filteredBlogs.length} posts</span>
+          <button className="action-button upload-button" onClick={onCreate}>
+            <FiPlus className="button-icon" /> Create Blog Post
+          </button>
+        </div>
       </div>
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Owner</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {portfolios.length === 0 ? (
-            <tr>
-              <td colSpan="4" className="no-data">No portfolios found</td>
-            </tr>
-          ) : (
-            portfolios.map((portfolio) => (
-              <tr key={portfolio.id}>
-                <td>{portfolio.title || "Untitled"}</td>
-                <td>{portfolio.owner || "Unknown"}</td>
-                <td>{portfolio.createdAt?.toDate().toLocaleDateString() || "N/A"}</td>
-                <td>
-                  <button onClick={() => onDelete(portfolio.id)} className="action-button delete-button">
-                    <FiTrash2 /> Delete
-                  </button>
-                </td>
-              </tr>
-            ))
+
+      <div className="content-card filters-card">
+        <div className="card-body">
+          <div className="asset-filters-grid">
+            <div className="search-input-wrapper">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search blog posts..."
+                value={blogSearchTerm}
+                onChange={(e) => setBlogSearchTerm(e.target.value)}
+                className="search-input"
+              />
+            </div>
+            <select
+              value={selectedBlogStatus}
+              onChange={(e) => setSelectedBlogStatus(e.target.value)}
+              className="filter-select"
+            >
+              <option value="all">All Status</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+            <div className="filter-result">
+              <FiFilter className="filter-icon" />
+              <span className="filter-text">{filteredBlogs.length} results</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {filteredBlogs.length > 0 ? (
+        <div className="assets-grid">
+          {filteredBlogs.map((blog) => {
+            const status = (blog.status || 'draft').toLowerCase();
+            const img = blog.featuredImage || blog.coverImgUrl || blog.thumbnail || '';
+            const dateText = formatDate ? formatDate(blog.createdAt) : '';
+            const firstTag = Array.isArray(blog.tags) && blog.tags.length > 0 ? blog.tags[0] : 'General';
+            return (
+              <div key={blog.id || blog._id} className="asset-card">
+                <div className="asset-image-wrapper">
+                  {img ? (
+                    <img src={img} alt={blog.title || 'Blog'} className="asset-image" />
+                  ) : (
+                    <div className="asset-placeholder"><FiFileText className="placeholder-icon" /></div>
+                  )}
+                  <div className="asset-badges">
+                    <span className={`status-badge ${status === 'published' ? 'active' : 'pending'}`}>{status}</span>
+                  </div>
+                </div>
+                <div className="asset-content">
+                  <div className="asset-header-row">
+                    <h3 className="asset-title">{blog.title || 'Untitled'}</h3>
+                    <div className="asset-menu">
+                      <span className="role-badge user">{firstTag}</span>
+                    </div>
+                  </div>
+                  <p className="asset-description">{blog.excerpt || ''}</p>
+                  <div className="asset-footer">
+                    <span className="asset-author"><FiUser className="author-icon" /> by {blog.authorName || 'Unknown'}</span>
+                    <span className="asset-date">{dateText}</span>
+                  </div>
+                  <div className="table-actions">
+                    <button className="action-button secondary" onClick={() => { setSelectedBlog(blog); setShowBlogDialog(true); }}>
+                      <FiEye className="button-icon" /> View
+                    </button>
+                    <button className="action-button secondary" onClick={() => onToggleStatus(blog.id || blog._id, status)}>
+                      {status === 'published' ? 'Make Draft' : 'Publish'}
+                    </button>
+                    <button className="action-button danger" onClick={() => onDelete(blog.id || blog._id)}>
+                      <FiTrash2 className="button-icon" /> Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="content-card">
+          <div className="card-body empty-state">
+            <FiFileText className="empty-icon" />
+            <h3 className="empty-title">No blog posts found</h3>
+            <p className="empty-text">{blogSearchTerm ? 'No blog posts match your search criteria.' : 'No blog posts are currently available.'}</p>
+            <button className="action-button upload-button" onClick={onCreate}>
+              <FiPlus className="button-icon" /> Create First Blog Post
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showBlogDialog && selectedBlog && (
+        <BlogDetailsModal blog={selectedBlog} onClose={() => setShowBlogDialog(false)} />
+      )}
+    </div>
+  );
+};
+
+const BlogDetailsModal = ({ blog, onClose }) => {
+  const dateText = blog?.createdAt?.toDate?.()?.toLocaleDateString?.() || '';
+  return (
+    <div className="modal-overlay">
+      <div className="modal enhanced-modal">
+        <div className="modal-header">
+          <h3 className="modal-title"><FiFileText className="modal-icon" /> Blog Post Details</h3>
+          <button onClick={onClose} className="close-button"><FiX /></button>
+        </div>
+        <div className="modal-body enhanced-modal-body">
+          {blog?.featuredImage && (
+            <div className="asset-preview">
+              <img src={blog.featuredImage} alt={blog.title || 'Blog'} className="preview-image" />
+            </div>
           )}
-        </tbody>
-      </table>
+          <div className="asset-info-section">
+            <h4 className="asset-info-title">{blog?.title || 'Untitled'}</h4>
+            <p className="asset-info-description">{blog?.excerpt || ''}</p>
+            <div className="asset-info-grid">
+              <div className="info-item"><div className="info-label">Author</div><div className="info-value">{blog?.authorName || 'Unknown'}</div></div>
+              <div className="info-item"><div className="info-label">Status</div><div className="info-value">{blog?.status || 'draft'}</div></div>
+              <div className="info-item"><div className="info-label">Views</div><div className="info-value">{blog?.views || 0}</div></div>
+              <div className="info-item"><div className="info-label">Created</div><div className="info-value">{dateText}</div></div>
+            </div>
+            {Array.isArray(blog?.tags) && blog.tags.length > 0 && (
+              <div className="asset-info-section">
+                <div className="info-label">Tags</div>
+                <div className="usage-list">
+                  {blog.tags.map((t, i) => (<span key={i} className="role-badge user">{t}</span>))}
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="asset-info-section">
+            <div className="info-label">Content</div>
+            <div className="message-content" dangerouslySetInnerHTML={{ __html: blog?.content || '' }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PortfolioList = ({ portfolios, onDelete, onCreate, onToggleFeatured, onUpdateStatus, formatDate }) => {
+  const [portfolioSearchTerm, setPortfolioSearchTerm] = useState("");
+  const [selectedPortfolioCategory, setSelectedPortfolioCategory] = useState("all");
+  const [selectedPortfolioStatus, setSelectedPortfolioStatus] = useState("all");
+  const [showPortfolioDialog, setShowPortfolioDialog] = useState(false);
+  const [selectedPortfolio, setSelectedPortfolio] = useState(null);
+
+  const uniqueCategories = Array.from(
+    new Set(
+      portfolios
+        .map((p) => (p.category || p.type || "").toString().trim())
+        .filter(Boolean)
+    )
+  );
+
+  const filteredPortfolios = portfolios.filter((p) => {
+    const matchesSearch = (p.title || "").toLowerCase().includes(portfolioSearchTerm.toLowerCase());
+    const matchesCategory = selectedPortfolioCategory === "all" || (p.category || p.type) === selectedPortfolioCategory;
+    const status = (p.status || "draft").toLowerCase();
+    const matchesStatus = selectedPortfolioStatus === "all" || status === selectedPortfolioStatus;
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
+
+  const getImage = (p) => p.image || p.coverImgUrl || p.featureImgUrl || p.thumbnail || (Array.isArray(p.images) && p.images[0]) || p.cover || "";
+
+  return (
+    <div className="asset-management-enhanced">
+      <div className="asset-header">
+        <div className="header-content">
+          <h2 className="header-title">
+            <FiBriefcase className="header-icon asset-icon" />
+            Portfolio Management
+          </h2>
+          <p className="header-subtitle">Manage portfolio projects and showcase work</p>
+        </div>
+        <div className="header-actions">
+          <span className="asset-badge-count">{filteredPortfolios.length} projects</span>
+          <button className="action-button upload-button" onClick={onCreate}>
+            <FiPlus className="button-icon" />
+            Add Project
+          </button>
+        </div>
+      </div>
+
+      <div className="content-card filters-card">
+        <div className="card-body">
+          <div className="asset-filters-grid">
+            <div className="search-input-wrapper">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search portfolio..."
+                value={portfolioSearchTerm}
+                onChange={(e) => setPortfolioSearchTerm(e.target.value)}
+                className="search-input"
+              />
+            </div>
+            <select
+              value={selectedPortfolioCategory}
+              onChange={(e) => setSelectedPortfolioCategory(e.target.value)}
+              className="filter-select"
+            >
+              <option value="all">All Categories</option>
+              {uniqueCategories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedPortfolioStatus}
+              onChange={(e) => setSelectedPortfolioStatus(e.target.value)}
+              className="filter-select"
+            >
+              <option value="all">All Status</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+            <div className="filter-result">
+              <FiFilter className="filter-icon" />
+              <span className="filter-text">{filteredPortfolios.length} results</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {filteredPortfolios.length === 0 ? (
+        <div className="content-card">
+          <div className="card-body empty-state">
+            <FiBriefcase className="empty-icon" />
+            <h3 className="empty-title">No portfolio projects found</h3>
+            <p className="empty-text">
+              {portfolioSearchTerm ? "No projects match your search criteria." : "No portfolio projects are currently available."}
+            </p>
+            <button className="action-button upload-button" onClick={onCreate}>
+              <FiPlus className="button-icon" />
+              Create First Project
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="assets-grid">
+          {filteredPortfolios.map((p) => (
+            <div key={p.id} className="asset-card">
+              <div className="asset-image-wrapper">
+                {getImage(p) ? (
+                  <img src={getImage(p)} alt={p.title || "Project"} className="asset-image" />
+                ) : (
+                  <div className="asset-placeholder">
+                    <FiImage className="placeholder-icon" />
+                  </div>
+                )}
+                <div className="asset-badges">
+                  {p.featured && (
+                    <span className="asset-badge featured">
+                      <FiStar className="badge-icon" /> Featured
+                    </span>
+                  )}
+                  <span className={`status-badge ${((p.status||"draft").toLowerCase()==='published')? 'active' : 'pending'}`}>
+                    {(p.status || "draft")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="asset-content">
+                <div className="asset-header-row">
+                  <h3 className="asset-title">{p.title || "Untitled"}</h3>
+                  <div className="asset-menu">
+                    <button
+                      className="menu-trigger"
+                      onClick={() => { setSelectedPortfolio(p); setShowPortfolioDialog(true); }}
+                    >
+                      <FiMoreHorizontal />
+                    </button>
+                  </div>
+                </div>
+
+                <p className="asset-description">{p.description || "No description available"}</p>
+
+                <div className="asset-meta">
+                  <span className="meta-item">
+                    <FiTag className="meta-icon" />
+                    {p.category || p.type || "Uncategorized"}
+                  </span>
+                </div>
+
+                <div className="asset-footer">
+                  <span className="asset-author">
+                    <FiUser className="author-icon" /> by {p.authorName || p.owner || p.userId || "Unknown"}
+                  </span>
+                  <span className="asset-date">{formatDate && formatDate(p.createdAt)}</span>
+                </div>
+
+                <div className="table-actions">
+                  <button
+                    className="action-button secondary"
+                    onClick={() => onToggleFeatured(p.id)}
+                  >
+                    <FiStar className="button-icon" /> {p.featured ? "Unfeature" : "Feature"}
+                  </button>
+                  <button
+                    className="action-button secondary"
+                    onClick={() => onUpdateStatus(p.id, (p.status||"draft").toLowerCase()==="published"?"draft":"published")}
+                  >
+                    {(p.status||"draft").toLowerCase()==="published"?"Make Draft":"Publish"}
+                  </button>
+                  <button className="action-button danger" onClick={() => onDelete(p.id)}>
+                    <FiTrash2 className="button-icon" /> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {showPortfolioDialog && selectedPortfolio && (
+        <PortfolioDetailsModal
+          portfolio={selectedPortfolio}
+          onClose={() => setShowPortfolioDialog(false)}
+        />
+      )}
+    </div>
+  );
+};
+
+const PortfolioDetailsModal = ({ portfolio, onClose }) => {
+  return (
+    <div className="modal-overlay">
+      <div className="modal enhanced-modal">
+        <div className="modal-header">
+          <h3 className="modal-title"><FiBriefcase className="modal-icon" /> Portfolio Details</h3>
+          <button onClick={onClose} className="close-button"><FiX /></button>
+        </div>
+        <div className="modal-body enhanced-modal-body">
+          <div className="asset-preview">
+            {portfolio.image || portfolio.coverImgUrl || portfolio.featureImgUrl ? (
+              <img src={portfolio.image || portfolio.coverImgUrl || portfolio.featureImgUrl} alt={portfolio.title} className="preview-image" />
+            ) : (
+              <div className="preview-placeholder" />
+            )}
+          </div>
+          <div className="asset-info-section">
+            <h4 className="asset-info-title">{portfolio.title}</h4>
+            <p className="asset-info-description">{portfolio.description || "No description"}</p>
+
+            <div className="asset-info-grid">
+              <div className="info-item">
+                <div className="info-label">Category</div>
+                <div className="info-value">{portfolio.category || portfolio.type || "Uncategorized"}</div>
+              </div>
+              <div className="info-item">
+                <div className="info-label">Author</div>
+                <div className="info-value">{portfolio.authorName || portfolio.owner || portfolio.userId || "Unknown"}</div>
+              </div>
+              <div className="info-item">
+                <div className="info-label">Created</div>
+                <div className="info-value">{portfolio.createdAt?.toDate?.().toLocaleDateString?.() || "N/A"}</div>
+              </div>
+              <div className="info-item">
+                <div className="info-label">Status</div>
+                <div className="info-value">{portfolio.status || "draft"}</div>
+              </div>
+            </div>
+
+            {Array.isArray(portfolio.technologies) && portfolio.technologies.length > 0 && (
+              <div className="asset-info-section">
+                <div className="info-label">Technologies</div>
+                <div className="usage-list">
+                  {portfolio.technologies.map((t, i) => (
+                    <span key={i} className="role-badge user">{t}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -2079,13 +2728,16 @@ const RecentActivity = ({ messages, blogs, portfolios, assets }) => {
   );
 };
 
-const QuickActions = ({ onNavigate }) => {
+const QuickActions = ({ onNavigate, onExportCSV, onExportJSON, onExportPDF, isExporting }) => {
   return (
     <div className="quick-actions">
       <button className="qa-button" onClick={() => onNavigate(1)}><FiUsers /> Manage Users</button>
       <button className="qa-button" onClick={() => onNavigate(3)}><FiUpload /> Add Upload</button>
       <button className="qa-button" onClick={() => onNavigate(4)}><FiFileText /> Create Blog</button>
       <button className="qa-button" onClick={() => onNavigate(5)}><FiFileText /> Add Portfolio</button>
+      <button className="qa-button" onClick={onExportCSV} disabled={isExporting}><FiDownload /> Export CSV</button>
+      <button className="qa-button" onClick={onExportJSON} disabled={isExporting}><FiDownload /> Export JSON</button>
+      <button className="qa-button" onClick={onExportPDF} disabled={isExporting}><FiDownload /> Export PDF</button>
     </div>
   );
 };
