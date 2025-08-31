@@ -889,6 +889,21 @@ const AdminDashboard = () => {
                   handleBulkRoleChange={handleBulkRoleChange}
                   onUpdateStatus={handleUpdateUserStatus}
                   onDelete={handleDeleteUser}
+                  userSearchTerm={userSearchTerm}
+                  setUserSearchTerm={setUserSearchTerm}
+                  selectedUserRole={selectedUserRole}
+                  setSelectedUserRole={setSelectedUserRole}
+                  selectedUserStatus={selectedUserStatus}
+                  setSelectedUserStatus={setSelectedUserStatus}
+                  showUserDialog={showUserDialog}
+                  setShowUserDialog={setShowUserDialog}
+                  selectedUser={selectedUser}
+                  setSelectedUser={setSelectedUser}
+                  formatCurrency={formatCurrency}
+                  formatDate={formatDate}
+                  getRoleColor={getRoleColor}
+                  handleUserStatusToggle={handleUserStatusToggle}
+                  handleUserRoleChange={handleUserRoleChange}
                 />
               )}
               {activeTab === 2 && (
@@ -1886,7 +1901,7 @@ const UserProfileDrawer = ({ user, onClose, onUpdateStatus, onRoleChange }) => {
           {tab === 'activity' && (
             <div className="drawer-section">
               <ul className="activity-list">
-                <li className="activity-item"><span className="activity-type">Login</span><span className="activity-label">Signed in</span><span className="activity-time">—</span></li>
+                <li className="activity-item"><span className="activity-type">Login</span><span className="activity-label">Signed in</span><span className="activity-time">��</span></li>
               </ul>
             </div>
           )}
