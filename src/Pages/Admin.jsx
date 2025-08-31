@@ -1,5 +1,5 @@
 // import Tab from '../Components/UI/Tabs'
-import AdminDashboard from "../Components/UI/dashboard/dashboard-old";
+import AdminDashboard from "../Components/UI/dashboard/AdminDashboard";
 
 const Admin = () => {
   return (
