@@ -64,6 +64,11 @@ const Navbar = () => {
             </button>
             <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
               <ul className="navbar-nav">
+                <li className="nav-item d-lg-none">
+                  <Link to="/Login" className="nav-link">
+                    <span className="rolling-text">Sign In</span>
+                  </Link>
+                </li>
                 <li onMouseLeave={handleDropdownMouseLeave} onMouseMove={handleDropdownMouseMove} className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <span className="rolling-text">Home</span>
