@@ -1223,14 +1223,129 @@ const AdminDashboard = () => {
                 />
               )}
               {activeTab === 2 && (
-                <SupportList
-                  messages={currentMessages}
-                  onStatusChange={handleStatusChange}
-                  onMessageClick={setSelectedMessage}
-                  selectedMessages={selectedMessages}
-                  setSelectedMessages={setSelectedMessages}
-                  handleBulkStatusChange={handleBulkStatusChange}
-                />
+                <>
+                  <div className="user-header">
+                    <div className="header-content">
+                      <h2 className="header-title"><FiMail className="header-icon" /> Support Tickets</h2>
+                      <p className="header-subtitle">Manage customer support requests</p>
+                    </div>
+                    <div className="filter-group-responsive">
+                      <select className="filter-select" value={supportStatusFilter} onChange={(e)=>setSupportStatusFilter(e.target.value)}>
+                        <option value="all">All Status</option>
+                        <option value="open">Open</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="closed">Closed</option>
+                      </select>
+                      <select className="filter-select" value={supportCategoryFilter} onChange={(e)=>setSupportCategoryFilter(e.target.value)}>
+                        <option value="all">All Categories</option>
+                        <option value="technical">Technical</option>
+                        <option value="billing">Billing</option>
+                        <option value="general">General</option>
+                        <option value="bug-report">Bug Report</option>
+                        <option value="feature-request">Feature Request</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="content-card">
+                    <div className="card-body table-wrapper">
+                      <div className="table-container">
+                        <table className="data-table">
+                          <thead>
+                            <tr>
+                              <th>Ticket</th>
+                              <th>User</th>
+                              <th>Category</th>
+                              <th>Priority</th>
+                              <th>Status</th>
+                              <th>Created</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {supportMessages.filter((t)=>{
+                              const s=(t.status||'unopened').toLowerCase();
+                              const openSet=['unopened','opened'];
+                              const statusOk = supportStatusFilter==='all' ? true : supportStatusFilter==='open' ? openSet.includes(s) : supportStatusFilter==='in-progress' ? s==='opened' : supportStatusFilter==='resolved' ? ['responded','closed','resolved'].includes(s) : supportStatusFilter==='closed' ? s==='closed' : true;
+                              const c=(t.category||'general').toLowerCase();
+                              const catOk = supportCategoryFilter==='all' || c===supportCategoryFilter;
+                              return statusOk && catOk;
+                            }).length === 0 ? (
+                              <tr>
+                                <td colSpan={7} className="no-data">No support tickets found</td>
+                              </tr>
+                            ) : (
+                              supportMessages.filter((t)=>{
+                                const s=(t.status||'unopened').toLowerCase();
+                                const openSet=['unopened','opened'];
+                                const statusOk = supportStatusFilter==='all' ? true : supportStatusFilter==='open' ? openSet.includes(s) : supportStatusFilter==='in-progress' ? s==='opened' : supportStatusFilter==='resolved' ? ['responded','closed','resolved'].includes(s) : supportStatusFilter==='closed' ? s==='closed' : true;
+                                const c=(t.category||'general').toLowerCase();
+                                const catOk = supportCategoryFilter==='all' || c===supportCategoryFilter;
+                                return statusOk && catOk;
+                              }).map((ticket)=>{
+                                const priority=(ticket.priority||'medium').toLowerCase();
+                                const status=(ticket.status||'unopened').toLowerCase();
+                                return (
+                                  <tr key={ticket.id}>
+                                    <td>
+                                      <div className="inbox-title">{ticket.subject || 'No Subject'}</div>
+                                      <div className="inbox-email">{(ticket.description||ticket.message||'').slice(0,120)}</div>
+                                    </td>
+                                    <td>
+                                      <div className="inbox-title">{ticket.userName || ticket.email || 'Unknown'}</div>
+                                      <div className="inbox-email">{ticket.userEmail || ''}</div>
+                                    </td>
+                                    <td>{(ticket.category||'general')}</td>
+                                    <td>
+                                      <span className={`status-badge ${priority==='urgent'?'banned': priority==='high'?'pending': priority==='medium'?'active':'normal'}`}>{priority}</span>
+                                    </td>
+                                    <td><span className={`status-badge ${status}`}>{status}</span></td>
+                                    <td>{ticket.createdAt?.toDate?.().toLocaleDateString?.() || 'N/A'}</td>
+                                    <td>
+                                      <button className="action-button" onClick={()=>{ setSelectedSupportTicket(ticket); setSupportResponse(ticket.adminResponse||''); setShowSupportTicketDialog(true); }}>
+                                        <FiReply /> {ticket.adminResponse? 'Update' : 'Respond'}
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              })
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  {showSupportTicketDialog && selectedSupportTicket && (
+                    <div className="modal-overlay">
+                      <div className="modal enhanced-modal">
+                        <div className="modal-header">
+                          <h3 className="modal-title"><FiMessageSquare className="modal-icon" /> Support Ticket Response</h3>
+                          <button onClick={()=>setShowSupportTicketDialog(false)} className="close-button"><FiX /></button>
+                        </div>
+                        <div className="modal-body">
+                          <div className="message-content">
+                            <div className="drawer-section">
+                              <div className="inbox-title">{selectedSupportTicket.subject}</div>
+                              <div className="inbox-email">{selectedSupportTicket.userName} ({selectedSupportTicket.userEmail})</div>
+                              <div className="message-content" style={{marginTop: '0.5rem'}}>{selectedSupportTicket.message || selectedSupportTicket.description}</div>
+                            </div>
+                            <div className="drawer-section">
+                              <label className="detail-label">Your Response</label>
+                              <textarea className="reply-input" rows={4} value={supportResponse} onChange={(e)=>setSupportResponse(e.target.value)} placeholder="Enter your response..." />
+                            </div>
+                          </div>
+                          <div className="modal-footer">
+                            <button className="action-button" disabled={!supportResponse.trim()} onClick={()=>handleRespondToTicket(selectedSupportTicket.id, supportResponse, 'opened')}><FiAlertCircle /> Mark In Progress</button>
+                            <button className="action-button" disabled={!supportResponse.trim()} onClick={()=>handleRespondToTicket(selectedSupportTicket.id, supportResponse, 'responded')}><FiCheckCircle /> Mark Resolved</button>
+                            <button className="action-button secondary" onClick={()=>setShowSupportTicketDialog(false)}>Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
               {activeTab === 3 && (
                 <div className="uploads-layout">
