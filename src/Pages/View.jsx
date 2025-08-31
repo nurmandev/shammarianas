@@ -18,7 +18,7 @@ import UserCard from "../Components/UI/UserCard";
 import ToastAlert from "../Components/UI/ToastAlert";
 import { useNavigate } from "react-router-dom";
 import ViewItemImages from "../Components/ViewItemImages";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useUser } from "../Context/UserProvider";
 import ReactMarkdown from "react-markdown";
 import "@google/model-viewer";
