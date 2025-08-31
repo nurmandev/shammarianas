@@ -1003,7 +1003,27 @@ const AdminDashboard = () => {
                   }}
                 />
               )}
-              {activeTab === 6 && <AssetList assets={currentAssets} onDelete={handleDeleteAsset} />}
+              {activeTab === 6 && (
+                <AssetList
+                  assets={currentAssets}
+                  onDelete={handleDeleteAsset}
+                  assetSearchTerm={assetSearchTerm}
+                  setAssetSearchTerm={setAssetSearchTerm}
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                  showAssetDialog={showAssetDialog}
+                  setShowAssetDialog={setShowAssetDialog}
+                  selectedAsset={selectedAsset}
+                  setSelectedAsset={setSelectedAsset}
+                  showCreateAssetDialog={showCreateAssetDialog}
+                  setShowCreateAssetDialog={setShowCreateAssetDialog}
+                  formatCurrency={formatCurrency}
+                  formatDate={formatDate}
+                  handleToggleAssetFeatured={handleToggleAssetFeatured}
+                  handleToggleAssetTrending={handleToggleAssetTrending}
+                  ASSET_CATEGORIES={ASSET_CATEGORIES}
+                />
+              )}
               {activeTab === 7 && <AdminManager setError={setError} />}
             </div>
 
