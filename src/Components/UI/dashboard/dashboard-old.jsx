@@ -92,6 +92,12 @@ const AdminDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Asset categories
+  const ASSET_CATEGORIES = [
+    "3D Models", "Textures", "HDRIs", "Videos", "Images", "Graphics",
+    "Icons", "Fonts", "Scripts", "Mockups", "Audio", "Templates"
+  ];
+
   // Helper functions
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
