@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useUser } from "../Context/UserProvider";
 import { db } from "../../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
