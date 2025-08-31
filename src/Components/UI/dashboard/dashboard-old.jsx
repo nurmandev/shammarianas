@@ -2170,6 +2170,138 @@ const ConfirmModal = ({ title, message, onCancel, onConfirm }) => {
   );
 };
 
+const AssetDetailsModal = ({ asset, onClose, onDelete, onToggleFeatured, onToggleTrending, formatCurrency, formatDate }) => {
+  return (
+    <div className="modal-overlay">
+      <div className="modal enhanced-modal">
+        <div className="modal-header">
+          <h3 className="modal-title">
+            <FiBox className="modal-icon" />
+            Asset Details
+          </h3>
+          <button onClick={onClose} className="close-button">
+            <FiX />
+          </button>
+        </div>
+        <div className="modal-body enhanced-modal-body">
+          {/* Asset Preview */}
+          <div className="asset-preview">
+            {asset.thumbnail || asset.images?.[0] || asset.icons?.[0] ? (
+              <img
+                src={asset.thumbnail || (Array.isArray(asset.images) && asset.images[0]) || (Array.isArray(asset.icons) && asset.icons[0]) || ""}
+                alt={asset.title || asset.name || "Asset"}
+                className="preview-image"
+              />
+            ) : (
+              <div className="preview-placeholder">
+                <FiImage className="placeholder-icon large" />
+              </div>
+            )}
+          </div>
+
+          {/* Asset Info */}
+          <div className="asset-info-section">
+            <h3 className="asset-info-title">{asset.title || asset.name || "Untitled"}</h3>
+            <p className="asset-info-description">{asset.description || "No description available"}</p>
+
+            <div className="asset-info-grid">
+              <div className="info-item">
+                <span className="info-label">Category</span>
+                <span className="info-value">{asset.category || asset.type || "Uncategorized"}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Price</span>
+                <span className="info-value">{asset.price > 0 ? formatCurrency(asset.price) : "Free"}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Downloads</span>
+                <span className="info-value">{asset.downloads || 0}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Created</span>
+                <span className="info-value">{formatDate(asset.createdAt)}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Author</span>
+                <span className="info-value">{asset.authorName || asset.userId || "Unknown"}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Status</span>
+                <div className="status-badges">
+                  {asset.isFeatured && <span className="status-badge featured">Featured</span>}
+                  {asset.isTrending && <span className="status-badge trending">Trending</span>}
+                  {!asset.isFeatured && !asset.isTrending && <span className="status-badge normal">Normal</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="modal-actions">
+            <button
+              className="action-button secondary"
+              onClick={() => onToggleFeatured(asset.id)}
+            >
+              <FiStar className="button-icon" />
+              {asset.isFeatured ? "Remove Featured" : "Mark Featured"}
+            </button>
+
+            <button
+              className="action-button secondary"
+              onClick={() => onToggleTrending(asset.id)}
+            >
+              <FiTrendingUp className="button-icon" />
+              {asset.isTrending ? "Remove Trending" : "Mark Trending"}
+            </button>
+
+            <button
+              className="action-button danger"
+              onClick={() => {
+                if (window.confirm(`Delete asset "${asset.title || asset.name}"? This action cannot be undone.`)) {
+                  onDelete(asset.id);
+                  onClose();
+                }
+              }}
+            >
+              <FiTrash2 className="button-icon" />
+              Delete Asset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CreateAssetModal = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal large-modal">
+        <div className="modal-header">
+          <h3 className="modal-title">
+            <FiUpload className="modal-icon" />
+            Upload New Asset
+          </h3>
+          <button onClick={onClose} className="close-button">
+            <FiX />
+          </button>
+        </div>
+        <div className="modal-body">
+          <div className="upload-wrapper">
+            {/* This will contain the Upload component */}
+            <p className="upload-info">Upload component will be integrated here</p>
+            <div className="upload-actions">
+              <button className="action-button" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const UserDetailsModal = ({ user, onClose, onStatusToggle, onRoleChange, onDelete, formatCurrency, formatDate, getRoleColor }) => {
   return (
     <div className="modal-overlay">
