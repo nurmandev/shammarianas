@@ -5,7 +5,7 @@ import { resolve } from "path";
 // import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 // https://vitejs.dev/config/
 export default defineConfig({
-  cacheDir: "node_modules/.vite-app",
+  cacheDir: "node_modules/.vite-cache",
   plugins: [react()],
   assetsInclude: ["**/*.glb", "**/*.gltf", "**/*.jpg", "**/*.png", "**/*.hdr"],
   base: "./",
