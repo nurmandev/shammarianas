@@ -1,9 +1,7 @@
-
 import { db } from "../../../firebase";
 import { useState, useEffect, useCallback } from "react";
 import { getDocs, collection, query } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { useUser } from "@nextui-org/react";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -215,4 +213,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
