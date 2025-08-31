@@ -28,7 +28,8 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["buffer", 'react-quill', 'quill'],
+    include: ["buffer", "react-quill", "quill"],
+    exclude: ["aos", "ethers", "@stripe/stripe-js", "@stripe/react-stripe-js"],
     // esbuildOptions: {
     //   plugins: [
     //     NodeGlobalsPolyfillPlugin({
