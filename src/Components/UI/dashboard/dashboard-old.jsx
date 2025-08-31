@@ -71,30 +71,10 @@ const AdminDashboard = () => {
   // Check admin status
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-      if (!currentUser && import.meta.env.DEV) {
-        setIsAdmin(true);
-        setUsers([
-          { id: "1", email: "test@example.com", role: "user" },
-          { id: "2", email: "admin@shammarinanas.com", role: "admin" },
-          { id: "3", email: "wasivoy749@aperiol.com", role: "admin" }
-        ]);
-        setSupportMessages([
-          {
-            id: "1",
-            profileId: "1",
-            subject: "Test Support Message",
-            email: "test@example.com",
-            status: "unopened",
-            createdAt: { toDate: () => new Date() },
-            description: "This is a test support message for development"
-          }
-        ]);
-        setSelectedProfileId("1");
-        return;
-      }
 
       if (!currentUser) {
         setError("Please log in to access the admin dashboard");
+        navigate('/Login');
         return;
       }
 
@@ -105,16 +85,14 @@ const AdminDashboard = () => {
           return;
         }
 
-        const devAdminEmails = import.meta.env.VITE_DEV_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
-        const isDevAdmin = import.meta.env.DEV && devAdminEmails.includes(email);
-        const isDevelopmentBypass = import.meta.env.DEV;
 
-        if (isDevAdmin || isDevelopmentBypass || (await checkAdminStatus(email))) {
+        if (await checkAdminStatus(email)) {
           setIsAdmin(true);
           await Promise.all([fetchUsers(), fetchSupportMessages(currentUser.uid)]);
           setSelectedProfileId(currentUser.uid);
         } else {
           setError("You do not have admin privileges");
+          navigate('/');
         }
       } catch (error) {
         setError(`Failed to verify admin privileges: ${error.message}`);
@@ -134,7 +112,6 @@ const AdminDashboard = () => {
       const adminDoc = await getDoc(doc(db, "adminUsers", email));
       return adminDoc.exists();
     } catch (error) {
-      if (import.meta.env.DEV) return true;
       setError(`Failed to check admin status: ${error.message}`);
       return false;
     }
@@ -148,14 +125,7 @@ const AdminDashboard = () => {
       const userList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setUsers(userList);
     } catch (error) {
-      if (import.meta.env.DEV) {
-        setUsers([
-          { id: "1", email: "test@example.com", role: "user" },
-          { id: "2", email: "admin@shammarinanas.com", role: "admin" }
-        ]);
-      } else {
-        setError(`Failed to load users: ${error.message}`);
-      }
+      setError(`Failed to load users: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -175,21 +145,7 @@ const AdminDashboard = () => {
       const messages = querySnapshot.docs.map((doc) => ({ id: doc.id, profileId, ...doc.data() }));
       setSupportMessages(messages);
     } catch (error) {
-      if (import.meta.env.DEV) {
-        setSupportMessages([
-          {
-            id: "1",
-            profileId,
-            subject: "Test Support Message",
-            email: "test@example.com",
-            status: "unopened",
-            createdAt: { toDate: () => new Date() },
-            description: "This is a test support message"
-          }
-        ]);
-      } else {
-        setError(`Failed to load support messages: ${error.message}`);
-      }
+      setError(`Failed to load support messages: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -1180,7 +1136,7 @@ const SupportList = ({ messages, onStatusChange, onMessageClick, selectedMessage
                 <button className="qa-button" onClick={()=>setCannedOpen(!cannedOpen)}>Canned</button>
                 {cannedOpen && (
                   <div className="canned-menu">
-                    {['Thanks for reaching out! We\\\'re looking into this now.\',\'Can you share more details or a screenshot?\',\'This has been resolved. Please confirm on your side.'].map((c) => (
+                    {["Thanks for reaching out! We're looking into this now.","Can you share more details or a screenshot?","This has been resolved. Please confirm on your side."].map((c) => (
                       <button key={c} className="canned-item" onClick={()=>{ setReplyText(c); setCannedOpen(false); }}>{c}</button>
                     ))}
                   </div>
