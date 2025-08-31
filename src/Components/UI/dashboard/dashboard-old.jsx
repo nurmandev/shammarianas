@@ -26,7 +26,16 @@ import {
   FiChevronLeft,
   FiMenu,
   FiLogOut,
-  FiActivity
+  FiActivity,
+  FiFilter,
+  FiEye,
+  FiMapPin,
+  FiCalendar,
+  FiShoppingCart,
+  FiDollarSign,
+  FiDownload,
+  FiCheckCircle,
+  FiMoreHorizontal
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
@@ -53,6 +62,11 @@ const AdminDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [messageFilter, setMessageFilter] = useState("all");
+  const [userSearchTerm, setUserSearchTerm] = useState("");
+  const [selectedUserRole, setSelectedUserRole] = useState("all");
+  const [selectedUserStatus, setSelectedUserStatus] = useState("all");
+  const [showUserDialog, setShowUserDialog] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedMessages, setSelectedMessages] = useState([]);
