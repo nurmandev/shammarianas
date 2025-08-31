@@ -25,7 +25,8 @@ import {
   FiUserCheck,
   FiChevronLeft,
   FiMenu,
-  FiLogOut
+  FiLogOut,
+  FiActivity
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
@@ -604,6 +605,12 @@ const AdminDashboard = () => {
 
         {activeTab === 0 && (
           <div className="overview-grid">
+            <WelcomeBanner
+              name={auth.currentUser?.displayName || auth.currentUser?.email?.split("@")[0] || "Admin"}
+              totalUsers={users.length}
+              totalAssets={assets.length}
+            />
+
             <KPICards
               users={users}
               admins={users.filter((u) => u.role === "admin").length}
@@ -616,7 +623,7 @@ const AdminDashboard = () => {
             <div className="insights-grid">
               <div className="content-card">
                 <div className="card-header">
-                  <h3 className="panel-title">Usage Distribution</h3>
+                  <h3 className="panel-title">Popular Categories</h3>
                 </div>
                 <div className="card-body">
                   <UsageDistribution assets={assets} />
@@ -1755,6 +1762,38 @@ const ConfirmModal = ({ title, message, onCancel, onConfirm }) => {
         <div className="modal-footer">
           <button className="action-button" onClick={onCancel}>Cancel</button>
           <button className="action-button" onClick={onConfirm}>Confirm</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const WelcomeBanner = ({ name, totalUsers, totalAssets }) => {
+  return (
+    <div className="content-card welcome-banner">
+      <div className="card-body">
+        <div className="welcome-header">
+          <div className="welcome-title">
+            <h2 className="welcome-text">Welcome back, {name}! 👋</h2>
+            <p className="welcome-sub">Here's what's happening with your marketplace today.</p>
+            <div className="welcome-meta">
+              <div className="welcome-meta-item">
+                <FiActivity className="meta-icon online" />
+                <span>System Online</span>
+              </div>
+              <div className="welcome-meta-item">
+                <FiUsers className="meta-icon users" />
+                <span>{totalUsers} Users</span>
+              </div>
+              <div className="welcome-meta-item">
+                <FiBox className="meta-icon assets" />
+                <span>{totalAssets} Assets</span>
+              </div>
+            </div>
+          </div>
+          <div className="welcome-graphic">
+            <div className="graphic-circle"><FiActivity /></div>
+          </div>
         </div>
       </div>
     </div>
