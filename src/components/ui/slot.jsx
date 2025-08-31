@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import React from "react";
+
 // Simple implementation of Slot functionality
 const Slot = React.forwardRef(({ children, ...props }, ref) => {
   if (React.isValidElement(children)) {
