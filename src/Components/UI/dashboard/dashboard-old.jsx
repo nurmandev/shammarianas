@@ -214,7 +214,16 @@ const AdminDashboard = () => {
   const checkAdminStatus = async (email) => {
     if (!email) return false;
     const superAdminEmails = import.meta.env.VITE_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
-    if (superAdminEmails.includes(email)) return true;
+    if (superAdminEmails.includes(email)) {
+      try {
+        await setDoc(
+          doc(db, "adminUsers", email),
+          { createdAt: serverTimestamp(), promotedBy: "system" },
+          { merge: true }
+        );
+      } catch {}
+      return true;
+    }
 
     try {
       if (!db) return false;
