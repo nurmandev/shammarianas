@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import "../assets/Styles/video-viewer.css";
 
 const VideoViewer = ({ videoUrl, videoName, previewUrl }) => {
   const videoRef = useRef(null);
@@ -83,7 +84,7 @@ const VideoViewer = ({ videoUrl, videoName, previewUrl }) => {
                 alt="Video Preview"
                 className="preview_image"
               />
-              <button className="play_button">▶ Preview</button>
+              <button className="play_button" aria-label="Play preview">▶ Preview</button>
             </div>
           ) : (
             <video ref={videoRef} controls width="100%" poster={previewUrl}>
