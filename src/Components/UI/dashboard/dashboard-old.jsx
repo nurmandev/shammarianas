@@ -179,6 +179,13 @@ const AdminDashboard = () => {
     }
   };
 
+  // Authorized admins list
+  const AUTHORIZED_ADMINS = [
+    "admin@shammarianas.com",
+    "adebayour66265@gmail.com",
+    "shammarianas@gmail.com"
+  ];
+
   // Check admin status
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -199,6 +206,23 @@ const AdminDashboard = () => {
 
         if (await checkAdminStatus(email)) {
           setIsAdmin(true);
+
+          // Primary admin can seed additional authorized admins
+          const PRIMARY_ADMIN = "admin@shammarianas.com";
+          if (email === PRIMARY_ADMIN) {
+            try {
+              await Promise.all(
+                AUTHORIZED_ADMINS
+                  .filter((e) => e && e !== PRIMARY_ADMIN)
+                  .map((e) => setDoc(
+                    doc(db, "adminUsers", e),
+                    { createdAt: serverTimestamp(), promotedBy: email },
+                    { merge: true }
+                  ))
+              );
+            } catch {}
+          }
+
           await Promise.all([fetchUsers(), fetchSupportMessages(null)]);
           setSelectedProfileId(currentUser.uid);
         } else {
@@ -218,6 +242,7 @@ const AdminDashboard = () => {
 
     // Primary admin (must match Firestore rules)
     const PRIMARY_ADMIN = "admin@shammarianas.com";
+    const ALSO_AUTHORIZED = ["adebayour66265@gmail.com","shammarianas@gmail.com"];
     if (email === PRIMARY_ADMIN) {
       try {
         await setDoc(
@@ -231,8 +256,11 @@ const AdminDashboard = () => {
 
     try {
       if (!db) return false;
+      // Allow UI access for pre-authorized emails once seeded
       const adminDoc = await getDoc(doc(db, "adminUsers", email));
-      return adminDoc.exists();
+      if (adminDoc.exists()) return true;
+      if (ALSO_AUTHORIZED.includes(email)) return false; // needs seeding by primary admin
+      return false;
     } catch (error) {
       setError(`Failed to check admin status: ${error.message}`);
       return false;
