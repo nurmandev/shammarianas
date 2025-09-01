@@ -31,6 +31,7 @@ import FavoriteButton from "../Components/UI/FavoriteButton";
 import DownloadButton from "../Components/UI/DownloadButton";
 import VideoViewer from "./VideoViewer";
 import ContentViewer from "../Components/ContentViewer";
+import { getFinalPrice } from "../lib/utils";
 
 const View = () => {
   const { currentUser, userProfile } = useUser();
@@ -169,7 +170,7 @@ const View = () => {
                     script={item.script}
                     scriptName={item.scriptName}
                     id={item.id}
-                    price={item.price - (item.price * item.discount) / 100}
+                    price={getFinalPrice(item.price, item.discount)}
                   />
                 ) : item.type === "graphics" ? (
                   <ContentViewer
@@ -339,19 +340,16 @@ const View = () => {
                       ""
                     )}
                     <span className="price_value">
-                      {(Number(item.price) - (Number(item.price) * Number(item.discount || 0)) / 100) == 0
+                      {getFinalPrice(item.price, item.discount) === 0
                         ? "Free"
-                        : `$${(
-                            Number(item.price) -
-                            (Number(item.price) * Number(item.discount || 0)) / 100
-                          ).toFixed(2)}`}
+                        : `$${getFinalPrice(item.price, item.discount).toFixed(2)}`}
                     </span>
                     <span className="before_price">
-                      {item.discount && `$${Number(item.price).toFixed(2)}`}
+                      {item.discount && `$${Number(item.price ?? 0).toFixed(2)}`}
                     </span>
 
                     {item.discount && (
-                      <span className="discount">-{Number(item.discount)}%</span>
+                      <span className="discount">-{Number(item.discount ?? 0)}%</span>
                     )}
                   </div>
 
@@ -463,8 +461,7 @@ const View = () => {
                       setShowToast={setShowToast}
                     />
 
-                    {item.price - (item.price * item.discount) / 100 ==
-                    0 ? null : (
+                    {getFinalPrice(item.price, item.discount) === 0 ? null : (
                       <button
                         className="add_to_wishlist_btn"
                         onClick={() => handleViewTrades(item)}
