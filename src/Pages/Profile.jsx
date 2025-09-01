@@ -15,6 +15,7 @@ import { db } from "../../firebase";
 import { useUser } from "../Context/UserProvider";
 import ItemsListing from "../Components/ItemsListing";
 import { Helmet } from "react-helmet-async";
+import { getFinalPrice } from "../lib/utils";
 
 const Profile = () => {
   const { id } = useParams();
@@ -363,14 +364,9 @@ const Profile = () => {
                           <div className="details">
                             <span className="price">
                               <strong>
-                                {item.price -
-                                  (item.price * item.discount) / 100 ===
-                                0
+                                {getFinalPrice(item.price, item.discount) === 0
                                   ? "Free"
-                                  : `$${(
-                                      item.price -
-                                      (item.price * item.discount) / 100
-                                    ).toFixed(2)}`}
+                                  : `$${getFinalPrice(item.price, item.discount).toFixed(2)}`}
                               </strong>
                             </span>
                           </div>
