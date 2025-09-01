@@ -102,6 +102,43 @@ exports.notifyProjectOwnerFromProfile = functions.firestore
   });
 
 
+// Callable: set user role and adminUsers membership
+exports.setUserRole = onCall({ cors: true }, async (data, context) => {
+  if (!context.auth) {
+    throw new HttpsError("unauthenticated", "User must be logged in.");
+  }
+  const authorized = await isCallerAdmin(context);
+  if (!authorized) {
+    throw new HttpsError("permission-denied", "Only admins can modify roles.");
+  }
+
+  const targetEmail = String(data.targetEmail || "").toLowerCase();
+  const userId = String(data.userId || "");
+  const role = String(data.role || "").toLowerCase();
+  if (!targetEmail || !userId || !role) {
+    throw new HttpsError("invalid-argument", "targetEmail, userId and role are required.");
+  }
+
+  const db = admin.firestore();
+  try {
+    await db.doc(`Profiles/${userId}`).set({ role }, { merge: true });
+
+    if (role === "admin") {
+      await db.doc(`adminUsers/${targetEmail}`).set({
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        promotedBy: (context.auth.token.email || "").toLowerCase(),
+      }, { merge: true });
+    } else {
+      await db.doc(`adminUsers/${targetEmail}`).delete().catch(() => {});
+    }
+
+    return { success: true };
+  } catch (e) {
+    logger.error("setUserRole failed", e);
+    throw new HttpsError("internal", "Failed to update role");
+  }
+});
+
 // exports.checkUserRole = functions.https.onCall(async (data, context) => {
 //   if (!context.auth) {
 //     throw new functions.https.HttpsError(
