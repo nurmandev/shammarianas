@@ -42,7 +42,7 @@ import {
   FiImage,
   FiBriefcase,
   FiPlus,
-  FiReply,
+  FiCornerUpLeft,
   FiMessageSquare,
   FiAlertCircle
 } from "react-icons/fi";
@@ -1359,7 +1359,7 @@ const AdminDashboard = () => {
                                     <td>{ticket.createdAt?.toDate?.().toLocaleDateString?.() || 'N/A'}</td>
                                     <td>
                                       <button className="action-button" onClick={()=>{ setSelectedSupportTicket(ticket); setSupportResponse(ticket.adminResponse||''); setShowSupportTicketDialog(true); }}>
-                                        <FiReply /> {ticket.adminResponse? 'Update' : 'Respond'}
+                                        <FiCornerUpLeft /> {ticket.adminResponse? 'Update' : 'Respond'}
                                       </button>
                                     </td>
                                   </tr>
