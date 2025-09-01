@@ -287,10 +287,7 @@ const TradePage = () => {
                       <h3 className="title">{item.title}</h3>
 
                       <p className="price">
-                        {(
-                          item.price -
-                          (item.price * item.discount) / 100
-                        ).toFixed(2)}
+                        {getFinalPrice(item.price, item.discount).toFixed(2)}
                       </p>
                     </div>
                   </div>
