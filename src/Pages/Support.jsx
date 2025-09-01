@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useUser } from "../Context/UserProvider";
 import { db } from "../../firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import PageTitle from "../Components/UI/PageTitle";
 import plus_icon from "../assets/Icons/upload.jpg";
 import DescriptionBox from "../Components/DescriptionBox";
@@ -25,14 +25,14 @@ const Support = () => {
 
     setLoading(true);
     try {
-      await addDoc(collection(db, "Support"), {
+      await addDoc(collection(db, `Profiles/${currentUser.uid}/Support`), {
         userId: currentUser.uid,
         email: currentUser.email,
         subject,
         description,
         issueType,
         file: file ? file.name : "", // Adjust for actual file handling
-        createdAt: Timestamp.now(),
+        createdAt: serverTimestamp(),
       });
       alert("Report submitted successfully!");
       setSubject("");
