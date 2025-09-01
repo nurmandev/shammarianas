@@ -41,7 +41,10 @@ import {
   FiTag,
   FiImage,
   FiBriefcase,
-  FiPlus
+  FiPlus,
+  FiCornerUpLeft,
+  FiMessageSquare,
+  FiAlertCircle
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
@@ -99,6 +102,11 @@ const AdminDashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [supportStatusFilter, setSupportStatusFilter] = useState("all");
+  const [supportCategoryFilter, setSupportCategoryFilter] = useState("all");
+  const [showSupportTicketDialog, setShowSupportTicketDialog] = useState(false);
+  const [selectedSupportTicket, setSelectedSupportTicket] = useState(null);
+  const [supportResponse, setSupportResponse] = useState("");
   const navigate = useNavigate();
 
   // Asset categories
@@ -329,26 +337,27 @@ const AdminDashboard = () => {
     }
   }, [activeTab]);
 
+  // Load portfolios (projects)
+  const loadProjects = async () => {
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "projects"));
+      const projectsData = [];
+      querySnapshot.forEach((doc) => {
+        projectsData.push({ id: doc.id, ...doc.data() });
+      });
+      setPortfolios(projectsData);
+    } catch (error) {
+      setError(`Failed to load portfolios: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Fetch portfolios (projects) when Portfolio tab is selected
   useEffect(() => {
-    const fetchProjects = async () => {
-      setLoading(true);
-      try {
-        const querySnapshot = await getDocs(collection(db, "projects"));
-        const projectsData = [];
-        querySnapshot.forEach((doc) => {
-          projectsData.push({ id: doc.id, ...doc.data() });
-        });
-        setPortfolios(projectsData);
-      } catch (error) {
-        setError(`Failed to load portfolios: ${error.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (activeTab === 5) {
-      fetchProjects();
+      loadProjects();
     }
   }, [activeTab]);
 
@@ -475,21 +484,28 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleRespondToTicket = async (ticketId, response, newStatus) => {
+    try {
+      const profileId = selectedSupportTicket?.profileId || selectedProfileId || auth.currentUser?.uid;
+      if (!profileId) { setError("No profile selected for this ticket"); return; }
+      await updateDoc(doc(db, `Profiles/${profileId}/Support`, ticketId), {
+        adminResponse: response,
+        status: newStatus,
+        respondedAt: serverTimestamp()
+      });
+      setSupportMessages(prev => prev.map(m => (m.id === ticketId && m.profileId === profileId) ? { ...m, adminResponse: response, status: newStatus } : m));
+      setShowSupportTicketDialog(false);
+      setSupportResponse("");
+    } catch (e) {
+      setError(`Failed to respond: ${e.message}`);
+    }
+  };
+
   const handleDeleteBlog = async (blogId) => {
     if (!window.confirm("Are you sure you want to delete this blog post?")) return;
     try {
-      const token = localStorage.getItem("token") || "";
-      const response = await fetch(`/api/admin/blogs/${blogId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.ok) {
-        await loadBlogs();
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        setError(errorData.error || "Failed to delete blog post");
-      }
+      await deleteDoc(doc(db, "blogs", blogId));
+      await loadBlogs();
     } catch (error) {
       console.error("Delete blog error:", error);
       setError("Failed to delete blog post");
@@ -497,24 +513,10 @@ const AdminDashboard = () => {
   };
 
   const handleToggleBlogStatus = async (blogId, currentStatus) => {
-    const newStatus = (currentStatus || "draft").toLowerCase() === "published" ? "draft" : "published";
+    const newStatus = (currentStatus || "draft").toLowerCase() === "published" ? "DRAFT" : "PUBLISHED";
     try {
-      const token = localStorage.getItem("token") || "";
-      const response = await fetch(`/api/admin/blogs/${blogId}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
-
-      if (response.ok) {
-        await loadBlogs();
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        setError(errorData.error || "Failed to update blog post status");
-      }
+      await updateDoc(doc(db, "blogs", blogId), { status: newStatus, updatedAt: serverTimestamp() });
+      await loadBlogs();
     } catch (error) {
       console.error("Update blog status error:", error);
       setError("Failed to update blog post status");
@@ -542,7 +544,7 @@ const AdminDashboard = () => {
       return;
     }
     try {
-      await updateDoc(doc(db, "projects", portfolioId), { status: newStatus });
+      await updateDoc(doc(db, "projects", portfolioId), { status: newStatus, updatedAt: serverTimestamp() });
       setPortfolios((prev) => prev.map((p) => (p.id === portfolioId ? { ...p, status: newStatus } : p)));
     } catch (error) {
       setError(`Failed to update portfolio status: ${error.message}`);
@@ -1334,7 +1336,7 @@ const AdminDashboard = () => {
                                     <td>{ticket.createdAt?.toDate?.().toLocaleDateString?.() || 'N/A'}</td>
                                     <td>
                                       <button className="action-button" onClick={()=>{ setSelectedSupportTicket(ticket); setSupportResponse(ticket.adminResponse||''); setShowSupportTicketDialog(true); }}>
-                                        <FiReply /> {ticket.adminResponse? 'Update' : 'Respond'}
+                                        <FiCornerUpLeft /> {ticket.adminResponse? 'Update' : 'Respond'}
                                       </button>
                                     </td>
                                   </tr>
@@ -1516,19 +1518,13 @@ const AdminDashboard = () => {
         {isBlogModalOpen && (
           <BlogEditorModal
             isOpen={isBlogModalOpen}
-            onClose={() => setIsBlogModalOpen(false)}
-            onSave={() => {
-              setIsBlogModalOpen(false);
-            }}
+            onClose={() => { setIsBlogModalOpen(false); loadBlogs(); }}
           />
         )}
         {isPortfolioModalOpen && (
           <ProjectModal
             isOpen={isPortfolioModalOpen}
-            onClose={() => setIsPortfolioModalOpen(false)}
-            onSave={() => {
-              setIsPortfolioModalOpen(false);
-            }}
+            onClose={() => { setIsPortfolioModalOpen(false); loadProjects(); }}
           />
         )}
       </div>
@@ -1862,7 +1858,7 @@ const BlogSection = ({ blogs, onDelete, onToggleStatus, blogSearchTerm, setBlogS
         <div className="assets-grid">
           {filteredBlogs.map((blog) => {
             const status = (blog.status || 'draft').toLowerCase();
-            const img = blog.featuredImage || blog.coverImgUrl || blog.thumbnail || '';
+            const img = blog.featuredImage || blog.featuredImageUrl || blog.coverImgUrl || blog.coverImageUrl || blog.thumbnail || '';
             const dateText = formatDate ? formatDate(blog.createdAt) : '';
             const firstTag = Array.isArray(blog.tags) && blog.tags.length > 0 ? blog.tags[0] : 'General';
             return (

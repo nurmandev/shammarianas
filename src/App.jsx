@@ -22,7 +22,6 @@ import TextureViewer from "./Components/TextureViewer";
 import PasswordReset from "./Pages/Login/PasswordReset";
 import Group from "./Pages/Group";
 import Analytics from "./Pages/Analytics";
-import TradePage from "./Pages/Trade";
 import Terms from "./Pages/Terms";
 import Privacy from "./Pages/Privacy";
 import Contact from "./Pages/Contact";
@@ -79,7 +78,6 @@ export const AppRoutes = () => (
     <Route path="/Logout" element={<Logout />} />
     <Route path="/Profile/:id" element={<Profile />} />
     <Route path="/" element={<Home />} />
-    <Route path="/Trade" element={<TradePage />} />
     <Route path="/Cart" element={<Cart />} />
     <Route path="/:Category" element={<CategoryTemplate />} />
     <Route path="/View/:id" element={<View />} />

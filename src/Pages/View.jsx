@@ -16,7 +16,6 @@ import {
 import ModelViewer from "../Components/ModelViewer";
 import UserCard from "../Components/UI/UserCard";
 import ToastAlert from "../Components/UI/ToastAlert";
-import { useNavigate } from "react-router-dom";
 import ViewItemImages from "../Components/ViewItemImages";
 import { Helmet } from "react-helmet-async";
 import { useUser } from "../Context/UserProvider";
@@ -40,7 +39,6 @@ const View = () => {
   const [toastState, setToastState] = useState("");
   const [item, setItem] = useState({});
   const [showToast, setShowToast] = useState(false);
-  const navigate = useNavigate();
   const [isItemOwned, setIsItemOwned] = useState(false);
   const [group, setGroup] = useState(null); // Define group state
   const [markdown, setMarkdown] = useState("");
@@ -97,9 +95,6 @@ const View = () => {
 
   // console log the group data
 
-  const handleViewTrades = () => {
-    navigate("/Trade", { state: { item } });
-  };
 
   // useEffect(() => {
   //   // fetch items whihc is also owned by one of the group members
@@ -463,15 +458,6 @@ const View = () => {
                       setShowToast={setShowToast}
                     />
 
-                    {item.price - (item.price * item.discount) / 100 ==
-                    0 ? null : (
-                      <button
-                        className="add_to_wishlist_btn"
-                        onClick={() => handleViewTrades(item)}
-                      >
-                        <i className="icon fas fa-exchange-alt"></i>
-                      </button>
-                    )}
 
                     {/* <button className="add_to_wishlist_btn">
                       <i className="icon fas fa-heart"></i>
