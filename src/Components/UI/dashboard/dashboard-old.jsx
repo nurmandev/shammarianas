@@ -41,7 +41,10 @@ import {
   FiTag,
   FiImage,
   FiBriefcase,
-  FiPlus
+  FiPlus,
+  FiReply,
+  FiMessageSquare,
+  FiAlertCircle
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
@@ -99,6 +102,11 @@ const AdminDashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [supportStatusFilter, setSupportStatusFilter] = useState("all");
+  const [supportCategoryFilter, setSupportCategoryFilter] = useState("all");
+  const [showSupportTicketDialog, setShowSupportTicketDialog] = useState(false);
+  const [selectedSupportTicket, setSelectedSupportTicket] = useState(null);
+  const [supportResponse, setSupportResponse] = useState("");
   const navigate = useNavigate();
 
   // Asset categories
@@ -472,6 +480,23 @@ const AdminDashboard = () => {
       } catch (error) {
         setError(`Failed to update message statuses: ${error.message}`);
       }
+    }
+  };
+
+  const handleRespondToTicket = async (ticketId, response, newStatus) => {
+    try {
+      const profileId = selectedSupportTicket?.profileId || selectedProfileId || auth.currentUser?.uid;
+      if (!profileId) { setError("No profile selected for this ticket"); return; }
+      await updateDoc(doc(db, `Profiles/${profileId}/Support`, ticketId), {
+        adminResponse: response,
+        status: newStatus,
+        respondedAt: serverTimestamp()
+      });
+      setSupportMessages(prev => prev.map(m => (m.id === ticketId && m.profileId === profileId) ? { ...m, adminResponse: response, status: newStatus } : m));
+      setShowSupportTicketDialog(false);
+      setSupportResponse("");
+    } catch (e) {
+      setError(`Failed to respond: ${e.message}`);
     }
   };
 
