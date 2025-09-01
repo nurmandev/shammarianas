@@ -61,7 +61,13 @@ const Profile = () => {
 
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
-        setUser(docSnap.data());
+        const data = docSnap.data();
+        setUser(data);
+        if (currentUser && currentUser.uid === id) {
+          setFirstName(data.firstName || (currentUser?.displayName || "").split(" ")[0] || "");
+          setLastName(data.lastName || (currentUser?.displayName || "").split(" ")[1] || "");
+          setUsername(data.username || currentUser?.displayName || "");
+        }
 
         if (currentUser && currentUser.uid) {
           setIsFollowing(
