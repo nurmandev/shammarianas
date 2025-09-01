@@ -13,7 +13,7 @@ const DownloadButton = ({
   // console.log("DownloadButton:", { item, id:item.id, userProfile  });
 
   const price = Number(item.price) || 0;
-  const discount = Number(item.discount) || 0;
+  const discount = Number(item.discount ?? 0) || 0;
   const finalPrice = price - (price * discount) / 100;
 
   const handleDownload = () => {
@@ -86,8 +86,8 @@ const DownloadButton = ({
 DownloadButton.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    discount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    discount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     model: PropTypes.string,
     type: PropTypes.string.isRequired,
   }).isRequired,
