@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Navbar2 from "./Components/Navbar2";
 import "./assets/Styles/Tab.css";
 import "./assets/Styles/Style.css";
+import "./assets/Styles/stock.css";
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import View from "./Pages/View";

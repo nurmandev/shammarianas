@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getDocs, collection, query } from "firebase/firestore";
 import { db } from "../../../firebase";
 import ListedItemCard from "../UI/ListedItemCard";
@@ -256,21 +257,9 @@ const HeroSection = () => {
               { title: "Icons", category: "icons" },
             ].map(({ title, category }) => (
               <div className="page_content" key={category}>
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "space-between",
-                  }}>
+                <div className="section-header-row">
                   <PageTitle title={title} />
-                  <Link
-                    to={`/${category}`}
-                    style={{
-                      width: "100px",
-                      display: "flex",
-                      flexWrap: "nowrap",
-                      alignSelf: "center",
-                    }}>
+                  <Link to={`/${category}`} className="view-all-link">
                     See All
                   </Link>
                 </div>

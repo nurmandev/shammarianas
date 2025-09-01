@@ -65,11 +65,7 @@ const View = () => {
     },
     image({ node, ...props }) {
       return (
-        <img
-          style={{ maxWidth: "100%", height: "auto" }}
-          alt={props.alt}
-          {...props}
-        />
+        <img className="markdown-image" alt={props.alt} {...props} />
       );
     },
   };
@@ -196,21 +192,11 @@ const View = () => {
                     previewUrl={item.thumbnail}
                   />
                 ) : (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "500px",
-                      overflow: "hidden",
-                    }}
-                  >
+                  <div className="details-media-frame">
                     <img
                       src={item.thumbnail}
                       alt={item.title}
-                      style={{
-                        objectFit: "contain",
-                        width: "100%",
-                        height: "100%",
-                      }}
+                      className="details-media-img"
                     />
                   </div>
                 )}
