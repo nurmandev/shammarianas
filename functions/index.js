@@ -5,6 +5,22 @@ const nodemailer = require("nodemailer");
 admin.initializeApp();
 const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
+
+// Helper to check if caller is admin (primary or in adminUsers)
+async function isCallerAdmin(context) {
+  if (!context.auth) return false;
+  const email = (context.auth.token.email || "").toLowerCase();
+  if (!email) return false;
+  const PRIMARY_ADMIN = "admin@shammarianas.com";
+  if (email === PRIMARY_ADMIN) return true;
+  try {
+    const snap = await admin.firestore().doc(`adminUsers/${email}`).get();
+    return snap.exists;
+  } catch (e) {
+    logger.error("Admin check failed", e);
+    return false;
+  }
+}
 // const Stripe = require("stripe");
 // const {google} = require("googleapis");
 
