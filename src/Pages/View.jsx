@@ -98,9 +98,6 @@ const View = () => {
 
   // console log the group data
 
-  const handleViewTrades = () => {
-    navigate("/Trade", { state: { item } });
-  };
 
   // useEffect(() => {
   //   // fetch items whihc is also owned by one of the group members
@@ -461,14 +458,6 @@ const View = () => {
                       setShowToast={setShowToast}
                     />
 
-                    {getFinalPrice(item.price, item.discount) === 0 ? null : (
-                      <button
-                        className="add_to_wishlist_btn"
-                        onClick={() => handleViewTrades(item)}
-                      >
-                        <i className="icon fas fa-exchange-alt"></i>
-                      </button>
-                    )}
 
                     {/* <button className="add_to_wishlist_btn">
                       <i className="icon fas fa-heart"></i>
