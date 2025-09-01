@@ -375,12 +375,6 @@ const Navbar = () => {
                     <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
                   </li>
                   <li>
-                    <Link to="/Trade">Trade</Link>
-                  </li>
-                  <li>
-                    <Link to="/Upload">Upload</Link>
-                  </li>
-                  <li>
                     <Link to="/Support">Support</Link>
                   </li>
                   <li>
