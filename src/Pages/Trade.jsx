@@ -373,7 +373,7 @@ const TradePage = () => {
           {items
             .filter(
               (item) =>
-                item.price - (item.price * item.discount) / 100 > 0 &&
+                getFinalPrice(item.price, item.discount) > 0 &&
                 item.id !== tradeItemSelectedId
             )
             .map((item) => (
@@ -390,7 +390,7 @@ const TradePage = () => {
                   <h3 className="title">{item.title}</h3>
 
                   <p className="price">
-                    {(item.price - (item.price * item.discount) / 100).toFixed(
+                    {(getFinalPrice(item.price, item.discount)).toFixed(
                       2
                     )}
                   </p>
