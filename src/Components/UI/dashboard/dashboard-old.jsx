@@ -213,8 +213,10 @@ const AdminDashboard = () => {
 
   const checkAdminStatus = async (email) => {
     if (!email) return false;
-    const superAdminEmails = import.meta.env.VITE_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
-    if (superAdminEmails.includes(email)) {
+
+    // Primary admin (must match Firestore rules)
+    const PRIMARY_ADMIN = "admin@shammarianas.com";
+    if (email === PRIMARY_ADMIN) {
       try {
         await setDoc(
           doc(db, "adminUsers", email),
