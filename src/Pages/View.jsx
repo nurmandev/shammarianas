@@ -339,19 +339,19 @@ const View = () => {
                       ""
                     )}
                     <span className="price_value">
-                      {item.price - (item.price * item.discount) / 100 == 0
+                      {(Number(item.price) - (Number(item.price) * Number(item.discount || 0)) / 100) == 0
                         ? "Free"
                         : `$${(
-                            item.price -
-                            (item.price * item.discount) / 100
+                            Number(item.price) -
+                            (Number(item.price) * Number(item.discount || 0)) / 100
                           ).toFixed(2)}`}
                     </span>
                     <span className="before_price">
-                      {item.discount && `$${item.price}`}
+                      {item.discount && `$${Number(item.price).toFixed(2)}`}
                     </span>
 
                     {item.discount && (
-                      <span className="discount">-{item.discount}%</span>
+                      <span className="discount">-{Number(item.discount)}%</span>
                     )}
                   </div>
 
