@@ -503,18 +503,8 @@ const AdminDashboard = () => {
   const handleDeleteBlog = async (blogId) => {
     if (!window.confirm("Are you sure you want to delete this blog post?")) return;
     try {
-      const token = localStorage.getItem("token") || "";
-      const response = await fetch(`/api/admin/blogs/${blogId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.ok) {
-        await loadBlogs();
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        setError(errorData.error || "Failed to delete blog post");
-      }
+      await deleteDoc(doc(db, "blogs", blogId));
+      await loadBlogs();
     } catch (error) {
       console.error("Delete blog error:", error);
       setError("Failed to delete blog post");
@@ -522,24 +512,10 @@ const AdminDashboard = () => {
   };
 
   const handleToggleBlogStatus = async (blogId, currentStatus) => {
-    const newStatus = (currentStatus || "draft").toLowerCase() === "published" ? "draft" : "published";
+    const newStatus = (currentStatus || "draft").toLowerCase() === "published" ? "DRAFT" : "PUBLISHED";
     try {
-      const token = localStorage.getItem("token") || "";
-      const response = await fetch(`/api/admin/blogs/${blogId}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
-
-      if (response.ok) {
-        await loadBlogs();
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        setError(errorData.error || "Failed to update blog post status");
-      }
+      await updateDoc(doc(db, "blogs", blogId), { status: newStatus, updatedAt: serverTimestamp() });
+      await loadBlogs();
     } catch (error) {
       console.error("Update blog status error:", error);
       setError("Failed to update blog post status");
@@ -1541,10 +1517,7 @@ const AdminDashboard = () => {
         {isBlogModalOpen && (
           <BlogEditorModal
             isOpen={isBlogModalOpen}
-            onClose={() => setIsBlogModalOpen(false)}
-            onSave={() => {
-              setIsBlogModalOpen(false);
-            }}
+            onClose={() => { setIsBlogModalOpen(false); loadBlogs(); }}
           />
         )}
         {isPortfolioModalOpen && (
@@ -1887,7 +1860,7 @@ const BlogSection = ({ blogs, onDelete, onToggleStatus, blogSearchTerm, setBlogS
         <div className="assets-grid">
           {filteredBlogs.map((blog) => {
             const status = (blog.status || 'draft').toLowerCase();
-            const img = blog.featuredImage || blog.coverImgUrl || blog.thumbnail || '';
+            const img = blog.featuredImage || blog.featuredImageUrl || blog.coverImgUrl || blog.coverImageUrl || blog.thumbnail || '';
             const dateText = formatDate ? formatDate(blog.createdAt) : '';
             const firstTag = Array.isArray(blog.tags) && blog.tags.length > 0 ? blog.tags[0] : 'General';
             return (
