@@ -103,6 +103,45 @@ const Profile = () => {
     fetchItems();
   }, []);
 
+  const handleSaveAccount = async () => {
+    if (!isOwnProfile) return;
+    const trimmedUsername = (username || "").trim();
+    const updates = { firstName: firstName.trim(), lastName: lastName.trim(), username: trimmedUsername };
+
+    try {
+      setSaving(true);
+      const profileRef = doc(db, "Profiles", id);
+      const snap = await getDoc(profileRef);
+      let changeCount = 0;
+      let changeYear = new Date().getFullYear();
+      if (snap.exists()) {
+        const d = snap.data();
+        changeCount = d.usernameChangeCount || 0;
+        changeYear = d.usernameChangeYear || changeYear;
+        if (d.username !== trimmedUsername) {
+          const nowYear = new Date().getFullYear();
+          if (changeYear !== nowYear) {
+            changeYear = nowYear;
+            changeCount = 0;
+          }
+          if (changeCount >= 3) {
+            alert("You have reached the maximum of 3 username changes this year.");
+            setSaving(false);
+            return;
+          }
+          updates.usernameChangeCount = changeCount + 1;
+          updates.usernameChangeYear = changeYear;
+        }
+      }
+      await updateDoc(profileRef, updates);
+      alert("Changes saved");
+    } catch (e) {
+      alert(e.message || "Failed to save changes");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const groupedItems = items.reduce((acc, item) => {
     if (!acc[item.type]) {
       acc[item.type] = [];
