@@ -18,7 +18,7 @@ export const initializeAdmin = async (email) => {
 
 // List of default admin emails
 export const DEFAULT_ADMIN_EMAILS = [
-  "admin@shammarinanas.com",
+  "admin@shammarianas.com",
   "wasivoy749@aperiol.com"
 ];
 
