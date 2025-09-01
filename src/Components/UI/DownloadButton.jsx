@@ -1,5 +1,6 @@
 import useSaveToDownloads from "../../hooks/useSaveToDownloads";
 import PropTypes from 'prop-types';
+import { getFinalPrice } from '../../lib/utils';
 
 const DownloadButton = ({
   item,
@@ -12,9 +13,7 @@ const DownloadButton = ({
 
   // console.log("DownloadButton:", { item, id:item.id, userProfile  });
 
-  const price = Number(item.price) || 0;
-  const discount = Number(item.discount ?? 0) || 0;
-  const finalPrice = price - (price * discount) / 100;
+  const finalPrice = getFinalPrice(item.price, item.discount);
 
   const getAssetUrls = () => {
     const urls = [];
