@@ -5,6 +5,7 @@ import PageTitle from "../Components/UI/PageTitle";
 import { useUser } from "../Context/UserProvider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { getFinalPrice } from "../lib/utils";
 
 const MyDownloads = () => {
   const { currentUser } = useUser();
@@ -98,14 +99,9 @@ const MyDownloads = () => {
                     <div className="details">
                       <span className="price">
                         <strong>
-                          {asset.price -
-                            (asset.price * asset.discount) / 100 ===
-                          0
+                          {getFinalPrice(asset.price, asset.discount) === 0
                             ? "Free"
-                            : `$${(
-                                asset.price -
-                                (asset.price * asset.discount) / 100
-                              ).toFixed(2)}`}
+                            : `$${getFinalPrice(asset.price, asset.discount).toFixed(2)}`}
                         </strong>
                       </span>
                     </div>
