@@ -45,6 +45,8 @@ import {
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../../../../firebase";
 import { signOut } from "firebase/auth";
 
 const UnauthorizedAccess = ({ error }) => {
@@ -346,13 +348,9 @@ const AdminDashboard = () => {
     }
     if (window.confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
       try {
-        const lowerCaseEmail = userEmail.toLowerCase();
-        await updateDoc(doc(db, "Profiles", userId), { role: newRole });
-        if (newRole === "admin") {
-          await setDoc(doc(db, "adminUsers", lowerCaseEmail), { createdAt: serverTimestamp(), promotedBy: auth.currentUser.email });
-        } else {
-          await deleteDoc(doc(db, "adminUsers", lowerCaseEmail));
-        }
+        const lowerCaseEmail = (userEmail || "").toLowerCase();
+        const setUserRoleFn = httpsCallable(functions, "setUserRole");
+        await setUserRoleFn({ targetEmail: lowerCaseEmail, userId, role: newRole });
         setUsers(users.map((user) => (user.id === userId ? { ...user, role: newRole } : user)));
       } catch (error) {
         setError(`Failed to update role: ${error.message}`);
@@ -402,13 +400,9 @@ const AdminDashboard = () => {
           selectedUsers.map(async (userId) => {
             const user = users.find((u) => u.id === userId);
             if (!user || !user.email) return;
-            const lowerCaseEmail = user.email.toLowerCase();
-            await updateDoc(doc(db, "Profiles", userId), { role: newRole });
-            if (newRole === "admin") {
-              await setDoc(doc(db, "adminUsers", lowerCaseEmail), { createdAt: serverTimestamp(), promotedBy: auth.currentUser.email });
-            } else {
-              await deleteDoc(doc(db, "adminUsers", lowerCaseEmail));
-            }
+            const lowerCaseEmail = (user.email || "").toLowerCase();
+            const setUserRoleFn = httpsCallable(functions, "setUserRole");
+            await setUserRoleFn({ targetEmail: lowerCaseEmail, userId, role: newRole });
           })
         );
         setUsers(users.map((user) => (selectedUsers.includes(user.id) ? { ...user, role: newRole } : user)));
