@@ -1,7 +1,7 @@
 import { auth, db, storage } from "../../../../firebase";
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, getDocs, collection, updateDoc, setDoc, deleteDoc, orderBy, query, addDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, collectionGroup, updateDoc, setDoc, deleteDoc, orderBy, query, addDoc } from "firebase/firestore";
 import Upload from "../../../Pages/Upload";
 import BlogEditorModal from "../../../Pages/BlogEditor";
 import ProjectModal from "../../../Pages/PortfolioUpload";
@@ -45,6 +45,8 @@ import {
 } from "react-icons/fi";
 import "./style.css";
 import { serverTimestamp } from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../../../../firebase";
 import { signOut } from "firebase/auth";
 
 const UnauthorizedAccess = ({ error }) => {
@@ -177,6 +179,13 @@ const AdminDashboard = () => {
     }
   };
 
+  // Authorized admins list
+  const AUTHORIZED_ADMINS = [
+    "admin@shammarianas.com",
+    "adebayour66265@gmail.com",
+    "shammarianas@gmail.com"
+  ];
+
   // Check admin status
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -197,7 +206,24 @@ const AdminDashboard = () => {
 
         if (await checkAdminStatus(email)) {
           setIsAdmin(true);
-          await Promise.all([fetchUsers(), fetchSupportMessages(currentUser.uid)]);
+
+          // Primary admin can seed additional authorized admins
+          const PRIMARY_ADMIN = "admin@shammarianas.com";
+          if (email === PRIMARY_ADMIN) {
+            try {
+              await Promise.all(
+                AUTHORIZED_ADMINS
+                  .filter((e) => e && e !== PRIMARY_ADMIN)
+                  .map((e) => setDoc(
+                    doc(db, "adminUsers", e),
+                    { createdAt: serverTimestamp(), promotedBy: email },
+                    { merge: true }
+                  ))
+              );
+            } catch {}
+          }
+
+          await Promise.all([fetchUsers(), fetchSupportMessages(null)]);
           setSelectedProfileId(currentUser.uid);
         } else {
           setError("You do not have admin privileges");
@@ -213,8 +239,11 @@ const AdminDashboard = () => {
 
   const checkAdminStatus = async (email) => {
     if (!email) return false;
-    const superAdminEmails = import.meta.env.VITE_SUPER_ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
-    if (superAdminEmails.includes(email)) {
+
+    // Primary admin (must match Firestore rules)
+    const PRIMARY_ADMIN = "admin@shammarianas.com";
+    const ALSO_AUTHORIZED = ["adebayour66265@gmail.com","shammarianas@gmail.com"];
+    if (email === PRIMARY_ADMIN) {
       try {
         await setDoc(
           doc(db, "adminUsers", email),
@@ -227,8 +256,11 @@ const AdminDashboard = () => {
 
     try {
       if (!db) return false;
+      // Allow UI access for pre-authorized emails once seeded
       const adminDoc = await getDoc(doc(db, "adminUsers", email));
-      return adminDoc.exists();
+      if (adminDoc.exists()) return true;
+      if (ALSO_AUTHORIZED.includes(email)) return false; // needs seeding by primary admin
+      return false;
     } catch (error) {
       setError(`Failed to check admin status: ${error.message}`);
       return false;
@@ -250,18 +282,23 @@ const AdminDashboard = () => {
   };
 
   const fetchSupportMessages = async (profileId) => {
-    if (!profileId) return;
-    if (!isAdmin && profileId !== auth.currentUser?.uid) {
-      setError("Only admins can view other users' support messages");
-      return;
-    }
     setLoading(true);
     try {
       if (!db) throw new Error("Firebase not initialized");
-      const q = query(collection(db, `Profiles/${profileId}/Support`), orderBy("createdAt", "desc"));
-      const querySnapshot = await getDocs(q);
-      const messages = querySnapshot.docs.map((doc) => ({ id: doc.id, profileId, ...doc.data() }));
-      setSupportMessages(messages);
+
+      if (isAdmin && !profileId) {
+        const q = query(collectionGroup(db, "Support"), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        const messages = snap.docs.map((d) => ({ id: d.id, profileId: d.ref.parent.parent?.id || "", ...d.data() }));
+        setSupportMessages(messages);
+      } else {
+        const uid = profileId || auth.currentUser?.uid;
+        if (!uid) { setSupportMessages([]); return; }
+        const q = query(collection(db, `Profiles/${uid}/Support`), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        const messages = snap.docs.map((d) => ({ id: d.id, profileId: uid, ...d.data() }));
+        setSupportMessages(messages);
+      }
     } catch (error) {
       setError(`Failed to load support messages: ${error.message}`);
     } finally {
@@ -344,13 +381,9 @@ const AdminDashboard = () => {
     }
     if (window.confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
       try {
-        const lowerCaseEmail = userEmail.toLowerCase();
-        await updateDoc(doc(db, "Profiles", userId), { role: newRole });
-        if (newRole === "admin") {
-          await setDoc(doc(db, "adminUsers", lowerCaseEmail), { createdAt: serverTimestamp(), promotedBy: auth.currentUser.email });
-        } else {
-          await deleteDoc(doc(db, "adminUsers", lowerCaseEmail));
-        }
+        const lowerCaseEmail = (userEmail || "").toLowerCase();
+        const setUserRoleFn = httpsCallable(functions, "setUserRole");
+        await setUserRoleFn({ targetEmail: lowerCaseEmail, userId, role: newRole });
         setUsers(users.map((user) => (user.id === userId ? { ...user, role: newRole } : user)));
       } catch (error) {
         setError(`Failed to update role: ${error.message}`);
@@ -359,12 +392,10 @@ const AdminDashboard = () => {
   };
 
   const handleUpdateUserStatus = async (userId, newStatus) => {
-    if (!isAdmin) {
-      setError("Only admins can change user status");
-      return;
-    }
+    if (!isAdmin) { setError("Only admins can change user status"); return; }
     try {
-      await updateDoc(doc(db, "Profiles", userId), { status: newStatus });
+      const setUserStatusFn = httpsCallable(functions, "setUserStatus");
+      await setUserStatusFn({ userId, status: newStatus });
       setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, status: newStatus } : u)));
     } catch (error) {
       setError(`Failed to update status: ${error.message}`);
@@ -372,16 +403,10 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (userId, email) => {
-    if (!isAdmin) {
-      setError("Only admins can delete users");
-      return;
-    }
+    if (!isAdmin) { setError("Only admins can delete users"); return; }
     try {
-      await deleteDoc(doc(db, "Profiles", userId));
-      if (email) {
-        const lower = email.toLowerCase();
-        await deleteDoc(doc(db, "adminUsers", lower));
-      }
+      const deleteUserFn = httpsCallable(functions, "deleteUser");
+      await deleteUserFn({ userId, email: (email || "").toLowerCase() });
       setUsers((prev) => prev.filter((u) => u.id !== userId));
     } catch (error) {
       setError(`Failed to delete user: ${error.message}`);
@@ -400,13 +425,9 @@ const AdminDashboard = () => {
           selectedUsers.map(async (userId) => {
             const user = users.find((u) => u.id === userId);
             if (!user || !user.email) return;
-            const lowerCaseEmail = user.email.toLowerCase();
-            await updateDoc(doc(db, "Profiles", userId), { role: newRole });
-            if (newRole === "admin") {
-              await setDoc(doc(db, "adminUsers", lowerCaseEmail), { createdAt: serverTimestamp(), promotedBy: auth.currentUser.email });
-            } else {
-              await deleteDoc(doc(db, "adminUsers", lowerCaseEmail));
-            }
+            const lowerCaseEmail = (user.email || "").toLowerCase();
+            const setUserRoleFn = httpsCallable(functions, "setUserRole");
+            await setUserRoleFn({ targetEmail: lowerCaseEmail, userId, role: newRole });
           })
         );
         setUsers(users.map((user) => (selectedUsers.includes(user.id) ? { ...user, role: newRole } : user)));

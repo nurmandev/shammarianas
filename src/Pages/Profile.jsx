@@ -24,6 +24,12 @@ const Profile = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [saving, setSaving] = useState(false);
+  const isOwnProfile = currentUser?.uid === id;
+
   const followUser = async () => {
     if (!user) {
       return;
@@ -55,7 +61,13 @@ const Profile = () => {
 
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
-        setUser(docSnap.data());
+        const data = docSnap.data();
+        setUser(data);
+        if (currentUser && currentUser.uid === id) {
+          setFirstName(data.firstName || (currentUser?.displayName || "").split(" ")[0] || "");
+          setLastName(data.lastName || (currentUser?.displayName || "").split(" ")[1] || "");
+          setUsername(data.username || currentUser?.displayName || "");
+        }
 
         if (currentUser && currentUser.uid) {
           setIsFollowing(
@@ -90,6 +102,45 @@ const Profile = () => {
 
     fetchItems();
   }, []);
+
+  const handleSaveAccount = async () => {
+    if (!isOwnProfile) return;
+    const trimmedUsername = (username || "").trim();
+    const updates = { firstName: firstName.trim(), lastName: lastName.trim(), username: trimmedUsername };
+
+    try {
+      setSaving(true);
+      const profileRef = doc(db, "Profiles", id);
+      const snap = await getDoc(profileRef);
+      let changeCount = 0;
+      let changeYear = new Date().getFullYear();
+      if (snap.exists()) {
+        const d = snap.data();
+        changeCount = d.usernameChangeCount || 0;
+        changeYear = d.usernameChangeYear || changeYear;
+        if (d.username !== trimmedUsername) {
+          const nowYear = new Date().getFullYear();
+          if (changeYear !== nowYear) {
+            changeYear = nowYear;
+            changeCount = 0;
+          }
+          if (changeCount >= 3) {
+            alert("You have reached the maximum of 3 username changes this year.");
+            setSaving(false);
+            return;
+          }
+          updates.usernameChangeCount = changeCount + 1;
+          updates.usernameChangeYear = changeYear;
+        }
+      }
+      await updateDoc(profileRef, updates);
+      alert("Changes saved");
+    } catch (e) {
+      alert(e.message || "Failed to save changes");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const groupedItems = items.reduce((acc, item) => {
     if (!acc[item.type]) {
@@ -243,6 +294,42 @@ const Profile = () => {
               </div>
             </div>
           </div>
+
+          {isOwnProfile && (
+            <div className="account-details-card">
+              <div className="info-banner">
+                <span className="icon">i</span>
+                <span>Some fields are not editable here. Please update them via your Google account.</span>
+              </div>
+              <div className="form-grid">
+                <div className="form-field">
+                  <label>First name</label>
+                  <input value={firstName} onChange={(e)=>setFirstName(e.target.value)} placeholder="First name" />
+                </div>
+                <div className="form-field">
+                  <label>Last name</label>
+                  <input value={lastName} onChange={(e)=>setLastName(e.target.value)} placeholder="Last name" />
+                </div>
+                <div className="form-field full">
+                  <label>Email</label>
+                  <input value={currentUser?.email || ""} disabled />
+                </div>
+                <div className="form-field full">
+                  <label>Username</label>
+                  <input value={username} onChange={(e)=>setUsername(e.target.value)} placeholder="username" />
+                  <small>We allow 3 username changes per year. You have {Math.max(0, 3 - (user?.usernameChangeCount || 0))} changes remaining.</small>
+                </div>
+              </div>
+              <div className="form-actions">
+                <button className="butn butn-sm butn-bg main-colorbg radius-5" onClick={handleSaveAccount} disabled={saving}>
+                  <span>{saving?"Saving...":"Save Changes"}</span>
+                </button>
+                <button className="butn butn-sm butn-bord radius-5" onClick={()=>{ setFirstName(user?.firstName||""); setLastName(user?.lastName||""); setUsername(user?.username||""); }}>
+                  <span>Cancel</span>
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className="bottom">
             {" "}

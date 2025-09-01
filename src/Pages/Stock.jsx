@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import AOS from "aos"; // Import AOS (Animate On Scroll) library
-import image from "../assets/Images/b8.jpg";
+// import image from "../assets/Images/b8.jpg";
 import Lines from "../Components/Lines";
 import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
@@ -25,7 +25,7 @@ export default function StockPage() {
       <ProgressScroll />
       <Lines />
       <Header />
-      {/* <ProductList /> */}
+      <ProductList />
 
       <Marq2 />
     </>

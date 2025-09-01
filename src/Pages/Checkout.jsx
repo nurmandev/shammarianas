@@ -1,14 +1,13 @@
 import { useState, useEffect, useCallback, createRef } from "react";
 import { ethers } from "ethers";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { db } from "../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
 import PropTypes from "prop-types";
 
-// Load Stripe.js
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PKEY);
+// Using Stripe Checkout Sessions via backend
 
 const Checkout = () => {
   const { currentUser } = useUser();
@@ -25,7 +24,7 @@ const Checkout = () => {
   });
   const [paymentMethod, setPaymentMethod] = useState("stripe");
   const [loading, setLoading] = useState(false);
-  const paymentFormRef = createRef();
+  // const paymentFormRef = createRef();
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
@@ -69,29 +68,20 @@ const Checkout = () => {
   const handleStripePayment = async () => {
     setLoading(true);
     try {
-      const amount = Math.round(parseFloat(calculateTotal()) * 100);
-      
-      const response = await fetch("/api/create-payment-intent", {
+      const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, currency: "usd" }),
+        body: JSON.stringify({ cartItems, userId: currentUser?.uid || "guest" }),
       });
-
-      const { client_secret } = await response.json();
-
-      if (paymentFormRef.current) {
-        const result = await paymentFormRef.current.confirmPayment(client_secret);
-        
-        if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
-          await addToPurchase(cartItems);
-          localStorage.removeItem("cart");
-          setCartItems([]);
-          alert("Payment successful!");
-        }
+      const data = await response.json();
+      if (response.ok && data.url) {
+        window.location.href = data.url;
+        return;
       }
+      throw new Error(data.error || "Unable to start checkout");
     } catch (error) {
-      console.error("Payment failed:", error);
-      alert("Payment failed. Please try again.");
+      console.error("Payment init failed:", error);
+      alert("Payment failed to initialize. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -24,44 +24,16 @@ const Success = () => {
       }
 
       try {
-        const stripe = await stripePromise;
-        const session = await stripe.checkout.sessions.retrieve(sessionId);
+        const res = await fetch(`/api/verify-payment?session_id=${encodeURIComponent(sessionId)}&uid=${encodeURIComponent(currentUser.uid)}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Verification failed');
 
-        if (session.payment_status !== 'paid') {
-          throw new Error("Payment not completed");
-        }
-
-        // Get items from metadata
-        const itemsData = session.metadata?.itemsData 
-          ? JSON.parse(session.metadata.itemsData)
-          : [];
-
-        // Save purchases to Firestore
-        const batch = [];
-        for (const item of itemsData) {
-          const purchaseRef = doc(db, `Profiles/${currentUser.uid}/purchases/${item.id}`);
-          await setDoc(purchaseRef, {
-            ...item,
-            purchasedAt: new Date().toISOString(),
-            status: 'completed',
-            transactionId: session.id
-          });
-
-          // Add to user's library
-          const userRef = doc(db, `Profiles/${currentUser.uid}`);
-          await updateDoc(userRef, {
-            library: arrayUnion(item.id)
-          });
-        }
-
-        // Clear cart
-        localStorage.removeItem("cart");
-        setPurchasedItems(itemsData);
-        setStatus("success");
-        
+        // Clear cart on success
+        localStorage.removeItem('cart');
+        setStatus('success');
       } catch (error) {
-        console.error("Payment verification failed:", error);
-        setStatus("failed");
+        console.error('Payment verification failed:', error);
+        setStatus('failed');
       }
     };
 

@@ -14,15 +14,18 @@ const UserCard = ({ userId }) => {
         const userRef = doc(db, "Profiles", userId);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
-          // console.log("User data:", docSnap.data());
           setUser(docSnap.data());
         } else {
-          console.log("No such user!");
-          setUser(null); // Reset user state if no user found
+          setUser(null);
         }
       } catch (error) {
-        console.error("Error fetching user:", error);
-        setUser(null); // Handle errors, e.g., network issues or permission errors
+        if (error?.code === 'permission-denied') {
+          // Silent fallback when rules disallow read
+          setUser(null);
+        } else {
+          console.warn("UserCard fetch error:", error);
+          setUser(null);
+        }
       }
     };
 

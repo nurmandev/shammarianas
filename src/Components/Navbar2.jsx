@@ -303,19 +303,7 @@ const Navbar = () => {
               </ul>
             </div>
 
-            <div className="buttons">
-              {/* <Link to="/Upload">
-               <button>
-                 <i className="icon fa-solid fa-plus"></i> Upload
-               </button>
-             </Link> */}
-
-              <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
-                <button>
-                  <i className="icon fa-solid fa-right-left"></i> Trade
-                </button>
-              </Link>
-            </div>
+            <div className="buttons"></div>
           </div>
         )}
       </>
@@ -373,12 +361,6 @@ const Navbar = () => {
 
                   <li>
                     <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/Trade">Trade</Link>
-                  </li>
-                  <li>
-                    <Link to="/Upload">Upload</Link>
                   </li>
                   <li>
                     <Link to="/Support">Support</Link>
@@ -466,19 +448,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <div className="buttons">
-            {/* <Link to="/Upload">
-              <button>
-                <i className="icon fa-solid fa-plus"></i> Upload
-              </button>
-            </Link> */}
-
-            <Link to={currentUser?.uid ? "/Trade" : "/Login"}>
-              <button>
-                <i className="icon fa-solid fa-right-left"></i> Trade
-              </button>
-            </Link>
-          </div>
+          <div className="buttons"></div>
         </div>
       )}
     </>

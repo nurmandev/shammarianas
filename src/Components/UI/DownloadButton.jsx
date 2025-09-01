@@ -1,4 +1,3 @@
-
 import useSaveToDownloads from "../../hooks/useSaveToDownloads";
 import PropTypes from 'prop-types';
 
@@ -13,24 +12,96 @@ const DownloadButton = ({
 
   // console.log("DownloadButton:", { item, id:item.id, userProfile  });
 
+  const price = Number(item.price) || 0;
+  const discount = Number(item.discount ?? 0) || 0;
+  const finalPrice = price - (price * discount) / 100;
+
+  const getAssetUrls = () => {
+    const urls = [];
+    switch ((item.type || '').toLowerCase()) {
+      case 'models':
+      case 'printables':
+        if (item.model) urls.push(item.model);
+        break;
+      case 'scripts':
+        if (item.script) urls.push(item.script);
+        break;
+      case 'videos':
+        if (item.video) urls.push(item.video);
+        break;
+      case 'graphics':
+        if (item.graphicsTemplate) urls.push(item.graphicsTemplate);
+        break;
+      case 'mockups':
+        if (item.mockupFile) urls.push(item.mockupFile);
+        break;
+      case 'fonts':
+        if (item.fontFile) urls.push(item.fontFile);
+        break;
+      case 'video-templates':
+        if (item.videoTemplateFile) urls.push(item.videoTemplateFile);
+        break;
+      case 'hdris':
+        if (item.hdri) urls.push(item.hdri);
+        break;
+      case 'icons':
+        if (Array.isArray(item.icons)) urls.push(...item.icons);
+        break;
+      case 'images':
+        if (Array.isArray(item.images)) urls.push(...item.images);
+        break;
+      case 'textures':
+        if (item.maps && typeof item.maps === 'object') {
+          urls.push(...Object.values(item.maps).filter(Boolean));
+        }
+        break;
+      default:
+        if (item.other) urls.push(item.other);
+        break;
+    }
+    return urls.filter(Boolean);
+  };
+
+  const downloadURL = (url) => {
+    try {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '';
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (e) {
+      window.open(url, '_blank');
+    }
+  };
+
   const handleDownload = () => {
-    addToDownloads();
-    if (item.price - (item.price * item.discount) / 100 === 0) {
-      window.open(item.model, '_blank');
+    const urls = getAssetUrls();
+
+    // Free items: download immediately
+    if (finalPrice === 0) {
+      addToDownloads(item);
+      if (urls.length) {
+        urls.forEach(downloadURL);
+      }
       return;
     }
 
+    // Purchased items: allow download
     if (
       userProfile &&
       userProfile.purchasedItems &&
       userProfile.purchasedItems.includes(item.id)
     ) {
-      if (item.type === 'models' || item.type === 'printables') {
-        window.open(item.model, '_blank');
-      } 
+      addToDownloads(item);
+      if (urls.length) {
+        urls.forEach(downloadURL);
+      }
       return;
     }
 
+    // Otherwise add to cart
     let cart = localStorage.getItem('cart')
       ? JSON.parse(localStorage.getItem('cart'))
       : [];
@@ -56,11 +127,8 @@ const DownloadButton = ({
   };
 
   return (
-    <button
-      className="add_to_cart_btn"
-      onClick={handleDownload}
-    >
-      {item.price - (item.price * item.discount) / 100 === 0 ? (
+    <button className="add_to_cart_btn" onClick={handleDownload}>
+      {(finalPrice === 0 || (userProfile && userProfile.purchasedItems && userProfile.purchasedItems.includes(item.id))) ? (
         <>
           <i className="icon fas fa-download"></i>
           Download
@@ -86,9 +154,9 @@ const DownloadButton = ({
 DownloadButton.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    price: PropTypes.number.isRequired,
-    discount: PropTypes.number.isRequired,
-    model: PropTypes.string.isRequired,
+    price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    discount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    model: PropTypes.string,
     type: PropTypes.string.isRequired,
   }).isRequired,
   userProfile: PropTypes.shape({
