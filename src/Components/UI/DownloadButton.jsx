@@ -1,4 +1,3 @@
-
 import useSaveToDownloads from "../../hooks/useSaveToDownloads";
 import PropTypes from 'prop-types';
 
@@ -13,9 +12,13 @@ const DownloadButton = ({
 
   // console.log("DownloadButton:", { item, id:item.id, userProfile  });
 
+  const price = Number(item.price) || 0;
+  const discount = Number(item.discount) || 0;
+  const finalPrice = price - (price * discount) / 100;
+
   const handleDownload = () => {
     addToDownloads();
-    if (item.price - (item.price * item.discount) / 100 === 0) {
+    if (finalPrice === 0) {
       window.open(item.model, '_blank');
       return;
     }
@@ -56,11 +59,8 @@ const DownloadButton = ({
   };
 
   return (
-    <button
-      className="add_to_cart_btn"
-      onClick={handleDownload}
-    >
-      {item.price - (item.price * item.discount) / 100 === 0 ? (
+    <button className="add_to_cart_btn" onClick={handleDownload}>
+      {finalPrice === 0 ? (
         <>
           <i className="icon fas fa-download"></i>
           Download
@@ -86,9 +86,9 @@ const DownloadButton = ({
 DownloadButton.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    price: PropTypes.number.isRequired,
-    discount: PropTypes.number.isRequired,
-    model: PropTypes.string.isRequired,
+    price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    discount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    model: PropTypes.string,
     type: PropTypes.string.isRequired,
   }).isRequired,
   userProfile: PropTypes.shape({
