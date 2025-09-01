@@ -73,30 +73,33 @@ const transporter = nodemailer.createTransport({
 // Project owner's email from environment variable
 const projectOwnerEmail = process.env.PROJECT_OWNER_EMAIL;
 
-// Firestore trigger function
+// Firestore trigger function (root Support - legacy)
 exports.notifyProjectOwner = functions.firestore
     .document("Support/{messageId}")
-    .onCreate(async (snap, context) => {
-      const messageData = snap.data();
-
-      // Construct email content
+    .onCreate(async (snap) => {
+      const data = snap.data();
       const mailOptions = {
-        from: "your-email@gmail.com",
+        from: "no-reply@shammarianas.com",
         to: projectOwnerEmail,
-        subject: `New Support Message: ${messageData.subject}`,
-        text: `You have received a new support message.\n\nFrom:
-         ${messageData.email}\nSubject: 
-         ${messageData.subject}\nMessage:
-        ${messageData.body}\n\nCheck your admin panel for details.`,
+        subject: `New Support Message: ${data.subject || "Support"}`,
+        text: `New support message\nFrom: ${data.email}\nSubject: ${data.subject}\nMessage: ${data.description || data.body || ""}`,
       };
-
-      try {
-        await transporter.sendMail(mailOptions);
-        console.log("Email sent to project owner.");
-      } catch (error) {
-        console.error("Error sending email:", error);
-      }
+      try { await transporter.sendMail(mailOptions); } catch (error) { console.error("Error sending email:", error); }
     });
+
+// Firestore trigger for user subcollection Support
+exports.notifyProjectOwnerFromProfile = functions.firestore
+  .document("Profiles/{profileId}/Support/{messageId}")
+  .onCreate(async (snap, context) => {
+    const data = snap.data();
+    const mailOptions = {
+      from: "no-reply@shammarianas.com",
+      to: projectOwnerEmail,
+      subject: `New Support Message: ${data.subject || "Support"}`,
+      text: `New support message\nFrom: ${data.email}\nUserId: ${context.params.profileId}\nSubject: ${data.subject}\nMessage: ${data.description || ""}`,
+    };
+    try { await transporter.sendMail(mailOptions); } catch (error) { console.error("Error sending email:", error); }
+  });
 
 
 // exports.checkUserRole = functions.https.onCall(async (data, context) => {
