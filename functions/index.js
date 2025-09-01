@@ -139,6 +139,28 @@ exports.setUserRole = onCall({ cors: true }, async (data, context) => {
   }
 });
 
+exports.setUserStatus = onCall({ cors: true }, async (data, context) => {
+  if (!context.auth) {
+    throw new HttpsError("unauthenticated", "User must be logged in.");
+  }
+  const authorized = await isCallerAdmin(context);
+  if (!authorized) {
+    throw new HttpsError("permission-denied", "Only admins can modify status.");
+  }
+  const userId = String(data.userId || "");
+  const status = String(data.status || "");
+  if (!userId || !status) {
+    throw new HttpsError("invalid-argument", "userId and status are required.");
+  }
+  try {
+    await admin.firestore().doc(`Profiles/${userId}`).set({ status }, { merge: true });
+    return { success: true };
+  } catch (e) {
+    logger.error("setUserStatus failed", e);
+    throw new HttpsError("internal", "Failed to update status");
+  }
+});
+
 // exports.checkUserRole = functions.https.onCall(async (data, context) => {
 //   if (!context.auth) {
 //     throw new functions.https.HttpsError(
