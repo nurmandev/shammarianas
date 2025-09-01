@@ -337,26 +337,27 @@ const AdminDashboard = () => {
     }
   }, [activeTab]);
 
+  // Load portfolios (projects)
+  const loadProjects = async () => {
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "projects"));
+      const projectsData = [];
+      querySnapshot.forEach((doc) => {
+        projectsData.push({ id: doc.id, ...doc.data() });
+      });
+      setPortfolios(projectsData);
+    } catch (error) {
+      setError(`Failed to load portfolios: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Fetch portfolios (projects) when Portfolio tab is selected
   useEffect(() => {
-    const fetchProjects = async () => {
-      setLoading(true);
-      try {
-        const querySnapshot = await getDocs(collection(db, "projects"));
-        const projectsData = [];
-        querySnapshot.forEach((doc) => {
-          projectsData.push({ id: doc.id, ...doc.data() });
-        });
-        setPortfolios(projectsData);
-      } catch (error) {
-        setError(`Failed to load portfolios: ${error.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (activeTab === 5) {
-      fetchProjects();
+      loadProjects();
     }
   }, [activeTab]);
 
@@ -543,7 +544,7 @@ const AdminDashboard = () => {
       return;
     }
     try {
-      await updateDoc(doc(db, "projects", portfolioId), { status: newStatus });
+      await updateDoc(doc(db, "projects", portfolioId), { status: newStatus, updatedAt: serverTimestamp() });
       setPortfolios((prev) => prev.map((p) => (p.id === portfolioId ? { ...p, status: newStatus } : p)));
     } catch (error) {
       setError(`Failed to update portfolio status: ${error.message}`);
@@ -1523,10 +1524,7 @@ const AdminDashboard = () => {
         {isPortfolioModalOpen && (
           <ProjectModal
             isOpen={isPortfolioModalOpen}
-            onClose={() => setIsPortfolioModalOpen(false)}
-            onSave={() => {
-              setIsPortfolioModalOpen(false);
-            }}
+            onClose={() => { setIsPortfolioModalOpen(false); loadProjects(); }}
           />
         )}
       </div>
