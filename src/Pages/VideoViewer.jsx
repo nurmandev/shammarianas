@@ -1,6 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import "../assets/Styles/video-viewer.css";
-
 const VideoViewer = ({ videoUrl, videoName, previewUrl }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
