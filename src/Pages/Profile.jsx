@@ -24,6 +24,12 @@ const Profile = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [saving, setSaving] = useState(false);
+  const isOwnProfile = currentUser?.uid === id;
+
   const followUser = async () => {
     if (!user) {
       return;
