@@ -2,6 +2,7 @@ import  { useState, useEffect, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
+import { getFinalPrice } from "../lib/utils";
 
 const Cart = () => {
   const { currentUser } = useUser();
@@ -45,7 +46,7 @@ const Cart = () => {
     return cartItems
       .reduce(
         (total, item) =>
-          total + (item.price - (item.price * item.discount) / 100),
+          total + getFinalPrice(item.price, item.discount),
         0
       )
       .toFixed(2);
@@ -104,10 +105,7 @@ const Cart = () => {
                         <div className="item_title">{item.title}</div>
                         <div className="price">
                           $
-                          {(
-                            item.price -
-                            (item.price * item.discount) / 100
-                          ).toFixed(2)}
+                          {getFinalPrice(item.price, item.discount).toFixed(2)}
                         </div>
                       </div>
                     </Link>
