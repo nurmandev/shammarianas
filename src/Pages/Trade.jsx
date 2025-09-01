@@ -17,6 +17,7 @@ import { useLocation } from "react-router-dom";
 import PageTitle from "../Components/UI/PageTitle";
 import exchange_icon from "../assets/Icons/exchange.png";
 import plus_icon from "../assets/Icons/plus.png";
+import { getFinalPrice } from "../lib/utils";
 
 const TradePage = () => {
   const { currentUser } = useUser();
