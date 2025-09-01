@@ -295,6 +295,42 @@ const Profile = () => {
             </div>
           </div>
 
+          {isOwnProfile && (
+            <div className="account-details-card">
+              <div className="info-banner">
+                <span className="icon">i</span>
+                <span>Some fields are not editable here. Please update them via your Google account.</span>
+              </div>
+              <div className="form-grid">
+                <div className="form-field">
+                  <label>First name</label>
+                  <input value={firstName} onChange={(e)=>setFirstName(e.target.value)} placeholder="First name" />
+                </div>
+                <div className="form-field">
+                  <label>Last name</label>
+                  <input value={lastName} onChange={(e)=>setLastName(e.target.value)} placeholder="Last name" />
+                </div>
+                <div className="form-field full">
+                  <label>Email</label>
+                  <input value={currentUser?.email || ""} disabled />
+                </div>
+                <div className="form-field full">
+                  <label>Username</label>
+                  <input value={username} onChange={(e)=>setUsername(e.target.value)} placeholder="username" />
+                  <small>We allow 3 username changes per year. You have {Math.max(0, 3 - (user?.usernameChangeCount || 0))} changes remaining.</small>
+                </div>
+              </div>
+              <div className="form-actions">
+                <button className="butn butn-sm butn-bg main-colorbg radius-5" onClick={handleSaveAccount} disabled={saving}>
+                  <span>{saving?"Saving...":"Save Changes"}</span>
+                </button>
+                <button className="butn butn-sm butn-bord radius-5" onClick={()=>{ setFirstName(user?.firstName||""); setLastName(user?.lastName||""); setUsername(user?.username||""); }}>
+                  <span>Cancel</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="bottom">
             {" "}
             {Object.keys(groupedItems).map((category) => (
