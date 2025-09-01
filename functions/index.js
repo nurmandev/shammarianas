@@ -161,6 +161,32 @@ exports.setUserStatus = onCall({ cors: true }, async (data, context) => {
   }
 });
 
+exports.deleteUser = onCall({ cors: true }, async (data, context) => {
+  if (!context.auth) {
+    throw new HttpsError("unauthenticated", "User must be logged in.");
+  }
+  const authorized = await isCallerAdmin(context);
+  if (!authorized) {
+    throw new HttpsError("permission-denied", "Only admins can delete users.");
+  }
+  const userId = String(data.userId || "");
+  const email = String(data.email || "").toLowerCase();
+  if (!userId) {
+    throw new HttpsError("invalid-argument", "userId is required.");
+  }
+  const db = admin.firestore();
+  try {
+    await db.doc(`Profiles/${userId}`).delete();
+    if (email) {
+      await db.doc(`adminUsers/${email}`).delete().catch(() => {});
+    }
+    return { success: true };
+  } catch (e) {
+    logger.error("deleteUser failed", e);
+    throw new HttpsError("internal", "Failed to delete user");
+  }
+});
+
 // exports.checkUserRole = functions.https.onCall(async (data, context) => {
 //   if (!context.auth) {
 //     throw new functions.https.HttpsError(
