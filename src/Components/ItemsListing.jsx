@@ -107,6 +107,7 @@
 
 import { useEffect, useState } from "react";
 import ListedItemCard from "./UI/ListedItemCard";
+import { getFinalPrice } from "../lib/utils";
 import { db } from "../../firebase";
 import { collection, getDocs, query, where, limit } from "firebase/firestore";
 import { useFilters } from "../Context/FilterContext";
@@ -170,7 +171,7 @@ const ItemsListing = (props) => {
 
   // Filter items based on search term and filters
   const filteredItems = items.filter((item) => {
-    const afterDiscountPrice = item.price - (item.price * item.discount) / 100;
+    const afterDiscountPrice = getFinalPrice(item.price, item.discount);
 
     // Apply search term filter
     const searchTermFilterPassed = searchTerm
