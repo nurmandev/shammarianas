@@ -1,7 +1,7 @@
 import { auth, db, storage } from "../../../../firebase";
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, getDocs, collection, updateDoc, setDoc, deleteDoc, orderBy, query, addDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, collectionGroup, updateDoc, setDoc, deleteDoc, orderBy, query, addDoc } from "firebase/firestore";
 import Upload from "../../../Pages/Upload";
 import BlogEditorModal from "../../../Pages/BlogEditor";
 import ProjectModal from "../../../Pages/PortfolioUpload";
@@ -199,7 +199,7 @@ const AdminDashboard = () => {
 
         if (await checkAdminStatus(email)) {
           setIsAdmin(true);
-          await Promise.all([fetchUsers(), fetchSupportMessages(currentUser.uid)]);
+          await Promise.all([fetchUsers(), fetchSupportMessages(isAdmin ? null : currentUser.uid)]);
           setSelectedProfileId(currentUser.uid);
         } else {
           setError("You do not have admin privileges");
@@ -254,18 +254,23 @@ const AdminDashboard = () => {
   };
 
   const fetchSupportMessages = async (profileId) => {
-    if (!profileId) return;
-    if (!isAdmin && profileId !== auth.currentUser?.uid) {
-      setError("Only admins can view other users' support messages");
-      return;
-    }
     setLoading(true);
     try {
       if (!db) throw new Error("Firebase not initialized");
-      const q = query(collection(db, `Profiles/${profileId}/Support`), orderBy("createdAt", "desc"));
-      const querySnapshot = await getDocs(q);
-      const messages = querySnapshot.docs.map((doc) => ({ id: doc.id, profileId, ...doc.data() }));
-      setSupportMessages(messages);
+
+      if (isAdmin && !profileId) {
+        const q = query(collectionGroup(db, "Support"), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        const messages = snap.docs.map((d) => ({ id: d.id, profileId: d.ref.parent.parent?.id || "", ...d.data() }));
+        setSupportMessages(messages);
+      } else {
+        const uid = profileId || auth.currentUser?.uid;
+        if (!uid) { setSupportMessages([]); return; }
+        const q = query(collection(db, `Profiles/${uid}/Support`), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        const messages = snap.docs.map((d) => ({ id: d.id, profileId: uid, ...d.data() }));
+        setSupportMessages(messages);
+      }
     } catch (error) {
       setError(`Failed to load support messages: ${error.message}`);
     } finally {
