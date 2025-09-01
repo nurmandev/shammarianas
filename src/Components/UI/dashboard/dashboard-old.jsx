@@ -199,7 +199,7 @@ const AdminDashboard = () => {
 
         if (await checkAdminStatus(email)) {
           setIsAdmin(true);
-          await Promise.all([fetchUsers(), fetchSupportMessages(isAdmin ? null : currentUser.uid)]);
+          await Promise.all([fetchUsers(), fetchSupportMessages(null)]);
           setSelectedProfileId(currentUser.uid);
         } else {
           setError("You do not have admin privileges");
