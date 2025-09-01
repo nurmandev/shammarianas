@@ -128,7 +128,7 @@ const DownloadButton = ({
 
   return (
     <button className="add_to_cart_btn" onClick={handleDownload}>
-      {finalPrice === 0 ? (
+      {(finalPrice === 0 || (userProfile && userProfile.purchasedItems && userProfile.purchasedItems.includes(item.id))) ? (
         <>
           <i className="icon fas fa-download"></i>
           Download
