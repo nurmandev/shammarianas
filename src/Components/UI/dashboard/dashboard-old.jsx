@@ -392,12 +392,10 @@ const AdminDashboard = () => {
   };
 
   const handleUpdateUserStatus = async (userId, newStatus) => {
-    if (!isAdmin) {
-      setError("Only admins can change user status");
-      return;
-    }
+    if (!isAdmin) { setError("Only admins can change user status"); return; }
     try {
-      await updateDoc(doc(db, "Profiles", userId), { status: newStatus });
+      const setUserStatusFn = httpsCallable(functions, "setUserStatus");
+      await setUserStatusFn({ userId, status: newStatus });
       setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, status: newStatus } : u)));
     } catch (error) {
       setError(`Failed to update status: ${error.message}`);
@@ -405,16 +403,10 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (userId, email) => {
-    if (!isAdmin) {
-      setError("Only admins can delete users");
-      return;
-    }
+    if (!isAdmin) { setError("Only admins can delete users"); return; }
     try {
-      await deleteDoc(doc(db, "Profiles", userId));
-      if (email) {
-        const lower = email.toLowerCase();
-        await deleteDoc(doc(db, "adminUsers", lower));
-      }
+      const deleteUserFn = httpsCallable(functions, "deleteUser");
+      await deleteUserFn({ userId, email: (email || "").toLowerCase() });
       setUsers((prev) => prev.filter((u) => u.id !== userId));
     } catch (error) {
       setError(`Failed to delete user: ${error.message}`);
