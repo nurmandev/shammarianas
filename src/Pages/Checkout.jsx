@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import { db } from "../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useUser } from "../Context/UserProvider";
+import { getFinalPrice } from "../lib/utils";
 import PropTypes from "prop-types";
 
 // Using Stripe Checkout Sessions via backend
@@ -35,7 +36,7 @@ const Checkout = () => {
     return cartItems
       .reduce(
         (total, item) =>
-          total + (item.price - (item.price * item.discount) / 100),
+          total + getFinalPrice(item.price, item.discount),
         0
       )
       .toFixed(2);
@@ -291,10 +292,7 @@ const Checkout = () => {
                       )}
                       <span className="final_price">
                         $
-                        {(
-                          item.price -
-                          (item.price * item.discount) / 100
-                        ).toFixed(2)}
+                        {getFinalPrice(item.price, item.discount).toFixed(2)}
                       </span>
                     </div>
                   </div>
