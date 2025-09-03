@@ -11,7 +11,7 @@ async function isCallerAdmin(context) {
   if (!context.auth) return false;
   const email = (context.auth.token.email || "").toLowerCase();
   if (!email) return false;
-  const PRIMARY_ADMIN = "admin@shammarianas.com";
+  const PRIMARY_ADMIN = "shammarianas@gmail.com";
   if (email === PRIMARY_ADMIN) return true;
   try {
     const snap = await admin.firestore().doc(`adminUsers/${email}`).get();
@@ -79,7 +79,7 @@ exports.notifyProjectOwner = functions.firestore
     .onCreate(async (snap) => {
       const data = snap.data();
       const mailOptions = {
-        from: "no-reply@shammarianas.com",
+        from: "shammarianas@gmail.com",
         to: projectOwnerEmail,
         subject: `New Support Message: ${data.subject || "Support"}`,
         text: `New support message\nFrom: ${data.email}\nSubject: ${data.subject}\nMessage: ${data.description || data.body || ""}`,
@@ -93,7 +93,7 @@ exports.notifyProjectOwnerFromProfile = functions.firestore
   .onCreate(async (snap, context) => {
     const data = snap.data();
     const mailOptions = {
-      from: "no-reply@shammarianas.com",
+      from: "shammarianas@gmail.com",
       to: projectOwnerEmail,
       subject: `New Support Message: ${data.subject || "Support"}`,
       text: `New support message\nFrom: ${data.email}\nUserId: ${context.params.profileId}\nSubject: ${data.subject}\nMessage: ${data.description || ""}`,
