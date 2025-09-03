@@ -3645,7 +3645,7 @@ body.loaded {
 .navbar .logo {
   position: relative;
   height: 30px;
-  width: 100px;
+  width: 150px;
 }
 
 .navbar .logo:after {
@@ -7874,7 +7874,7 @@ footer.clean-footer.crev .circle-blur {
     padding: 20px 10px !important;
   }
   .navbar .logo {
-    max-width: 100px !important;
+    max-width: 150px !important;
     margin-left: 30px;
   }
   .navbar .navbar-collapse {
