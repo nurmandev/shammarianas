@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
+import "../assets/Styles/navbar-logo.css";
 
 const Navbar = () => {
   const { currentUser } = useUser() || "";
@@ -56,9 +57,9 @@ const Navbar = () => {
       <>
          <nav className="navbar navbar-expand-lg bord blur">
           <div className="container o-hidden">
-            <a className="logo icon-img-100" href="#">
-              <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
-            </a>
+            <Link to="/" className="logo site-logo-link" aria-label="Home">
+              <img src="/assets/imgs/logo.png" className="site-logo-img" alt="Sham Marianas logo" />
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -407,10 +408,10 @@ const Navbar = () => {
       <div className="navbar navbar-expand-lg bord blur">
         {/* <nav className="navbar navbar-expand-lg bord blur"> */}
 
-        <Link to="/" className="logo icon-img-100" aria-label="Home">
+        <Link to="/" className="logo site-logo-link" aria-label="Home">
           <img
             src="/assets/imgs/logo.png"
-            className="logo"
+            className="site-logo-img"
             alt="Sham Marianas logo"
           />
         </Link>
