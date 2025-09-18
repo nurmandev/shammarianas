@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
+import "../assets/Styles/navbar-logo.css";
 
 const Navbar = () => {
   const { currentUser } = useUser() || "";
