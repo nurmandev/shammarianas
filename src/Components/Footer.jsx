@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <footer className="clean-footer crev">
@@ -42,7 +44,7 @@ function Footer() {
                   <a href="#portfolio">Portfolio</a>
                 </li>
                 <li className="mb-15">
-                  <a href="#Stock">Templates</a>
+                  <Link to="/stock">Templates</Link>
                 </li>
                 <li className="mb-15">
                   <a href="#about">About</a>

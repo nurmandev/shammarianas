@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
+import "../assets/Styles/navbar-logo.css";
 
 const Navbar = () => {
   const { currentUser } = useUser() || "";
@@ -54,11 +55,12 @@ const Navbar = () => {
   if (!currentUser) {
     return (
       <>
-         <nav className="navbar navbar-expand-lg bord blur">
+        <nav className="navbar navbar-expand-lg bord blur">
           <div className="container o-hidden">
-            <a className="logo icon-img-100" href="#">
-              <img src="/assets/imgs/logo.png" className="logo" alt="logo" />
-            </a>
+
+            <Link to="/" className="logo site-logo-link" aria-label="Home">
+              <img src="/assets/imgs/logo.png" className="site-logo-img" alt="Sham Marianas logo" />
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -111,15 +113,15 @@ const Navbar = () => {
                   onMouseMove={handleDropdownMouseMove}
                   className="nav-item dropdown"
                 >
-                  <a
+                  <Link
                     className="nav-link"
-                    href="#stock"
+                    to="/stock"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Templates</span>
-                  </a>
+                  </Link>
                 </li>
                 <li
                   onMouseLeave={handleDropdownMouseLeave}
@@ -136,64 +138,6 @@ const Navbar = () => {
                     <span className="rolling-text">Services</span>
                   </a>
                 </li>
-                {/* <li
-                  onMouseLeave={handleDropdownMouseLeave}
-                  onMouseMove={handleDropdownMouseMove}
-                  className="nav-item dropdown"
-                >
-                  <a
-                    className="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <span className="rolling-text">Services</span>
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#hot">
-                        Hot
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#Printable">
-                        Printable
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#Models">
-                        Models
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#Textures">
-                        Textures
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#Scripts">
-                        Scripts
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#Shaders">
-                        Shaders
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#Plugins">
-                        Plugins
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#HDRIs">
-                        HDRIs
-                      </a>
-                    </li>
-                  </ul>
-                </li> */}
                 <li
                   onMouseLeave={handleDropdownMouseLeave}
                   onMouseMove={handleDropdownMouseMove}
@@ -208,38 +152,7 @@ const Navbar = () => {
                   >
                     <span className="rolling-text">Portfolio</span>
                   </a>
-                  {/* <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#gallery">
-                        Gallery
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#creative">
-                        Portfolio Creative
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#carousel">
-                        Creative Carousel
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#portfolio">
-                        Portfolio Grid
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#masonry">
-                        Portfolio Masonny
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#project">
-                        Project Details
-                      </a>
-                    </li>
-                  </ul> */}
+
                 </li>
 
                 <li
@@ -256,28 +169,6 @@ const Navbar = () => {
                   >
                     <span className="rolling-text">Blogs</span>
                   </a>
-                  {/* <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#blog">
-                        Blog Standard
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#sider">
-                        Grid With Sider Creative
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#column">
-                        Grid With Column
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#blog-details">
-                        Blog Details
-                      </a>
-                    </li>
-                  </ul> */}
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#contact">
@@ -338,7 +229,10 @@ const Navbar = () => {
                                   aria-haspopup="true"
                                   aria-expanded="false"
                                 >
-                                  <span className="rolling-text more-label">
+                                  <span
+                                    style={{ marginTop: "3px" }}
+                                    className="rolling-text"
+                                  >
                                     More
                                   </span>
                                 </p>
@@ -356,9 +250,6 @@ const Navbar = () => {
                                     { label: "Plugins", href: "#Plugins" },
                                     { label: "HDRIs", href: "#HDRIs" },
 
-                                    // { label: "Printable", href: "#Printable" },
-                                    // { label: "Models", href: "#" },
-                                    // { label: "Shaders", href: "#Shaders" },
                                   ].map(({ label, href }) => (
                                     <li key={href}>
                                       <a className="dropdown-item" href={href}>
@@ -404,18 +295,18 @@ const Navbar = () => {
       <div className="navbar navbar-expand-lg bord blur">
         {/* <nav className="navbar navbar-expand-lg bord blur"> */}
 
-        <Link to="/" className="logo icon-img-100" aria-label="Home">
+        <Link to="/" className="logo site-logo-link" aria-label="Home">
           <img
             src="/assets/imgs/logo.png"
-            className="logo"
+            className="site-logo-img"
             alt="Sham Marianas logo"
           />
         </Link>
-        <Link to="stock">
+        <Link to="/stock">
           <div className="ml-auto vi-more">
-            <a href="#stock" className="butn butn-sm butn-bord radius-30">
+            <span className="butn butn-sm butn-bord radius-30">
               <span>Explore</span>
-            </a>
+            </span>
             <span className="icon ti-arrow-top-right"></span>
           </div>
         </Link>
@@ -515,9 +406,12 @@ const Navbar = () => {
                                 aria-haspopup="true"
                                 aria-expanded="false"
                               >
-                                <span className="rolling-text more-label">
-                                    More
-                                  </span>
+                                <span
+                                  style={{ marginTop: "3px" }}
+                                  className="rolling-text"
+                                >
+                                  More
+                                </span>
                               </p>
                               <ul
                                 style={{
