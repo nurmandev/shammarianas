@@ -157,7 +157,7 @@ const Login = () => {
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Login | Shammarianas" />
         <meta property="og:description" content="Login with Google or GitHub" />
-        <meta property="og:url" content="https://meshables.me/#/login" />
+        <meta property="og:url" content={window.location.href} />
       </Helmet>
       {/* <div className="page_content"> */}
       <div className="login">
@@ -225,7 +225,7 @@ const Login = () => {
                     setError("");
                   }}
                 >
-                  <Link> Forgot password? </Link>
+                  <span> Forgot password? </span>
                 </span>
               }
 
@@ -367,11 +367,11 @@ const Login = () => {
                 />
                 <label htmlFor="accept">
                   I accept the{" "}
-                  <Link to="/terms" target="_blank">
+                  <Link to="/Terms" target="_blank">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link to="/privacy" target="_blank">
+                  <Link to="/Privacy" target="_blank">
                     Privacy Policy
                   </Link>
                 </label>
