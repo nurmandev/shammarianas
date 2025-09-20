@@ -216,7 +216,7 @@ const AdminDashboard = () => {
           setIsAdmin(true);
 
           // Primary admin can seed additional authorized admins
-          const PRIMARY_ADMIN = "admin@shammarianas.com";
+          const PRIMARY_ADMIN = "shammarianas@gmail.com";
           if (email === PRIMARY_ADMIN) {
             try {
               await Promise.all(
@@ -249,7 +249,7 @@ const AdminDashboard = () => {
     if (!email) return false;
 
     // Primary admin (must match Firestore rules)
-    const PRIMARY_ADMIN = "admin@shammarianas.com";
+    const PRIMARY_ADMIN = "shammarianas@gmail.com";
     const ALSO_AUTHORIZED = ["adebayour66265@gmail.com","shammarianas@gmail.com"];
     if (email === PRIMARY_ADMIN) {
       try {
