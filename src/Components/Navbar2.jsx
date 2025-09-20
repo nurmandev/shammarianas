@@ -113,15 +113,15 @@ const Navbar = () => {
                   onMouseMove={handleDropdownMouseMove}
                   className="nav-item dropdown"
                 >
-                  <a
+                  <Link
                     className="nav-link"
-                    href="#stock"
+                    to="/stock"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Templates</span>
-                  </a>
+                  </Link>
                 </li>
                 <li
                   onMouseLeave={handleDropdownMouseLeave}
@@ -302,11 +302,11 @@ const Navbar = () => {
             alt="Sham Marianas logo"
           />
         </Link>
-        <Link to="stock">
+        <Link to="/stock">
           <div className="ml-auto vi-more">
-            <a href="#stock" className="butn butn-sm butn-bord radius-30">
+            <span className="butn butn-sm butn-bord radius-30">
               <span>Explore</span>
-            </a>
+            </span>
             <span className="icon ti-arrow-top-right"></span>
           </div>
         </Link>
