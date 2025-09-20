@@ -5,7 +5,7 @@ import "./assets/Styles/Style.css";
 import "./assets/Styles/stock.css";
 import "./assets/Styles/video-viewer.css";
 import "./assets/Styles/profile-edit.css";
-import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import View from "./Pages/View";
 import Footer from "./Components/Footer";
@@ -127,7 +127,7 @@ export const AppRoutes = () => (
 function App() {
   return (
     <>
-      <HashRouter>
+      <BrowserRouter>
         <ScrollToTop />
         <FilterProvider>
           <Navbar2 />
@@ -135,7 +135,7 @@ function App() {
           <AppRoutes />
         </FilterProvider>
         <Footer />
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }
