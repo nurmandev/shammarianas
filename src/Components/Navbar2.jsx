@@ -307,8 +307,9 @@ const Navbar = () => {
             type="button"
             aria-label="Toggle navigation"
             aria-expanded={false}
-            onClick={() => {
-              const collapse = document.querySelector('.navbar .navbar-collapse');
+            onClick={(e) => {
+              const nav = e.currentTarget.closest('.navbar');
+              const collapse = nav?.querySelector('.navbar-collapse');
               collapse?.classList.toggle('show');
             }}
           >
