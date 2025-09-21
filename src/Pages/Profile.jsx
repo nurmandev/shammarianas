@@ -363,14 +363,12 @@ const Profile = () => {
                           <div className="details">
                             <span className="price">
                               <strong>
-                                {item.price -
-                                  (item.price * item.discount) / 100 ===
-                                0
-                                  ? "Free"
-                                  : `$${(
-                                      item.price -
-                                      (item.price * item.discount) / 100
-                                    ).toFixed(2)}`}
+                                {(() => {
+                                  const price = Number(item.price) || 0;
+                                  const discount = Number(item.discount ?? 0) || 0;
+                                  const finalPrice = Math.max(0, price - (price * discount) / 100);
+                                  return finalPrice === 0 ? "Free" : `$${finalPrice.toFixed(2)}`;
+                                })()}
                               </strong>
                             </span>
                           </div>
