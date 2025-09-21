@@ -69,6 +69,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Decode GitHub Pages SPA redirect (clean URL support)
+      (function(l){
+        if (l.search && l.search.startsWith('?p=')) {
+          var target = decodeURIComponent(l.search.slice(3));
+          window.history.replaceState(null, null, target);
+        }
+      })(window.location);
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
