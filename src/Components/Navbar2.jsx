@@ -244,12 +244,11 @@ const Navbar = () => {
                                   className="dropdown-menu"
                                 >
                                   {[
-                                    { label: "Icons", href: "/icons" },
-                                    { label: "Textures", href: "/Textures" },
-                                    { label: "Scripts", href: "/Scripts" },
-                                    { label: "Plugins", href: "/Plugins" },
-                                    { label: "HDRIs", href: "/HDRIs" },
-
+                                    { label: "Icons", href: "/stock#icons" },
+                                    { label: "Textures", href: "/stock#textures" },
+                                    { label: "Scripts", href: "/stock#scripts" },
+                                    { label: "Plugins", href: "/stock#plugins" },
+                                    { label: "HDRIs", href: "/stock#hdris" },
                                   ].map(({ label, href }) => (
                                     <li key={href}>
                                       <a className="dropdown-item" href={href}>
