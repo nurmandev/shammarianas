@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting…</title>
+    <meta http-equiv="refresh" content="0; url=./index.html">
+    <script>
+      // Preserve path and query by rewriting to hash route
+      (function(){
+        var l = window.location;
+        var path = l.pathname.replace(/^\//, '');
+        // If already at index.html, do nothing
+        if (/index\.html$/.test(path)) return;
+        var newUrl = l.origin + l.pathname.replace(/[^/]*$/, '') + 'index.html' + l.search + l.hash;
+        // For HashRouter, convert to hash route
+        if (!l.hash || l.hash === '#/' || l.hash === '#') {
+          var hashPath = '#' + l.pathname + l.search + l.hash;
+          newUrl = l.origin + l.pathname.replace(/[^/]*$/, '') + 'index.html' + hashPath;
+        }
+        l.replace(newUrl);
+      })();
+    </script>
+  </head>
+  <body>Redirecting…</body>
+</html>
