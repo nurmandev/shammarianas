@@ -70,6 +70,7 @@ export const seedCollections = async () => {
 };
 
 export const seedAll = async () => {
+  await initializeAdminsFromEnv();
   await seedProfiles();
   await seedCollections();
 };
