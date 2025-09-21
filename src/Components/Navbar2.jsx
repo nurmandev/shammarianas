@@ -354,7 +354,7 @@ const Navbar = () => {
                 <div className="navbar_dropdown">
                   {currentUser?.uid ? (
                     <Link to={`/Profile/${currentUser?.uid}`}>
-                      <button className="signed_in">
+                      <button className="signed_in" onClick={(e) => { const root = e.currentTarget.closest('.navbar_dropdown'); const dd = root && root.querySelector('.dropdown'); dd && dd.classList.toggle('show'); }}>
                         <i className="icon fa-solid fa-user"></i>
                         <span className="username">
                           {currentUser?.displayName || "User"}
