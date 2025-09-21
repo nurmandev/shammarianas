@@ -422,16 +422,16 @@ const Navbar = () => {
                                 className="dropdown-menu"
                               >
                                 {[
-                                  { label: "Icons", to: "/icons" },
-                                  { label: "Textures", to: "/Textures" },
-                                  { label: "Scripts", to: "/Scripts" },
-                                  { label: "Plugins", to: "/Plugins" },
-                                  { label: "HDRIs", to: "/HDRIs" },
-                                ].map(({ label, to }) => (
-                                  <li key={to}>
-                                    <Link className="dropdown-item" to={to}>
+                                  { label: "Icons", href: "/stock#icons" },
+                                  { label: "Textures", href: "/stock#textures" },
+                                  { label: "Scripts", href: "/stock#scripts" },
+                                  { label: "Plugins", href: "/stock#plugins" },
+                                  { label: "HDRIs", href: "/stock#hdris" },
+                                ].map(({ label, href }) => (
+                                  <li key={href}>
+                                    <a className="dropdown-item" href={href}>
                                       {label}
-                                    </Link>
+                                    </a>
                                   </li>
                                 ))}
                               </ul>
