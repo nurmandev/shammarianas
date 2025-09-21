@@ -1,4 +1,3 @@
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
