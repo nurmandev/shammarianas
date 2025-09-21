@@ -54,14 +54,14 @@ const ListedItemCard = ({ id, data, rating }) => {
 
           <div className="details">
             <span className="price">
-              {/* <strong>
-                {data.price - (data.price * data.discount) / 100 === 0
-                  ? "Free"
-                  : `$${(
-                      data.price -
-                      (data.price * data.discount) / 100
-                    ).toFixed(2)}`}
-              </strong> */}
+              <strong>
+                {(() => {
+                  const price = Number(data.price) || 0;
+                  const discount = Number(data.discount ?? 0) || 0;
+                  const finalPrice = Math.max(0, price - (price * discount) / 100);
+                  return finalPrice === 0 ? "Free" : `$${finalPrice.toFixed(2)}`;
+                })()}
+              </strong>
             </span>
             {/* <span className="rating">
               <div className="icons">
