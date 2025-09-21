@@ -51,6 +51,8 @@ import { serverTimestamp } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../../../../firebase";
 import { signOut } from "firebase/auth";
+import { seedAll } from "../../../utils/seedFirestore";
+import { wipeCollections, DEFAULT_WIPE_TARGETS } from "../../../utils/wipeFirestore";
 
 const UnauthorizedAccess = ({ error }) => {
   return (
