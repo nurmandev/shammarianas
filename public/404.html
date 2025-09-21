@@ -3,22 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Redirecting…</title>
-    <meta http-equiv="refresh" content="0; url=./index.html">
     <script>
-      // Preserve path and query by rewriting to hash route
-      (function(){
-        var l = window.location;
-        var path = l.pathname.replace(/^\//, '');
-        // If already at index.html, do nothing
-        if (/index\.html$/.test(path)) return;
-        var newUrl = l.origin + l.pathname.replace(/[^/]*$/, '') + 'index.html' + l.search + l.hash;
-        // For HashRouter, convert to hash route
-        if (!l.hash || l.hash === '#/' || l.hash === '#') {
-          var hashPath = '#' + l.pathname + l.search + l.hash;
-          newUrl = l.origin + l.pathname.replace(/[^/]*$/, '') + 'index.html' + hashPath;
-        }
-        l.replace(newUrl);
-      })();
+      /*! spa-github-pages: redirect to index.html for client-side routing (clean URLs) */
+      (function(l) {
+        var path = l.pathname;
+        var repoBase = path.replace(/\/404\.html$/, "");
+        var newURL = repoBase + '/index.html?p=' + encodeURIComponent(path + l.search) + l.hash;
+        l.replace(newURL);
+      })(window.location);
     </script>
   </head>
   <body>Redirecting…</body>
