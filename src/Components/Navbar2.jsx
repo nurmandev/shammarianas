@@ -89,21 +89,21 @@ const Navbar = () => {
                   onMouseMove={handleDropdownMouseMove}
                   className="nav-item dropdown"
                 >
-                  <a
+                  <Link
                     className="nav-link dropdown-toggle"
                     data-toggle="dropdown"
-                    href="/"
+                    to="/"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Home</span>
-                  </a>
+                  </Link>
                   <ul className="dropdown-menu">
                     <li>
-                      <a className="dropdown-item" href="/about">
+                      <Link className="dropdown-item" to="/about">
                         About us
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -128,30 +128,30 @@ const Navbar = () => {
                   onMouseMove={handleDropdownMouseMove}
                   className="nav-item dropdown"
                 >
-                  <a
+                  <Link
                     className="nav-link"
-                    href="/services"
+                    to="/services"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Services</span>
-                  </a>
+                  </Link>
                 </li>
                 <li
                   onMouseLeave={handleDropdownMouseLeave}
                   onMouseMove={handleDropdownMouseMove}
                   className="nav-item dropdown"
                 >
-                  <a
+                  <Link
                     className="nav-link"
-                    href="/portfolio"
+                    to="/portfolio"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Portfolio</span>
-                  </a>
+                  </Link>
 
                 </li>
 
@@ -160,20 +160,20 @@ const Navbar = () => {
                   onMouseMove={handleDropdownMouseMove}
                   className="nav-item dropdown"
                 >
-                  <a
+                  <Link
                     className="nav-link"
-                    href="/blog"
+                    to="/blog"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
                     <span className="rolling-text">Blogs</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/contact">
+                  <Link className="nav-link" to="/contact">
                     <span className="rolling-text">Contact Us</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -423,20 +423,16 @@ const Navbar = () => {
                                 className="dropdown-menu"
                               >
                                 {[
-                                  { label: "Icons", href: "#icons" },
-                                  { label: "Textures", href: "#Textures" },
-                                  { label: "Scripts", href: "#Scripts" },
-                                  { label: "Plugins", href: "#Plugins" },
-                                  { label: "HDRIs", href: "#HDRIs" },
-
-                                  // { label: "Printable", href: "#Printable" },
-                                  // { label: "Models", href: "#" },
-                                  // { label: "Shaders", href: "#Shaders" },
-                                ].map(({ label, href }) => (
-                                  <li key={href}>
-                                    <a className="dropdown-item" href={href}>
+                                  { label: "Icons", to: "/icons" },
+                                  { label: "Textures", to: "/Textures" },
+                                  { label: "Scripts", to: "/Scripts" },
+                                  { label: "Plugins", to: "/Plugins" },
+                                  { label: "HDRIs", to: "/HDRIs" },
+                                ].map(({ label, to }) => (
+                                  <li key={to}>
+                                    <Link className="dropdown-item" to={to}>
                                       {label}
-                                    </a>
+                                    </Link>
                                   </li>
                                 ))}
                               </ul>
