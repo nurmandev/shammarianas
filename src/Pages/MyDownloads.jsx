@@ -98,14 +98,12 @@ const MyDownloads = () => {
                     <div className="details">
                       <span className="price">
                         <strong>
-                          {asset.price -
-                            (asset.price * asset.discount) / 100 ===
-                          0
-                            ? "Free"
-                            : `$${(
-                                asset.price -
-                                (asset.price * asset.discount) / 100
-                              ).toFixed(2)}`}
+                          {(() => {
+                            const price = Number(asset.price) || 0;
+                            const discount = Number(asset.discount ?? 0) || 0;
+                            const finalPrice = Math.max(0, price - (price * discount) / 100);
+                            return finalPrice === 0 ? "Free" : `$${finalPrice.toFixed(2)}`;
+                          })()}
                         </strong>
                       </span>
                     </div>

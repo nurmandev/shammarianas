@@ -32,13 +32,13 @@ const Checkout = () => {
   }, []);
 
   const calculateTotal = useCallback(() => {
-    return cartItems
-      .reduce(
-        (total, item) =>
-          total + (item.price - (item.price * item.discount) / 100),
-        0
-      )
-      .toFixed(2);
+    const totalNum = cartItems.reduce((total, item) => {
+      const price = Number(item.price) || 0;
+      const discount = Number(item.discount ?? 0) || 0;
+      const final = Math.max(0, price - (price * discount) / 100);
+      return total + final;
+    }, 0);
+    return totalNum.toFixed(2);
   }, [cartItems]);
 
   const handleInputChange = (e) => {
@@ -291,10 +291,12 @@ const Checkout = () => {
                       )}
                       <span className="final_price">
                         $
-                        {(
-                          item.price -
-                          (item.price * item.discount) / 100
-                        ).toFixed(2)}
+                        {(() => {
+                          const price = Number(item.price) || 0;
+                          const discount = Number(item.discount ?? 0) || 0;
+                          const final = Math.max(0, price - (price * discount) / 100);
+                          return final.toFixed(2);
+                        })()}
                       </span>
                     </div>
                   </div>

@@ -170,7 +170,9 @@ const ItemsListing = (props) => {
 
   // Filter items based on search term and filters
   const filteredItems = items.filter((item) => {
-    const afterDiscountPrice = item.price - (item.price * item.discount) / 100;
+    const price = Number(item.price) || 0;
+    const discount = Number(item.discount ?? 0) || 0;
+    const afterDiscountPrice = Math.max(0, price - (price * discount) / 100);
 
     // Apply search term filter
     const searchTermFilterPassed = searchTerm

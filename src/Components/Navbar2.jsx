@@ -92,7 +92,7 @@ const Navbar = () => {
                   <a
                     className="nav-link dropdown-toggle"
                     data-toggle="dropdown"
-                    href="#"
+                    href="/"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -101,7 +101,7 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu">
                     <li>
-                      <a className="dropdown-item" href="#about">
+                      <a className="dropdown-item" href="/about">
                         About us
                       </a>
                     </li>
@@ -130,7 +130,7 @@ const Navbar = () => {
                 >
                   <a
                     className="nav-link"
-                    href="#services"
+                    href="/services"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -145,7 +145,7 @@ const Navbar = () => {
                 >
                   <a
                     className="nav-link"
-                    href="#portfolio"
+                    href="/portfolio"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -162,7 +162,7 @@ const Navbar = () => {
                 >
                   <a
                     className="nav-link"
-                    href="#blog"
+                    href="/blog"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -171,7 +171,7 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#contact">
+                  <a className="nav-link" href="/contact">
                     <span className="rolling-text">Contact Us</span>
                   </a>
                 </li>
@@ -292,78 +292,105 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar navbar-expand-lg bord blur">
-        {/* <nav className="navbar navbar-expand-lg bord blur"> */}
+      <nav className="navbar navbar-expand-lg bord blur">
+        <div className="container o-hidden">
+          <Link to="/" className="logo site-logo-link" aria-label="Home">
+            <img
+              src="/assets/imgs/logo.png"
+              className="site-logo-img"
+              alt="Sham Marianas logo"
+            />
+          </Link>
 
-        <Link to="/" className="logo site-logo-link" aria-label="Home">
-          <img
-            src="/assets/imgs/logo.png"
-            className="site-logo-img"
-            alt="Sham Marianas logo"
-          />
-        </Link>
-        <Link to="/stock">
-          <div className="ml-auto vi-more">
-            <span className="butn butn-sm butn-bord radius-30">
-              <span>Explore</span>
+          <button
+            className="navbar-toggler"
+            type="button"
+            aria-label="Toggle navigation"
+            aria-expanded={false}
+            onClick={(e) => {
+              const nav = e.currentTarget.closest('.navbar');
+              const collapse = nav?.querySelector('.navbar-collapse');
+              collapse?.classList.toggle('show');
+            }}
+          >
+            <span className="icon-bar">
+              <i className="fas fa-bars"></i>
             </span>
-            <span className="icon ti-arrow-top-right"></span>
-          </div>
-        </Link>
-        <Search />
-        <div className="right">
-          <div className="nav_buttons">
-            <Link to="/Cart">
-              <button>
-                <i className="icon fa-solid fa-shopping-cart"></i>
-                {cartCount > 0 && (
-                  <span className="cart_count">{cartCount}</span>
-                )}
-              </button>
+          </button>
+
+          <div
+            className="collapse navbar-collapse justify-content-center"
+            onClick={(e) => {
+              const target = e.target;
+              if (target && target.closest && target.closest('a')) {
+                const nav = e.currentTarget.closest('.navbar');
+                const collapse = nav?.querySelector('.navbar-collapse');
+                collapse?.classList.remove('show');
+              }
+            }}
+          >
+            <Link to="/stock">
+              <div className="ml-auto vi-more">
+                <span className="butn butn-sm butn-bord radius-30">
+                  <span>Explore</span>
+                </span>
+                <span className="icon ti-arrow-top-right"></span>
+              </div>
             </Link>
-            <div className="navbar_dropdown">
-              {currentUser?.uid ? (
-                <Link to={`/Profile/${currentUser?.uid}`}>
-                  <button className="signed_in">
-                    <i className="icon fa-solid fa-user"></i>
-                    <span className="username">
-                      {currentUser?.displayName || "User"}
-                    </span>
+
+            <Search />
+
+            <div className="right">
+              <div className="nav_buttons">
+                <Link to="/Cart">
+                  <button>
+                    <i className="icon fa-solid fa-shopping-cart"></i>
+                    {cartCount > 0 && (
+                      <span className="cart_count">{cartCount}</span>
+                    )}
                   </button>
                 </Link>
-              ) : (
-                <Link to="/Login">
-                  <button className="">Sign In</button>
-                </Link>
-              )}
-
-              <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
-                <ul className="links">
-                  <li>
-                    <Link to="/MyDownloads">My Downloads</Link>
-                  </li>
-                  <li>
-                    {/* <Link to="/Library">My Library</Link> */}
-                    <Link to="/Favorites">My Favorites</Link>
-                  </li>
-
-                  <li>
-                    <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/Support">Support</Link>
-                  </li>
-                  <li>
-                    <Link className="logout" to="/Logout">
-                      Logout
+                <div className="navbar_dropdown">
+                  {currentUser?.uid ? (
+                    <Link to={`/Profile/${currentUser?.uid}`}>
+                      <button className="signed_in" onClick={(e) => { const root = e.currentTarget.closest('.navbar_dropdown'); const dd = root && root.querySelector('.dropdown'); dd && dd.classList.toggle('show'); }}>
+                        <i className="icon fa-solid fa-user"></i>
+                        <span className="username">
+                          {currentUser?.displayName || "User"}
+                        </span>
+                      </button>
                     </Link>
-                  </li>
-                </ul>
+                  ) : (
+                    <Link to="/Login">
+                      <button className="">Sign In</button>
+                    </Link>
+                  )}
+
+                  <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
+                    <ul className="links">
+                      <li>
+                        <Link to="/MyDownloads">My Downloads</Link>
+                      </li>
+                      <li>
+                        <Link to="/Favorites">My Favorites</Link>
+                      </li>
+                      <li>
+                        <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
+                      </li>
+                      <li>
+                        <Link to="/Support">Support</Link>
+                      </li>
+                      <li>
+                        <Link className="logout" to="/Logout">Logout</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </nav>
 
       {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">

@@ -325,6 +325,7 @@ a {
   -webkit-backdrop-filter: blur(9.7px);
   border: 1px solid rgba(255, 255, 255, 0.178);
 }
+.navbar .right .nav_buttons .navbar_dropdown .dropdown.show { display: flex; }
 .navbar .right .nav_buttons .navbar_dropdown .dropdown .links {
   display: flex;
   flex-direction: column;
