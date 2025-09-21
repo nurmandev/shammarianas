@@ -297,7 +297,7 @@ const Navbar = () => {
 
         <Link to="/" className="logo site-logo-link" aria-label="Home">
           <img
-            src="/assets/imgs/logo.png"
+            src="assets/imgs/logo.png"
             className="site-logo-img"
             alt="Sham Marianas logo"
           />
