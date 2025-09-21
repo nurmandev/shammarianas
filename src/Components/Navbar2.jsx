@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
