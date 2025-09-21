@@ -5,7 +5,7 @@ service cloud.firestore {
     function isAuthenticated() { return request.auth != null; }
     function isAdmin() {
       return isAuthenticated() && (
-        request.auth.token.email.toLowerCase() == "admin@shammarianas.com" ||
+        request.auth.token.email.toLowerCase() in ["admin@shammarianas.com", "shammarianas@gmail.com"] ||
         exists(/databases/$(database)/documents/adminUsers/$(request.auth.token.email.toLowerCase()))
       );
     }

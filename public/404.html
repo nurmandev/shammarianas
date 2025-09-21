@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting…</title>
+    <script>
+      /*! spa-github-pages: redirect to index.html for client-side routing (clean URLs) */
+      (function(l) {
+        var path = l.pathname;
+        var repoBase = path.replace(/\/404\.html$/, "");
+        var newURL = repoBase + '/index.html?p=' + encodeURIComponent(path + l.search) + l.hash;
+        l.replace(newURL);
+      })(window.location);
+    </script>
+  </head>
+  <body>Redirecting…</body>
+</html>
