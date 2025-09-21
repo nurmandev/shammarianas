@@ -2774,7 +2774,7 @@ const AdminManager = ({ setError }) => {
         <button onClick={addAdmin} className="action-button">Add Admin</button>
       </div>
 
-      <div className="content-card" style={{ marginTop: 16 }}>
+      <div className="content-card data-tools-card">
         <div className="card-header">
           <h3 className="panel-title">Data Tools</h3>
         </div>
@@ -2782,22 +2782,22 @@ const AdminManager = ({ setError }) => {
           <div className="admin-seed-controls">
             <div className="wipe-options">
               {DEFAULT_WIPE_TARGETS.map((name) => (
-                <label key={name} className="role-select" style={{ display: 'inline-flex', alignItems: 'center', marginRight: 12 }}>
+                <label key={name} className="role-select wipe-option">
                   <input type="checkbox" checked={selectedTargets.includes(name)} onChange={() => toggleTarget(name)} />
-                  <span style={{ marginLeft: 6 }}>{name}</span>
+                  <span className="wipe-option-label">{name}</span>
                 </label>
               ))}
-              <label className="role-select" style={{ display: 'inline-flex', alignItems: 'center', marginLeft: 12 }}>
+              <label className="role-select wipe-option">
                 <input type="checkbox" checked={includeProfiles} onChange={(e) => setIncludeProfiles(e.target.checked)} />
-                <span style={{ marginLeft: 6 }}>Profiles (excludes current)</span>
+                <span className="wipe-option-label">Profiles (excludes current)</span>
               </label>
             </div>
-            <div className="seed-actions" style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <div className="seed-actions">
               <button className="action-button" onClick={handleWipe}><FiTrash2 /> Wipe Selected</button>
               <button className="action-button" onClick={handleSeed}><FiPlus /> Seed Firestore</button>
             </div>
           </div>
-          {logMessage && <div className={`admin-log ${logType === "success" ? "log-success" : logType === 'info' ? 'log-info' : "log-error"}`} style={{ marginTop: 12 }}>{logMessage}</div>}
+          {logMessage && <div className={`admin-log ${logType === "success" ? "log-success" : logType === 'info' ? 'log-info' : "log-error"}`}>{logMessage}</div>}
         </div>
       </div>
 
