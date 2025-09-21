@@ -2679,6 +2679,8 @@ const AdminManager = ({ setError }) => {
   const [newAdminEmail, setNewAdminEmail] = useState("");
   const [logMessage, setLogMessage] = useState("");
   const [logType, setLogType] = useState("info");
+  const [selectedTargets, setSelectedTargets] = useState(DEFAULT_WIPE_TARGETS);
+  const [includeProfiles, setIncludeProfiles] = useState(false);
 
   useEffect(() => {
     const fetchAdmins = async () => {
@@ -2728,6 +2730,35 @@ const AdminManager = ({ setError }) => {
     }
   };
 
+  const toggleTarget = (name) => {
+    setSelectedTargets((prev) => (prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]));
+  };
+
+  const handleWipe = async () => {
+    const collections = includeProfiles ? [...selectedTargets, "Profiles"] : selectedTargets;
+    if (!collections.length) { setLogMessage("Select at least one collection to wipe."); setLogType("error"); return; }
+    if (!window.confirm(`This will permanently delete data in: ${collections.join(", ")}. Continue?`)) return;
+    try {
+      const summary = await wipeCollections(collections, { includeProfiles: includeProfiles, keepCurrentProfile: true, allowAdminUsersWipe: false });
+      setLogMessage(`Wipe completed: ${Object.entries(summary).map(([k,v]) => `${k}:${v}`).join("; ")}`);
+      setLogType("success");
+    } catch (e) {
+      setLogMessage(`Wipe failed: ${e.message}`);
+      setLogType("error");
+    }
+  };
+
+  const handleSeed = async () => {
+    try {
+      await seedAll();
+      setLogMessage("Seeding completed successfully.");
+      setLogType("success");
+    } catch (e) {
+      setLogMessage(`Seeding failed: ${e.message}`);
+      setLogType("error");
+    }
+  };
+
   return (
     <div className="admin-manager">
       <h3 className="panel-title">Admin Manager</h3>
@@ -2741,6 +2772,33 @@ const AdminManager = ({ setError }) => {
           className="admin-input"
         />
         <button onClick={addAdmin} className="action-button">Add Admin</button>
+      </div>
+
+      <div className="content-card" style={{ marginTop: 16 }}>
+        <div className="card-header">
+          <h3 className="panel-title">Data Tools</h3>
+        </div>
+        <div className="card-body">
+          <div className="admin-seed-controls">
+            <div className="wipe-options">
+              {DEFAULT_WIPE_TARGETS.map((name) => (
+                <label key={name} className="role-select" style={{ display: 'inline-flex', alignItems: 'center', marginRight: 12 }}>
+                  <input type="checkbox" checked={selectedTargets.includes(name)} onChange={() => toggleTarget(name)} />
+                  <span style={{ marginLeft: 6 }}>{name}</span>
+                </label>
+              ))}
+              <label className="role-select" style={{ display: 'inline-flex', alignItems: 'center', marginLeft: 12 }}>
+                <input type="checkbox" checked={includeProfiles} onChange={(e) => setIncludeProfiles(e.target.checked)} />
+                <span style={{ marginLeft: 6 }}>Profiles (excludes current)</span>
+              </label>
+            </div>
+            <div className="seed-actions" style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button className="action-button" onClick={handleWipe}><FiTrash2 /> Wipe Selected</button>
+              <button className="action-button" onClick={handleSeed}><FiPlus /> Seed Firestore</button>
+            </div>
+          </div>
+          {logMessage && <div className={`admin-log ${logType === "success" ? "log-success" : logType === 'info' ? 'log-info' : "log-error"}`} style={{ marginTop: 12 }}>{logMessage}</div>}
+        </div>
       </div>
 
       {logMessage && <div className={`admin-log ${logType === "success" ? "log-success" : "log-error"}`}>{logMessage}</div>}
