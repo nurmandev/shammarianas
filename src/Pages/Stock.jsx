@@ -6,7 +6,6 @@ import ProgressScroll from "../common/ProgressScroll";
 import Cursor from "../common/cusor";
 import Marq2 from "../Components/marq2";
 import Header from "../Components/stock/Header";
-import ProductList from "../Components/stock/ProductList";
 
 export default function StockPage() {
   const main = useRef();
@@ -25,8 +24,6 @@ export default function StockPage() {
       <ProgressScroll />
       <Lines />
       <Header />
-      <ProductList />
-
       <Marq2 />
     </>
   );
