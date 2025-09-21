@@ -324,7 +324,8 @@ const Navbar = () => {
             onClick={(e) => {
               const target = e.target;
               if (target && target.closest && target.closest('a')) {
-                const collapse = document.querySelector('.navbar .navbar-collapse');
+                const nav = e.currentTarget.closest('.navbar');
+                const collapse = nav?.querySelector('.navbar-collapse');
                 collapse?.classList.remove('show');
               }
             }}
