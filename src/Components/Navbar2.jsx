@@ -320,7 +320,6 @@ const Navbar = () => {
 
           <div
             className="collapse navbar-collapse justify-content-center"
-            id="navbarSupportedContent"
             onClick={(e) => {
               const target = e.target;
               if (target && target.closest && target.closest('a')) {
