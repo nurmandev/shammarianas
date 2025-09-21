@@ -60,7 +60,7 @@ const Navbar = () => {
 
             <Link to="/" className="logo site-logo-link" aria-label="Home">
               <img src="/assets/imgs/logo.png" className="site-logo-img" alt="Sham Marianas logo" />
-            </Link>
+            </Link> 
             <button
               className="navbar-toggler"
               type="button"
@@ -244,11 +244,11 @@ const Navbar = () => {
                                   className="dropdown-menu"
                                 >
                                   {[
-                                    { label: "Icons", href: "#icons" },
-                                    { label: "Textures", href: "#Textures" },
-                                    { label: "Scripts", href: "#Scripts" },
-                                    { label: "Plugins", href: "#Plugins" },
-                                    { label: "HDRIs", href: "#HDRIs" },
+                                    { label: "Icons", href: "/icons" },
+                                    { label: "Textures", href: "/Textures" },
+                                    { label: "Scripts", href: "/Scripts" },
+                                    { label: "Plugins", href: "/Plugins" },
+                                    { label: "HDRIs", href: "/HDRIs" },
 
                                   ].map(({ label, href }) => (
                                     <li key={href}>
@@ -292,105 +292,80 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bord blur">
-        <div className="container o-hidden">
-          <Link to="/" className="logo site-logo-link" aria-label="Home">
-            <img
-              src="/assets/imgs/logo.png"
-              className="site-logo-img"
-              alt="Sham Marianas logo"
-            />
-          </Link>
+      <div className="navbar navbar-expand-lg bord blur">
+        {/* <nav className="navbar navbar-expand-lg bord blur"> */}
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            aria-label="Toggle navigation"
-            aria-expanded={false}
-            onClick={(e) => {
-              const nav = e.currentTarget.closest('.navbar');
-              const collapse = nav?.querySelector('.navbar-collapse');
-              collapse?.classList.toggle('show');
-            }}
-          >
-            <span className="icon-bar">
-              <i className="fas fa-bars"></i>
+        <Link to="/" className="logo site-logo-link" aria-label="Home">
+          <img
+            src="/assets/imgs/logo.png"
+            className="site-logo-img"
+            alt="Sham Marianas logo"
+          />
+        </Link>
+        <Link to="/stock">
+          <div className="ml-auto vi-more">
+            <span className="butn butn-sm butn-bord radius-30">
+              <span>Explore</span>
             </span>
-          </button>
-
-          <div
-            className="collapse navbar-collapse justify-content-center"
-            onClick={(e) => {
-              const target = e.target;
-              if (target && target.closest && target.closest('a')) {
-                const nav = e.currentTarget.closest('.navbar');
-                const collapse = nav?.querySelector('.navbar-collapse');
-                collapse?.classList.remove('show');
-              }
-            }}
-          >
-            <Link to="/stock">
-              <div className="ml-auto vi-more">
-                <span className="butn butn-sm butn-bord radius-30">
-                  <span>Explore</span>
-                </span>
-                <span className="icon ti-arrow-top-right"></span>
-              </div>
+            <span className="icon ti-arrow-top-right"></span>
+          </div>
+        </Link>
+        <Search />
+        <div className="right">
+          <div className="nav_buttons">
+            <Link to="/Cart">
+              <button>
+                <i className="icon fa-solid fa-shopping-cart"></i>
+                {cartCount > 0 && (
+                  <span className="cart_count">{cartCount}</span>
+                )}
+              </button>
             </Link>
+            <div className="navbar_dropdown"> 
 
-            <Search />
-
-            <div className="right">
-              <div className="nav_buttons">
-                <Link to="/Cart">
-                  <button>
-                    <i className="icon fa-solid fa-shopping-cart"></i>
-                    {cartCount > 0 && (
-                      <span className="cart_count">{cartCount}</span>
-                    )}
+              
+              {currentUser?.uid ? (
+                <Link to={`/Profile/${currentUser?.uid}`}>
+                  <button className="signed_in">
+                    <i className="icon fa-solid fa-user"></i>
+                    <span className="username">
+                      {currentUser?.displayName || "User"}
+                    </span>
                   </button>
                 </Link>
-                <div className="navbar_dropdown">
-                  {currentUser?.uid ? (
-                    <Link to={`/Profile/${currentUser?.uid}`}>
-                      <button className="signed_in" onClick={(e) => { const root = e.currentTarget.closest('.navbar_dropdown'); const dd = root && root.querySelector('.dropdown'); dd && dd.classList.toggle('show'); }}>
-                        <i className="icon fa-solid fa-user"></i>
-                        <span className="username">
-                          {currentUser?.displayName || "User"}
-                        </span>
-                      </button>
-                    </Link>
-                  ) : (
-                    <Link to="/Login">
-                      <button className="">Sign In</button>
-                    </Link>
-                  )}
+              ) : (
+                <Link to="/Login">
+                  <button className="">Sign In</button>
+                </Link>
+              )}
 
-                  <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
-                    <ul className="links">
-                      <li>
-                        <Link to="/MyDownloads">My Downloads</Link>
-                      </li>
-                      <li>
-                        <Link to="/Favorites">My Favorites</Link>
-                      </li>
-                      <li>
-                        <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
-                      </li>
-                      <li>
-                        <Link to="/Support">Support</Link>
-                      </li>
-                      <li>
-                        <Link className="logout" to="/Logout">Logout</Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+              <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
+                <ul className="links">
+                  <li>
+                    <Link to="/MyDownloads">My Downloads</Link>
+                  </li>
+                  <li>
+                    {/* <Link to="/Library">My Library</Link> */}
+                    <Link to="/Favorites">My Favorites</Link>
+                  </li>
+
+                  <li>
+                    <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
+                  </li>
+                  <li>
+                    <Link to="/Support">Support</Link>
+                  </li>
+                  <li>
+                    <Link className="logout" to="/Logout">
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">
