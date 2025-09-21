@@ -59,7 +59,7 @@ const Navbar = () => {
           <div className="container o-hidden">
 
             <Link to="/" className="logo site-logo-link" aria-label="Home">
-              <img src="/assets/imgs/logo.png" className="site-logo-img" alt="Sham Marianas logo" />
+              <img src="assets/imgs/logo.png" className="site-logo-img" alt="Sham Marianas logo" />
             </Link> 
             <button
               className="navbar-toggler"
