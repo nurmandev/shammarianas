@@ -92,7 +92,7 @@ const Navbar = () => {
                   <a
                     className="nav-link dropdown-toggle"
                     data-toggle="dropdown"
-                    href="#"
+                    href="/"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -101,7 +101,7 @@ const Navbar = () => {
                   </a>
                   <ul className="dropdown-menu">
                     <li>
-                      <a className="dropdown-item" href="#about">
+                      <a className="dropdown-item" href="/about">
                         About us
                       </a>
                     </li>
@@ -130,7 +130,7 @@ const Navbar = () => {
                 >
                   <a
                     className="nav-link"
-                    href="#services"
+                    href="/services"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -145,7 +145,7 @@ const Navbar = () => {
                 >
                   <a
                     className="nav-link"
-                    href="#portfolio"
+                    href="/portfolio"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -162,7 +162,7 @@ const Navbar = () => {
                 >
                   <a
                     className="nav-link"
-                    href="#blog"
+                    href="/blog"
                     role="button"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -171,7 +171,7 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#contact">
+                  <a className="nav-link" href="/contact">
                     <span className="rolling-text">Contact Us</span>
                   </a>
                 </li>
