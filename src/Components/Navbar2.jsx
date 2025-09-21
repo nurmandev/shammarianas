@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useUser } from "../Context/UserProvider";
 import Search from "./Search";
@@ -292,78 +292,104 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar navbar-expand-lg bord blur">
-        {/* <nav className="navbar navbar-expand-lg bord blur"> */}
+      <nav className="navbar navbar-expand-lg bord blur">
+        <div className="container o-hidden">
+          <Link to="/" className="logo site-logo-link" aria-label="Home">
+            <img
+              src="/assets/imgs/logo.png"
+              className="site-logo-img"
+              alt="Sham Marianas logo"
+            />
+          </Link>
 
-        <Link to="/" className="logo site-logo-link" aria-label="Home">
-          <img
-            src="/assets/imgs/logo.png"
-            className="site-logo-img"
-            alt="Sham Marianas logo"
-          />
-        </Link>
-        <Link to="/stock">
-          <div className="ml-auto vi-more">
-            <span className="butn butn-sm butn-bord radius-30">
-              <span>Explore</span>
+          <button
+            className="navbar-toggler"
+            type="button"
+            aria-label="Toggle navigation"
+            aria-expanded={false}
+            onClick={() => {
+              const collapse = document.querySelector('.navbar .navbar-collapse');
+              collapse?.classList.toggle('show');
+            }}
+          >
+            <span className="icon-bar">
+              <i className="fas fa-bars"></i>
             </span>
-            <span className="icon ti-arrow-top-right"></span>
-          </div>
-        </Link>
-        <Search />
-        <div className="right">
-          <div className="nav_buttons">
-            <Link to="/Cart">
-              <button>
-                <i className="icon fa-solid fa-shopping-cart"></i>
-                {cartCount > 0 && (
-                  <span className="cart_count">{cartCount}</span>
-                )}
-              </button>
+          </button>
+
+          <div
+            className="collapse navbar-collapse justify-content-center"
+            id="navbarSupportedContent"
+            onClick={(e) => {
+              const target = e.target;
+              if (target && target.closest && target.closest('a')) {
+                const collapse = document.querySelector('.navbar .navbar-collapse');
+                collapse?.classList.remove('show');
+              }
+            }}
+          >
+            <Link to="/stock">
+              <div className="ml-auto vi-more">
+                <span className="butn butn-sm butn-bord radius-30">
+                  <span>Explore</span>
+                </span>
+                <span className="icon ti-arrow-top-right"></span>
+              </div>
             </Link>
-            <div className="navbar_dropdown">
-              {currentUser?.uid ? (
-                <Link to={`/Profile/${currentUser?.uid}`}>
-                  <button className="signed_in">
-                    <i className="icon fa-solid fa-user"></i>
-                    <span className="username">
-                      {currentUser?.displayName || "User"}
-                    </span>
+
+            <Search />
+
+            <div className="right">
+              <div className="nav_buttons">
+                <Link to="/Cart">
+                  <button>
+                    <i className="icon fa-solid fa-shopping-cart"></i>
+                    {cartCount > 0 && (
+                      <span className="cart_count">{cartCount}</span>
+                    )}
                   </button>
                 </Link>
-              ) : (
-                <Link to="/Login">
-                  <button className="">Sign In</button>
-                </Link>
-              )}
-
-              <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
-                <ul className="links">
-                  <li>
-                    <Link to="/MyDownloads">My Downloads</Link>
-                  </li>
-                  <li>
-                    {/* <Link to="/Library">My Library</Link> */}
-                    <Link to="/Favorites">My Favorites</Link>
-                  </li>
-
-                  <li>
-                    <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/Support">Support</Link>
-                  </li>
-                  <li>
-                    <Link className="logout" to="/Logout">
-                      Logout
+                <div className="navbar_dropdown">
+                  {currentUser?.uid ? (
+                    <Link to={`/Profile/${currentUser?.uid}`}>
+                      <button className="signed_in">
+                        <i className="icon fa-solid fa-user"></i>
+                        <span className="username">
+                          {currentUser?.displayName || "User"}
+                        </span>
+                      </button>
                     </Link>
-                  </li>
-                </ul>
+                  ) : (
+                    <Link to="/Login">
+                      <button className="">Sign In</button>
+                    </Link>
+                  )}
+
+                  <div className={currentUser?.uid ? "dropdown" : "hidden none"}>
+                    <ul className="links">
+                      <li>
+                        <Link to="/MyDownloads">My Downloads</Link>
+                      </li>
+                      <li>
+                        <Link to="/Favorites">My Favorites</Link>
+                      </li>
+                      <li>
+                        <Link to={`/Profile/${currentUser?.uid}`}>Profile</Link>
+                      </li>
+                      <li>
+                        <Link to="/Support">Support</Link>
+                      </li>
+                      <li>
+                        <Link className="logout" to="/Logout">Logout</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </nav>
 
       {!["/", "/Login", "/Upload", "/reset"].includes(currentPage) && (
         <div className="bottom-bar">
