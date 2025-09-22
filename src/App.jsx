@@ -73,8 +73,10 @@ const ScrollToTop = () => {
 export const AppRoutes = () => (
   <Routes>
     <Route path="/Login" element={<Login />} />
+    <Route path="/login" element={<Login />} />
     <Route path="/Admin" element={<Admin />} />
     <Route path="/Reset" element={<PasswordReset />} />
+    <Route path="/reset" element={<PasswordReset />} />
     <Route path="/Logout" element={<Logout />} />
     <Route path="/Profile/:id" element={<Profile />} />
     <Route path="/" element={<Home />} />
