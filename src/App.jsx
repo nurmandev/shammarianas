@@ -81,7 +81,6 @@ export const AppRoutes = () => (
     <Route path="/Profile/:id" element={<Profile />} />
     <Route path="/" element={<Home />} />
     <Route path="/Cart" element={<Cart />} />
-    <Route path="/:Category" element={<CategoryTemplate />} />
     <Route path="/View/:id" element={<View />} />
     <Route path="/Groups" element={<Group />} />
     <Route path="/Upload" element={<Upload />} />
@@ -122,6 +121,7 @@ export const AppRoutes = () => (
     <Route path="/services/demo" element={<Demo />} />
 
     {/* Optional: 404 fallback */}
+    <Route path="/:Category" element={<CategoryTemplate />} />
     <Route path="*" element={<Error />} />
   </Routes>
 );
