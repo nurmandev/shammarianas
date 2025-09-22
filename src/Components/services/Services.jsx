@@ -1,5 +1,8 @@
 import React from "react";
 
+import React from "react";
+import { Link } from "react-router-dom";
+
 function Services() {
   const services = [
     {
@@ -138,9 +141,9 @@ function Services() {
               <div className="col-lg-4">
                 <div className="img">
                   <img src={service.img} alt={service.category} />
-                  <a href={`#/services/${service.slug}`}>
+                  <Link to={`/services/${service.slug}`}>
                     <span className="ti-arrow-top-right"></span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
