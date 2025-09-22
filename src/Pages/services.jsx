@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import React, { useEffect, useRef } from "react";
 import AOS from "aos"; // Import AOS (Animate On Scroll) library
 
 import Lines from "../Components/Lines";
